@@ -8,7 +8,7 @@ import model.tile.Tile;
 import java.util.List;
 
 public class Unit {
-
+	private Civilization ownerCivilization;
 	private int health;
 	private int movementPoint;
 	private List<TechnologyType> requiredTechnologies;

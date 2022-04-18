@@ -16,4 +16,6 @@ public class Armed extends Unit {
 	}
 	public int getDefensePower(){ return 0; }
 	public int getAttackPower(){ return 0; }
+
+	public void upgradeUnit(){}
 }

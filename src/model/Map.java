@@ -14,4 +14,6 @@ public class Map {
 		return null;
 	}
 	private void generateMap(int height, int width){}
+	public Vector<Vector<Tile>> getViewForPlayer(Player player){return null;}
+	public void updateMap(){}
 }
