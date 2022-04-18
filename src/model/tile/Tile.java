@@ -16,6 +16,7 @@ public class Tile {
 
 	private Terrain terrain;
 	private TerrainFeature feature;
+	private VisibilityState state;
 	private Civilization civilization;
 	private Player player;
 	private City innerCity;
@@ -25,9 +26,10 @@ public class Tile {
 	private Vector<Resource> availableResources;
 	private boolean hasRoad;
 	private boolean hasRailRoad;
-	private boolean hasRiver;
+	private Boarder[] nearbyBoarders;
 	private boolean isDestroyed;
 	private Vector<Person> peopleInside;
+
 
 	public Vector<Person> getPeopleInside() {
 		return peopleInside;
@@ -36,6 +38,7 @@ public class Tile {
 	public Tile(Terrain terrain, TerrainFeature feature, Civilization civilization, Vector<Resource> availableResources) {
 		this.terrain = terrain;
 		this.feature = feature;
+		nearbyBoarders = new Boarder[6];
 		this.civilization = civilization;
 		this.availableResources = availableResources;
 		this.isDestroyed = false;
@@ -59,11 +62,12 @@ public class Tile {
 	public boolean doesHaveRoad() {
 		return hasRoad;
 	}
-
+	public void addRiver(Tile tile){}
 	public void buildRoad() {
 		this.hasRoad = true;
 	}
-
+	public void setBoarder(Boarder boarder, int i){}
+	public Boarder getBoarderInfo(int i){return nearbyBoarders[i];}
 	public boolean isHasRailRoad() {
 		return hasRailRoad;
 	}
@@ -72,10 +76,11 @@ public class Tile {
 		this.hasRailRoad = hasRailRoad;
 	}
 
-	public boolean doesHaveRiver() {
-		return hasRiver;
+	public boolean hasRiverNearby() {
+		return false;
 	}
-
+	public void removeRiver(Tile tile){}
+	public boolean checkRiverByTile(Tile tile){return false;}
 	public boolean isDestroyed() {
 		return isDestroyed;
 	}
@@ -111,6 +116,7 @@ public class Tile {
 
 	public int getMovementCost() {
 		// TODO - implement Cell.getMovementCost
+		// If river & move => = moving point hash
 		throw new UnsupportedOperationException();
 	}
 
@@ -126,18 +132,6 @@ public class Tile {
 
 	public boolean getHasRoute() {
 		return this.hasRoad;
-	}
-
-	public boolean getHasRiver() {
-		return this.hasRiver;
-	}
-
-	/**
-	 * 
-	 * @param hasRiver
-	 */
-	public void setHasRiver(boolean hasRiver) {
-		this.hasRiver = hasRiver;
 	}
 
 	public void removeFeature() {
@@ -171,6 +165,20 @@ public class Tile {
 	public void destroy() {
 		// TODO - implement Cell.destroy
 		throw new UnsupportedOperationException();
+	}
+
+	public VisibilityState getState() {
+		return state;
+	}
+
+	public void setState(VisibilityState state) {
+		this.state = state;
+	}
+
+	enum VisibilityState{
+		VISIBLE,
+		DISCOVERED,
+		FOG_OF_WAR
 	}
 
 }

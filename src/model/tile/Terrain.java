@@ -13,6 +13,9 @@ public enum Terrain {
 		add(ResourceType.COTTON);
 		add(ResourceType.INCENSE);
 		add(ResourceType.SHEEP);
+	}}, new Vector<>() {{
+		add(TerrainFeature.OASIS);
+		add(TerrainFeature.FLOOD_PLAINS);
 	}}),
 	GRASSLAND(2,0,0,-33,1,true,false,true, new Vector<>() {{
 		add(ResourceType.IRON);
@@ -24,6 +27,9 @@ public enum Terrain {
 		add(ResourceType.MARBLE);
 		add(ResourceType.COTTON);
 		add(ResourceType.SHEEP);
+	}}, new Vector<>() {{
+		add(TerrainFeature.FOREST);
+		add(TerrainFeature.MARSH);
 	}}),
 	HILLS(0,2,0,25,2,true,true,true, new Vector<>() {{
 		add(ResourceType.IRON);
@@ -34,9 +40,14 @@ public enum Terrain {
 		add(ResourceType.GEMS);
 		add(ResourceType.MARBLE);
 		add(ResourceType.SHEEP);
+	}}, new Vector<>() {{
+		add(TerrainFeature.FOREST);
+		add(TerrainFeature.JUNGLE);
 	}}),
-	MOUNTAIN(0,0,0,25,9999,false,true,false, new Vector<>() ),
-	OCEAN(1,0,1,0,1,true,false,false, new Vector<>()),
+	MOUNTAIN(0,0,0,25,9999,false,true,false, new Vector<>(), new Vector<>()),
+	OCEAN(1,0,1,0,1,true,false,false, new Vector<>(),new Vector<>(){{
+		add(TerrainFeature.ICE);
+	}}),
 	PLAINS(1,1,0,-33,1,true,false,true, new Vector<>() {{
 		add(ResourceType.IRON);
 		add(ResourceType.HORSES);
@@ -49,10 +60,13 @@ public enum Terrain {
 		add(ResourceType.COTTON);
 		add(ResourceType.INCENSE);
 		add(ResourceType.SHEEP);
+	}},new Vector<>(){{
+		add(TerrainFeature.FOREST);
+		add(TerrainFeature.JUNGLE);
 	}}),
 	SNOW(0,0,0,-33,1,true,false,true, new Vector<>() {{
 		add(ResourceType.IRON);
-	}}),
+	}}, new Vector<>()),
 	TUNDRA(1,0,0,-33,1,true,false,true, new Vector<>() {{
 		add(ResourceType.IRON);
 		add(ResourceType.HORSES);
@@ -61,6 +75,8 @@ public enum Terrain {
 		add(ResourceType.GEMS);
 		add(ResourceType.MARBLE);
 		add(ResourceType.FURS);
+	}}, new Vector<>(){{
+		add(TerrainFeature.FOREST);
 	}});
 
 	public final int gold;
@@ -72,9 +88,9 @@ public enum Terrain {
 	public final Vector<ResourceType> possibleResources;
 	public final int production;
 	public final int food;
+	public final Vector<TerrainFeature> possibleFeatures;
 
-
-	Terrain(int food, int gold, int production,  int combatModifier, int movementCost, boolean passable, boolean isHighland,boolean canContainCity, Vector<ResourceType> possibleResources) {
+	Terrain(int food, int gold, int production,  int combatModifier, int movementCost, boolean passable, boolean isHighland,boolean canContainCity, Vector<ResourceType> possibleResources, Vector<TerrainFeature> possibleFeatures) {
 		this.gold = gold;
 		this.combatModifier = combatModifier;
 		this.movementCost = movementCost;
@@ -84,5 +100,6 @@ public enum Terrain {
 		this.possibleResources = possibleResources;
 		this.production = production;
 		this.food = food;
+		this.possibleFeatures = possibleFeatures;
 	}
 }

@@ -26,7 +26,8 @@ public enum TerrainFeature {
 	MARSH(-1,0,0,-33,2,true, new Vector<>() {{
 		add(ResourceType.SUGAR);
 	}}),
-	OASIS(3,0,1,-33,1,true, new Vector<>());
+	OASIS(3,0,1,-33,1,true, new Vector<>()),
+	RIVER(0,0,1,0,Integer.MAX_VALUE,true,new Vector<>());
 
 	public final int combatModifiers;
 	public final boolean passable;

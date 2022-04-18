@@ -18,7 +18,9 @@ public enum ActionsType {
     BUILD_LUMBER_MILL(-1,ImprovementType.LUMBER_MILL),
     BUILD_PASTURE(-1,ImprovementType.PASTURE),
     BUILD_PLANTATION(-1,ImprovementType.PLANTATION),
-    BUILD_QUARRY(-1,ImprovementType.QUARRY);
+    BUILD_QUARRY(-1,ImprovementType.QUARRY),
+    MOVE_TO(1,null),
+    SETTLE(1,null);
 
 
 
