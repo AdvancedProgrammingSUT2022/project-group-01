@@ -1,8 +1,10 @@
-package resource;
-import technology.TechnologyType;
-import building.*;
-import tile.*;
-import improvement.*;
+package model.resource;
+import model.technology.TechnologyType;
+import model.building.*;
+import model.tile.*;
+import model.improvement.*;
+import model.unit.Unit;
+
 import java.util.Vector;
 
 public class Resource {

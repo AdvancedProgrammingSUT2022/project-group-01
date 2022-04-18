@@ -1,6 +1,8 @@
 package model.civilization;
 
 import model.civilization.city.City;
+import model.technology.TechTree;
+import model.unit.Unit;
 
 import java.util.*;
 
@@ -13,9 +15,9 @@ public class Civilization {
 	private int Happiness;
 	double science;
 	private Vector<Unit> units;//TODO merge with safar
-	private TechnologyTree technology;//TODO merge with safar
+	private TechTree technology;//TODO merge with safar
 
-	public TechnologyTree getResearchTree() {
+	public TechTree getResearchTree() {
 		// TODO - implement model.civilization.Civilization.getResearchList
 		throw new UnsupportedOperationException();
 	}

@@ -1,6 +1,17 @@
-package tile;
+package model.tile;
 import java.util.Vector;
-import
+
+import model.Player;
+import model.civilization.Civilization;
+import model.civilization.Person;
+import model.civilization.city.City;
+import model.improvement.Improvement;
+import model.improvement.ImprovementType;
+import model.resource.Resource;
+import model.unit.Armed;
+import model.unit.Civilian;
+import model.unit.Unit;
+
 public class Tile {
 
 	private Terrain terrain;
@@ -15,7 +26,7 @@ public class Tile {
 	private boolean hasRoad;
 	private boolean hasRailRoad;
 	private boolean hasRiver;
-	private boolean isDistroyed;
+	private boolean isDestroyed;
 	private Vector<Person> peopleInside;
 
 	public Vector<Person> getPeopleInside() {
@@ -57,12 +68,12 @@ public class Tile {
 		return hasRiver;
 	}
 
-	public boolean isDistroyed() {
-		return isDistroyed;
+	public boolean isDestroyed() {
+		return isDestroyed;
 	}
 
-	public void setDistroyed(boolean distroyed) {
-		isDistroyed = distroyed;
+	public void setDestroyed(boolean destroyed) {
+		isDestroyed = destroyed;
 	}
 
 	public Tile() {

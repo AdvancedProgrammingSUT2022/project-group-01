@@ -2,10 +2,12 @@ package model.civilization.city;
 
 import java.util.*;
 
+import model.building.BuildingInventory;
 import model.civilization.Civilization;
 import model.civilization.Currency;
 import model.civilization.Person;
 import model.civilization.production.ProductionInventory;
+import model.tile.Tile;
 
 public class City {
 
@@ -63,6 +65,7 @@ public class City {
 	}
 
 	public double calculateScience(){
-
+		// TODO
+		return 0;
 	}
 }

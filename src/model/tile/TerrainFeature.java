@@ -1,8 +1,10 @@
-package tile;
+package model.tile;
 import java.util.Vector;
-import resource.*;
-import building.*;
-import improvement.*;
+
+import model.resource.ResourceType;
+import model.resource.*;
+import model.building.*;
+import model.improvement.*;
 public enum TerrainFeature {
 	FLOOD_PLAINS(2,0,0,-33,1,true,new Vector<ResourceType>(){{
 		add(ResourceType.WHEAT);

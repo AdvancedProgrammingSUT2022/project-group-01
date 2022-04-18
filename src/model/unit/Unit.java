@@ -1,6 +1,9 @@
-package unit;
+package model.unit;
 
-import technology.TechnologyType;
+import model.civilization.Civilization;
+import model.civilization.city.City;
+import model.technology.TechnologyType;
+import model.tile.Tile;
 
 import java.util.List;
 
@@ -11,9 +14,14 @@ public class Unit {
 	private List<TechnologyType> requiredTechnologies;
 	private int cost;
 	private int remainedCost;
-	private Cell currentCell;
+	private Tile currentTile;
 	private boolean isHealing;
 
+	public Unit(UnitType type){}
+
 	public void fortifyUntilHeal(){}
-	public boolean nextTurn(Civilization civilization, City city){}
+	public boolean nextTurn(Civilization civilization, City city){ return false; }
+	public void defendAgainstMelee(Unit enemy){}
+	public void defendAgainstRanged(Unit enemy){}
+
 }

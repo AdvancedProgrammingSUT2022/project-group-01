@@ -1,5 +1,7 @@
-package improvement;
-import technology.TechnologyType;
+package model.improvement;
+import model.resource.ResourceType;
+import model.technology.TechnologyType;
+import model.technology.TechnologyType;
 
 import java.util.Vector;
 

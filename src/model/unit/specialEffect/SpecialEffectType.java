@@ -1,2 +1,4 @@
-package model.unit.specialEffect;public enum SpecialEffectType {
+package model.unit.specialEffect;
+
+public enum SpecialEffectType {
 }

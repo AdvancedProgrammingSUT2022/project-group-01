@@ -1,5 +1,7 @@
 package model.civilization;
 
+import model.tile.Tile;
+
 public class Person {
 
 	private Job job;

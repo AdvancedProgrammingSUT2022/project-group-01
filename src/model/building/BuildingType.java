@@ -1,4 +1,9 @@
-import technology.TechnologyType;
+package model.building;
+
+import model.Player;
+import model.civilization.Job;
+import model.civilization.city.City;
+import model.technology.TechnologyType;
 
 public enum BuildingType {
 	BARRACKS(80,1,TechnologyType.BRONZE_WORKING,null,0){

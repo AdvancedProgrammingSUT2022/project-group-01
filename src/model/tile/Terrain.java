@@ -1,6 +1,8 @@
-package tile;
+package model.tile;
 import java.util.Vector;
-import resource.*;
+
+import model.resource.ResourceType;
+import model.resource.*;
 public enum Terrain {
 	DESERT(0,0,0,0,1,true,false,true,new Vector<ResourceType>(){{
 		add(ResourceType.IRON);

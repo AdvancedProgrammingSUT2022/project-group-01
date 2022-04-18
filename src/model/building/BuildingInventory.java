@@ -1,3 +1,5 @@
+package model.building;
+
 import java.util.Vector;
 
 public class BuildingInventory {

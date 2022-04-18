@@ -1,8 +1,8 @@
-package resource;
-import technology.TechnologyType;
-import building.*;
-import tile.*;
-import improvement.*;
+package model.resource;
+import model.technology.TechnologyType;
+import model.building.*;
+import model.tile.*;
+import model.improvement.*;
 import java.util.Vector;
 
 public enum ResourceType {

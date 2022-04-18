@@ -1,4 +1,4 @@
-package unit;
+package model.unit;
 
 public enum CombatType {
 	ARCHERY,

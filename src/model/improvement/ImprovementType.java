@@ -1,7 +1,7 @@
-package improvement;
-import technology.TechnologyType;
-import resource.*;
-import tile.*;
+package model.improvement;
+import model.technology.TechnologyType;
+import model.resource.*;
+import model.tile.*;
 import java.util.Vector;
 
 public enum ImprovementType {

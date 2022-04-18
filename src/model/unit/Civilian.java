@@ -1,8 +1,8 @@
-package unit;
+package model.unit;
 
 public class Civilian extends Unit {
 
-	public Civilian(){
-
+	public Civilian(UnitType type){
+		super(type);
 	}
 }

@@ -1,3 +1,11 @@
+package model.building;
+
+import model.Player;
+import model.civilization.Job;
+import model.civilization.Person;
+import model.civilization.city.City;
+import model.tile.Tile;
+
 import java.util.Vector;
 
 public class Building {

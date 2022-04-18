@@ -1,4 +1,4 @@
-package technology;
+package model.technology;
 
 import java.util.HashMap;
 import java.util.Vector;
