@@ -2,12 +2,13 @@ package model.unit;
 
 import model.civilization.Civilization;
 import model.civilization.city.City;
+import model.civilization.production.Production;
 import model.technology.TechnologyType;
 import model.tile.Tile;
 
 import java.util.List;
 
-public class Unit {
+public class Unit extends Production {
 	private Civilization ownerCivilization;
 	private int health;
 	private int movementPoint;

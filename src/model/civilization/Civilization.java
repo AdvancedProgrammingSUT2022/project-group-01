@@ -15,7 +15,9 @@ public class Civilization {
 	private int Happiness;
 	double science;
 	private Vector<Unit> units;//TODO merge with safar
+
 	private TechTree technology;//TODO merge with safar
+	private Vector<Civilization> knownCivilizations;
 
 	public TechTree getResearchTree() {
 		// TODO - implement model.civilization.Civilization.getResearchList
@@ -61,5 +63,27 @@ public class Civilization {
 
 	public double calculateScience(){
 		throw new UnsupportedOperationException();
+	}
+
+	public Vector<Civilization> getKnownCivilizations() {
+		return knownCivilizations;
+	}
+
+	public void addKnownCivilization(Civilization civilization){}
+
+	public double getScience() {
+		return science;
+	}
+
+	public void setScience(double science) {
+		this.science = science;
+	}
+
+	public Vector<Unit> getUnits() {
+		return units;
+	}
+
+	public Vector<City> getCities(){
+		return cities;
 	}
 }

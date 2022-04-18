@@ -1,6 +1,7 @@
 package model;
 
 import model.civilization.*;
+import model.civilization.Currency;
 
 import java.util.*;
 
@@ -20,4 +21,9 @@ public class Game {
         return null;
     }
 
+    //cheats
+    public void increaseTurn(int amount){}
+    public void increaseCurrency(Currency currency, Civilization civilization){}
+    public void increaseScience(double amount, Civilization civilization){}
+    public void increaseHappiness(int amount, Civilization civilization){}
 }

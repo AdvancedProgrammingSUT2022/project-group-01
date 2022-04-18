@@ -1,5 +1,6 @@
 package model.unit;
 
+import model.civilization.city.City;
 import model.tile.Tile;
 
 public class Armed extends Unit {
@@ -18,4 +19,6 @@ public class Armed extends Unit {
 	public int getAttackPower(){ return 0; }
 
 	public void upgradeUnit(){}
+	public void garrisonCity(City city){}
+	public void attackToCity(City city){}
 }
