@@ -24,4 +24,5 @@ public class Unit {
 	public void defendAgainstMelee(Unit enemy){}
 	public void defendAgainstRanged(Unit enemy){}
 
+	public void execute(ActionsType actionType){}
 }

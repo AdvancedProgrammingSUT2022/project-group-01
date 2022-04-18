@@ -12,6 +12,10 @@ public class TechTree {
 		for (TechnologyType tech : TechnologyType.values())
 			researchedTechs.put(tech, 0);
 	}
+
+	public boolean isResearchable(TechnologyType type){
+		return false;
+	}
 	public Vector<TechnologyType> getResearchableTechs(){
 		return null;
 	}
