@@ -1,2 +1,5 @@
-package controller.civilization.city;public class CityController {
+package controller.civilization.city;
+
+public class CityController {
+
 }
