@@ -21,7 +21,7 @@ public class ProfileMenuController {
             return "invalid changing!";
     }
 
-    public String changeNickname(HashMap<String, String> args){
+    private String changeNickname(HashMap<String, String> args){
         String nickname = args.get("nickname");
         if(database.findUserByNickname(nickname)!=null)
             return String.format("user with nickname %s already exist!", nickname);
@@ -29,7 +29,7 @@ public class ProfileMenuController {
         return "nickname changed successfully!";
     }
 
-    public String changePassword(HashMap<String, String> args){
+    private String changePassword(HashMap<String, String> args){
         String currentPassword = args.get("current");
         String newPassword = args.get("new");
         if(!ProgramController.getLoggedInUser().getPassword().equals(currentPassword))
