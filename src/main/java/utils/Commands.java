@@ -33,7 +33,9 @@ public enum Commands {
     //GLOBAL
         MENU_ENTER("menu enter", null, null, 1),
         MENU_EXIT("menu exit", null,null,0),
-        CURRENT_MENU("menu show-current",null,null,0);
+        CURRENT_MENU("menu show-current",null,null,0),
+    //PROFILE
+        PROFILE_CHANGE("profile change",null, new String[]{"nickname","new","current"},1);
 
     public String offset;
     public String[] requiredKeys;

@@ -9,7 +9,7 @@ public class MainMenuController {
 	 * 
 	 * @param menuName
 	 */
-	public void navigation(HashMap<String, String> menuName) {
+	public void navigation(HashMap<String, String> args) {
 		// TODO - implement controller.MainMenuController.navigation
 		throw new UnsupportedOperationException();
 	}

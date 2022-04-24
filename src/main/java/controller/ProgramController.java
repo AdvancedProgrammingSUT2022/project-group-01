@@ -4,14 +4,6 @@ import model.Database;
 import model.User;
 import view.LoginMenu;
 
-enum Menus{
-    MAIN_MENU,
-    GAME_MENU,
-    INFO_MENU,
-    LOGIN_MENU,
-    EXIT
-}
-
 public class ProgramController {
 
     private static User loggedInUser = null;
@@ -22,7 +14,7 @@ public class ProgramController {
         currentMenu = Menus.LOGIN_MENU;
     }
 
-    public Menus getCurrentMenu() {
+    public static Menus getCurrentMenu() {
         return currentMenu;
     }
 

@@ -15,8 +15,9 @@ public class User {
 	 * @param nickname
 	 */
 	public User(String username, String password, String nickname) {
-		// TODO - implement model.User.model.User
-		throw new UnsupportedOperationException();
+		this.nickname = nickname;
+		this.username = username;
+		this.password = password;
 	}
 
 	public String getUsername() {return this.username;}
@@ -27,10 +28,10 @@ public class User {
 
 	/**
 	 * 
-	 * @param passowrd
+	 * @param password
 	 */
-	public void setPassword(String passowrd) {
-		this.password = passowrd;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public String getScore() {
