@@ -4,12 +4,11 @@ import model.Information;
 import model.Notification;
 import model.civilization.Civilization;
 import model.technology.TechnologyType;
-import model.unit.Civilian;
 import model.unit.Unit;
 
 import java.util.Vector;
 
-public class InfoMenuController extends Controller {
+public class InfoMenuController {
 	private Information information;
 	public InfoMenuController(Civilization civilization){
 		information = new Information(civilization);

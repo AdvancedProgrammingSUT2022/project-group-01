@@ -2,7 +2,7 @@ package controller;
 
 import model.Player;
 import java.util.*;
-public class GameMenuController extends Controller{
+public class GameMenuController {
 
 	private Vector<Player> players;
 

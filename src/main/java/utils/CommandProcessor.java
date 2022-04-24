@@ -59,6 +59,22 @@ public class CommandProcessor {
         return true;
     }
 
+    private static boolean extractSingleArg(HashMap<String, String> in, String[] splittedCommand, int singleArgsCount){
+        if(splittedCommand.length < singleArgsCount)
+            return false;
+        if (singleArgsCount >= 1) {
+            if(splittedCommand[0].equals(""))
+                return false;
+            in.put("section", splittedCommand[0]);
+        }
+        if (singleArgsCount >= 2) {
+            if(splittedCommand[1].equals(""))
+                return false;
+            in.put("subsection", splittedCommand[1]);
+        }
+        return true;
+    }
+
     public static HashMap<String, String> extractCommand(String input, Commands command) {
         input = input.toLowerCase();
         input = input.trim();
@@ -69,15 +85,12 @@ public class CommandProcessor {
         String[] optional = command.optionalKeys;
         int singleArgsCount = command.singleArgsCount;
 
-        input = input.substring(command.offset.length() + 1);
+        input = input.substring(command.offset.length());
+        input = input.trim();
         String[] splittedCommand = input.split(" ");
         HashMap<String, String> out = new HashMap<>();
-        if (singleArgsCount >= 1) {
-            out.put("section", splittedCommand[0]);
-        }
-        if (singleArgsCount >= 2) {
-            out.put("subsection", splittedCommand[1]);
-        }
+        if(!extractSingleArg(out, splittedCommand, singleArgsCount))
+            return null;
         addKeyValues(out, splittedCommand, singleArgsCount);
         out = replaceAbbreviatedArgs(out,mergeTwoArray(required,optional));
         if(!doesContainRequiredKeys(out, required))

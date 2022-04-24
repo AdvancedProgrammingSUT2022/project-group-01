@@ -53,5 +53,20 @@ public class CommandProcessorTest {
         HashMap<String, String> result = CommandProcessor.extractCommand(input, Commands.MAP_MOVE);
         Assertions.assertEquals(answer,result);
     }
+    @Test
+    //test with single arg and without key value (command includes no single arg)
+    public void testFive(){
+        String input = "menu enter";
+        HashMap<String, String> result = CommandProcessor.extractCommand(input, Commands.MENU_ENTER);
+        Assertions.assertNull(result);
+    }
+
+    @Test
+    //test with single arg and with key value (command includes no single arg)
+    public void testSix(){
+        String input = "map move --count 2";
+        HashMap<String, String> result = CommandProcessor.extractCommand(input, Commands.MAP_MOVE);
+        Assertions.assertNull(result);
+    }
 
 }

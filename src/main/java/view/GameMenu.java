@@ -1,11 +1,14 @@
 package view;
 
 import controller.GameMenuController;
+import utils.Commands;
 
-public class GameMenu {
+import java.util.HashMap;
+
+public class GameMenu extends Menu{
 
 	private GameMenuController controller;
-
+	protected HashMap<CommandAction, Commands> commands;
 	/**
 	 * 
 	 * @param controller
@@ -20,4 +23,7 @@ public class GameMenu {
 		throw new UnsupportedOperationException();
 	}
 
+	public void initCommands(){
+
+	}
 }
