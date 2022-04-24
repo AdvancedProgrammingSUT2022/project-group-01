@@ -26,10 +26,10 @@ public enum Commands {
     MAP_SHOW("map show", null,new String[]{"position","cityname"},0),
     MAP_MOVE("map move", new String[]{"count"}, null, 1);
 
-    String offset;
-    String[] requiredKeys;
-    String[] optionalKeys;
-    int singleArgsCount;
+    public String offset;
+    public String[] requiredKeys;
+    public String[] optionalKeys;
+    public int singleArgsCount;
 
     Commands(String offset, String[] requiredKeys, String[] optionalKeys, int singleArgsCount) {
         this.offset = offset;
