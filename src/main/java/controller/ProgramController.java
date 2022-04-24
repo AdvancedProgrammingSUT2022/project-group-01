@@ -8,14 +8,15 @@ enum Menus{
     MAIN_MENU,
     GAME_MENU,
     INFO_MENU,
-    LOGIN_MENU
+    LOGIN_MENU,
+    EXIT
 }
 
 public class ProgramController {
 
     private static User loggedInUser = null;
     protected static Database database = new Database();
-    private Menus currentMenu;
+    private static Menus currentMenu;
 
     public ProgramController() {
         currentMenu = Menus.LOGIN_MENU;
@@ -25,8 +26,8 @@ public class ProgramController {
         return currentMenu;
     }
 
-    public void setCurrentMenu(Menus currentMenu) {
-        this.currentMenu = currentMenu;
+    public static void setCurrentMenu(Menus currentMenu) {
+        ProgramController.currentMenu = currentMenu;
     }
 
     public static User getLoggedInUser() {

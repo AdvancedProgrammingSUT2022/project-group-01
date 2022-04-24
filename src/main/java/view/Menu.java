@@ -7,7 +7,7 @@ import utils.Commands;
 import java.util.*;
 
 interface CommandAction{
-	void action(HashMap<String, String> args);
+	String action(HashMap<String, String> args);
 }
 
 public abstract class Menu {
@@ -22,7 +22,7 @@ public abstract class Menu {
 		HashMap<String, String> result;
 		for(Map.Entry<CommandAction, Commands> set: commands.entrySet()){
 			if((result = CommandProcessor.extractCommand(input, set.getValue()))!=null){
-				set.getKey().action(result);
+				System.out.println(set.getKey().action(result));
 				return;
 			}
 		}

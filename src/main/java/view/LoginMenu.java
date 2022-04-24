@@ -13,18 +13,18 @@ public class LoginMenu {
     {
         commands = new HashMap<CommandAction, Commands>() {{
             put(new CommandAction() {
-                public void action(HashMap<String, String> args) {
-                    System.out.println("Login Menu");
+                public String action(HashMap<String, String> args) {
+                    return controller.currentMenu(args);
                 }
             }, Commands.CURRENT_MENU);
             put(new CommandAction() {
-                public void action(HashMap<String, String> args) {
-                    controller.login(args);
+                public String action(HashMap<String, String> args) {
+                    return controller.login(args);
                 }
             }, Commands.LOGIN);
             put(new CommandAction() {
-                public void action(HashMap<String, String> args) {
-                    controller.register(args);
+                public String action(HashMap<String, String> args) {
+                    return controller.register(args);
                 }
             }, Commands.REGISTER);
 

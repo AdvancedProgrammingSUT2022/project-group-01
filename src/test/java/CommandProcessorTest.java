@@ -69,4 +69,12 @@ public class CommandProcessorTest {
         Assertions.assertNull(result);
     }
 
+    @Test
+    //test with empty value
+    public void testSeven(){
+        String input = "user create -u   -p salam -n nickname";
+        HashMap<String, String> result = CommandProcessor.extractCommand(input, Commands.REGISTER);
+        Assertions.assertNull(result);
+    }
+
 }

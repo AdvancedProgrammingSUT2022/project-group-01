@@ -2,7 +2,7 @@ package model;
 
 public class User {
 
-	private String username;
+	private final String username;
 	//private undefinedType[] savedGames;//TODO handle here
 	private String password;
 	private String score;
@@ -18,6 +18,8 @@ public class User {
 		// TODO - implement model.User.model.User
 		throw new UnsupportedOperationException();
 	}
+
+	public String getUsername() {return this.username;}
 
 	public String getPassword() {
 		return this.password;
@@ -54,5 +56,6 @@ public class User {
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
+
 
 }
