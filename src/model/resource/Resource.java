@@ -1,87 +1,76 @@
 package model.resource;
+
+import model.building.BuildingType;
 import model.technology.TechnologyType;
-import model.building.*;
-import model.tile.*;
-import model.improvement.*;
-import model.unit.Unit;
+import model.tile.Terrain;
+import model.tile.TerrainFeature;
 
 import java.util.Vector;
 
 public class Resource {
 
-	private final KindsOfResource mainKind;
-	private final ResourceType type;
+    private final KindsOfResource mainKind;
+    private final ResourceType type;
 
-	/**
-	 * 
-	 * @param type
-	 */
-	public Resource(ResourceType type) {
-		// TODO - implement Resource.Resource
-		throw new UnsupportedOperationException();
-	}
+    /**
+     * @param type
+     */
+    public Resource(ResourceType type) {
+        this.type = type;
+        this.mainKind = type.resourceKind;
+    }
 
-	public int getGold() {
-		// TODO - implement Resource.getGold
-		throw new UnsupportedOperationException();
-	}
+    public int getGold() {
+        return this.type.gold;
+    }
 
-	public KindsOfResource getMainKind() {
-		return mainKind;
-	}
+    public KindsOfResource getMainKind() {
+        return mainKind;
+    }
 
 
-	public ResourceType getType() {
-		return type;
-	}
+    public ResourceType getType() {
+        return type;
+    }
 
 
-	public int getProduction() {
-		// TODO - implement Resource.getProduction
-		throw new UnsupportedOperationException();
-	}
+    public int getProduction() {
+        return this.type.production;
+    }
 
-	public int getFood() {
-		// TODO - implement Resource.getFood
-		throw new UnsupportedOperationException();
-	}
+    public int getFood() {
+        return this.type.food;
+    }
 
-	/**
-	 * 
-	 * @param terrain
-	 */
-	public boolean isPossibleInLand(Terrain terrain) {
-		// TODO - implement Resource.isPossibleInLand
-		throw new UnsupportedOperationException();
-	}
+    /**
+     * @param terrain
+     */
+    public boolean isPossibleInTerrain(Terrain terrain) {
+        return terrain.possibleResources.contains(this.type);
+    }
 
-	/**
-	 * 
-	 * @param feature
-	 */
-	public boolean isPossibleInFeatureLand(TerrainFeature feature) {
-		// TODO - implement Resource.isPossibleInFeatureLand
-		throw new UnsupportedOperationException();
-	}
+    /**
+     * @param feature
+     */
+    public boolean isPossibleInTerrainFeature(TerrainFeature feature) {
+        return feature.possibleResources.contains(this.type);
+    }
 
-	public Vector<BuildingType> getNecessaryBuilding() {
-		// TODO - implement Resource.getNecessaryBuilding
-		throw new UnsupportedOperationException();
-	}
+    public Vector<BuildingType> getAffectingBuildings() {
+        Vector<BuildingType> affectingBuildings = new Vector<>();
+        for (BuildingType building : BuildingType.values()) {
+            if (building.necessaryResources.contains(this.type))
+                affectingBuildings.add(building);
+        }
+        return affectingBuildings;
+    }
 
-	public Vector<Unit> getNecessaryUnits() {
-		// TODO - implement Resource.getNecessaryUnits
-		throw new UnsupportedOperationException();
-	}
+    public boolean isTradable() {
+        return this.mainKind.equals(KindsOfResource.STRATEGIC);
+    }
 
-	public boolean isTradable() {
-		// TODO - implement Resource.isTradable
-		throw new UnsupportedOperationException();
-	}
-
-	public TechnologyType necessaryTechnology() {
-		// TODO - implement Resource.necessaryTechnology
-		throw new UnsupportedOperationException();
-	}
+    public TechnologyType necessaryTechnology() {
+        return this.type.visibilityTechnology;
+    }
 
 }

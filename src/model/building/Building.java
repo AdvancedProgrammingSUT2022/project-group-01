@@ -53,13 +53,11 @@ public class Building extends Production {
 	}
 
 	public int getCost() {
-		// TODO - implement Building.getCost
-		throw new UnsupportedOperationException();
+		return this.type.cost;
 	}
 
 	public int getMaintenance() {
-		// TODO - implement Building.getMaintenance
-		throw new UnsupportedOperationException();
+		return this.type.maintenance;
 	}
 
 	/**

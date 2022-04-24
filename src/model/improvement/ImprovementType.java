@@ -1,126 +1,194 @@
 package model.improvement;
+
 import model.civilization.Civilization;
-import model.civilization.city.City;
 import model.resource.ResourceType;
 import model.technology.TechnologyType;
 import model.tile.Terrain;
 import model.tile.TerrainFeature;
+import model.tile.Tile;
 
+import java.util.List;
 import java.util.Vector;
 
 public enum ImprovementType {
-	CAMP(0,0,0,TechnologyType.TRAPPING,new Vector<ResourceType>(){{
-		add(ResourceType.IVORY);
-		add(ResourceType.FURS);
-		add(ResourceType.DEER);
-	}},new Vector<Terrain>(){{
-		add(Terrain.TUNDRA);
-		add(Terrain.PLAINS);
-		add(Terrain.HILLS);
-	}}, new Vector<TerrainFeature>(){{
-		add(TerrainFeature.FOREST);
-	}}),
-	FARM(1,0,0,TechnologyType.AGRICULTURE,new Vector<ResourceType>(){{
-		add(ResourceType.WHEAT);
-	}}, new Vector<Terrain>(){{
-		add(Terrain.GRASSLAND);
-		add(Terrain.PLAINS);
-		add(Terrain.DESERT);
-	}},new Vector<>()),
-	LUMBER_MILL(0,0,1,TechnologyType.ENGINEERING,new Vector<ResourceType>(), new Vector<Terrain>(), new Vector<TerrainFeature>(){{
-		add(TerrainFeature.FOREST);
-	}}),
-	MINE(0,0,1,TechnologyType.MINING,new Vector<ResourceType>(){{
-		add(ResourceType.IRON);
-		add(ResourceType.COAL);
-		add(ResourceType.GEMS);
-		add(ResourceType.GOLD);
-		add(ResourceType.SILVER);
-	}}, new Vector<Terrain>(){{
-		add(Terrain.GRASSLAND);
-		add(Terrain.PLAINS);
-		add(Terrain.DESERT);
-		add(Terrain.TUNDRA);
-		add(Terrain.SNOW);
-		add(Terrain.HILLS);
-	}}, new Vector<TerrainFeature>(){{
-		add(TerrainFeature.JUNGLE);
-	}}),
-	PASTURE(0,0,0,TechnologyType.ANIMAL_HUSBANDRY,new Vector<ResourceType>(){{
-		add(ResourceType.HORSES);
-		add(ResourceType.CATTLE);
-		add(ResourceType.SHEEP);
-	}}, new Vector<Terrain>(){{
-		add(Terrain.GRASSLAND);
-		add(Terrain.PLAINS);
-		add(Terrain.DESERT);
-		add(Terrain.TUNDRA);
-		add(Terrain.HILLS);
-	}}, new Vector<TerrainFeature>()),
-	PLANTATION(0,0,0,TechnologyType.CALENDAR,new Vector<ResourceType>(){{
-		add(ResourceType.BANANAS);
-		add(ResourceType.DYES);
-		add(ResourceType.SILK);
-		add(ResourceType.SUGAR);
-		add(ResourceType.COTTON);
-		add(ResourceType.INCENSE);
-	}}, new Vector<Terrain>(){{
-		add(Terrain.GRASSLAND);
-		add(Terrain.PLAINS);
-		add(Terrain.DESERT);
-	}}, new Vector<TerrainFeature>(){{
-		add(TerrainFeature.FOREST);
-		add(TerrainFeature.MARSH);
-		add(TerrainFeature.FLOOD_PLAINS);
-		add(TerrainFeature.JUNGLE);
-	}}),
-	QUARRY(0,0,0,TechnologyType.MASONRY,new Vector<ResourceType>(){{
-		add(ResourceType.MARBLE);
-	}}, new Vector<Terrain>(){{
-		add(Terrain.GRASSLAND);
-		add(Terrain.PLAINS);
-		add(Terrain.DESERT);
-		add(Terrain.TUNDRA);
-		add(Terrain.HILLS);
-	}}, new Vector<TerrainFeature>()),
-	TRADING_POST(0,2,0,TechnologyType.TRAPPING,new Vector<ResourceType>(), new Vector<Terrain>(){{
-		add(Terrain.GRASSLAND);
-		add(Terrain.PLAINS);
-		add(Terrain.DESERT);
-		add(Terrain.TUNDRA);
-	}}, new Vector<>()),
-	MANUFACTORY(0,0,3,null,new Vector<ResourceType>(), new Vector<Terrain>(){{
-		add(Terrain.GRASSLAND);
-		add(Terrain.PLAINS);
-		add(Terrain.DESERT);
-		add(Terrain.TUNDRA);
-		add(Terrain.SNOW);
-	}}, new Vector<>());
+    CAMP(0, 0, 0) {
+        @Override
+        public void initializeVectors() {
+            this.canBuiltOnTerrains = new Vector<>(List.of(Terrain.TUNDRA, Terrain.PLAINS, Terrain.HILLS));
+            this.canBuiltOnTerrainFeatures = new Vector<>(List.of(TerrainFeature.FOREST));
+            this.affectingResources = new Vector<>(List.of(ResourceType.IVORY, ResourceType.FURS, ResourceType.DEER));
+            this.preRequisiteTech = TechnologyType.TRAPPING;
+        }
+    },
+    FARM(1, 0, 0) {
+        @Override
+        public void initializeVectors() {
+            this.canBuiltOnTerrains = new Vector<>(List.of(Terrain.GRASSLAND, Terrain.PLAINS, Terrain.DESERT));
+            this.canBuiltOnTerrainFeatures = new Vector<>();
+            this.affectingResources = new Vector<>(List.of(ResourceType.WHEAT));
+            this.preRequisiteTech = TechnologyType.AGRICULTURE;
+        }
 
-	public final int foodYield;
-	public final int goldYield;
-	public final int productionYield;
-	public final TechnologyType preRequisiteTech;
-	public final Vector<ResourceType> affectingResources;
-	public final Vector<Terrain> canBuiltOnTerrains;
-	public final Vector<TerrainFeature> canBuiltOnTerrainFeatures;
+        @Override
+        public void improvementSpecialAction(Tile tile) {
+            if (tile.getFeature().equals(TerrainFeature.JUNGLE)
+                    || tile.getFeature().equals(TerrainFeature.FOREST)
+                    || tile.getFeature().equals(TerrainFeature.MARSH))
+                tile.removeFeature();
+        }
 
-	ImprovementType(int foodYield, int goldYield, int productionYield, TechnologyType preRequisiteTech, Vector<ResourceType> affectingResources, Vector<Terrain> canBuiltOnTerrains, Vector<TerrainFeature> canBuiltOnTerrainFeatures) {
-		this.foodYield = foodYield;
-		this.goldYield = goldYield;
-		this.productionYield = productionYield;
-		this.preRequisiteTech = preRequisiteTech;
-		this.affectingResources = affectingResources;
-		this.canBuiltOnTerrains = canBuiltOnTerrains;
-		this.canBuiltOnTerrainFeatures = canBuiltOnTerrainFeatures;
-	}
+        @Override
+        public int getProductionTime(Tile tile) {
+            if (tile.getFeature().equals(TerrainFeature.FOREST))
+                return 10;
+            if (tile.getFeature().equals(TerrainFeature.JUNGLE))
+                return 13;
+            if (tile.getFeature().equals(TerrainFeature.MARSH))
+                return 12;
+            return 6;
+        }
+    },
+    LUMBER_MILL(0, 0, 1) {
+        @Override
+        public void initializeVectors() {
+            this.canBuiltOnTerrains = new Vector<>();
+            this.canBuiltOnTerrainFeatures = new Vector<>(List.of(TerrainFeature.FOREST));
+            this.affectingResources = new Vector<>();
+            this.preRequisiteTech = TechnologyType.ENGINEERING;
+        }
 
-	public int getProductionTime(Civilization civilization){
-		//TODO override it in each enum literal
-		return 0;
-	}
-	public boolean isEligibleToBuild(Civilization civilization, City city){
-		//TODO implement eligibility
-		return false;
-	}
+        @Override
+        public int getProductionTime(Tile tile) {
+            return 6;
+        }
+    },
+    MINE(0, 0, 1) {
+        @Override
+        public void initializeVectors() {
+            this.canBuiltOnTerrains = new Vector<>(List.of(Terrain.GRASSLAND, Terrain.PLAINS, Terrain.DESERT, Terrain.TUNDRA, Terrain.SNOW, Terrain.HILLS));
+            this.canBuiltOnTerrainFeatures = new Vector<>(List.of(TerrainFeature.JUNGLE));
+            this.affectingResources = new Vector<>(List.of(ResourceType.IRON, ResourceType.COAL, ResourceType.GEMS, ResourceType.GOLD, ResourceType.SILVER));
+            this.preRequisiteTech = TechnologyType.MINING;
+        }
+
+        @Override
+        public void improvementSpecialAction(Tile tile) {
+            if (tile.getFeature().equals(TerrainFeature.JUNGLE)
+                    || tile.getFeature().equals(TerrainFeature.FOREST)
+                    || tile.getFeature().equals(TerrainFeature.MARSH))
+                tile.removeFeature();
+        }
+
+        @Override
+        public int getProductionTime(Tile tile) {
+            if (tile.getFeature().equals(TerrainFeature.FOREST))
+                return 10;
+            if (tile.getFeature().equals(TerrainFeature.JUNGLE))
+                return 13;
+            if (tile.getFeature().equals(TerrainFeature.MARSH))
+                return 12;
+            return 6;
+        }
+    },
+    PASTURE(0, 0, 0) {
+        @Override
+        public void initializeVectors() {
+            this.canBuiltOnTerrains = new Vector<>(List.of(Terrain.GRASSLAND, Terrain.PLAINS, Terrain.DESERT, Terrain.TUNDRA, Terrain.HILLS));
+            this.canBuiltOnTerrainFeatures = new Vector<>();
+            this.affectingResources = new Vector<>(List.of(ResourceType.SHEEP, ResourceType.CATTLE, ResourceType.HORSES));
+            this.preRequisiteTech = TechnologyType.ANIMAL_HUSBANDRY;
+        }
+
+        @Override
+        public int getProductionTime(Tile tile) {
+            return 7;
+        }
+    },
+    PLANTATION(0, 0, 0) {
+        @Override
+        public void initializeVectors() {
+            this.canBuiltOnTerrains = new Vector<>(List.of(Terrain.GRASSLAND, Terrain.PLAINS, Terrain.DESERT));
+            this.canBuiltOnTerrainFeatures = new Vector<>(List.of(TerrainFeature.FOREST, TerrainFeature.MARSH, TerrainFeature.FLOOD_PLAINS, TerrainFeature.JUNGLE));
+            this.affectingResources = new Vector<>(List.of(ResourceType.BANANAS, ResourceType.DYES, ResourceType.SILK, ResourceType.SUGAR, ResourceType.COTTON, ResourceType.INCENSE));
+            this.preRequisiteTech = TechnologyType.CALENDAR;
+        }
+
+        @Override
+        public int getProductionTime(Tile tile) {
+            return 5;
+        }
+    },
+    QUARRY(0, 0, 0) {
+        @Override
+        public void initializeVectors() {
+            this.canBuiltOnTerrains = new Vector<>(List.of(Terrain.GRASSLAND, Terrain.PLAINS, Terrain.DESERT, Terrain.TUNDRA, Terrain.HILLS));
+            this.canBuiltOnTerrainFeatures = new Vector<>();
+            this.affectingResources = new Vector<>(List.of(ResourceType.MARBLE));
+            this.preRequisiteTech = TechnologyType.MASONRY;
+        }
+
+        @Override
+        public int getProductionTime(Tile tile) {
+            return 7;
+        }
+    },
+    TRADING_POST(0, 1, 0) {
+        @Override
+        public void initializeVectors() {
+            this.canBuiltOnTerrains = new Vector<>(List.of(Terrain.GRASSLAND, Terrain.PLAINS, Terrain.DESERT, Terrain.TUNDRA));
+            this.canBuiltOnTerrainFeatures = new Vector<>();
+            this.affectingResources = new Vector<>();
+            this.preRequisiteTech = TechnologyType.TRAPPING;
+        }
+
+        @Override
+        public int getProductionTime(Tile tile) {
+            return 8;
+        }
+    },
+    MANUFACTORY(0, 0, 2) {
+        @Override
+        public void initializeVectors() {
+            this.canBuiltOnTerrains = new Vector<>(List.of(Terrain.GRASSLAND, Terrain.PLAINS, Terrain.DESERT, Terrain.TUNDRA, Terrain.SNOW));
+            this.canBuiltOnTerrainFeatures = new Vector<>();
+            this.affectingResources = new Vector<>();
+            this.preRequisiteTech = TechnologyType.ENGINEERING;
+        }
+    };
+
+    public final int foodYield;
+    public final int goldYield;
+    public final int productionYield;
+    public TechnologyType preRequisiteTech;
+    public Vector<ResourceType> affectingResources;
+    public Vector<Terrain> canBuiltOnTerrains;
+    public Vector<TerrainFeature> canBuiltOnTerrainFeatures;
+
+    ImprovementType(int foodYield, int goldYield, int productionYield) {
+        this.foodYield = foodYield;
+        this.goldYield = goldYield;
+        this.productionYield = productionYield;
+    }
+
+    public int getProductionTime(Tile tile) {
+        return 0;
+    }
+
+    public boolean isEligibleToBuild(Civilization civilization, Tile tile) {
+        if (!(this.canBuiltOnTerrains.contains(tile.getTerrain())
+                || this.canBuiltOnTerrainFeatures.contains(tile.getFeature())))
+            return false;
+        return civilization.getResearchTree().isResearched(this.preRequisiteTech);
+    }
+
+    public void improvementSpecialAction(Tile tile) {
+    }
+
+
+    public void initializeVectors() {
+        this.preRequisiteTech = null;
+        this.affectingResources = new Vector<>();
+        this.canBuiltOnTerrainFeatures = new Vector<>();
+        this.canBuiltOnTerrains = new Vector<>();
+    }
 }

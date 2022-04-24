@@ -1,128 +1,209 @@
 package model.resource;
+
+import model.improvement.ImprovementType;
 import model.technology.TechnologyType;
-import model.building.*;
-import model.tile.*;
-import model.improvement.*;
+import model.tile.Terrain;
+import model.tile.TerrainFeature;
+
+import java.util.List;
 import java.util.Vector;
 
 public enum ResourceType {
-	//Bonus Resources
-	BANANAS(1,0,0,new Vector<Terrain>(), new Vector<TerrainFeature>(){{
-		add(TerrainFeature.JUNGLE);
-	}},ImprovementType.PLANTATION,null,false,KindsOfResource.BONUS),
-	CATTLE(1,0,0,new Vector<Terrain>(),new Vector<TerrainFeature>(){{
-		add(TerrainFeature.JUNGLE);
-	}}, ImprovementType.PASTURE,null,false,KindsOfResource.BONUS),
-	DEER(1,0,0,new Vector<Terrain>(){{
-		add(Terrain.TUNDRA);
-		add(Terrain.HILLS);
-	}},new Vector<TerrainFeature>(){{
-		add(TerrainFeature.FOREST);
-	}}, ImprovementType.CAMP,null,false,KindsOfResource.BONUS),
-	SHEEP(1,0,0,new Vector<Terrain>(){{
-		add(Terrain.GRASSLAND);
-		add(Terrain.PLAINS);
-		add(Terrain.DESERT);
-		add(Terrain.HILLS);
-	}},new Vector<TerrainFeature>(), ImprovementType.PASTURE,null,false,KindsOfResource.BONUS),
-	WHEAT(1,0,0,new Vector<Terrain>(){{
-		add(Terrain.PLAINS);
-	}},new Vector<TerrainFeature>(){{
-		add(TerrainFeature.FLOOD_PLAINS);
-	}}, ImprovementType.FARM,null,false,KindsOfResource.BONUS),
-	COAL(0,1,0,new Vector<Terrain>(){{
-		add(Terrain.GRASSLAND);
-		add(Terrain.PLAINS);
-		add(Terrain.HILLS);
-	}},new Vector<TerrainFeature>(), ImprovementType.MINE,TechnologyType.SCIENTIFIC_THEORY,true,KindsOfResource.STRATEGIC),
-	HORSES(0,1,0,new Vector<Terrain>(){{
-		add(Terrain.GRASSLAND);
-		add(Terrain.PLAINS);
-		add(Terrain.TUNDRA);
-	}},new Vector<TerrainFeature>(), ImprovementType.PASTURE,TechnologyType.ANIMAL_HUSBANDRY,true,KindsOfResource.STRATEGIC),
-	IRON(0,1,0,new Vector<Terrain>(){{
-		add(Terrain.GRASSLAND);
-		add(Terrain.PLAINS);
-		add(Terrain.DESERT);
-		add(Terrain.TUNDRA);
-		add(Terrain.SNOW);
-		add(Terrain.HILLS);
-	}},new Vector<TerrainFeature>(), ImprovementType.MINE,TechnologyType.IRON_WORKING,true,KindsOfResource.STRATEGIC),
-	COTTON(0,0,2,new Vector<Terrain>(){{
-		add(Terrain.GRASSLAND);
-		add(Terrain.PLAINS);
-		add(Terrain.DESERT);
-	}},new Vector<TerrainFeature>(), ImprovementType.PLANTATION,null,false,KindsOfResource.LUXURY),
-	DYES(0,0,2,new Vector<Terrain>(),new Vector<TerrainFeature>(){{
-		add(TerrainFeature.JUNGLE);
-		add(TerrainFeature.FOREST);
-	}}, ImprovementType.PLANTATION,null,false,KindsOfResource.LUXURY),
-	FURS(0,0,2,new Vector<Terrain>(){{
-		add(Terrain.TUNDRA);
-	}},new Vector<TerrainFeature>(){{
-		add(TerrainFeature.FOREST);
-	}}, ImprovementType.CAMP,null,false,KindsOfResource.LUXURY),
-	GEMS(0,0,3,new Vector<Terrain>(){{
-		add(Terrain.GRASSLAND);
-		add(Terrain.PLAINS);
-		add(Terrain.DESERT);
-		add(Terrain.TUNDRA);
-		add(Terrain.HILLS);
-	}},new Vector<TerrainFeature>(){{
-		add(TerrainFeature.JUNGLE);
-	}}, ImprovementType.MINE,null,false,KindsOfResource.LUXURY),
-	GOLD(0,0,2,new Vector<Terrain>(){{
-		add(Terrain.GRASSLAND);
-		add(Terrain.PLAINS);
-		add(Terrain.DESERT);
-		add(Terrain.HILLS);
-	}},new Vector<TerrainFeature>(), ImprovementType.MINE,null,false,KindsOfResource.LUXURY),
-	INCENSE(0,0,2,new Vector<Terrain>(){{
-		add(Terrain.PLAINS);
-		add(Terrain.DESERT);
-	}},new Vector<TerrainFeature>(), ImprovementType.PLANTATION,null,false,KindsOfResource.LUXURY),
-	IVORY(0,0,2,new Vector<Terrain>(){{
-		add(Terrain.PLAINS);
-	}},new Vector<TerrainFeature>(), ImprovementType.CAMP,null,false,KindsOfResource.LUXURY),
-	MARBLE(0,0,2,new Vector<Terrain>(){{
-		add(Terrain.GRASSLAND);
-		add(Terrain.PLAINS);
-		add(Terrain.DESERT);
-		add(Terrain.TUNDRA);
-		add(Terrain.HILLS);
-	}},new Vector<TerrainFeature>(), ImprovementType.QUARRY,null,false,KindsOfResource.LUXURY),
-	SILK(0,0,2,new Vector<Terrain>(),new Vector<TerrainFeature>(){{
-		add(TerrainFeature.FOREST);
-	}}, ImprovementType.PLANTATION,null,false,KindsOfResource.LUXURY),
-	SILVER(0,0,2,new Vector<Terrain>(){{
-		add(Terrain.DESERT);
-		add(Terrain.TUNDRA);
-		add(Terrain.HILLS);
-	}},new Vector<TerrainFeature>(), ImprovementType.MINE,null,false,KindsOfResource.LUXURY),
-	SUGAR(0,0,2,new Vector<Terrain>(),new Vector<TerrainFeature>(){{
-		add(TerrainFeature.FLOOD_PLAINS);
-		add(TerrainFeature.MARSH);
-	}}, ImprovementType.PLANTATION,null,false,KindsOfResource.LUXURY);
+    //Bonus Resources
+    BANANAS(1, 0, 0, false, KindsOfResource.BONUS) {
+        @Override
+        public void initializeVectors() {
+            this.possibleTerrains = new Vector<>();
+            this.possibleLandFeatures = new Vector<>(List.of(TerrainFeature.JUNGLE));
+            this.visibilityTechnology = null;
+            this.necessaryImprovement = ImprovementType.PLANTATION;
+        }
+    },
+    CATTLE(1, 0, 0, false, KindsOfResource.BONUS) {
+        @Override
+        public void initializeVectors() {
+            this.possibleTerrains = new Vector<>();
+            this.possibleLandFeatures = new Vector<>(List.of(TerrainFeature.JUNGLE));
+            this.visibilityTechnology = null;
+            this.necessaryImprovement = ImprovementType.PASTURE;
+        }
+    },
+    DEER(1, 0, 0, false, KindsOfResource.BONUS) {
+        @Override
+        public void initializeVectors() {
+            this.possibleTerrains = new Vector<>(List.of(Terrain.TUNDRA, Terrain.HILLS));
+            this.possibleLandFeatures = new Vector<>(List.of(TerrainFeature.FOREST));
+            this.visibilityTechnology = null;
+            this.necessaryImprovement = ImprovementType.CAMP;
+        }
+    },
+    SHEEP(1, 0, 0, false, KindsOfResource.BONUS) {
+        @Override
+        public void initializeVectors() {
+            this.possibleTerrains = new Vector<>(List.of(Terrain.GRASSLAND, Terrain.PLAINS, Terrain.DESERT, Terrain.HILLS));
+            this.possibleLandFeatures = new Vector<>();
+            this.visibilityTechnology = null;
+            this.necessaryImprovement = ImprovementType.PASTURE;
+        }
+    },
+    WHEAT(1, 0, 0, false, KindsOfResource.BONUS) {
+        @Override
+        public void initializeVectors() {
+            this.possibleTerrains = new Vector<>(List.of(Terrain.PLAINS));
+            this.possibleLandFeatures = new Vector<>(List.of(TerrainFeature.FLOOD_PLAINS));
+            this.visibilityTechnology = null;
+            this.necessaryImprovement = ImprovementType.FARM;
+        }
+    },
+    COAL(0, 1, 0, true, KindsOfResource.STRATEGIC) {
+        @Override
+        public void initializeVectors() {
+            this.possibleTerrains = new Vector<>(List.of(Terrain.GRASSLAND, Terrain.PLAINS, Terrain.HILLS));
+            this.possibleLandFeatures = new Vector<>();
+            this.visibilityTechnology = TechnologyType.SCIENTIFIC_THEORY;
+            this.necessaryImprovement = ImprovementType.MINE;
+        }
+    },
+    HORSES(0, 1, 0, true, KindsOfResource.STRATEGIC) {
+        @Override
+        public void initializeVectors() {
+            this.possibleTerrains = new Vector<>(List.of(Terrain.GRASSLAND, Terrain.PLAINS, Terrain.TUNDRA));
+            this.possibleLandFeatures = new Vector<>();
+            this.visibilityTechnology = TechnologyType.ANIMAL_HUSBANDRY;
+            this.necessaryImprovement = ImprovementType.PASTURE;
+        }
+    },
+    IRON(0, 1, 0, true, KindsOfResource.STRATEGIC) {
+        @Override
+        public void initializeVectors() {
+            this.possibleTerrains = new Vector<>(List.of(Terrain.GRASSLAND, Terrain.PLAINS, Terrain.DESERT, Terrain.TUNDRA, Terrain.SNOW, Terrain.HILLS));
+            this.possibleLandFeatures = new Vector<>();
+            this.visibilityTechnology = TechnologyType.IRON_WORKING;
+            this.necessaryImprovement = ImprovementType.MINE;
+        }
+    },
+    COTTON(0, 0, 2, false, KindsOfResource.LUXURY) {
+        @Override
+        public void initializeVectors() {
+            this.possibleTerrains = new Vector<>(List.of(Terrain.GRASSLAND, Terrain.PLAINS, Terrain.DESERT));
+            this.possibleLandFeatures = new Vector<>();
+            this.visibilityTechnology = null;
+            this.necessaryImprovement = ImprovementType.PLANTATION;
+        }
+    },
+    DYES(0, 0, 2, false, KindsOfResource.LUXURY) {
+        @Override
+        public void initializeVectors() {
+            this.possibleTerrains = new Vector<>();
+            this.possibleLandFeatures = new Vector<>(List.of(TerrainFeature.JUNGLE, TerrainFeature.FOREST));
+            this.visibilityTechnology = null;
+            this.necessaryImprovement = ImprovementType.PLANTATION;
+        }
+    },
+    FURS(0, 0, 2, false, KindsOfResource.LUXURY) {
+        @Override
+        public void initializeVectors() {
+            this.possibleTerrains = new Vector<>(List.of(Terrain.TUNDRA));
+            this.possibleLandFeatures = new Vector<>(List.of(TerrainFeature.FOREST));
+            this.visibilityTechnology = null;
+            this.necessaryImprovement = ImprovementType.CAMP;
+        }
+    },
+    GEMS(0, 0, 3, false, KindsOfResource.LUXURY) {
+        @Override
+        public void initializeVectors() {
+            this.possibleTerrains = new Vector<>(List.of(Terrain.GRASSLAND, Terrain.PLAINS, Terrain.DESERT, Terrain.TUNDRA, Terrain.HILLS));
+            this.possibleLandFeatures = new Vector<>(List.of(TerrainFeature.JUNGLE));
+            this.visibilityTechnology = null;
+            this.necessaryImprovement = ImprovementType.MINE;
+        }
+    },
+    GOLD(0, 0, 2, false, KindsOfResource.LUXURY) {
+        @Override
+        public void initializeVectors() {
+            this.possibleTerrains = new Vector<>(List.of(Terrain.GRASSLAND, Terrain.PLAINS, Terrain.DESERT, Terrain.HILLS));
+            this.possibleLandFeatures = new Vector<>();
+            this.visibilityTechnology = null;
+            this.necessaryImprovement = ImprovementType.MINE;
+        }
+    },
+    INCENSE(0, 0, 2, false, KindsOfResource.LUXURY) {
+        @Override
+        public void initializeVectors() {
+            this.possibleTerrains = new Vector<>(List.of(Terrain.PLAINS, Terrain.DESERT));
+            this.possibleLandFeatures = new Vector<>();
+            this.visibilityTechnology = null;
+            this.necessaryImprovement = ImprovementType.PLANTATION;
+        }
+    },
+    IVORY(0, 0, 2, false, KindsOfResource.LUXURY) {
+        @Override
+        public void initializeVectors() {
+            this.possibleTerrains = new Vector<>(List.of(Terrain.PLAINS));
+            this.possibleLandFeatures = new Vector<>();
+            this.visibilityTechnology = null;
+            this.necessaryImprovement = ImprovementType.CAMP;
+        }
+    },
+    MARBLE(0, 0, 2, false, KindsOfResource.LUXURY) {
+        @Override
+        public void initializeVectors() {
+            this.possibleTerrains = new Vector<>(List.of(Terrain.GRASSLAND, Terrain.PLAINS, Terrain.DESERT, Terrain.TUNDRA, Terrain.HILLS));
+            this.possibleLandFeatures = new Vector<>();
+            this.visibilityTechnology = null;
+            this.necessaryImprovement = ImprovementType.QUARRY;
+        }
+    },
+    SILK(0, 0, 2, false, KindsOfResource.LUXURY) {
+        @Override
+        public void initializeVectors() {
+            this.possibleTerrains = new Vector<>();
+            this.possibleLandFeatures = new Vector<>(List.of(TerrainFeature.FOREST));
+            this.visibilityTechnology = null;
+            this.necessaryImprovement = ImprovementType.PLANTATION;
+        }
+    },
+    SILVER(0, 0, 2, false, KindsOfResource.LUXURY) {
+        @Override
+        public void initializeVectors() {
+            this.possibleTerrains = new Vector<>(List.of(Terrain.DESERT, Terrain.TUNDRA, Terrain.HILLS));
+            this.possibleLandFeatures = new Vector<>();
+            this.visibilityTechnology = null;
+            this.necessaryImprovement = ImprovementType.MINE;
+        }
+    },
+    SUGAR(0, 0, 2, false, KindsOfResource.LUXURY) {
+        @Override
+        public void initializeVectors() {
+            this.possibleTerrains = new Vector<>();
+            this.possibleLandFeatures = new Vector<>(List.of(TerrainFeature.FLOOD_PLAINS, TerrainFeature.MARSH));
+            this.visibilityTechnology = null;
+            this.necessaryImprovement = ImprovementType.PLANTATION;
+        }
+    };
 
-	public final int food;
-	public final int production;
-	public final int gold;
-	public final Vector<Terrain> possibleTerrains;
-	public final Vector<TerrainFeature> possibleLandFeatures;
-	public final ImprovementType necessaryImprovement;
-	public final TechnologyType visibilityTechnology;
-	public final boolean tradable;
-	public final KindsOfResource resourceKind;
+    public final int food;
+    public final int production;
+    public final int gold;
+    public final boolean tradable;
+    public final KindsOfResource resourceKind;
+    public Vector<Terrain> possibleTerrains;
+    public Vector<TerrainFeature> possibleLandFeatures;
+    public ImprovementType necessaryImprovement;
+    public TechnologyType visibilityTechnology;
 
-	ResourceType(int food, int production, int gold, Vector<Terrain> possibleTerrains, Vector<TerrainFeature> possibleLandFeatures, ImprovementType necessaryImprovement, TechnologyType visibilityTechnology, boolean tradable, KindsOfResource resourceKind) {
-		this.food = food;
-		this.production = production;
-		this.gold = gold;
-		this.possibleTerrains = possibleTerrains;
-		this.possibleLandFeatures = possibleLandFeatures;
-		this.necessaryImprovement = necessaryImprovement;
-		this.visibilityTechnology = visibilityTechnology;
-		this.tradable = tradable;
-		this.resourceKind = resourceKind;
-	}
+    ResourceType(int food, int production, int gold, boolean tradable, KindsOfResource resourceKind) {
+        this.food = food;
+        this.production = production;
+        this.gold = gold;
+        this.tradable = tradable;
+        this.resourceKind = resourceKind;
+    }
+
+    public void initializeVectors() {
+        this.possibleLandFeatures = new Vector<>();
+        this.possibleTerrains = new Vector<>();
+        this.necessaryImprovement = null;
+        this.visibilityTechnology = null;
+    }
 }

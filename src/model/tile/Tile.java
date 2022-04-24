@@ -8,40 +8,122 @@ import model.civilization.city.City;
 import model.improvement.Improvement;
 import model.improvement.ImprovementType;
 import model.resource.Resource;
+import model.resource.ResourceType;
 import model.unit.Armed;
 import model.unit.Civilian;
 import model.unit.Unit;
-
+// TODO added get available resource
 public class Tile {
-
+	private int pCoordinate;
+	private int qCoordinate;
+	private int mapNumber;
 	private Terrain terrain;
 	private TerrainFeature feature;
-	private VisibilityState state;
 	private Civilization civilization;
 	private Player player;
 	private City innerCity;
 	private Armed armedUnit;
 	private Civilian civilianUnit;
-	private Vector<ImprovementType> builtImprovements;
-	private Vector<Resource> availableResources;
+	private Improvement builtImprovement;
+	private Resource availableResource;
 	private boolean hasRoad;
 	private boolean hasRailRoad;
 	private Boarder[] nearbyBoarders;
 	private boolean isDestroyed;
 	private Vector<Person> peopleInside;
 
+	public Civilization getCivilization() {
+		return civilization;
+	}
+
+	public int getMapNumber() {
+		return mapNumber;
+	}
+
+	public Armed getArmedUnit() {
+		return armedUnit;
+	}
+
+	public void setArmedUnit(Armed armedUnit) {
+		this.armedUnit = armedUnit;
+	}
+
+	public Civilian getCivilianUnit() {
+		return civilianUnit;
+	}
+
+	public void setCivilianUnit(Civilian civilianUnit) {
+		this.civilianUnit = civilianUnit;
+	}
+
+	public Resource getAvailableResource() {
+		return availableResource;
+	}
+
+	public void setCivilization(Civilization civilization) {
+		this.civilization = civilization;
+	}
+
+	public int getPCoordinate() {
+		return pCoordinate;
+	}
+
+	public Terrain getTerrain() {
+		return terrain;
+	}
+
+	public void setTerrain(Terrain terrain) {
+		this.terrain = terrain;
+	}
+
+	public TerrainFeature getFeature() {
+		return this.feature;
+	}
+
+	public void setFeature(TerrainFeature feature) {
+		this.feature = feature;
+	}
+
+	public void setPCoordinate(int pCoordinate) {
+		this.pCoordinate = pCoordinate;
+	}
+
+	public void setBoarder(Boarder boarder, int i){
+		this.nearbyBoarders[i] = boarder;
+	}
+	public Boarder getBoarder(int i){
+		return nearbyBoarders[i];
+	}
+	public int getBoarderDirection(Boarder boarder){
+		for(int i = 0; i < 6; i++){
+			if(this.nearbyBoarders[i].equals(boarder))
+				return i;
+		}
+		return -1;
+	}
+
+	public int getQCoordinate() {
+		return qCoordinate;
+	}
+
+	public void setQCoordinate(int qCoordinate) {
+		this.qCoordinate = qCoordinate;
+	}
 
 	public Vector<Person> getPeopleInside() {
 		return peopleInside;
 	}
 
-	public Tile(Terrain terrain, TerrainFeature feature, Civilization civilization, Vector<Resource> availableResources) {
+	public Tile(Terrain terrain, TerrainFeature feature, Civilization civilization, Resource availableResources, int p, int q, int number) {
 		this.terrain = terrain;
 		this.feature = feature;
 		nearbyBoarders = new Boarder[6];
 		this.civilization = civilization;
-		this.availableResources = availableResources;
+		this.availableResource = availableResources;
 		this.isDestroyed = false;
+		pCoordinate = p;
+		qCoordinate = q;
+		this.mapNumber = number;
 	}
 
 	public void addPerson(Person person) {
@@ -51,13 +133,13 @@ public class Tile {
 		peopleInside.remove(person);
 	}
 	public void buildImprovement(Improvement improvement){
-		builtImprovements.add(improvement.getType());
+		builtImprovement = improvement;;
 	}
 	public void removeImprovement(Improvement improvement){
-		builtImprovements.remove(improvement.getType());
+		builtImprovement = null;
 	}
-	public void removeResource(Resource resource){
-		availableResources.remove(resource);
+	public void removeResource(){
+		availableResource = null;
 	}
 	public boolean doesHaveRoad() {
 		return hasRoad;
@@ -66,7 +148,6 @@ public class Tile {
 	public void buildRoad() {
 		this.hasRoad = true;
 	}
-	public void setBoarder(Boarder boarder, int i){}
 	public Boarder getBoarderInfo(int i){return nearbyBoarders[i];}
 	public boolean isHasRailRoad() {
 		return hasRailRoad;
@@ -89,29 +170,49 @@ public class Tile {
 		isDestroyed = destroyed;
 	}
 
-	public Tile() {
-		// TODO - implement Cell.Cell
-		throw new UnsupportedOperationException();
+	public Tile(int p, int q, int number) {
+		pCoordinate = p;
+		qCoordinate = q;
+		nearbyBoarders = new Boarder[6];
+        this.mapNumber = number;
 	}
 
 	public int getFoodYield() {
-		// TODO - implement Cell.getFoodYield
-		throw new UnsupportedOperationException();
+		int yield = 0;
+		yield += terrain.food;
+		if(feature != null)
+			yield += feature.food;
+        if(availableResource != null)
+            yield += availableResource.getFood();
+		return yield;
 	}
 
 	public int getGoldYield() {
-		// TODO - implement Cell.getGoldYield
-		throw new UnsupportedOperationException();
+		int yield = 0;
+		yield += terrain.gold;
+		if(feature != null)
+			yield += feature.gold;
+        if(availableResource != null)
+            yield += availableResource.getGold();
+		return yield;
 	}
 
 	public int getProductionYield() {
-		// TODO - implement Cell.getProductionYield
-		throw new UnsupportedOperationException();
+		int yield = 0;
+		yield += terrain.production;
+		if(feature != null)
+			yield += feature.production;
+        if(availableResource != null)
+            yield += availableResource.getProduction();
+		return yield;
 	}
 
 	public int getCombatModifierRate() {
-		// TODO - implement Cell.getCombatModifierRate
-		throw new UnsupportedOperationException();
+		int cMRate = 0;
+		cMRate += terrain.combatModifier;
+		if(feature != null)
+			cMRate += feature.combatModifiers;
+		return cMRate;
 	}
 
 	public int getMovementCost() {
@@ -121,13 +222,11 @@ public class Tile {
 	}
 
 	public boolean isPassable() {
-		// TODO - implement Cell.isPassable
-		throw new UnsupportedOperationException();
+		return this.terrain.passable;
 	}
 
 	public void buildRoute() {
-		// TODO - implement Cell.buildRoute
-		throw new UnsupportedOperationException();
+		this.hasRoad = true;
 	}
 
 	public boolean getHasRoute() {
@@ -135,8 +234,7 @@ public class Tile {
 	}
 
 	public void removeFeature() {
-		// TODO - implement Cell.removeFeature
-		throw new UnsupportedOperationException();
+		this.feature = null;
 	}
 
 	/**
@@ -144,8 +242,8 @@ public class Tile {
 	 * @param improvement
 	 */
 	public void removeBuiltImprovements(ImprovementType improvement) {
-		// TODO - implement Cell.removeBuiltImprovements
-		throw new UnsupportedOperationException();
+		if(this.builtImprovement.getType().equals(improvement))
+			this.builtImprovement = null;
 	}
 
 	/**
@@ -153,29 +251,41 @@ public class Tile {
 	 * @param unit
 	 */
 	public void removeUnit(Unit unit) {
-		// TODO - implement Cell.removeUnit
-		throw new UnsupportedOperationException();
+		if(this.civilianUnit.equals(unit))
+			this.civilianUnit = null;
+		else if(this.armedUnit.equals(unit))
+			this.armedUnit = null;
 	}
 
 	public boolean getIsDestroyed() {
-		// TODO - implement Cell.getIsDestroyed
-		throw new UnsupportedOperationException();
+		return isDestroyed;
 	}
 
 	public void destroy() {
-		// TODO - implement Cell.destroy
-		throw new UnsupportedOperationException();
+		this.isDestroyed = true;
 	}
 
-	public VisibilityState getState() {
-		return state;
+	public Improvement getBuiltImprovement() {
+		return builtImprovement;
 	}
 
-	public void setState(VisibilityState state) {
-		this.state = state;
+	public void setBuiltImprovement(Improvement builtImprovement) {
+		this.builtImprovement = builtImprovement;
 	}
 
-	enum VisibilityState{
+	public void setAvailableResource(ResourceType resourceType){
+		this.availableResource = new Resource(resourceType);
+	}
+	public Vector<Tile> getAdjacentTiles(){
+		Vector<Tile> adjacentTiles = new Vector<>();
+		Tile tempTile;
+		for(int i = 0; i < 6; i++){
+			if((tempTile = this.nearbyBoarders[i].getOtherTile(this)) != null)
+				adjacentTiles.add(tempTile);
+		}
+		return adjacentTiles;
+	}
+	public enum VisibilityState{
 		VISIBLE,
 		DISCOVERED,
 		FOG_OF_WAR
