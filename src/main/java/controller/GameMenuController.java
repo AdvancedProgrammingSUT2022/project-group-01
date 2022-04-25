@@ -1,48 +1,112 @@
 package controller;
 
 import model.Player;
-import java.util.*;
-public class GameMenuController extends Controller{
 
-	private Vector<Player> players;
+import java.util.HashMap;
+import java.util.Vector;
 
-	/**
-	 * 
-	 * @param players
-	 */
-	public GameMenuController(Vector<Player> players) {
-		// TODO - implement controller.GameMenuController.controller.GameMenuController
-		throw new UnsupportedOperationException();
-	}
+public class GameMenuController {
 
-	public void moveUnit(HashMap<String, String> args) {
-		// TODO - implement controller.GameMenuController.moveUnit
-		throw new UnsupportedOperationException();
-	}
+    private Vector<Player> players;
 
-	public void attackUnit(HashMap<String, String> args) {
-		// TODO - implement controller.GameMenuController.attackUnit
-		throw new UnsupportedOperationException();
-	}
+    /**
+     * @param players
+     */
+    public GameMenuController(Vector<Player> players) {
+        // TODO - implement controller.GameMenuController.controller.GameMenuController
+        throw new UnsupportedOperationException();
+    }
 
-	public void nextTurn(HashMap<String, String> args) {
-		// TODO - implement controller.GameMenuController.nextTurn
-		throw new UnsupportedOperationException();
-	}
+    //SELECT:
+    public String selectUnit(HashMap<String, String> args) {
+        return null;
+    }
 
-	public void research(HashMap<String, String> args) {
-		// TODO - implement controller.GameMenuController.research
-		throw new UnsupportedOperationException();
-	}
+    public String selectCity(HashMap<String, String> args) {
+        return null;
+    }
 
-	public void product(HashMap<String, String> args) {
-		// TODO - implement controller.GameMenuController.product
-		throw new UnsupportedOperationException();
-	}
+    //UNIT:
+    public String unitMove(HashMap<String, String> args) {
+        return null;
+    }
 
-	public void attackFromCity(HashMap<String, String> args) {
-		// TODO - implement controller.GameMenuController.attackFromCity
-		throw new UnsupportedOperationException();
-	}
+    public String unitSleep(HashMap<String, String> args) {
+        return null;
+    }
 
+    public String unitAlert(HashMap<String, String> args) {
+        return null;
+    }
+
+    public String unitFortify(HashMap<String, String> args) {
+        return null;
+    }
+
+    public String unitFortifyUntilHeal(HashMap<String, String> args) {
+        return null;
+    }
+
+    public String unitGarrison(HashMap<String, String> args) {
+        return null;
+    }
+
+    public String unitSetup(HashMap<String, String> args) {
+        return null;
+    }
+
+    public String unitAttack(HashMap<String, String> args) {
+        return null;
+    }
+
+    public String unitFoundCity(HashMap<String, String> args) {
+        return null;
+    }
+
+    public String unitCancelMission(HashMap<String, String> args) {
+        return null;
+    }
+
+    public String unitWake(HashMap<String, String> args) {
+        return null;
+    }
+
+    public String unitDelete(HashMap<String, String> args) {
+        return null;
+    }
+
+    public String unitBuild(HashMap<String, String> args) {
+        return null;
+    }
+
+    public String unitRemove(HashMap<String, String> args) {
+        return null;
+    }
+
+    public String unitRepair(HashMap<String, String> args) {
+        return null;
+    }
+
+    //MAP:
+    public String mapShow(HashMap<String, String> args) {
+        return null;
+    }
+
+    public String mapMove(HashMap<String, String> args) {
+        return null;
+    }
+
+    //GLOBAL:
+    public String menuEnter(HashMap<String, String> args) {
+
+    }
+
+    public String menuExit(HashMap<String, String> args) {
+        ProgramController.setCurrentMenu(Menus.MAIN_MENU);
+        return "Done!";
+    }
+
+    public String currentMenu(HashMap<String, String> args) {
+        return "Game Menu";
+    }
 }

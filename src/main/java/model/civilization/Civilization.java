@@ -5,7 +5,7 @@ import model.technology.TechTree;
 import model.unit.Unit;
 
 import java.util.*;
-//TODO ADDED getter for civilization
+
 public class Civilization {
 
 	private Civilizations civilization;//enum
@@ -13,6 +13,7 @@ public class Civilization {
 	private City capital;
 	private Currency currency;
 	private int Happiness;
+	private SavedMap map;
 	double science;
 	private Vector<Unit> units;//TODO merge with safar
 
@@ -85,9 +86,5 @@ public class Civilization {
 
 	public Vector<City> getCities(){
 		return cities;
-	}
-
-	public Civilizations getCivilization() {
-		return civilization;
 	}
 }
