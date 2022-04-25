@@ -2,7 +2,9 @@ package controller;
 
 import model.Database;
 import model.User;
+import view.GameMenu;
 import view.LoginMenu;
+import view.MainMenu;
 import view.ProfileMenu;
 
 public class ProgramController {
@@ -32,12 +34,31 @@ public class ProgramController {
     }
 
     public void run(){
-        LoginMenuController loginMenuController = new LoginMenuController(database);
-        LoginMenu lm = new LoginMenu(loginMenuController);
-        lm.run();
-        currentMenu = Menus.PROFILE_MENU;
-        ProfileMenuController profileMenuController = new ProfileMenuController(database);
-        ProfileMenu profileMenu = new ProfileMenu(profileMenuController);
-        profileMenu.run();
+
+        while(currentMenu != Menus.EXIT){
+            switch (currentMenu){
+                case LOGIN_MENU:{
+                    LoginMenuController loginMenuController = new LoginMenuController(database);
+                    LoginMenu loginMenu = new LoginMenu(loginMenuController);
+                    loginMenu.run();
+                }break;
+                case PROFILE_MENU:{
+                    ProfileMenuController profileMenuController = new ProfileMenuController(database);
+                    ProfileMenu profileMenu = new ProfileMenu(profileMenuController);
+                    profileMenu.run();
+                }break;
+                case INFO_MENU:{
+                    //TODO talk to safari
+                }break;
+                case GAME_MENU:{
+                    //TODO implement here
+                }break;
+                case MAIN_MENU:{
+                    MainMenuController mainMenuController = new MainMenuController(database);
+                    MainMenu mainMenu = new MainMenu(mainMenuController);
+                    mainMenu.run();
+                }break;
+            }
+        }
     }
 }

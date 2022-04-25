@@ -2,6 +2,7 @@ package controller;
 
 import model.*;
 import java.util.*;
+import java.util.Map;
 
 public class MainMenuController {
 
@@ -47,7 +48,16 @@ public class MainMenuController {
 	}
 
 	public String playGame(HashMap<String, String> args){
-		return null;
+		Vector<User> gamePlayers = new Vector<>();
+		for(Map.Entry<String, String> set : args.entrySet()){
+			if(set.getKey().contains("player")){
+				User user = database.findUserByUsername(set.getValue());
+				if(user == null)
+					return "invalid players!";
+			}
+		}
+		//TODO : START GAME
+		return "Game Started!";
 	}
 
 	public String logOut(HashMap<String, String> args){

@@ -27,13 +27,16 @@ public class CommandProcessor {
             return hashMap;
         HashMap<String, String> out = new HashMap<>();
         for (Map.Entry<String, String> set : hashMap.entrySet()) {
+            boolean inOut = false;
             for (String i : keys) {
-                if (set.getKey().equals("-" + i.charAt(0))) {
-                    out.put(i, set.getValue());
-                } else {
-                    out.put(set.getKey(), set.getValue());
+                if (set.getKey().startsWith("-" + i.charAt(0))) {
+                    out.put(i + set.getKey().substring(2), set.getValue());
+                    inOut = true;
+                    break;
                 }
             }
+            if(!inOut)
+                out.put(set.getKey(), set.getValue());
         }
         HashMap<String, String> realOut = new HashMap<>();
         for(Map.Entry<String, String> set : out.entrySet()){
@@ -75,24 +78,33 @@ public class CommandProcessor {
         return true;
     }
 
+    private static void updateProbableAbbreviations(HashMap<String, String> in, String[] fullForms){
+        for(Map.Entry<String, String> set: in.entrySet()){
+            for(int i=0;i<fullForms.length;i++){
+               // if(set.getKey().startsWith("-"+fullForms[i].charAt(0))
+            }
+        }
+    }
+
     public static HashMap<String, String> extractCommand(String input, Commands command) {
         input = input.toLowerCase();
         input = input.trim();
         input = input.replaceAll("\\s+", " ");
-        if (!input.startsWith(command.offset))
+        if (!input.startsWith(command.getOffset()))
             return null;
-        String[] required = command.requiredKeys;
-        String[] optional = command.optionalKeys;
-        int singleArgsCount = command.singleArgsCount;
+        String[] required = command.getRequiredKeys();
+        String[] optional = command.getOptionalKeys();
+        String[] probableAbbreviation = command.getProbableAbbreviation();
+        int singleArgsCount = command.getSingleArgsCount();
 
-        input = input.substring(command.offset.length());
+        input = input.substring(command.getOffset().length());
         input = input.trim();
         String[] splittedCommand = input.split(" ");
         HashMap<String, String> out = new HashMap<>();
         if(!extractSingleArg(out, splittedCommand, singleArgsCount))
             return null;
         addKeyValues(out, splittedCommand, singleArgsCount);
-        out = replaceAbbreviatedArgs(out,mergeTwoArray(required,optional));
+        out = replaceAbbreviatedArgs(out,mergeTwoArray(mergeTwoArray(required,optional), probableAbbreviation));
         if(!doesContainRequiredKeys(out, required))
             return null;
         return out;

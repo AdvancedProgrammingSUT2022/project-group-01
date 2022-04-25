@@ -77,4 +77,27 @@ public class CommandProcessorTest {
         Assertions.assertNull(result);
     }
 
+    @Test
+    //test without any necessary arg or key value
+    public void testEight(){
+        String input = "play game -p1 salam -p2 hello";
+        HashMap<String, String> answer = new HashMap<>(){{
+            put("player1", "salam");
+            put("player2", "hello");
+        }};
+        HashMap<String, String> result = CommandProcessor.extractCommand(input, Commands.PLAY_GAME);
+        Assertions.assertEquals(answer, result);
+    }
+
+    @Test
+    public void testNine(){
+        String input = "play game --player1 salam -p2 hello";
+        HashMap<String, String> answer = new HashMap<>(){{
+            put("player1", "salam");
+            put("player2", "hello");
+        }};
+        HashMap<String, String> result = CommandProcessor.extractCommand(input, Commands.PLAY_GAME);
+        Assertions.assertEquals(answer, result);
+    }
+
 }

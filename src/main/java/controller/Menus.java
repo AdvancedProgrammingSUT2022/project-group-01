@@ -6,5 +6,7 @@ public enum Menus{
     INFO_MENU,
     LOGIN_MENU,
     PROFILE_MENU,
-    EXIT
+    EXIT;
+
+
 }
