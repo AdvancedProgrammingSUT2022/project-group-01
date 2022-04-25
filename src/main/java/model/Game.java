@@ -3,6 +3,8 @@ package model;
 // TODO added get current Player
 import model.civilization.*;
 import model.civilization.Currency;
+import model.civilization.city.City;
+import model.tile.Tile;
 import model.unit.Unit;
 
 import java.util.*;
@@ -11,7 +13,9 @@ public class Game {
     Vector<Player> players;
     Vector<Trade> trades;
     Player currentPlayer;
-    private Object selectedThing;
+    private City selectedCity;
+    private Tile selectedTile;
+    private Unit selectedUnit;
     private Map map;
     int turn;
 
@@ -45,11 +49,27 @@ public class Game {
         this.currentPlayer = player;
     }
 
-    public Object getSelectedThing() {
-        return selectedThing;
+    public City getSelectedCity() {
+        return selectedCity;
     }
 
-    public void setSelectedThing(Object selectedThing) {
-        this.selectedThing = selectedThing;
+    public void setSelectedCity(City selectedCity) {
+        this.selectedCity = selectedCity;
+    }
+
+    public Tile getSelectedTile() {
+        return selectedTile;
+    }
+
+    public void setSelectedTile(Tile selectedTile) {
+        this.selectedTile = selectedTile;
+    }
+
+    public Unit getSelectedUnit() {
+        return selectedUnit;
+    }
+
+    public void setSelectedUnit(Unit selectedUnit) {
+        this.selectedUnit = selectedUnit;
     }
 }

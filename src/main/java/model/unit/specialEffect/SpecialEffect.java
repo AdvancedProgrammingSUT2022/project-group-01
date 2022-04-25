@@ -11,7 +11,4 @@ public class SpecialEffect {
 		this.effects = List.of(effects);
 	}
 
-	public boolean isResearched(){
-		return true;
-	}
 }

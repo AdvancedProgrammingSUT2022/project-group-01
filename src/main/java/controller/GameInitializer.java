@@ -29,7 +29,8 @@ public class GameInitializer extends Controller{
             Player currentPlayer = playerVector.get(0);
             Tile foundingTile = possibleTiles.get(randomIndex);
             // TODO: Implement warrior
-            Settler starter = new Settler(UnitType.SETTLER);
+            //TODO check settler args
+            Settler starter = new Settler(UnitType.SETTLER,foundingTile, currentPlayer.getCivilization(),game);
             // set settler and ... data
             // add settler to tile & civilization
 

@@ -7,13 +7,15 @@ public class Currency {
     private double food;
 
     public Currency() {
-        // TODO - implement model.civilization.Currency.model.civilization.Currency
-        throw new UnsupportedOperationException();
+        this.gold = 0;
+        this.product = 0;
+        this.food = 0;
     }
 
     public void add(Currency currency) {//todo args?
-        // TODO - implement model.civilization.Currency.add
-        throw new UnsupportedOperationException();
+        this.gold += currency.getGold();
+        this.product += currency.getProduct();
+        this.food += currency.getFood();
     }
 
     public double getGold() {

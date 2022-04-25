@@ -61,68 +61,27 @@ public enum TechnologyType {
 	COMBUSTION(2200, new TechnologyList(REPLACEABLE_PARTS, RAILROAD, DYNAMITE));
 
 	static { // TODO
-		AGRICULTURE.unlocks = List.of();
-		ANIMAL_HUSBANDRY.unlocks = List.of();
-		ARCHERY.unlocks = List.of();
-		MINING.unlocks = List.of();
-		POTTERY.unlocks = List.of();
-		MASONRY.unlocks = List.of();
-		BRONZE_WORKING.unlocks = List.of();
-		CALENDAR.unlocks = List.of();
-		THE_WHEEL.unlocks = List.of();
-		TRAPPING.unlocks = List.of();
-		WRITING.unlocks = List.of();
-
-		// Classical Era
-		CONSTRUCTION.unlocks = List.of();
-		HORSEBACK_RIDING.unlocks = List.of();
-		IRON_WORKING.unlocks = List.of();
-		MATHEMATICS.unlocks = List.of();
-		PHILOSOPHY.unlocks = List.of();
-
-		// Medieval Era
-		CURRENCY.unlocks = List.of();
-		METAL_CASTING.unlocks = List.of();
-		ENGINEERING.unlocks = List.of();
-		CIVIL_SERVICE.unlocks = List.of();
-		THEOLOGY.unlocks = List.of();
-		STEEL.unlocks = List.of();
-		PHYSICS.unlocks = List.of();
-		MACHINERY.unlocks = List.of();
-		EDUCATION.unlocks = List.of();
-		CHIVALRY.unlocks = List.of();
-
-		// Renaissance Era
-		ACOUSTICS.unlocks = List.of();
-		ARCHAEOLOGY.unlocks = List.of();
-		BANKING.unlocks = List.of();
-		GUNPOWDER.unlocks = List.of();
-		METALLURGY.unlocks = List.of();
-		RIFLING.unlocks = List.of();
-		SCIENTIFIC_THEORY.unlocks = List.of();
-		PRINTING_PRESS.unlocks = List.of();
-		CHEMISTRY.unlocks = List.of();
-		ECONOMICS.unlocks = List.of();
-		FERTILIZER.unlocks = List.of();
-		MILITARY_SCIENCE.unlocks = List.of();
-
-		// Industrial Era
-		BIOLOGY.unlocks = List.of();
-		DYNAMITE.unlocks = List.of();
-		STEAM_POWER.unlocks = List.of();
-		ELECTRICITY.unlocks = List.of();
-		RADIO.unlocks = List.of();
-		RAILROAD.unlocks = List.of();
-		REPLACEABLE_PARTS.unlocks = List.of();
-		TELEGRAPH.unlocks = List.of();
-		COMBUSTION.unlocks = List.of();
+		for (TechnologyType value : TechnologyType.values()) {
+			for (TechnologyType tech : value.getPrerequisiteTechs().getTechs()) {
+				tech.unlocks.addTech(value);
+			}
+		}
 	}
 
 	private final int cost;
 	private final TechnologyList prerequisiteTechs;
-	private List<Object> unlocks;
+	private final TechnologyList unlocks;
 	TechnologyType(int cost, TechnologyList prerequisiteTechs){
 		this.cost = cost;
 		this.prerequisiteTechs = prerequisiteTechs;
+		unlocks = new TechnologyList();
+	}
+
+	public int getCost() {
+		return cost;
+	}
+
+	public TechnologyList getPrerequisiteTechs() {
+		return prerequisiteTechs;
 	}
 }

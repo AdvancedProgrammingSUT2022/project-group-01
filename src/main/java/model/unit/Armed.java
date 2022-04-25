@@ -1,13 +1,15 @@
 package model.unit;
 
+import model.Game;
+import model.civilization.Civilization;
 import model.civilization.city.City;
 import model.tile.Tile;
 
 public class Armed extends Unit {
 	private int XP = 0;
 
-	public Armed(UnitType type){
-		super(type);
+	public Armed(UnitType type, Tile tile, Civilization civilization, Game game){
+		super(type, tile, civilization, game);
 	}
 
 	public void attackTile(Tile destinationTile){}

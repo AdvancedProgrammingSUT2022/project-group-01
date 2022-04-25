@@ -6,6 +6,7 @@ import model.technology.TechTree;
 import model.technology.TechnologyType;
 import model.tile.Tile;
 import model.unit.Unit;
+import utils.VectorUtils;
 
 import java.util.*;
 
@@ -23,6 +24,12 @@ public class Civilization {
 	private TechTree techTree;//TODO merge with safar
 	private Vector<Civilization> knownCivilizations;
 
+	public Civilization(Civilizations civilization, City capital) {
+		this.civilization = civilization;
+		this.capital = capital;
+
+	}
+
 	public TechTree getResearchTree() {
 		return techTree;
 	}
@@ -36,6 +43,9 @@ public class Civilization {
 		return this.currency;
 	}
 
+	public void addUnit(Unit unit){
+		units.add(unit);
+	}
 
 	public void addNewCity(City city) {//TODO add arguments
 		cities.add(city);
@@ -93,6 +103,9 @@ public class Civilization {
 		return cities;
 	}
 
+	public void increaseCurrency(Currency currency){
+		this.currency.add(currency);
+	}
 	public Civilizations getCivilization() {
 		return civilization;
 	}
@@ -109,7 +122,7 @@ public class Civilization {
 		for (Tile tile : ourCells) {
 			out.addAll(tile.getSight(2));
 		}
-		//TODO make out unique
+		out = VectorUtils.unique(out);
 		return out;
 	}
 }
