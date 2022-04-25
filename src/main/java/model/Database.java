@@ -7,8 +7,7 @@ public class Database {
     private Vector<User> users;
 
     public Database() {
-        // TODO - implement model.Database.model.Database
-        throw new UnsupportedOperationException();
+        users = new Vector<>();
     }
 
     public void addUser(String username, String nickname, String password){

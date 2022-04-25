@@ -3,6 +3,7 @@ package controller;
 import model.Database;
 import model.User;
 import view.LoginMenu;
+import view.ProfileMenu;
 
 public class ProgramController {
 
@@ -31,7 +32,12 @@ public class ProgramController {
     }
 
     public void run(){
-        LoginMenu lm = new LoginMenu(null);
+        LoginMenuController loginMenuController = new LoginMenuController(database);
+        LoginMenu lm = new LoginMenu(loginMenuController);
         lm.run();
+        currentMenu = Menus.PROFILE_MENU;
+        ProfileMenuController profileMenuController = new ProfileMenuController(database);
+        ProfileMenu profileMenu = new ProfileMenu(profileMenuController);
+        profileMenu.run();
     }
 }
