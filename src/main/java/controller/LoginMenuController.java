@@ -46,7 +46,14 @@ public class LoginMenuController {
 	}
 
 	public String menuEnter(HashMap<String, String> args){
-		return "login first!";
+		if(ProgramController.getLoggedInUser() == null)
+			return "login first!";
+		String menuName = args.get("section");
+		if(menuName.equals("main")){
+			ProgramController.setCurrentMenu(Menus.MAIN_MENU);
+			return "Done!";
+		}
+		return "invalid navigation!";
 	}
 
 	public String currentMenu(HashMap<String, String> args){
