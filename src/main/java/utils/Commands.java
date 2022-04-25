@@ -10,7 +10,7 @@ public enum Commands {
         SELECT_CITY("select city", null, new String[]{"name", "position"},0,null),
         //unit
         UNIT_MOVE("unit moveto", new String[]{"position"}, null,0,null),
-        UNIT_SLIP("unit sleep", null, null, 0,null),
+        UNIT_SLEEP("unit sleep", null, null, 0,null),
         UNIT_ALERT("unit alert", null,null,0,null),
         UNIT_FORTIFY("unit fortify",null,null,0,null),
         UNIT_FORTIFY_UNTIL_HEAL("unit fortify heal",null,null,0,null),

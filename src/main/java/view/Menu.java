@@ -1,6 +1,5 @@
 package view;
 
-import model.Command;
 import utils.CommandProcessor;
 import utils.Commands;
 

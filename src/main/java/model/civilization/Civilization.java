@@ -13,6 +13,7 @@ public class Civilization {
 	private City capital;
 	private Currency currency;
 	private int Happiness;
+	private SavedMap map;
 	double science;
 	private Vector<Unit> units;//TODO merge with safar
 

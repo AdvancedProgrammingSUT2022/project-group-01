@@ -7,6 +7,8 @@ import view.LoginMenu;
 import view.MainMenu;
 import view.ProfileMenu;
 
+import java.io.IOException;
+
 public class ProgramController {
 
     private static User loggedInUser = null;
@@ -33,8 +35,8 @@ public class ProgramController {
         ProgramController.loggedInUser = loggedInUser;
     }
 
-    public void run(){
-
+    public void run() {
+        database.load();
         while(currentMenu != Menus.EXIT){
             switch (currentMenu){
                 case LOGIN_MENU:{
@@ -60,5 +62,6 @@ public class ProgramController {
                 }break;
             }
         }
+        database.save();
     }
 }
