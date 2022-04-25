@@ -136,32 +136,33 @@ public class MapGenerationController extends Controller {
     private TerrainFeature getFeatureByHumidity(double noise, Tile tile) {
         Terrain terrain = tile.getTerrain();
         switch (terrain) {
-            case DESERT -> {
+            case DESERT : {
                 if (noise < 0.3) return TerrainFeature.OASIS;
                 if (noise > 0.3) {
                     if (tile.hasRiverNearby()) return TerrainFeature.FLOOD_PLAINS;
                 }
                 return null;
             }
-            case GRASSLAND -> {
+            case GRASSLAND : {
                 if (noise < 0.3) return TerrainFeature.FOREST;
                 if (noise < 0.6) return TerrainFeature.MARSH;
                 return null;
             }
-            case HILLS, PLAINS -> {
+            case HILLS :
+            case PLAINS : {
                 if (noise < 0.3) return TerrainFeature.FOREST;
                 if (noise < 0.6) return TerrainFeature.JUNGLE;
                 return null;
             }
-            case OCEAN -> {
+            case OCEAN : {
                 if (noise < 0.3) return TerrainFeature.ICE;
                 return null;
             }
-            case TUNDRA -> {
+            case TUNDRA : {
                 if (noise < 0.4) return TerrainFeature.FOREST;
                 return null;
             }
-            default -> {
+            default : {
                 return null;
             }
         }

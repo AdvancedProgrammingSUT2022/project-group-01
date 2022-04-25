@@ -13,7 +13,6 @@ import java.util.Vector;
 
 public class GameInitializer extends Controller{
     Game game;
-
     public GameInitializer(Game game) {
         this.game = game;
     }

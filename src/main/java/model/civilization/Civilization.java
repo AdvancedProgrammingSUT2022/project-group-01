@@ -1,7 +1,10 @@
 package model.civilization;
 
 import model.civilization.city.City;
+import model.map.SavedMap;
 import model.technology.TechTree;
+import model.technology.TechnologyType;
+import model.tile.Tile;
 import model.unit.Unit;
 
 import java.util.*;
@@ -12,22 +15,21 @@ public class Civilization {
 	private Vector<City> cities;
 	private City capital;
 	private Currency currency;
-	private int Happiness;
+	private int happiness;
 	private SavedMap map;
 	double science;
 	private Vector<Unit> units;//TODO merge with safar
 
-	private TechTree technology;//TODO merge with safar
+	private TechTree techTree;//TODO merge with safar
 	private Vector<Civilization> knownCivilizations;
 
 	public TechTree getResearchTree() {
-		// TODO - implement model.civilization.Civilization.getResearchList
-		throw new UnsupportedOperationException();
+		return techTree;
 	}
 
-	public void newResearch() {
-		// TODO - implement model.civilization.Civilization.newResearch
-		throw new UnsupportedOperationException();
+	public void newResearch(TechnologyType technologyType) {
+		//TODO handle on next checkpoint
+		techTree.research(technologyType);
 	}
 
 	public Currency getCurrency() {
@@ -35,9 +37,8 @@ public class Civilization {
 	}
 
 
-	public void addNewCity() {//TODO add arguments
-		// TODO - implement model.civilization.Civilization.addNewCity
-		throw new UnsupportedOperationException();
+	public void addNewCity(City city) {//TODO add arguments
+		cities.add(city);
 	}
 
 	private void updateCurrency() {//TODO for each turn
@@ -51,26 +52,30 @@ public class Civilization {
 	}
 
 	public void increaseHappiness(int amount){
-		// TODO - implement model.civilization.Civilization.increaseHappiness
+		happiness += amount;
 	}
 
 	public void decreaseHappiness(int amount){
-		// TODO - implement model.civilization.Civilization.decreaseHappiness
+		happiness -= amount;
 	}
 
 	public int getHappiness(){
-		throw new UnsupportedOperationException();
+		return happiness;
 	}
 
 	public double calculateScience(){
-		throw new UnsupportedOperationException();
+		//TODO handle in next checkpoint
+		return 0;
 	}
 
 	public Vector<Civilization> getKnownCivilizations() {
 		return knownCivilizations;
 	}
 
-	public void addKnownCivilization(Civilization civilization){}
+	public void addKnownCivilization(Civilization civilization){
+		if(!knownCivilizations.contains(civilization))
+			knownCivilizations.add(civilization);
+	}
 
 	public double getScience() {
 		return science;
@@ -86,5 +91,25 @@ public class Civilization {
 
 	public Vector<City> getCities(){
 		return cities;
+	}
+
+	public Civilizations getCivilization() {
+		return civilization;
+	}
+
+	public Vector<Tile> visibleTiles(){
+		Vector<Tile> ourCells = new Vector<>();
+		for (City city : cities) {
+			ourCells.addAll(city.getTiles());
+		}
+		for(Unit unit : units) {
+			ourCells.add(unit.getCurrentTile());
+		}
+		Vector<Tile> out = new Vector<>();
+		for (Tile tile : ourCells) {
+			out.addAll(tile.getSight(2));
+		}
+		//TODO make out unique
+		return out;
 	}
 }

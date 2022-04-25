@@ -3,6 +3,7 @@ package model;
 // TODO added get current Player
 import model.civilization.*;
 import model.civilization.Currency;
+import model.unit.Unit;
 
 import java.util.*;
 
@@ -10,6 +11,7 @@ public class Game {
     Vector<Player> players;
     Vector<Trade> trades;
     Player currentPlayer;
+    private Object selectedThing;
     private Map map;
     int turn;
 
@@ -37,8 +39,17 @@ public class Game {
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
+
     // TODO: method ziro paak kon
     public void setCurrentPlayer(Player player){
         this.currentPlayer = player;
+    }
+
+    public Object getSelectedThing() {
+        return selectedThing;
+    }
+
+    public void setSelectedThing(Object selectedThing) {
+        this.selectedThing = selectedThing;
     }
 }

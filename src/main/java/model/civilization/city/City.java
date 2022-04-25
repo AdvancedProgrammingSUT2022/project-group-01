@@ -13,29 +13,56 @@ import model.unit.Unit;
 public class City {
 
 	private Civilization civilization;
-	private Vector<Person> population;
-
+	private final Vector<Person> population;
+	private String name;
 
 	private Currency currency;
 	private ProductionInventory productionInventory;
 	private CityState state;
 	private BuildingInventory buildingInventory;//TODO: merge with parham
-	private Tile center;//todo merge with parham
-	private Vector<Tile> tiles;//todo merge with parham
+	private Tile center;
+	private final Vector<Tile> tiles;
 	private int defencePower;
 	private int attackPower;
-
 
 	private int health;
 
 	private Unit garrisonedUnit;
-	public City() {
-		// TODO - implement model.civilization.city.City.model.civilization.city.City
-		throw new UnsupportedOperationException();
+	public City(String name, Civilization civilization, Vector<Tile> tiles, Tile center) {
+		this.civilization =  civilization;
+		this.population = new Vector<>();
+		this.name = name;
+		this.tiles = tiles;
+		this.center = center;
+		for (Tile tile : tiles) {
+			tile.setCivilization(this.civilization);
+		}
 	}
+
+	public void addTile(Tile tile){
+		tiles.add(tile);
+	}
+
+	public Vector<Tile> getTiles() {
+		return tiles;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+
 
 	public Civilization getCivilization(){
 		throw new UnsupportedOperationException();
+	}
+
+	public void setCivilization(Civilization civilization) {
+		this.civilization = civilization;
 	}
 
 	public ProductionInventory getProductionsList() {
@@ -124,4 +151,5 @@ public class City {
 	public void setCenter(Tile center) {
 		this.center = center;
 	}
+
 }

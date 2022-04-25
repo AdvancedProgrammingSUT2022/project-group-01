@@ -37,6 +37,7 @@ public class ProgramController {
 
     public void run() {
         database.load();
+        TileController.initializeEnums();
         while(currentMenu != Menus.EXIT){
             switch (currentMenu){
                 case LOGIN_MENU:{

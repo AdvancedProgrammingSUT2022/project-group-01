@@ -285,6 +285,18 @@ public class Tile {
 		}
 		return adjacentTiles;
 	}
+
+	public Vector<Tile> getSight(int depth){
+		if(depth == 1)
+			return getAdjacentTiles();
+		Vector<Tile> out = new Vector<>(getAdjacentTiles());
+		for (Tile adjacentTile : getAdjacentTiles()) {
+			if(!adjacentTile.terrain.isHighland || this.terrain.isHighland)
+				out.addAll(adjacentTile.getAdjacentTiles());
+		}
+		return out;
+	}
+
 	public enum VisibilityState{
 		VISIBLE,
 		DISCOVERED,

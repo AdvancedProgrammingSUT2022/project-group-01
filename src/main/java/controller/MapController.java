@@ -27,19 +27,6 @@ public class MapController extends Controller {
         return "position is set";
     }
 
-    public String setMapOnCity(String cityName) {
-        // TODO : implement after adding city to map
-        City city;
-        if ((city = checkCityValidity(cityName)) == null) return "you dog. There is no city with this name.";
-        game.getCurrentPlayer().setMapCenterTile(city.getCenter());
-        return "The map is set on " + cityName;
-    }
-
-    private City checkCityValidity(String name) {
-        // TODO : implement
-        return null;
-    }
-
     public String moveMap(String direction, int c) {
         //  TODO : IMPLEMENT BY VOROODI AMNAM
         if (!(direction.equals("up") || direction.equals("down") || direction.equals("left") || direction.equals("right")))
@@ -49,14 +36,16 @@ public class MapController extends Controller {
     }
 
     public void moveCenterTile(int c, String direction) {
+        int directionNumber;
+        switch(direction){
+            case "left" : directionNumber = 4;break;
+            case "right" : directionNumber = 1;break;
+            case "up" : directionNumber = 0;break;
+            case "down" : directionNumber = 3;break;
+            default: directionNumber = 2;break;
+        }
         Tile endPointTile = game.getCurrentPlayer().getMapCenterTile();
-        int directionNumber = switch (direction) {
-            case "left" -> 4;
-            case "right" -> 1;
-            case "up" -> 0;
-            case "down" -> 3;
-            default -> 2;
-        };
+
         for (int i = 0; i < c; i++) {
             if (endPointTile.getBoarderInfo(directionNumber).getOtherTile(endPointTile) != null)
                 endPointTile = endPointTile.getBoarderInfo(directionNumber).getOtherTile(endPointTile);

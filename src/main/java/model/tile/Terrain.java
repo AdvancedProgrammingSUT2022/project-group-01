@@ -55,7 +55,7 @@ public enum Terrain {
 			this.possibleResources = new Vector<>(List.of(ResourceType.IRON,ResourceType.HORSES,ResourceType.DEER,ResourceType.SILVER,ResourceType.GEMS,ResourceType.MARBLE,ResourceType.FURS));
 		}
 	};
-
+	//TODO make public -> private
 	public final int gold;
 	public final int combatModifier;
 	public final int movementCost;

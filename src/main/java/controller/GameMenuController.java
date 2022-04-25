@@ -1,5 +1,6 @@
 package controller;
 
+import model.Game;
 import model.Player;
 
 import java.util.HashMap;
@@ -7,14 +8,14 @@ import java.util.Vector;
 
 public class GameMenuController {
 
-    private Vector<Player> players;
-
+    private Game game;
+    private MapController mapController;
     /**
-     * @param players
+     * @param
      */
-    public GameMenuController(Vector<Player> players) {
-        // TODO - implement controller.GameMenuController.controller.GameMenuController
-        throw new UnsupportedOperationException();
+    public GameMenuController(Game game) {
+        this.game = game;
+        mapController = new MapController(game);
     }
 
     //SELECT:
@@ -23,6 +24,10 @@ public class GameMenuController {
     }
 
     public String selectCity(HashMap<String, String> args) {
+        //name selecting
+
+        //position selecting
+        //TODO implement here
         return null;
     }
 
@@ -44,6 +49,7 @@ public class GameMenuController {
     }
 
     public String unitFortifyUntilHeal(HashMap<String, String> args) {
+
         return null;
     }
 
@@ -76,6 +82,7 @@ public class GameMenuController {
     }
 
     public String unitBuild(HashMap<String, String> args) {
+
         return null;
     }
 
@@ -89,16 +96,24 @@ public class GameMenuController {
 
     //MAP:
     public String mapShow(HashMap<String, String> args) {
-        return null;
+        if(args.containsKey("position")){
+            int position = Integer.parseInt(args.get("position"));
+            return mapController.setPosition(position);
+        }else if(args.containsKey("cityname")){
+            //TODO boro positionesho peyda kon va mesle bala
+        }
+        return "invalid command!";
     }
 
     public String mapMove(HashMap<String, String> args) {
-        return null;
+        String section = args.get("section");
+        int count = Integer.parseInt(args.get("count"));
+        return mapController.moveMap(section, count);
     }
 
     //GLOBAL:
     public String menuEnter(HashMap<String, String> args) {
-
+        return "invalid navigation";
     }
 
     public String menuExit(HashMap<String, String> args) {
@@ -108,5 +123,13 @@ public class GameMenuController {
 
     public String currentMenu(HashMap<String, String> args) {
         return "Game Menu";
+    }
+
+    public String increaseResource(HashMap<String, String> args) {
+
+    }
+
+    public String spawnUnit(HashMap<String, String> args) {
+
     }
 }

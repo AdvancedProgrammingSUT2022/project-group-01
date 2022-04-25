@@ -24,6 +24,7 @@ public enum Commands {
         UNIT_BUILD("unit build",null,null,1,null),
         UNIT_REMOVE("unit remove", null,null,1,null),
         UNIT_REPAIR("unit repair", null,null,0,null),
+    //MAP
         MAP_SHOW("map show", null,new String[]{"position","cityname"},0,null),
         MAP_MOVE("map move", new String[]{"count"}, null, 1,null),
     //LOGIN
@@ -36,6 +37,9 @@ public enum Commands {
         MENU_ENTER("menu enter", null, null, 1,null),
         MENU_EXIT("menu exit", null,null,0,null),
         CURRENT_MENU("menu show-current",null,null,0,null),
+    //CHEATS
+        INCREASE_RESOURCE("increase", new String[]{"amount"}, null, 1, null),
+        SPAWN_UNIT("spawn unit", new String[]{"position"}, null,1,null),
     //PROFILE
         PROFILE_CHANGE("profile change",null, new String[]{"new","current"},1,null);
 
