@@ -6,3 +6,4 @@ UML.*.*
 .idea
 .*.swp
 target
+src/out
