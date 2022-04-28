@@ -1,7 +1,6 @@
 package model.building;
 import model.Player;
 import model.civilization.Civilization;
-import model.civilization.Job;
 import model.civilization.city.City;
 import model.resource.ResourceType;
 import model.technology.TechnologyType;

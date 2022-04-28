@@ -61,9 +61,6 @@ public class City {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setCivilization(Civilization civilization) {
-		this.civilization = civilization;
-	}
 
 	public ProductionInventory getProductionsList() {
 		// TODO - implement model.civilization.city.City.getProductionsList
