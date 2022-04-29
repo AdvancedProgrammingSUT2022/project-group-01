@@ -23,6 +23,9 @@ public class Person {
 		tile = newTile;
 	}
 
+	public Tile getTile() {
+		return tile;
+	}
 
 
 }

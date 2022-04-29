@@ -9,6 +9,7 @@ import model.civilization.Person;
 import model.civilization.production.ProductionInventory;
 import model.tile.Tile;
 import model.unit.Unit;
+import utils.NormalPair;
 
 public class City {
 
@@ -39,8 +40,10 @@ public class City {
 		tiles.add(center);
 		tiles.addAll(center.getAdjacentTiles());
 		nextTiles = new Vector<>();
-		this.currency = new Currency(5,5,5);//check this values
+		this.currency = new Currency(5,5,5);//TODO: check this values
 	}
+
+
 
 	public Vector<Tile> getTiles() {
 		return tiles;
@@ -54,7 +57,9 @@ public class City {
 		this.name = name;
 	}
 
-
+	public Currency getCurrency() {
+		return currency;
+	}
 
 	public Civilization getCivilization(){
 		throw new UnsupportedOperationException();
@@ -90,6 +95,10 @@ public class City {
 			changes.add(tile.getCurrency());
 		}
 		//you can show changes like food: +2 and ...
+	}
+
+	private void handlePopulationIncrease(){
+
 	}
 
 	public void destroy() {
@@ -180,8 +189,13 @@ public class City {
 		}
 	}
 
-	public Vector<Tile> getPurchasableTiles(){
-		return Tile.getAdjacentForArea(tiles, 1);
+	public Vector<NormalPair<Tile, Integer>> getPurchasableTiles(){
+		Vector<Tile> adjacentTiles = Tile.getAdjacentForArea(this.tiles, 1);
+		Vector<NormalPair<Tile, Integer>> out = new Vector<>();
+		for (Tile adjacentTile : adjacentTiles) {
+			out.add(new NormalPair<>(adjacentTile, 50));
+		}
+		return out;
 	}
 
 	public void addNewTiles(Vector<Tile> tiles){

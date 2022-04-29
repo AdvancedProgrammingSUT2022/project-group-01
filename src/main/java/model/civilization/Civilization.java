@@ -129,4 +129,6 @@ public class Civilization {
 	public void deleteCity(City city){
 		cities.remove(city);
 	}
+
+
 }
