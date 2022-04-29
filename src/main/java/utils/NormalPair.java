@@ -1,12 +1,12 @@
 package utils;
 
 /**
- * Pair is class that contain two element of Type P and Q
+ * Normal Pair is class that contain two element of Type P and Q
  *
- * @param <P> type of first component, should be Comparable
- * @param <Q> type of second component, should be Comparable
+ * @param <P> type of first component
+ * @param <Q> type of second component
  */
-public class Pair<P extends Comparable<P>, Q extends Comparable<Q>> implements Comparable<Pair<P, Q>> {
+public class NormalPair<P, Q> {
 	private P first;
 	private Q second;
 
@@ -16,7 +16,7 @@ public class Pair<P extends Comparable<P>, Q extends Comparable<Q>> implements C
 	 * @param e1 first element of pair
 	 * @param e2 second element of pair
 	 */
-	public Pair(P e1, Q e2) {
+	public NormalPair(P e1, Q e2) {
 		this.first = e1;
 		this.second = e2;
 	}
@@ -56,15 +56,5 @@ public class Pair<P extends Comparable<P>, Q extends Comparable<Q>> implements C
 	public void setSecond(Q second) {
 		this.second = second;
 	}
-
-	/**
-	 * @param o other pair to compare this to
-	 * @return result of compare between this object and other object
-	 */
-	@Override
-	public int compareTo(Pair<P, Q> o) {
-		if (first.compareTo(o.getFirst()) != 0)
-			return first.compareTo(o.getFirst());
-		return second.compareTo(o.getSecond());
-	}
 }
+
