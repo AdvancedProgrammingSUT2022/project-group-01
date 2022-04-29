@@ -32,7 +32,7 @@ public class City {
 	private Unit garrisonedUnit;
 	public City(String name, Civilization civilization, Tile center) {
 		this.civilization =  civilization;
-		this.population = new Vector<>(Arrays.asList(new Person(center));
+		this.population = new Vector<>(Arrays.asList(new Person(center)));
 		this.name = name;
 		this.center = center;
 		tiles = new Vector<>();
