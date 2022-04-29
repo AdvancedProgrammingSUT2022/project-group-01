@@ -4,25 +4,25 @@ import model.tile.Tile;
 
 public class Person {
 
-	private Tile tile;//TODO: merge with parham
+	private Tile tile = null;//TODO: merge with parham
 	private Currency currency;
 
 	public Person(Tile tile) {
-		currency = new Currency(0,1,-1);
+		currency = new Currency(0,1,-2);
 	}
 
 	/**
 	 * 
 	 * @param newTile
 	 */
-	public void changeTile(Tile newTile) {
-
+	public void setTile(Tile newTile) {
+		if(tile != null){
+			tile.removePerson(this);
+		}
+		newTile.addPerson(this);
+		tile = newTile;
 	}
 
-	/**
-	 * 
-	 * @param newJob
-	 */
 
 
 }
