@@ -6,10 +6,10 @@ public class Currency {
     private double product;
     private double food;
 
-    public Currency() {
-        this.gold = 0;
-        this.product = 0;
-        this.food = 0;
+    public Currency(double gold, double product, double food) {
+        this.gold = gold;
+        this.product = product;
+        this.food = food;
     }
 
     public void add(Currency currency) {//todo args?
@@ -18,27 +18,21 @@ public class Currency {
         this.food += currency.getFood();
     }
 
-    public double getGold() {
-        return gold;
+    public void increase(double gold, double product, double food){
+        this.gold += gold;
+        this.product += product;
+        this.food += food;
     }
 
-    public void setGold(double gold) {
-        this.gold = gold;
+    public double getGold() {
+        return gold;
     }
 
     public double getProduct() {
         return product;
     }
 
-    public void setProduct(double product) {
-        this.product = product;
-    }
-
     public double getFood() {
         return food;
-    }
-
-    public void setFood(double food) {
-        this.food = food;
     }
 }

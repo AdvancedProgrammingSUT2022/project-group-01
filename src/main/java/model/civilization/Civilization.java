@@ -125,4 +125,10 @@ public class Civilization {
 		out = VectorUtils.unique(out);
 		return out;
 	}
+
+	public void deleteCity(City city){
+		cities.remove(city);
+	}
+
+
 }

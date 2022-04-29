@@ -4,34 +4,28 @@ import model.tile.Tile;
 
 public class Person {
 
-	private Job job;
-	private Tile tile;//TODO: merge with parham
+	private Tile tile = null;//TODO: merge with parham
 	private Currency currency;
 
 	public Person(Tile tile) {
-		this.tile = tile;
-		// TODO - implement model.civilization.Person.model.civilization.Person
-		throw new UnsupportedOperationException();
+		currency = new Currency(0,1,-2);
 	}
 
 	/**
 	 * 
 	 * @param newTile
 	 */
-	public void changeTile(Tile newTile) {
-		// TODO - implement model.civilization.Person.changeTile
-		//TODO: update job
-		throw new UnsupportedOperationException();
+	public void setTile(Tile newTile) {
+		if(tile != null){
+			tile.removePerson(this);
+		}
+		newTile.addPerson(this);
+		tile = newTile;
 	}
 
-	/**
-	 * 
-	 * @param newJob
-	 */
-	public void changeJob(Job newJob) {
-		// TODO - implement model.civilization.Person.changeJob
-		//TODO: update currency
-		throw new UnsupportedOperationException();
+	public Tile getTile() {
+		return tile;
 	}
+
 
 }

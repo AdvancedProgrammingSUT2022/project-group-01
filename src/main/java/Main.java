@@ -18,10 +18,10 @@ import java.util.Vector;
 
 public class Main {
     public static void main(String[] args)   {
-        ProgramController pc = new ProgramController();
-        pc.run();
+        //ProgramController pc = new ProgramController();
+        //pc.run();
         //to check map uncomment here
-        /*
+
         TileController.initializeEnums();
         Game game = new Game(new Vector<>(), 21);
         MapGenerationController mapgenController = new MapGenerationController(game);
@@ -51,6 +51,6 @@ public class Main {
                 System.out.println();
             }
             input = scanner.nextLine();
-        }*/
+        }
     }
 }

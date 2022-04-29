@@ -150,7 +150,7 @@ public class GameMenuController {
     public String increaseResource(HashMap<String, String> args) {
         String section = args.get("section");
         int amount = Integer.parseInt(args.get("amount"));
-        Currency currency = new Currency();
+        Currency currency = new Currency(0,0,0);
         if(section.equals("gold")){
             currency.setGold(amount);
         }else if(section.equals("product")){
