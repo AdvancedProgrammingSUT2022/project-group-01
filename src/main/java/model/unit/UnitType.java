@@ -5,7 +5,8 @@ import model.resource.ResourceList;
 import model.resource.ResourceType;
 import model.technology.TechnologyList;
 import model.technology.TechnologyType;
-import model.unit.specialEffect.SpecialEffect;
+import model.unit.unitTraits.TraitsList;
+import model.unit.unitTraits.UnitTraits;
 
 public enum UnitType {
 	// Ancient Era
@@ -51,12 +52,12 @@ public enum UnitType {
 	private final int movement;
 	private final ResourceList requiredResources;
 	private final TechnologyList requiredTechs;
-	private final SpecialEffect effect;
+	private final TraitsList traits;
 
 	UnitType(int cost, CombatType combatType, int combatStrength, int rangedCombatStrength, int range, int movement,
 			 ResourceList requiredResources,
 			 TechnologyList requiredTechs,
-			 SpecialEffect effect) {
+			 TraitsList traits) {
 		this.cost = cost;
 		this.combatType = combatType;
 		this.combatStrength = combatStrength;
@@ -65,7 +66,7 @@ public enum UnitType {
 		this.movement = movement;
 		this.requiredResources = requiredResources;
 		this.requiredTechs = requiredTechs;
-		this.effect = effect;
+		this.traits = traits;
 	}
 
 	public boolean canCreate(City city) {
@@ -109,7 +110,7 @@ public enum UnitType {
 		return requiredTechs;
 	}
 
-	public SpecialEffect getEffect() {
-		return effect;
+	public TraitsList getUnitTraits() {
+		return traits;
 	}
 }
