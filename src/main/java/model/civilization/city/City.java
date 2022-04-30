@@ -87,7 +87,7 @@ public class City {
 	}
 
 	private void updateCurrency() {
-		//TODO anything else? + UNIT:
+		//TODO anything else? :
 		Currency changes = new Currency(0,0,0);
 		//don't forget to update changes for unit and ...
 		for(Tile tile : tiles){
