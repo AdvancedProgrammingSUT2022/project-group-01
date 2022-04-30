@@ -9,6 +9,7 @@ import model.technology.TechnologyList;
 import model.tile.Boarder;
 import model.tile.Tile;
 import model.unit.action.*;
+import org.jetbrains.annotations.Nullable;
 import org.mockito.internal.matchers.Or;
 import utils.OrderedPair;
 
@@ -18,17 +19,16 @@ import java.util.Vector;
 
 public class Unit extends Production {
 	public final static int maxHealth = 10;
-	private Tile destTile;
-	private Civilization ownerCivilization;
+	protected Civilization ownerCivilization;
 	private int health;
 	private int movementPoint;
 	private TechnologyList requiredTechnologies;
 	private int cost;
-	private Tile currentTile;
+	protected Tile currentTile;
 	private boolean isHealing;
 	private Game game;
 	private UnitType unitType;
-	private ActionsQueue actionsQueue;
+	protected ActionsQueue actionsQueue;
 
 	public Unit(UnitType type, Tile tile, Civilization civilization, Game game) {
 		this.health = maxHealth;
@@ -41,7 +41,6 @@ public class Unit extends Production {
 		this.game = game;
 		actionsQueue = new ActionsQueue();
 		unitType = type;
-		destTile = null;
 	}
 
 	public UnitType getType() {
@@ -54,21 +53,6 @@ public class Unit extends Production {
 
 	public boolean nextTurn(Civilization civilization, City city) {
 		// TODO : add other functions
-		if (isHealing) {
-			health++;
-			if (health == maxHealth) {
-				isHealing = false;
-			}
-		}
-		if (destTile != null) {
-			Tile nextTile = dijkstra(destTile);
-			if (nextTile == null) {
-				destTile = null;
-				return false;
-			}
-			this.moveTo(nextTile);
-			return true;
-		}
 		return false;
 	}
 
@@ -80,20 +64,7 @@ public class Unit extends Production {
 		// TODO implement this
 	}
 
-	public void setDestTile(Tile tile) {
-		//todo make it boolean
-		this.destTile = tile;
-	}
-
-	public void moveTo(Tile tile) {
-		//todo implement here for armed
-		currentTile.removeUnit(this);
-		tile.setCivilianUnit((Civilian) this);
-		this.currentTile = tile;
-	}
-
-	public void execute(UnitActions actionType) {
-	}
+	public void moveTo(Tile tile) {}
 
 	public int getHealth() {
 		return health;
@@ -109,7 +80,7 @@ public class Unit extends Production {
 		health += deltaHealth;
 	}
 
-	private Tile dijkstra(Tile destination) {
+	private Vector<Tile> dijkstra(Tile destination) {
 		Map gameMap = game.getMap();//TODO get user map in next checkpoint
 
 		PriorityQueue<OrderedPair<Distance, Integer>> heap = new PriorityQueue<>();
@@ -157,12 +128,12 @@ public class Unit extends Production {
 			destination = gameMap.getTileByNumber(par.get(destination.getMapNumber()));
 		}
 		Collections.reverse(path);
-		Tile firstStop = currentTile;
-		for (Tile tile : path) {
-			if (dis.get(tile.getMapNumber()).getTurn() <= 1)
-				firstStop = tile;
-		}
-		return firstStop;
+		Vector<Tile> stopTiles = new Vector<>();
+		for(int i = 1; i + 1 < path.size(); i++)
+			if(dis.get(path.get(i).getMapNumber()).getTurn() < dis.get(path.get(i + 1).getMapNumber()).getTurn())
+				stopTiles.add(path.get(i));
+		stopTiles.add(destination);
+		return stopTiles;
 	}
 
 	public Civilization getOwnerCivilization() {
@@ -271,6 +242,21 @@ public class Unit extends Production {
 	 */
 	public void cancel(){
 		actionsQueue.resetQueue();
+	}
+
+	/**
+	 * move this unit to destination
+	 * @param destTile is destination of this unit
+	 */
+	public void goTo(Tile destTile){
+		Vector<Tile> stopPoints = dijkstra(destTile);
+		// TODO : handle no path condition
+		assert stopPoints != null;
+
+		actionsQueue.resetQueue();
+		for (Tile stopPoint : stopPoints) {
+			actionsQueue.addAction(new Move(this, stopPoint));
+		}
 	}
 
 }

@@ -10,6 +10,14 @@ public class Civilian extends Unit {
 		super(type, tile, civilization, game);
 	}
 
-	public void captureUnit(Civilization enemy){
+	public void captureUnit(Unit enemy){
+		ownerCivilization = enemy.getOwnerCivilization();
+	}
+
+	public void moveTo(Tile tile) {
+		currentTile.removeUnit(this);
+		tile.setCivilianUnit((Civilian) this);
+		this.currentTile = tile;
+		tile.setCivilianUnit(this);
 	}
 }
