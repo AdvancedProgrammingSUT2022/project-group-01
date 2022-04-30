@@ -62,28 +62,6 @@ public class Game {
         this.currentPlayer = player;
     }
 
-    public City getSelectedCity() {
-        return selectedCity;
-    }
-
-    public void setSelectedCity(City selectedCity) {
-        this.selectedCity = selectedCity;
-    }
-
-    public Tile getSelectedTile() {
-        return selectedTile;
-    }
-
-    public void setSelectedTile(Tile selectedTile) {
-        this.selectedTile = selectedTile;
-    }
-
-    public Unit getSelectedUnit() {
-        return selectedUnit;
-    }
-
-    public void setSelectedUnit(Unit selectedUnit) {
-        this.selectedUnit = selectedUnit;
     public Object getSelectedObject() {
         return selectedObject;
     }

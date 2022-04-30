@@ -41,7 +41,8 @@ public class GameController {
             Tile tile = game.getMap().getTileByNumber(Integer.parseInt(value));
             if(tile == null)
                 return "Invalid position";
-
+            if(tile.getInnerCity() == null)
+                return "";
         }
 
     }
