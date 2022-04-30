@@ -1,16 +1,14 @@
 package model.unit.action;
 
-import model.tile.Tile;
 import model.unit.Unit;
 
-public class Move implements Action {
+public class Fortify implements Action {
 	private final Unit unit;
-	private final Tile destination;
-	private int remainedTurns = 1;
+	private int remainedTurns;
 
-	public Move(Unit unit, Tile destination){
+	public Fortify(Unit unit, int turns){
 		this.unit = unit;
-		this.destination = destination;
+		this.remainedTurns = turns;
 	}
 
 	@Override
@@ -20,12 +18,12 @@ public class Move implements Action {
 
 	@Override
 	public boolean isPossible() {
-		return destination.getSameTypeUnit(unit) == null;
+		return unit.getHealth() < Unit.maxHealth;
 	}
 
 	@Override
 	public void doAction() {
-		unit.moveTo(destination);
+		unit.changeHealth(+1);
 		remainedTurns --;
 	}
 }

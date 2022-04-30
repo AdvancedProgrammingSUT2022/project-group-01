@@ -8,7 +8,7 @@ import model.civilization.production.Production;
 import model.technology.TechnologyList;
 import model.tile.Boarder;
 import model.tile.Tile;
-import model.unit.action.UnitActions;
+import model.unit.action.*;
 import org.mockito.internal.matchers.Or;
 import utils.OrderedPair;
 
@@ -17,7 +17,7 @@ import java.util.PriorityQueue;
 import java.util.Vector;
 
 public class Unit extends Production {
-	private final static int maxHealth = 10;
+	public final static int maxHealth = 10;
 	private Tile destTile;
 	private Civilization ownerCivilization;
 	private int health;
@@ -28,6 +28,7 @@ public class Unit extends Production {
 	private boolean isHealing;
 	private Game game;
 	private UnitType unitType;
+	private ActionsQueue actionsQueue;
 
 	public Unit(UnitType type, Tile tile, Civilization civilization, Game game) {
 		this.health = maxHealth;
@@ -38,6 +39,7 @@ public class Unit extends Production {
 		this.isHealing = false;
 		this.ownerCivilization = civilization;
 		this.game = game;
+		actionsQueue = new ActionsQueue();
 		unitType = type;
 		destTile = null;
 	}
@@ -48,12 +50,6 @@ public class Unit extends Production {
 
 	public Tile getCurrentTile() {
 		return currentTile;
-	}
-
-	public void fortifyUntilHeal() {
-		if (health == maxHealth) return;
-		isHealing = true;
-		destTile = null;
 	}
 
 	public boolean nextTurn(Civilization civilization, City city) {
@@ -77,9 +73,11 @@ public class Unit extends Production {
 	}
 
 	public void defendAgainstMelee(Unit enemy) {
+		// TODO implement this
 	}
 
 	public void defendAgainstRanged(Unit enemy) {
+		// TODO implement this
 	}
 
 	public void setDestTile(Tile tile) {
@@ -95,6 +93,20 @@ public class Unit extends Production {
 	}
 
 	public void execute(UnitActions actionType) {
+	}
+
+	public int getHealth() {
+		return health;
+	}
+
+	/**
+	 * to change unit health
+	 *
+	 * @param deltaHealth change amount of health,
+	 *                       positive for increase and negative for decrease
+	 */
+	public void changeHealth(int deltaHealth){
+		health += deltaHealth;
 	}
 
 	private Tile dijkstra(Tile destination) {
@@ -198,4 +210,67 @@ public class Unit extends Production {
 			return -Integer.compare(remainedMP, o.getRemainedMP());
 		}
 	}
+
+	/**
+	 * check that there is any enemy close to unit or not
+	 *
+	 * @return true if any enemy is visible by this unit, false otherwise
+	 */
+	public boolean isEnemyNear(){
+		Vector<Tile> sight = currentTile.getSight(2);
+		for (Tile tile : sight) {
+			if(tile.getArmedUnit().getOwnerCivilization() != ownerCivilization)
+				return true;
+		}
+		return false;
+	}
+
+	// Commands
+
+	/**
+	 * fortify unit until complete healing
+	 */
+	public void fortifyUntilHeal() {
+		actionsQueue.resetQueue();
+		actionsQueue.addAction(new Fortify(this, maxHealth - health));
+	}
+
+	/**
+	 * fortify unit for 1 turn
+	 */
+	public void fortify(){
+		actionsQueue.resetQueue();
+		actionsQueue.addAction(new Fortify(this, 1));
+	}
+
+	/**
+	 * disable unit until cancel
+	 */
+	public void sleep(){
+		actionsQueue.resetQueue();
+		actionsQueue.addAction(new Sleep());
+	}
+
+	/**
+	 * wake unit up
+	 */
+	public void wake(){
+		actionsQueue.resetQueue();
+	}
+
+	/**
+	 * change unit mode to alert
+	 */
+	public void alert(){
+		actionsQueue.resetQueue();
+		actionsQueue.addAction(new Alert(this));
+	}
+
+	/**
+	 * cancel all queued actions
+	 */
+	public void cancel(){
+		actionsQueue.resetQueue();
+	}
+
 }
