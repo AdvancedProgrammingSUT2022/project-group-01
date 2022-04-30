@@ -3,6 +3,7 @@ import java.util.Vector;
 
 import model.Player;
 import model.civilization.Civilization;
+import model.civilization.Currency;
 import model.civilization.Person;
 import model.civilization.city.City;
 import model.improvement.Improvement;
@@ -12,6 +13,8 @@ import model.resource.ResourceType;
 import model.unit.Armed;
 import model.unit.Civilian;
 import model.unit.Unit;
+import utils.VectorUtils;
+
 // TODO added get available resource
 public class Tile {
 	private int pCoordinate;
@@ -31,7 +34,7 @@ public class Tile {
 	private Boarder[] nearbyBoarders;
 	private boolean isDestroyed;
 	private Vector<Person> peopleInside;
-
+	private Currency currency;
 	public Civilization getCivilization() {
 		return civilization;
 	}
@@ -297,10 +300,35 @@ public class Tile {
 		return out;
 	}
 
+	public Unit getSameTypeUnit(Unit unit) {
+		if(unit instanceof Civilian) return getCivilianUnit();
+		return getArmedUnit();
+	}
+
 	public enum VisibilityState{
 		VISIBLE,
 		DISCOVERED,
 		FOG_OF_WAR
 	}
 
+	public Currency getCurrency(){
+		return this.currency;
+	}
+
+	public static Vector<Tile> getAdjacentForArea(Vector<Tile> area, int depth){
+		Vector<Tile> out = new Vector<>();
+		for(int i=0;i<depth;i++){
+			if(i == 0)
+				for(Tile tile : area){
+					out.addAll(tile.getAdjacentTiles());
+				}
+			else
+				for(Tile tile : out){
+					out.addAll(tile.getAdjacentTiles());
+				}
+			out.removeIf(area::contains);
+		}
+		out = VectorUtils.unique(out);
+		return out;
+	}
 }

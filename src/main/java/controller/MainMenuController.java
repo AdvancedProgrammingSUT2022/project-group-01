@@ -54,6 +54,7 @@ public class MainMenuController {
 				User user = database.findUserByUsername(set.getValue());
 				if(user == null)
 					return "invalid players!";
+				gamePlayers.add(user);
 			}
 		}
 		//TODO : START GAME

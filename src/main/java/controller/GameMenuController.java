@@ -150,17 +150,17 @@ public class GameMenuController {
     public String increaseResource(HashMap<String, String> args) {
         String section = args.get("section");
         int amount = Integer.parseInt(args.get("amount"));
-        Currency currency = new Currency();
+        Currency currency = new Currency(0,0,0);
         if(section.equals("gold")){
-            currency.setGold(amount);
+            currency.increase(amount,0,0);
         }else if(section.equals("product")){
-            currency.setProduct(amount);
+            currency.increase(0,amount,0);
         }else if(section.equals("food")){
-            currency.setFood(amount);
+            currency.increase(0,0,amount);
         }else{
             return "invalid resource";
         }
-        game.getCurrentPlayer().getCivilization().increaseCurrency(currency);
+        game.getSelectedCity().getCurrency().add(currency);
         return "Done!";
     }
 
