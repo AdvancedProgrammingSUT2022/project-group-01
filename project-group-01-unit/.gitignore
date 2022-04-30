@@ -1,0 +1,9 @@
+*.vpp
+UML.*.*
+*.iml
+.*.*.lck
+.DS_Store
+.idea
+.*.swp
+target
+src/out
