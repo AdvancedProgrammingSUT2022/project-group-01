@@ -1,11 +1,14 @@
 package model.civilization.production;
 
 import model.civilization.Civilization;
+import model.civilization.city.City;
+
 import java.util.*;
 
 public class ProductionInventory {
 
 	Civilization civilization;
+	City city;
 	private Vector<Production> productions;
 	private Production currentProduction;
 

@@ -16,6 +16,7 @@ public class Civilization {
 	private Vector<City> cities;
 	private City capital;
 	private Currency currency;
+	private Currency citiesCurrency;
 	private int happiness;
 	private SavedMap map;
 	double science;
@@ -130,5 +131,11 @@ public class Civilization {
 		cities.remove(city);
 	}
 
-
+	private void handleCurrency(){
+		citiesCurrency = new Currency(0,0,0);
+		for(City city : cities){
+			citiesCurrency.add(city.getCurrency());
+		}
+		//todo update unit and ... for currency
+	}
 }
