@@ -16,7 +16,6 @@ import model.unit.Unit;
 import utils.VectorUtils;
 
 import javax.swing.plaf.ColorUIResource;
-
 // TODO added get available resource
 public class Tile {
 	private int pCoordinate;
@@ -319,8 +318,6 @@ public class Tile {
 		FOG_OF_WAR
 	}
 
-
-
 	public static Vector<Tile> getAdjacentForArea(Vector<Tile> area, int depth){
 		Vector<Tile> out = new Vector<>();
 		for(int i=0;i<depth;i++){
@@ -345,4 +342,5 @@ public class Tile {
 	public void setInnerCity(City innerCity) {
 		this.innerCity = innerCity;
 	}
+
 }

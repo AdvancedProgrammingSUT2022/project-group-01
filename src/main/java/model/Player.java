@@ -17,7 +17,6 @@ public class Player {
 	public Player(User user){
 		this.user = user;
 	}
-
 	public void initializeSavedMap(Game game){
 		savedMap = new SavedMap(game.getMap(),game.getMap().getMapSize());
 	}
@@ -40,4 +39,5 @@ public class Player {
 	public void setCivilization(Civilization civilization) {
 		this.civilization = civilization;
 	}
+  
 }

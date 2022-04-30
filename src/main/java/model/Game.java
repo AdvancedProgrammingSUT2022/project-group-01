@@ -13,9 +13,7 @@ public class Game {
     Vector<Player> players;
     Vector<Trade> trades;
     Player currentPlayer;
-    private City selectedCity;
-    private Tile selectedTile;
-    private Unit selectedUnit;
+    private Object selectedObject;
     private Map map;
     int turn;
 
@@ -58,7 +56,7 @@ public class Game {
     public Vector<Player> getPlayers() {
         return players;
     }
-
+  
     // TODO: method ziro paak kon
     public void setCurrentPlayer(Player player){
         this.currentPlayer = player;
@@ -86,5 +84,11 @@ public class Game {
 
     public void setSelectedUnit(Unit selectedUnit) {
         this.selectedUnit = selectedUnit;
+    public Object getSelectedObject() {
+        return selectedObject;
+    }
+
+    public void setSelectedObject(Object selectedObject) {
+        this.selectedObject = selectedObject;
     }
 }

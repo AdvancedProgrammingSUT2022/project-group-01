@@ -65,7 +65,6 @@ public enum BuildingType {
 		this.cost = cost;
 		this.maintenance = maintenance;
 		this.requiredTechnology = requiredTechnology;
-
 		this.necessaryResources = necessaryResources;
 	}
 

@@ -2,12 +2,10 @@ package controller;
 
 import model.Game;
 import model.Player;
+import model.civilization.Civilization;
 import model.civilization.Currency;
 import model.tile.Tile;
-import model.unit.Civilian;
-import model.unit.Unit;
-import model.unit.UnitType;
-import model.unit.Worker;
+import model.unit.*;
 
 import java.util.HashMap;
 import java.util.Vector;
@@ -26,8 +24,23 @@ public class GameMenuController {
 
     //SELECT:
     public String selectUnit(HashMap<String, String> args) {
-        //TODO handle here for armed unit in next checkpoint
-        game.setSelectedUnit(game.getMap().getTileByNumber(Integer.parseInt(args.get("position"))).getCivilianUnit());
+        String type = args.get("section");
+        Tile tile = game.getMap().getTileByNumber(Integer.parseInt(args.get("position")));
+        if(tile == null)
+            return "invalid position";
+        if(type.equals("armed")){
+            Armed armed = tile.getArmedUnit();
+            if(armed == null)
+                return "there is no armed unit here";
+            game.setSelectedObject(armed);
+        }else if(type.equals("civilian")){
+            Civilian civilian = tile.getCivilianUnit();
+            if(civilian == null)
+                return "there is no civilian unit here";
+            game.setSelectedObject(civilian);
+        }else{
+            return "invalid unit type, types are [armed, civilian]";
+        }
         return "unit selected";
     }
 

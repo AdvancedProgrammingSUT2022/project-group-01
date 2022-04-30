@@ -21,8 +21,6 @@ public class Building extends Production {
 	public BuildingType getType() {
 		return this.type;
 	}
-
-
 	public void setType(BuildingType type) {
 		this.type = type;
 	}

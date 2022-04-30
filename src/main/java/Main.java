@@ -12,8 +12,8 @@ import model.tile.TerrainFeature;
 import model.tile.Tile;
 import model.unit.Armed;
 import model.unit.UnitType;
-
 import java.util.List;
+
 import java.util.Scanner;
 import java.util.Vector;
 
@@ -41,7 +41,6 @@ public class Main {
             }
         }
         mcontrol.updateSavedMap(game.getCurrentPlayer(),revealTiles, game.getMap());
-        //MapFileHandler.mapSaver(game.getMap());
         while(!input.contains("end")) {
             System.out.println(mcontrol.moveMap(input, 1));
             Vector<Vector<String>> mop = mcontrol.getConsoleMap(game.getCurrentPlayer().getMapCenterTile());
