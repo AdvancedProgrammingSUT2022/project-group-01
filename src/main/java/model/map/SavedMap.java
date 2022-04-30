@@ -17,12 +17,12 @@ public class SavedMap {
     public SavedMap(Map map, int mapSize) {
         savedMap = new HashMap<>();
         for (Tile tile : map.getTiles()) {
-            savedMap.put(tile, new SavedMapData(Tile.VisibilityState.FOG_OF_WAR, tile.getTerrain(), tile.getFeature(), tile.getAvailableResource()));
+            savedMap.put(tile, new SavedMapData(Tile.VisibilityState.FOG_OF_WAR, tile.getTerrain(), tile.getFeature(), tile.getAvailableResource(),tile.getInnerCity()));
         }
     }
 
-    public void updateData(Tile tile, Tile.VisibilityState state, Terrain terrain, TerrainFeature terrainFeature, Resource resource) {
-        savedMap.get(tile).updateData(state, terrain, terrainFeature, resource);
+    public void updateData(Tile tile, Tile.VisibilityState state, Terrain terrain, TerrainFeature terrainFeature, Resource resource, City innerCity) {
+        savedMap.get(tile).updateData(state, terrain, terrainFeature, resource,innerCity);
     }
 
     public Tile.VisibilityState getVisibilityState(Tile tile) {
@@ -52,11 +52,10 @@ public class SavedMap {
         private Terrain terrainType;
         private TerrainFeature terrainFeature;
         private City city;
-        private Civilization owner;
         private Resource resource;
 
-        public SavedMapData(Tile.VisibilityState visibilityState, Terrain terrainType, TerrainFeature terrainFeature, Resource resource) {
-            updateData(visibilityState, terrainType, terrainFeature, resource);
+        public SavedMapData(Tile.VisibilityState visibilityState, Terrain terrainType, TerrainFeature terrainFeature, Resource resource, City city) {
+            updateData(visibilityState, terrainType, terrainFeature, resource, city);
         }
 
         public Tile.VisibilityState getVisibilityState() {
@@ -79,11 +78,12 @@ public class SavedMap {
             return terrainFeature;
         }
 
-        public void updateData(Tile.VisibilityState visibilityState, Terrain terrainType, TerrainFeature terrainFeature, Resource resource) {
+        public void updateData(Tile.VisibilityState visibilityState, Terrain terrainType, TerrainFeature terrainFeature, Resource resource, City innerCity) {
             this.visibilityState = visibilityState;
             this.terrainType = terrainType;
             this.terrainFeature = terrainFeature;
             this.resource = resource;
+            this.city = innerCity;
         }
     }
 }

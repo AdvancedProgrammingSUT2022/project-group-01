@@ -3,8 +3,11 @@ package controller;
 import model.Game;
 import model.Player;
 import model.User;
+import model.civilization.Civilization;
+import model.civilization.Civilizations;
 import model.tile.Terrain;
 import model.tile.Tile;
+import model.unit.Armed;
 import model.unit.Settler;
 import model.unit.UnitType;
 
@@ -13,30 +16,51 @@ import java.util.Vector;
 
 public class GameInitializer extends Controller{
     Game game;
-    public GameInitializer(Game game) {
-        this.game = game;
+    public Game startGame(Vector<User> users, int mapSize){
+        initializeGame(mapSize);
+        setGameData(users);
+        return game;
+    }
+    private void initializeGame(int mapSize){
+        this.game = new Game(new Vector<>(),mapSize);
+        MapGenerationController mapGenerationController = new MapGenerationController(game);
+        mapGenerationController.generateMap(mapSize);
+    }
+    private void setGameData(Vector<User> users){
+        playerInitializer(users);
+        civilizationInitializer();
+        unitInitializer();
+        game.setCurrentPlayer(game.getPlayers().get(0));
     }
 
-    public void setUpCivilizations(Vector<Player> players){
-        Vector<Player> playerVector = new Vector<>(players);
-        Vector<Tile> possibleTiles = new Vector<>(game.getMap().getReachableTiles());
-        possibleTiles.removeIf(tile -> tile.getTerrain().equals(Terrain.MOUNTAIN));
-
-        Random rand = new Random();
-        int randomIndex;
-        while(!playerVector.isEmpty()){
-            randomIndex = rand.nextInt(possibleTiles.size());
-            Player currentPlayer = playerVector.get(0);
-            Tile foundingTile = possibleTiles.get(randomIndex);
-            // TODO: Implement warrior
-            //TODO check settler args
-            Settler starter = new Settler(UnitType.SETTLER,foundingTile, currentPlayer.getCivilization(),game);
-            // set settler and ... data
-            // add settler to tile & civilization
-
-            possibleTiles.remove(foundingTile);
-            playerVector.remove(currentPlayer);
+    private void playerInitializer(Vector<User> users){
+        for(User user : users){
+            Player userPlayer = new Player(user);
+            this.game.addPlayer(userPlayer);
+            userPlayer.initializeSavedMap(game);
+            userPlayer.setMapCenterTile(game.getMap().getTile((game.getMap().getMapSize() + 1)/2 , (game.getMap().getMapSize() + 1)/2));
         }
-
+    }
+    private void civilizationInitializer(){
+        int i = 0;
+        for(Player player : game.getPlayers()){
+            Civilization civ = new Civilization(Civilizations.values()[i],null);
+            i++;
+            player.setCivilization(civ);
+        }
+    }
+    private void unitInitializer(){
+        Random random = new Random();
+        Vector<Tile> freeLandList = new Vector<>(game.getMap().getReachableTiles());
+        for(Player player : game.getPlayers()){
+            Tile occupyTile = freeLandList.get(random.nextInt(freeLandList.size()));
+            Armed firstWarrior = new Armed(UnitType.WARRIOR, occupyTile,player.getCivilization(),game);
+            Settler firstSettler = new Settler(UnitType.SETTLER, occupyTile, player.getCivilization(), game);
+            occupyTile.setArmedUnit(firstWarrior);
+            occupyTile.setCivilianUnit(firstSettler);
+            freeLandList.remove(occupyTile);
+            player.getCivilization().addUnit(firstWarrior);
+            player.getCivilization().addUnit(firstSettler);
+        }
     }
 }

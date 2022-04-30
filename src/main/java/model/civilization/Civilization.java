@@ -28,7 +28,8 @@ public class Civilization {
 	public Civilization(Civilizations civilization, City capital) {
 		this.civilization = civilization;
 		this.capital = capital;
-
+		units = new Vector<>(); //ADDED BY PRCR
+		cities = new Vector<>(); // ADDED BY PRCR
 	}
 
 	public TechTree getResearchTree() {

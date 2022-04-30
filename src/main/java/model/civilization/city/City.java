@@ -62,7 +62,7 @@ public class City {
 	}
 
 	public Civilization getCivilization(){
-		throw new UnsupportedOperationException();
+		return this.civilization;
 	}
 
 
