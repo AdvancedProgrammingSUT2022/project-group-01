@@ -13,9 +13,7 @@ public class Game {
     Vector<Player> players;
     Vector<Trade> trades;
     Player currentPlayer;
-    private City selectedCity;
-    private Tile selectedTile;
-    private Unit selectedUnit;
+    private Object selectedObject;
     private Map map;
     int turn;
 
@@ -49,27 +47,11 @@ public class Game {
         this.currentPlayer = player;
     }
 
-    public City getSelectedCity() {
-        return selectedCity;
+    public Object getSelectedObject() {
+        return selectedObject;
     }
 
-    public void setSelectedCity(City selectedCity) {
-        this.selectedCity = selectedCity;
-    }
-
-    public Tile getSelectedTile() {
-        return selectedTile;
-    }
-
-    public void setSelectedTile(Tile selectedTile) {
-        this.selectedTile = selectedTile;
-    }
-
-    public Unit getSelectedUnit() {
-        return selectedUnit;
-    }
-
-    public void setSelectedUnit(Unit selectedUnit) {
-        this.selectedUnit = selectedUnit;
+    public void setSelectedObject(Object selectedObject) {
+        this.selectedObject = selectedObject;
     }
 }
