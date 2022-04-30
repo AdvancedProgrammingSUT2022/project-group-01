@@ -5,7 +5,7 @@ import model.civilization.Currency;
 import model.civilization.Person;
 import model.civilization.city.City;
 import model.tile.Tile;
-import utils.NormalPair;
+import utils.Pair;
 
 import java.util.Arrays;
 import java.util.Vector;
@@ -29,21 +29,21 @@ public class CityController {
 
     public String getPurchasableTile(City city){
         StringBuilder items = new StringBuilder();
-        Vector<NormalPair<Tile, Integer>> pairs = city.getPurchasableTiles();
+        Vector<Pair<Tile, Integer>> pairs = city.getPurchasableTiles();
         for (int i=0;i<pairs.size();i++) {
-            NormalPair<Tile, Integer> pair = pairs.get(i);
+            Pair<Tile, Integer> pair = pairs.get(i);
             items.append(pair.getFirst().getMapNumber() + " : " + pair.getSecond() + "$\n");
         }
         return items.toString();
     }
 
     public String purchaseTile(City city, int tileIndex){
-        Vector<NormalPair<Tile, Integer>> pairs = city.getPurchasableTiles();
+        Vector<Pair<Tile, Integer>> pairs = city.getPurchasableTiles();
         if(tileIndex >= pairs.size()){
             return "Invalid index";
         }
         Currency currency = city.getCurrency();
-        NormalPair<Tile, Integer> pair = pairs.get(tileIndex);
+        Pair<Tile, Integer> pair = pairs.get(tileIndex);
         if(currency.getGold() < pair.getSecond())
             return "Insufficient gold";
         currency.add(new Currency(-pair.getSecond(), 0,0));

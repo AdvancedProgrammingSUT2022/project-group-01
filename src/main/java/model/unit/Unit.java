@@ -8,7 +8,9 @@ import model.civilization.production.Production;
 import model.technology.TechnologyList;
 import model.tile.Boarder;
 import model.tile.Tile;
-import utils.Pair;
+import model.unit.action.UnitActions;
+import org.mockito.internal.matchers.Or;
+import utils.OrderedPair;
 
 import java.util.Collections;
 import java.util.PriorityQueue;
@@ -85,20 +87,20 @@ public class Unit extends Production {
 		this.destTile = tile;
 	}
 
-	private void moveTo(Tile tile) {
+	public void moveTo(Tile tile) {
 		//todo implement here for armed
 		currentTile.removeUnit(this);
 		tile.setCivilianUnit((Civilian) this);
 		this.currentTile = tile;
 	}
 
-	public void execute(ActionsType actionType) {
+	public void execute(UnitActions actionType) {
 	}
 
 	private Tile dijkstra(Tile destination) {
 		Map gameMap = game.getMap();//TODO get user map in next checkpoint
 
-		PriorityQueue<Pair<Distance, Integer>> heap = new PriorityQueue<>();
+		PriorityQueue<OrderedPair<Distance, Integer>> heap = new PriorityQueue<>();
 		int mapSize = gameMap.getMapSize();
 		Vector<Distance> dis = new Vector<>(mapSize);
 		Vector<Integer> par = new Vector<>(mapSize);
@@ -110,10 +112,10 @@ public class Unit extends Production {
 
 		int start = currentTile.getMapNumber();
 		dis.set(start, new Distance(0, 0));
-		heap.add(new Pair<>(dis.get(start), start));
+		heap.add(new OrderedPair<>(dis.get(start), start));
 
 		while (!heap.isEmpty()) {
-			Pair<Distance, Integer> min = heap.poll();
+			OrderedPair<Distance, Integer> min = heap.poll();
 			Distance distance = min.getFirst();
 			Tile node = gameMap.getTileByNumber(min.getSecond());
 
@@ -127,9 +129,9 @@ public class Unit extends Production {
 				if (dis.get(adjacentTileID).compareTo(nextDistance) > 0) {
 					par.set(adjacentTileID, node.getMapNumber());
 
-					heap.remove(new Pair<>(dis.get(adjacentTileID), adjacentTileID));
+					heap.remove(new OrderedPair<>(dis.get(adjacentTileID), adjacentTileID));
 					dis.set(adjacentTileID, nextDistance);
-					heap.add(new Pair<>(dis.get(adjacentTileID), adjacentTileID));
+					heap.add(new OrderedPair<>(dis.get(adjacentTileID), adjacentTileID));
 				}
 			}
 		}

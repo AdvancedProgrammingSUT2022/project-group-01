@@ -300,6 +300,11 @@ public class Tile {
 		return out;
 	}
 
+	public Unit getSameTypeUnit(Unit unit) {
+		if(unit instanceof Civilian) return getCivilianUnit();
+		return getArmedUnit();
+	}
+
 	public enum VisibilityState{
 		VISIBLE,
 		DISCOVERED,

@@ -1,4 +1,4 @@
-package model.unit.unitTraits;
+package model.unit.trait;
 
 public enum UnitTraits {
 	NO_MELEE,

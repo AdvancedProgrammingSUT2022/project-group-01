@@ -5,8 +5,8 @@ import model.resource.ResourceList;
 import model.resource.ResourceType;
 import model.technology.TechnologyList;
 import model.technology.TechnologyType;
-import model.unit.unitTraits.TraitsList;
-import model.unit.unitTraits.UnitTraits;
+import model.unit.trait.TraitsList;
+import model.unit.trait.UnitTraits;
 
 public enum UnitType {
 	// Ancient Era

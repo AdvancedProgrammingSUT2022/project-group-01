@@ -9,7 +9,7 @@ import model.civilization.Person;
 import model.civilization.production.ProductionInventory;
 import model.tile.Tile;
 import model.unit.Unit;
-import utils.NormalPair;
+import utils.Pair;
 
 public class City {
 
@@ -189,11 +189,11 @@ public class City {
 		}
 	}
 
-	public Vector<NormalPair<Tile, Integer>> getPurchasableTiles(){
+	public Vector<Pair<Tile, Integer>> getPurchasableTiles(){
 		Vector<Tile> adjacentTiles = Tile.getAdjacentForArea(this.tiles, 1);
-		Vector<NormalPair<Tile, Integer>> out = new Vector<>();
+		Vector<Pair<Tile, Integer>> out = new Vector<>();
 		for (Tile adjacentTile : adjacentTiles) {
-			out.add(new NormalPair<>(adjacentTile, 50));
+			out.add(new Pair<>(adjacentTile, 50));
 		}
 		return out;
 	}

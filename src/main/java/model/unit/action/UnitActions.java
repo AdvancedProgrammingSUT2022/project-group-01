@@ -1,8 +1,7 @@
-package model.unit;
-import model.improvement.Improvement;
+package model.unit.action;
 import model.improvement.ImprovementType;
 
-public enum ActionsType {
+public enum UnitActions {
     //worker actions
     BUILD_ROAD(3,null),
     BUILD_RAILROAD(3,null),
@@ -26,7 +25,7 @@ public enum ActionsType {
 
     public final int time;
     public final Object mainKind;
-    ActionsType(int time, Object mainKind){
+    UnitActions(int time, Object mainKind){
         this.time = time;
         this.mainKind =mainKind;
     }

@@ -1,4 +1,4 @@
-package model.unit.unitTraits;
+package model.unit.trait;
 
 import java.util.List;
 import java.util.Vector;
@@ -11,12 +11,12 @@ import java.util.Vector;
  */
 public class TraitsList {
 	/**
-	 * a container that store unitTraits
+	 * a container that store trait
 	 */
 	private final Vector<UnitTraits> traits;
 
 	/**
-	 * construct new Traits list which elements are traits
+	 * construct new Traits list which elements are trait
 	 *
 	 * @param traits sequence of UnitTraits Objects
 	 */
