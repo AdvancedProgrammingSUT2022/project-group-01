@@ -15,6 +15,8 @@ import model.unit.Civilian;
 import model.unit.Unit;
 import utils.VectorUtils;
 
+import javax.swing.plaf.ColorUIResource;
+
 // TODO added get available resource
 public class Tile {
 	private int pCoordinate;
@@ -67,9 +69,7 @@ public class Tile {
 		this.civilization = civilization;
 	}
 	public Currency getCurrency(){
-		Currency currency = new Currency(getGoldYield(), getProductionYield(), getFoodYield());
-
-		return currency;
+		return new Currency(getGoldYield(), getProductionYield(), getFoodYield());
 	}
 
 	public int getPCoordinate() {
@@ -187,7 +187,8 @@ public class Tile {
 
 	public int getFoodYield() {
 		int yield = 0;
-		yield += terrain.food;
+		if(!this.peopleInside.isEmpty())
+			yield += terrain.food;
 		if(feature != null)
 			yield += feature.food;
         if(availableResource != null)
@@ -197,7 +198,8 @@ public class Tile {
 
 	public int getGoldYield() {
 		int yield = 0;
-		yield += terrain.gold;
+		if(!this.peopleInside.isEmpty())
+			yield += terrain.gold;
 		if(feature != null)
 			yield += feature.gold;
         if(availableResource != null)
@@ -207,7 +209,8 @@ public class Tile {
 
 	public int getProductionYield() {
 		int yield = 0;
-		yield += terrain.production;
+		if(!this.peopleInside.isEmpty())
+			yield += terrain.production;
 		if(feature != null)
 			yield += feature.production;
         if(availableResource != null)

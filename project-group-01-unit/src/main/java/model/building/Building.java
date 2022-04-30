@@ -11,11 +11,10 @@ public class Building extends Production {
 
 	private BuildingType type;
 	private Tile tile;
-	private final Vector<Person> specialists;
+
 
 	public Building(BuildingType type, Tile tile){
 		this.type = type;
-		specialists = new Vector<Person>();
 
 		this.tile = tile;
 	}
@@ -23,30 +22,7 @@ public class Building extends Production {
 		return this.type;
 	}
 
-	public Job getSpecialistTitle(){
-		return type.specialist;
-	}
-	public boolean hasEmptySlot(){
-		if(type.specialistSlots == 0)
-			return false;
-		return specialists.size() != type.specialistSlots;
-	}
-	public void assignSpecialist(Person person){
-		specialists.add(person);
-	}
-	public Vector<Person> getSpecialists(){
-		return specialists;
-	}
-	public void removeSpecialist(Person person){
-		specialists.remove(person);
-	}
-	public boolean isPersonASpecialist(Person person){
-		return specialists.contains(person);
-	}
-	/**
-	 * 
-	 * @param type
-	 */
+
 	public void setType(BuildingType type) {
 		this.type = type;
 	}
