@@ -3,7 +3,6 @@ package model.unit;
 import model.Game;
 import model.civilization.Civilization;
 import model.tile.Tile;
-import model.unit.action.PreAttack;
 
 public class Siege extends RangedUnit {
 	private boolean canAttack = false;
@@ -12,7 +11,7 @@ public class Siege extends RangedUnit {
 		super(type, tile, civilization, game);
 	}
 
-	public void preAttack() {
+	public void setup() {
 		actionsQueue.resetQueue();
 		actionsQueue.addAction(new PreAttack(this));
 	}
@@ -28,5 +27,8 @@ public class Siege extends RangedUnit {
 
 		this.currentTile = tile;
 		tile.setArmedUnit(this);
+	}
+
+	public void completeSetup() {
 	}
 }

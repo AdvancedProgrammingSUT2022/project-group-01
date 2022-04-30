@@ -43,6 +43,7 @@ public class Unit extends Production {
 		unitType = type;
 	}
 
+
 	public UnitType getType() {
 		return unitType;
 	}
@@ -52,7 +53,7 @@ public class Unit extends Production {
 	}
 
 	public boolean nextTurn(Civilization civilization, City city) {
-		// TODO : add other functions
+
 		return false;
 	}
 
@@ -203,7 +204,7 @@ public class Unit extends Production {
 	 */
 	public void fortifyUntilHeal() {
 		actionsQueue.resetQueue();
-		actionsQueue.addAction(new Fortify(this, maxHealth - health));
+		actionsQueue.addAction(new Action(this, Actions.FORTIFY_UNTIL_HEAL));
 	}
 
 	/**
@@ -211,7 +212,7 @@ public class Unit extends Production {
 	 */
 	public void fortify(){
 		actionsQueue.resetQueue();
-		actionsQueue.addAction(new Fortify(this, 1));
+		actionsQueue.addAction(new Action(this, Actions.FORTIFY));
 	}
 
 	/**
@@ -219,7 +220,7 @@ public class Unit extends Production {
 	 */
 	public void sleep(){
 		actionsQueue.resetQueue();
-		actionsQueue.addAction(new Sleep());
+		actionsQueue.addAction(new Action(this, Actions.SLEEP));
 	}
 
 	/**
@@ -234,7 +235,7 @@ public class Unit extends Production {
 	 */
 	public void alert(){
 		actionsQueue.resetQueue();
-		actionsQueue.addAction(new Alert(this));
+		actionsQueue.addAction(new Action(this, Actions.ALERT));
 	}
 
 	/**
@@ -255,7 +256,7 @@ public class Unit extends Production {
 
 		actionsQueue.resetQueue();
 		for (Tile stopPoint : stopPoints) {
-			actionsQueue.addAction(new Move(this, stopPoint));
+			actionsQueue.addAction(new Action(this, Actions.MOVE, stopPoint));
 		}
 	}
 

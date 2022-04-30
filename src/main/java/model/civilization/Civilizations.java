@@ -20,4 +20,8 @@ public enum Civilizations {
 	public String getColor() {
 		return color;
 	}
+
+	public String[] getCityNames() {
+		return cityNames;
+	}
 }
