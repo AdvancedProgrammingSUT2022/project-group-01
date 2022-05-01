@@ -1,17 +1,11 @@
 import controller.MapController;
 import controller.MapGenerationController;
-import controller.ProgramController;
 import controller.TileController;
 import model.Game;
 import model.Player;
 import model.improvement.Improvement;
 import model.improvement.ImprovementType;
-import model.resource.ResourceType;
-import model.tile.Terrain;
-import model.tile.TerrainFeature;
 import model.tile.Tile;
-import model.unit.Armed;
-import model.unit.UnitType;
 
 import java.util.Scanner;
 import java.util.Vector;

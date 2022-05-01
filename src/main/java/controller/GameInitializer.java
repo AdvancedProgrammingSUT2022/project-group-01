@@ -2,10 +2,9 @@ package controller;
 
 import model.Game;
 import model.Player;
-import model.User;
 import model.tile.Terrain;
 import model.tile.Tile;
-import model.unit.Settler;
+import model.unit.civilian.Settler;
 import model.unit.UnitType;
 
 import java.util.Random;

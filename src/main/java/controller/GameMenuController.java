@@ -1,16 +1,12 @@
 package controller;
 
 import model.Game;
-import model.Player;
 import model.civilization.Currency;
 import model.tile.Tile;
-import model.unit.Civilian;
-import model.unit.Unit;
+import model.unit.civilian.Civilian;
 import model.unit.UnitType;
-import model.unit.Worker;
 
 import java.util.HashMap;
-import java.util.Vector;
 
 public class GameMenuController {
 

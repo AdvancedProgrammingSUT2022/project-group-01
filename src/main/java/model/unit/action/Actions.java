@@ -1,7 +1,9 @@
 package model.unit.action;
 
-import model.unit.Siege;
+import com.sun.source.doctree.SeeTree;
+import model.unit.armed.Siege;
 import model.unit.Unit;
+import model.unit.civilian.Settler;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -45,6 +47,12 @@ public enum Actions {
 			action -> {
 				action.getUnit().moveTo(action.getTile());
 				action.decreaseTurn();
+			}
+	),
+	SETTLE(1,
+			action -> ((Settler) action.getUnit()).canSettle(),
+			action -> {
+				((Settler) action.getUnit()).settle();
 			}
 	);
 

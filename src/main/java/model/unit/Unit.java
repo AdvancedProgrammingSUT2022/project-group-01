@@ -9,8 +9,9 @@ import model.technology.TechnologyList;
 import model.tile.Boarder;
 import model.tile.Tile;
 import model.unit.action.*;
-import org.jetbrains.annotations.Nullable;
-import org.mockito.internal.matchers.Or;
+import model.unit.armed.Armed;
+import model.unit.civilian.Civilian;
+import model.unit.trait.TraitsList;
 import utils.OrderedPair;
 
 import java.util.Collections;
@@ -67,8 +68,20 @@ public class Unit extends Production {
 
 	public void moveTo(Tile tile) {}
 
+	public TraitsList getTraitsList(){
+		return unitType.getUnitTraits();
+	}
+
 	public int getHealth() {
 		return health;
+	}
+
+	/**
+	 * kill unit immediately
+	 */
+	public void suicide() {
+		currentTile.removeUnit(this);
+		changeHealth(-getHealth());
 	}
 
 	/**
@@ -195,6 +208,10 @@ public class Unit extends Production {
 				return true;
 		}
 		return false;
+	}
+
+	public boolean isReachable(Tile destTile){
+		return dijkstra(destTile) != null;
 	}
 
 	// Commands

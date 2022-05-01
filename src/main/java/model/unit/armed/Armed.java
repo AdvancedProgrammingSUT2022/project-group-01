@@ -1,9 +1,11 @@
-package model.unit;
+package model.unit.armed;
 
 import model.Game;
 import model.civilization.Civilization;
 import model.civilization.city.City;
 import model.tile.Tile;
+import model.unit.Unit;
+import model.unit.UnitType;
 
 public class Armed extends Unit {
 	private int XP = 0;

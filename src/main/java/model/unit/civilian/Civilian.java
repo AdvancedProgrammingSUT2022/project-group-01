@@ -1,8 +1,10 @@
-package model.unit;
+package model.unit.civilian;
 
 import model.Game;
 import model.civilization.Civilization;
 import model.tile.Tile;
+import model.unit.Unit;
+import model.unit.UnitType;
 
 public class Civilian extends Unit {
 

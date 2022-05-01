@@ -3,7 +3,6 @@ package model.unit.action;
 import model.tile.Tile;
 import model.unit.Unit;
 
-import java.util.PriorityQueue;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -44,7 +43,7 @@ public class Action {
 		return isPossibleFunc.apply(this);
 	}
 
-	protected void decreaseTurn() {
+	public void decreaseTurn() {
 		remainedTurns --;
 	}
 
