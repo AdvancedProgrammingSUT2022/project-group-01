@@ -59,7 +59,7 @@ public class TileController extends Controller {
 
     public String buildImprovement(Tile tile, Improvement newImprovement) {
         newImprovement.getType().improvementSpecialAction(tile);
-        tile.buildImprovement(newImprovement);
+        tile.orderImprovement(newImprovement);
         return "improvement " + newImprovement.getType().name() + "was built successfully";
     }
 }

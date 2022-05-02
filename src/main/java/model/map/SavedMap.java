@@ -1,7 +1,6 @@
 package model.map;
 
 import model.Map;
-import model.civilization.Civilization;
 import model.civilization.city.City;
 import model.resource.Resource;
 import model.resource.ResourceType;
@@ -17,7 +16,7 @@ public class SavedMap {
     public SavedMap(Map map, int mapSize) {
         savedMap = new HashMap<>();
         for (Tile tile : map.getTiles()) {
-            savedMap.put(tile, new SavedMapData(Tile.VisibilityState.FOG_OF_WAR, tile.getTerrain(), tile.getFeature(), tile.getAvailableResource(),tile.getInnerCity()));
+            savedMap.put(tile, new SavedMapData(Tile.VisibilityState.FOG_OF_WAR, tile.getTerrain(), tile.getFeature(), tile.getAvailableResource(),tile.getOwnerCity()));
         }
     }
 
