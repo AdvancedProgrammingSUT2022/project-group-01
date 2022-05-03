@@ -3,16 +3,17 @@ package model.civilization.production;
 import model.civilization.Civilization;
 import model.civilization.city.City;
 
-public class Production {
+public abstract class Production {
 
     int cost;
     int remainedCost;
 
+    public abstract void create(City city);
 
-    //true means created and it's ready for next production
-    public boolean nextTurn(Civilization civilization, City city){
-        //TODO: implement here
-        return false;
+    public void createNextPart(int production, City city){
+        remainedCost -= production;
+        if(remainedCost <= 0)
+            create(city);
     }
 
 }

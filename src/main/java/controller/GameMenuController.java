@@ -173,7 +173,7 @@ public class GameMenuController {
     }
 
     public String increaseResource(HashMap<String, String> args) {
-        String section = args.get("section");
+        /*String section = args.get("section");
         int amount = Integer.parseInt(args.get("amount"));
         Currency currency = new Currency(0,0,0);
         if(section.equals("gold")){
@@ -186,7 +186,8 @@ public class GameMenuController {
             return "invalid resource";
         }
         game.getSelectedCity().getCurrency().add(currency);
-        return "Done!";
+        return "Done!";*/
+        return null;
     }
 
     public String spawnUnit(HashMap<String, String> args) {
