@@ -7,7 +7,7 @@ import model.tile.Tile;
 
 import java.util.Vector;
 
-public class Building extends Production {
+public class Building{
 
 	private BuildingType type;
 	private Tile tile;

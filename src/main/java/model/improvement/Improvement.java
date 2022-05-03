@@ -6,7 +6,7 @@ import model.technology.TechnologyType;
 
 import java.util.Vector;
 
-public class Improvement extends Production {
+public class Improvement {
 
     private ImprovementType type;
 

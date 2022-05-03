@@ -3,17 +3,11 @@ package model.civilization.production;
 import model.civilization.Civilization;
 import model.civilization.city.City;
 
-public abstract class Production {
+import java.util.Vector;
 
-    int cost;
-    int remainedCost;
-
-    public abstract void create(City city);
-
-    public void createNextPart(int production, City city){
-        remainedCost -= production;
-        if(remainedCost <= 0)
-            create(city);
-    }
-
+public interface Production {
+    Vector<Production> allProductions = new Vector<>();
+    void produce(City city);
+    boolean isProducible(City city);
+    int getCost(City city);
 }
