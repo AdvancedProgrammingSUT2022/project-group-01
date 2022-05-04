@@ -339,10 +339,6 @@ public class Tile {
 		return out;
 	}
 
-	public City getInnerCity() {
-		return innerCity;
-	}
-
 	public void setInnerCity(City innerCity) {
 		this.innerCity = innerCity;
 	}

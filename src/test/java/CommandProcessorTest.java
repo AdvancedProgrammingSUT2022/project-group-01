@@ -1,3 +1,4 @@
+import model.civilization.city.CityState;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import utils.CommandProcessor;
@@ -97,6 +98,17 @@ public class CommandProcessorTest {
             put("player2", "hello");
         }};
         HashMap<String, String> result = CommandProcessor.extractCommand(input, Commands.PLAY_GAME);
+        Assertions.assertEquals(answer, result);
+    }
+
+    @Test
+    public void testTen(){
+        String input = "profile change nickname --new salam";
+        HashMap<String, String> answer = new HashMap<>(){{
+            put("new", "salam");
+            put("section", "nickname");
+        }};
+        HashMap<String, String> result = CommandProcessor.extractCommand(input, Commands.PROFILE_CHANGE);
         Assertions.assertEquals(answer, result);
     }
 

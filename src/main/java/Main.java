@@ -7,7 +7,6 @@ import model.civilization.city.City;
 import model.improvement.Improvement;
 import model.improvement.ImprovementType;
 import model.tile.Tile;
-import model.unit.Armed;
 import model.unit.UnitType;
 import java.util.List;
 

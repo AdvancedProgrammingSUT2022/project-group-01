@@ -34,7 +34,6 @@ public class Unit{
 		this.health = maxHealth;
 		this.movementPoint = type.getMovement();
 		this.requiredTechnologies = type.getRequiredTechs();
-		this.cost = type.getCost();
 		this.currentTile = tile;
 		this.isHealing = false;
 		this.ownerCivilization = civilization;

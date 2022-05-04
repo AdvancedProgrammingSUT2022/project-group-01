@@ -6,6 +6,8 @@ import model.civilization.Civilization;
 import model.civilization.Currency;
 import model.tile.Tile;
 import model.unit.*;
+import model.unit.armed.Armed;
+import model.unit.civilian.Civilian;
 
 import java.util.HashMap;
 

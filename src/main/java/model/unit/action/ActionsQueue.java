@@ -38,7 +38,7 @@ public class ActionsQueue {
 	 */
 	private void removeCompletedAction() {
 		while (!isEmpty()) {
-			if (queue.firstElement().getRequiredTurns() > 0)
+			if (queue.firstElement().getRemainedTurns() > 0)
 				break;
 			queue.remove(0);
 		}
@@ -87,7 +87,7 @@ public class ActionsQueue {
 	public int calculateNecessaryTurns() {
 		int turns = 0;
 		for (Action action : queue)
-			turns += action.getRequiredTurns();
+			turns += action.getRemainedTurns();
 		return turns;
 	}
 

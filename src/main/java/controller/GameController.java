@@ -5,8 +5,8 @@ import model.Player;
 import model.civilization.Civilization;
 import model.civilization.city.City;
 import model.tile.Tile;
-import model.unit.Armed;
-import model.unit.Civilian;
+import model.unit.armed.Armed;
+import model.unit.civilian.Civilian;
 
 import java.util.Vector;
 

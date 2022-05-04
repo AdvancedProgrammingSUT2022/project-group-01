@@ -21,10 +21,10 @@ public class CityController {
     public String changePersonTile(City city, int personId, Tile newTile){
         Vector<Person> population = city.getPopulation();
         if(population.size() <= personId){
-            return "Invalid ID";
+            return "invalid id!";
         }
         population.get(personId).setTile(newTile);
-        return "Done";
+        return "done!";
     }
 
     public String getPurchasableTile(City city){
@@ -40,27 +40,27 @@ public class CityController {
     public String purchaseTile(City city, int tileIndex){
         Vector<Pair<Tile, Integer>> pairs = city.getPurchasableTiles();
         if(tileIndex >= pairs.size()){
-            return "Invalid index";
+            return "invalid index!";
         }
         Currency currency = city.getCurrency();
         Pair<Tile, Integer> pair = pairs.get(tileIndex);
         if(currency.getGold() < pair.getSecond())
-            return "Insufficient gold";
+            return "insufficient gold!";
         currency.add(new Currency(-pair.getSecond(), 0,0));
         city.addNewTiles(new Vector<>(Arrays.asList(pair.getFirst())));
-        return "Tile purchased";
+        return "tile purchased!";
     }
 
     public String getPopulation(City city){
         Vector<Person> population = city.getPopulation();
         StringBuilder out = new StringBuilder();
-        out.append("Number of civilians: "+population.size()+"\n");
+        out.append("number of civilians: "+population.size()+"\n");
         for(int i=0;i<population.size();i++){
             out.append(String.format("%d : ", i+1));
             if(population.get(i).getTile() != null)
                 out.append(population.get(i).getTile().getMapNumber());
             else
-                out.append("Unemployed");
+                out.append("unemployed");
             out.append("\n");
         }
         return out.toString();
@@ -69,15 +69,26 @@ public class CityController {
     public String setPopulation(City city, int civilianIndex, Tile newTile){
         Vector<Person> population = city.getPopulation();
         if(population.size() <= civilianIndex)
-            return "Invalid index";
+            return "invalid index";
         Vector<Person> peopleInside = newTile.getPeopleInside();
         Person person = city.getPopulation().get(civilianIndex);
         if(!peopleInside.contains(person) && peopleInside.size() != 0)
-            return "Not empty!";
+            return "not empty!";
         if(peopleInside.contains(person))
-            return "The worker is already here!";
+            return "the worker is already here!";
         person.setTile(newTile);
-        return "Done!";
+        return "done!";
+    }
+
+    public String deletePopulation(City city, int civilianIndex){
+        Vector<Person> population = city.getPopulation();
+        if(population.size() <= civilianIndex)
+            return "invalid index";
+        Person person = city.getPopulation().get(civilianIndex);
+        if(person.getTile() == null)
+            return "this civilian doesn't have job yet!";
+        person.setTile(null);
+        return "done!";
     }
 
 }

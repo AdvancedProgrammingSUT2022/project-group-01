@@ -19,7 +19,6 @@ public class Civilization {
 	private Currency citiesCurrency;
 	private int happiness;
 	private SavedMap map;
-	double science;
 	private Vector<Unit> units;//TODO merge with safar
 
 	private TechTree techTree;//TODO merge with safar
@@ -28,7 +27,7 @@ public class Civilization {
 	public Civilization(Civilizations civilization, City capital) {
 		this.civilization = civilization;
 		this.capital = capital;
-		units = new Vector<>(); //ADDED BY PRCR
+		units = new Vector<>(); // ADDED BY PRCR
 		cities = new Vector<>(); // ADDED BY PRCR
 	}
 
@@ -63,21 +62,15 @@ public class Civilization {
 		throw new UnsupportedOperationException();
 	}
 
-	public void increaseHappiness(int amount){
-		happiness += amount;
-	}
-
-	public void decreaseHappiness(int amount){
-		happiness -= amount;
+	public void updateHappiness(){
+		happiness = 0;
+		for(City city : cities)
+			happiness += city.getHappiness();
+		//todo implement for civilization based happiness bonus
 	}
 
 	public int getHappiness(){
 		return happiness;
-	}
-
-	public double calculateScience(){
-		//TODO handle in next checkpoint
-		return 0;
 	}
 
 	public Vector<Civilization> getKnownCivilizations() {
@@ -89,13 +82,6 @@ public class Civilization {
 			knownCivilizations.add(civilization);
 	}
 
-	public double getScience() {
-		return science;
-	}
-
-	public void setScience(double science) {
-		this.science = science;
-	}
 
 	public Vector<Unit> getUnits() {
 		return units;
@@ -138,5 +124,9 @@ public class Civilization {
 			citiesCurrency.add(city.getCurrency());
 		}
 		//todo update unit and ... for currency
+	}
+
+	public City getCapital() {
+		return capital;
 	}
 }

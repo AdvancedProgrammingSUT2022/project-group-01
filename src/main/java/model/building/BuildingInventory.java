@@ -47,4 +47,8 @@ public class BuildingInventory {
 		throw new UnsupportedOperationException();
 	}
 
+	public int getBeaker(){
+		return 0;
+	}
+
 }

@@ -1,6 +1,5 @@
 package model.improvement;
 
-import model.civilization.production.Production;
 import model.resource.ResourceType;
 import model.technology.TechnologyType;
 
