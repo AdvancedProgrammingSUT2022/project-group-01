@@ -9,4 +9,5 @@ public interface Producible {
     void produce(City city);
     boolean isProducible(City city);
     int getCost(City city);
+    String toString();
 }

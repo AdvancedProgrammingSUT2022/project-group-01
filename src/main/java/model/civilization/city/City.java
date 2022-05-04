@@ -76,9 +76,8 @@ public class City {
 	}
 
 
-	public ProductionInventory getProductionsList() {
-		// TODO - implement model.civilization.city.City.getProductionsList
-		throw new UnsupportedOperationException();
+	public ProductionInventory getProductionInventory() {
+		return this.productionInventory;
 	}
 
 	public void setNewProduction() {

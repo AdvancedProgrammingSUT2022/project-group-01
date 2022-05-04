@@ -4,6 +4,7 @@ import model.Game;
 import model.civilization.Currency;
 import model.civilization.Person;
 import model.civilization.city.City;
+import model.civilization.production.Producible;
 import model.tile.Tile;
 import utils.Pair;
 
@@ -91,4 +92,50 @@ public class CityController {
         return "done!";
     }
 
+    /**
+     *
+     * @param productions list of productions want to be printed
+     * @param city city
+     * @return a string that contains (producible : turns) form for each producible
+     */
+    private String listProductionsAndTurns(Vector<Producible> productions, City city){
+        StringBuilder out = new StringBuilder();
+        int i = 1;
+        for(Producible producible : productions){
+            Double turns = Math.ceil(producible.getCost(city)/city.getCurrency().getProduct());
+            out.append(i).append(" ").append(producible.toString()).append(" : ").append(turns);
+            if(turns > 1)
+                out.append(" turns\n");
+            else
+                out.append(" turn\n");
+            i++;
+        }
+        return out.toString();
+    }
+
+    public String getProductionsListToResearch(City city){
+        Vector<Producible> productions = city.getProductionInventory().getAvailableProductions();
+        return listProductionsAndTurns(productions, city);
+    }
+
+    public String setProductionToBeProduces(City city, int productionIndex){
+        Vector<Producible> productions = city.getProductionInventory().getAvailableProductions();
+        if(productions.size() <= productionIndex)
+            return "invalid production!";
+        city.getProductionInventory().setCurrentProduction(productions.get(productionIndex));
+        return "done!";
+    }
+
+    public String getProductionsListToPurchase(City city){
+        Vector<Producible> productions = Producible.productions;
+        return listProductionsAndTurns(productions, city);
+    }
+
+    public String purchaseProduction(City city, int productionIndex){
+        Vector<Producible> productions = Producible.productions;
+        if(productions.size() <= productionIndex)
+            return "invalid production!";
+        productions.get(productionIndex).produce(city);
+        return "done";
+    }
 }

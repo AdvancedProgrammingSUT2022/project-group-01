@@ -37,6 +37,9 @@ public class ProductionInventory {
 		return currentProduction;
 	}
 
+	public void setCurrentProduction(Producible producible){
+		this.currentProduction = producible;
+	}
 
 	public Vector<Producible> getAvailableProductions() {
 		Vector<Producible> out = new Vector<>();

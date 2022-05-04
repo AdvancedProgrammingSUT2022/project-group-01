@@ -123,4 +123,9 @@ public enum UnitType implements Producible {
 	public boolean isProducible(City city) {
 		return false;
 	}
+
+	@Override
+	public String toString(){
+		return this.name();
+	}
 }
