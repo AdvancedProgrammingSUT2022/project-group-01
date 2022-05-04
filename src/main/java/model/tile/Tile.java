@@ -10,8 +10,8 @@ import model.improvement.Improvement;
 import model.improvement.ImprovementType;
 import model.resource.Resource;
 import model.resource.ResourceType;
-import model.unit.Armed;
-import model.unit.Civilian;
+import model.unit.armed.Armed;
+import model.unit.civilian.Civilian;
 import model.unit.Unit;
 import utils.VectorUtils;
 
@@ -77,6 +77,10 @@ public class Tile {
 
 	public Terrain getTerrain() {
 		return terrain;
+	}
+
+	public City getInnerCity() {
+		return innerCity;
 	}
 
 	public void setTerrain(Terrain terrain) {

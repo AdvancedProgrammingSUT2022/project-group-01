@@ -8,5 +8,5 @@ public enum CombatType {
 	MELEE,
 	SIEGE,
 	GUNPOWDER,
-	ARMORED;
+	ARMORED
 }

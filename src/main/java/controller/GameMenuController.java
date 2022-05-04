@@ -8,7 +8,6 @@ import model.tile.Tile;
 import model.unit.*;
 
 import java.util.HashMap;
-import java.util.Vector;
 
 public class GameMenuController {
 
