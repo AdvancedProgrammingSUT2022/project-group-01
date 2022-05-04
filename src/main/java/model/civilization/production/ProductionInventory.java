@@ -9,8 +9,9 @@ public class ProductionInventory {
 
 	Civilization civilization;
 	City city;
-	private Vector<Production> productions;
-	private Production currentProduction;
+	Production currentProduction;
+	int cost;
+	int remainedCost;
 
 	private void createList() {
 		// TODO - implement model.civilization.production.ProductionInventory.createList

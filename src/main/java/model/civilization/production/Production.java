@@ -3,16 +3,11 @@ package model.civilization.production;
 import model.civilization.Civilization;
 import model.civilization.city.City;
 
-public class Production {
+import java.util.Vector;
 
-    int cost;
-    int remainedCost;
-
-
-    //true means created and it's ready for next production
-    public boolean nextTurn(Civilization civilization, City city){
-        //TODO: implement here
-        return false;
-    }
-
+public interface Production {
+    Vector<Production> allProductions = new Vector<>();
+    void produce(City city);
+    boolean isProducible(City city);
+    int getCost(City city);
 }

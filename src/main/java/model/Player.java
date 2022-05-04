@@ -14,6 +14,9 @@ public class Player {
 	private SavedMap savedMap;
 	private Tile mapCenterTile;
 
+	public Player(User user){
+		this.user = user;
+	}
 	public void initializeSavedMap(Game game){
 		savedMap = new SavedMap(game.getMap(),game.getMap().getMapSize());
 	}
@@ -32,4 +35,9 @@ public class Player {
 	public void setMapCenterTile(Tile mapCenterTile) {
 		this.mapCenterTile = mapCenterTile;
 	}
+
+	public void setCivilization(Civilization civilization) {
+		this.civilization = civilization;
+	}
+  
 }

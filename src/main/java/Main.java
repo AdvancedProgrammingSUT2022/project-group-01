@@ -1,11 +1,15 @@
-import controller.MapController;
-import controller.MapGenerationController;
-import controller.TileController;
+import controller.*;
 import model.Game;
 import model.Player;
+import model.User;
+import model.civilization.Civilization;
+import model.civilization.city.City;
 import model.improvement.Improvement;
 import model.improvement.ImprovementType;
 import model.tile.Tile;
+import model.unit.Armed;
+import model.unit.UnitType;
+import java.util.List;
 
 import java.util.Scanner;
 import java.util.Vector;
@@ -17,20 +21,19 @@ public class Main {
         //to check map uncomment here
 
         TileController.initializeEnums();
-        Game game = new Game(new Vector<>(), 21);
-        MapGenerationController mapgenController = new MapGenerationController(game);
-        mapgenController.generateMap(21);
-        Player mamad = new Player();
-        mamad.initializeSavedMap(game);
+        User user1 = new User("ali","a123","al");
+        User user2 = new User("mamad","m123","mam");
+        Vector<User> okUser = new Vector<>(List.of(user1,user2));
+        Game game = new GameInitializer().startGame(okUser, 31);
         MapController mcontrol = new MapController(game);
-        game.setCurrentPlayer(mamad);
+        game.getMap().getTileByNumber(301).setInnerCity(new City("hello", game.getPlayers().get(0).getCivilization(),game.getMap()
+                .getTileByNumber(301)));
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
-        game.getCurrentPlayer().setMapCenterTile(game.getMap().getTile(10, 10));
-        game.getMap().getTile(11,11).buildImprovement(new Improvement(ImprovementType.CAMP));
+        //game.getMap().getTile(game.getMap().getMapSize(),11).buildImprovement(new Improvement(ImprovementType.CAMP));
         Vector<Tile> revealTiles = new Vector<>();
-        for(int p = 7; p < 10; p++){
-            for(int q = 7; q < 10; q++){
+        for(int p = 15; p < 20; p++){
+            for(int q = 10; q < 15; q++){
                 revealTiles.add(game.getMap().getTile(p, q));
             }
         }

@@ -69,7 +69,7 @@ public class MapController extends Controller {
                 savedMap.setVisibilityState(tile, Tile.VisibilityState.DISCOVERED);
         }
         for (Tile tile : visibleTiles) {
-            savedMap.updateData(tile, Tile.VisibilityState.VISIBLE, tile.getTerrain(), tile.getFeature(), tile.getAvailableResource());
+            savedMap.updateData(tile, Tile.VisibilityState.VISIBLE, tile.getTerrain(), tile.getFeature(), tile.getAvailableResource(),tile.getInnerCity());
         }
     }
 
@@ -147,6 +147,13 @@ public class MapController extends Controller {
         // improvements
         setImprovement(tile, showingMap, xCoordinate, yCoordinate);
         // TODO Implement Cities in checkpoint2
+        // city
+        if(tile.getInnerCity() != null){
+            String cityName = tile.getInnerCity().getName();
+            cityName = cityName.substring(0,2);
+            String cityColor = tile.getInnerCity().getCivilization().getCivilization().getColor().setTextColor(cityName);
+            setCity(cityColor, showingMap, xCoordinate, yCoordinate);
+        }
         // resource
         if (tile.getAvailableResource() != null) {
             String resourceColor = ConsoleMap.getRepresentation(tile.getAvailableResource().getType());
@@ -227,6 +234,10 @@ public class MapController extends Controller {
     private void setResource(String color, ConsoleMap showMap, int xCoordinate, int yCoordinate) {
         showMap.setScreenMapIndex(xCoordinate - 1, yCoordinate - 1, color);
         showMap.setScreenMapIndex(xCoordinate, yCoordinate - 1, ConsoleMap.colorCharacter.RESET.color);
+    }
+    private void setCity(String colorName, ConsoleMap showMap, int xCoordinate, int yCoordinate){
+        showMap.setScreenMapIndex(xCoordinate - 1, yCoordinate + 1, colorName);
+        showMap.setScreenMapIndex(xCoordinate, yCoordinate + 1, ConsoleMap.colorCharacter.RESET.color);
     }
 
     private void setBoarder(Tile tile, ConsoleMap showMap, int xCoordinate, int yCoordinate) {

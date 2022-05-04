@@ -15,6 +15,7 @@ import model.unit.civilian.Civilian;
 import model.unit.Unit;
 import utils.VectorUtils;
 
+import javax.swing.plaf.ColorUIResource;
 // TODO added get available resource
 public class Tile {
 	private int pCoordinate;
@@ -65,6 +66,9 @@ public class Tile {
 
 	public void setCivilization(Civilization civilization) {
 		this.civilization = civilization;
+	}
+	public Currency getCurrency(){
+		return new Currency(getGoldYield(), getProductionYield(), getFoodYield());
 	}
 
 	public int getPCoordinate() {
@@ -186,7 +190,8 @@ public class Tile {
 
 	public int getFoodYield() {
 		int yield = 0;
-		yield += terrain.food;
+		if(!this.peopleInside.isEmpty())
+			yield += terrain.food;
 		if(feature != null)
 			yield += feature.food;
         if(availableResource != null)
@@ -196,7 +201,8 @@ public class Tile {
 
 	public int getGoldYield() {
 		int yield = 0;
-		yield += terrain.gold;
+		if(!this.peopleInside.isEmpty())
+			yield += terrain.gold;
 		if(feature != null)
 			yield += feature.gold;
         if(availableResource != null)
@@ -206,7 +212,8 @@ public class Tile {
 
 	public int getProductionYield() {
 		int yield = 0;
-		yield += terrain.production;
+		if(!this.peopleInside.isEmpty())
+			yield += terrain.production;
 		if(feature != null)
 			yield += feature.production;
         if(availableResource != null)
@@ -315,10 +322,6 @@ public class Tile {
 		FOG_OF_WAR
 	}
 
-	public Currency getCurrency(){
-		return this.currency;
-	}
-
 	public static Vector<Tile> getAdjacentForArea(Vector<Tile> area, int depth){
 		Vector<Tile> out = new Vector<>();
 		for(int i=0;i<depth;i++){
@@ -335,4 +338,13 @@ public class Tile {
 		out = VectorUtils.unique(out);
 		return out;
 	}
+
+	public City getInnerCity() {
+		return innerCity;
+	}
+
+	public void setInnerCity(City innerCity) {
+		this.innerCity = innerCity;
+	}
+
 }

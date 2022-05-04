@@ -59,6 +59,7 @@ public class MapGenerationController extends Controller {
             }
         }
         game.getMap().setMap(generatedMap);
+        setContinent();
     }
 
 

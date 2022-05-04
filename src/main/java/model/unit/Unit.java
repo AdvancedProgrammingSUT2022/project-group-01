@@ -18,7 +18,7 @@ import java.util.Collections;
 import java.util.PriorityQueue;
 import java.util.Vector;
 
-public class Unit extends Production {
+public class Unit{
 	public final static int maxHealth = 10;
 	protected Civilization ownerCivilization;
 	private int health;
