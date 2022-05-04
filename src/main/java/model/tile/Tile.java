@@ -11,9 +11,9 @@ import model.improvement.ImprovementInventory;
 import model.improvement.ImprovementType;
 import model.resource.Resource;
 import model.resource.ResourceType;
-import model.unit.Armed;
-import model.unit.Civilian;
 import model.unit.Unit;
+import model.unit.armed.Armed;
+import model.unit.civilian.Civilian;
 import utils.VectorUtils;
 
 // TODO added get available resource

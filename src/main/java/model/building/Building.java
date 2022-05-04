@@ -2,12 +2,12 @@ package model.building;
 import model.Player;
 import model.civilization.Person;
 import model.civilization.city.City;
-import model.civilization.production.Production;
+import model.civilization.production.Producible;
 import model.tile.Tile;
 
 import java.util.Vector;
 
-public class Building implements Producible {
+public class Building {
 
 	private BuildingType type;
 	private Tile tile;

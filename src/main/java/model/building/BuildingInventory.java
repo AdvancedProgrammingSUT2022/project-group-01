@@ -47,8 +47,4 @@ public class BuildingInventory {
 		return 0;
 	}
 
-	public int getBeaker(){
-		return 0;
-	}
-
 }

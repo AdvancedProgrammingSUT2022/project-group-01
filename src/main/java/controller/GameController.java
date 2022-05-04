@@ -60,9 +60,9 @@ public class GameController {
             Tile tile = game.getMap().getTileByNumber(Integer.parseInt(value));
             if(tile == null)
                 return "Invalid position";
-            if(tile.getInnerCity() == null)
+            if(tile.getOwnerCity() == null)
                 return "There is no city here";
-            game.setSelectedObject(tile.getInnerCity());
+            game.setSelectedObject(tile.getOwnerCity());
             return "city selected";
         }else if(selectingType.equals("name")){
             City city = findCityByName(value);

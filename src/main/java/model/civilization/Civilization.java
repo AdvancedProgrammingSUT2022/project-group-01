@@ -67,11 +67,12 @@ public class Civilization {
 		throw new UnsupportedOperationException();
 	}
 
-	public void updateHappiness(){
+	public void updateHappiness() {
 		happiness = 0;
-		for(City city : cities)
+		for (City city : cities)
 			happiness += city.getHappiness();
 		//todo implement for civilization based happiness bonus
+	}
 
 	public int getHappiness(){
 		return happiness;

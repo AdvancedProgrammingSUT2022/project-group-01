@@ -42,7 +42,7 @@ public class Settler extends Civilian {
 				tmp.addAll(closeTile.getAdjacentTiles());
 			closeTiles = tmp;
 			for (Tile closeTile : closeTiles) {
-				if(closeTile.getInnerCity() != null)
+				if(closeTile.getOwnerCity() != null)
 					return false;
 			}
 		}
@@ -57,7 +57,7 @@ public class Settler extends Civilian {
 		actionsQueue.resetQueue();
 
 		String name = ownerCivilization.getCivilization().getCityNames()[ownerCivilization.getCities().size()];
-		City newCity = new City(name, ownerCivilization, currentTile);
+		City newCity = new City(name, ownerCivilization, currentTile,15);//todo implement here (based on difficulty)
 		ownerCivilization.addNewCity(newCity);
 		suicide();
 	}

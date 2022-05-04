@@ -47,7 +47,6 @@ public class Unit{
 
 	}
 
-
 	public UnitType getType() {
 		return unitType;
 	}
