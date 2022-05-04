@@ -66,6 +66,7 @@ public enum BuildingType {
 		this.maintenance = maintenance;
 		this.requiredTechnology = requiredTechnology;
 		this.necessaryResources = necessaryResources;
+		Producible.productions.add(this);
 	}
 
 	/**

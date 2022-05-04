@@ -2,7 +2,7 @@ package model.unit.civilian;
 
 import model.Game;
 import model.civilization.Civilization;
-import model.improvement.Improvement;
+import model.improvement.ImprovementType;
 import model.tile.Tile;
 import model.unit.UnitType;
 import model.unit.civilian.Civilian;
@@ -14,7 +14,7 @@ public class Worker extends Civilian {
 	public boolean canImprove(){
 		return false;
 	}
-	public boolean improveTile(Improvement improvement){
+	public boolean improveTile(ImprovementType improvement){
 		return false;
 	}
 	public void buildRoad(){}
