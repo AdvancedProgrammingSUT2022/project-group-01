@@ -1,5 +1,6 @@
 package model.resource;
 
+import model.civilization.Civilization;
 import model.improvement.ImprovementType;
 import model.technology.TechnologyType;
 import model.tile.Terrain;
@@ -198,6 +199,14 @@ public enum ResourceType {
         this.gold = gold;
         this.tradable = tradable;
         this.resourceKind = resourceKind;
+    }
+    public boolean isVisible(Civilization civilization){
+        if(this.visibilityTechnology != null){
+            if(civilization.getResearchTree().isResearched(this.visibilityTechnology))
+                return true;
+            return false;
+        }
+        return true;
     }
 
     public void initializeVectors() {

@@ -165,18 +165,21 @@ public class Tile {
 		this.hasRoad = true;
 	}
 	public Boarder getBoarderInfo(int i){return nearbyBoarders[i];}
-	public boolean isHasRailRoad() {
+	public boolean doesHaveRailRoad() {
 		return hasRailRoad;
 	}
 
-	public void buildRailRoad(boolean hasRailRoad) {
-		this.hasRailRoad = hasRailRoad;
+	public void buildRailRoad() {
+		this.hasRailRoad = true;
 	}
 
 	public boolean hasRiverNearby() {
 		return false;
 	}
-	public void removeRiver(Tile tile){}
+	public void removeRoads(){
+		this.hasRoad = false;
+		this.hasRailRoad = false;
+	}
 	public boolean checkRiverByTile(Tile tile){return false;}
 	public boolean isDestroyed() {
 		return isDestroyed;
@@ -360,6 +363,11 @@ public class Tile {
 
 	public void setOwnerCity(City ownerCity) {
 		this.ownerCity = ownerCity;
+	}
+
+	public void pillageImprovement(){
+		if(this.improvementInventory != null)
+			this.improvementInventory.damage();
 	}
 
 }

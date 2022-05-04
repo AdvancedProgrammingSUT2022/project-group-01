@@ -16,17 +16,20 @@ public class ImprovementInventory implements TurnBasedLogic {
 		addToList();
 	}
 	public void nextTurn(){
-		if(!this.state.equals(ProgressState.IN_PROGRESS))
-			return;
-		this.turnsLeft -= 1;
-		if(this.turnsLeft == 0) {
-			this.state = ProgressState.COMPLETE;
-			removeFromList();
+		if(this.state.equals(ProgressState.IN_PROGRESS) | this.state.equals(ProgressState.DAMAGED)) {
+			this.turnsLeft -= 1;
+			if (this.turnsLeft == 0) {
+				this.state = ProgressState.COMPLETE;
+				removeFromList();
+			}
 		}
 	}
 	public void stop(){
 		if(this.state.equals(ProgressState.IN_PROGRESS)) {
 			this.state = ProgressState.STOPPED;
+			removeFromList();
+		}
+		if(this.state.equals(ProgressState.DAMAGED)){
 			removeFromList();
 		}
 	}
@@ -60,6 +63,17 @@ public class ImprovementInventory implements TurnBasedLogic {
 			this.state = ProgressState.IN_PROGRESS;
 			addToList();
 		}
+	}
+
+	public void repair(){
+		if(this.state.equals(ProgressState.DAMAGED)) {
+			this.turnsLeft = 3;
+			addToList();
+		}
+	}
+
+	public void damage(){
+		this.state = ProgressState.DAMAGED;
 	}
 
 }
