@@ -19,7 +19,8 @@ public class Person {
 		if(tile != null){
 			tile.removePerson(this);
 		}
-		newTile.addPerson(this);
+		if(newTile != null)
+			newTile.addPerson(this);
 		tile = newTile;
 	}
 

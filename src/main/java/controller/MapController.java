@@ -3,7 +3,6 @@ package controller;
 import model.Game;
 import model.Map;
 import model.Player;
-import model.civilization.city.City;
 import model.map.ConsoleMap;
 import model.map.SavedMap;
 import model.tile.Tile;
@@ -69,7 +68,7 @@ public class MapController extends Controller {
                 savedMap.setVisibilityState(tile, Tile.VisibilityState.DISCOVERED);
         }
         for (Tile tile : visibleTiles) {
-            savedMap.updateData(tile, Tile.VisibilityState.VISIBLE, tile.getTerrain(), tile.getFeature(), tile.getAvailableResource());
+            savedMap.updateData(tile, Tile.VisibilityState.VISIBLE, tile.getTerrain(), tile.getFeature(), tile.getAvailableResource(),tile.getOwnerCity());
         }
     }
 
@@ -125,7 +124,7 @@ public class MapController extends Controller {
         String number = ConsoleMap.colorCharacter.WHITE_BOLD.setTextColor(String.format("%4d", tile.getMapNumber()));
         // TODO Implement Cities in checkpoint2
         // resource
-        if (player.getSavedMap().getResourceTypes(tile) != null) {
+        if ((player.getSavedMap().getResourceTypes(tile) != null) && (tile.getAvailableResource().getType().isVisible(game.getCurrentPlayer().getCivilization()))) {
             String resourceColor = ConsoleMap.getRepresentation(player.getSavedMap().getResourceTypes(tile));
             setResource(resourceColor, showingMap, xCoordinate, yCoordinate);
         }
@@ -146,9 +145,15 @@ public class MapController extends Controller {
         String terrainColor = ConsoleMap.getRepresentation(tile.getTerrain());
         // improvements
         setImprovement(tile, showingMap, xCoordinate, yCoordinate);
-        // TODO Implement Cities in checkpoint2
+        // city
+        if(tile.getOwnerCity() != null){
+            String cityName = tile.getOwnerCity().getName();
+            cityName = cityName.substring(0,2);
+            String cityColor = tile.getOwnerCity().getCivilization().getCivilization().getColor().setTextColor(cityName);
+            setCity(cityColor, showingMap, xCoordinate, yCoordinate);
+        }
         // resource
-        if (tile.getAvailableResource() != null) {
+        if ((tile.getAvailableResource() != null) && (tile.getAvailableResource().getType().isVisible(game.getCurrentPlayer().getCivilization()))) {
             String resourceColor = ConsoleMap.getRepresentation(tile.getAvailableResource().getType());
             setResource(resourceColor, showingMap, xCoordinate, yCoordinate);
         }
@@ -219,7 +224,7 @@ public class MapController extends Controller {
 
     private void setImprovement(Tile tile, ConsoleMap showMap, int xCoordinate, int yCoordinate) {
         if (tile.getBuiltImprovement() == null) return;
-        String name = ConsoleMap.getRepresentation(tile.getBuiltImprovement().getType());
+        String name = ConsoleMap.getRepresentation(tile.getBuiltImprovement());
         showMap.setScreenMapIndex(xCoordinate - 1, yCoordinate - 2, name);
         showMap.setScreenMapIndex(xCoordinate, yCoordinate - 2, ConsoleMap.colorCharacter.RESET.color);
     }
@@ -228,39 +233,44 @@ public class MapController extends Controller {
         showMap.setScreenMapIndex(xCoordinate - 1, yCoordinate - 1, color);
         showMap.setScreenMapIndex(xCoordinate, yCoordinate - 1, ConsoleMap.colorCharacter.RESET.color);
     }
+    private void setCity(String colorName, ConsoleMap showMap, int xCoordinate, int yCoordinate){
+        showMap.setScreenMapIndex(xCoordinate - 1, yCoordinate + 1, colorName);
+        showMap.setScreenMapIndex(xCoordinate, yCoordinate + 1, ConsoleMap.colorCharacter.RESET.color);
+    }
 
     private void setBoarder(Tile tile, ConsoleMap showMap, int xCoordinate, int yCoordinate) {
         boolean isRiver;
+        boolean isTileFogOfWar = game.getCurrentPlayer().getSavedMap().getVisibilityState(tile).equals(Tile.VisibilityState.FOG_OF_WAR);
         isRiver = tile.getBoarderInfo(0).isRiver();
         String boarder = ConsoleMap.getRepresentation("_");
-        if (isRiver) boarder = ConsoleMap.getRepresentation("_R");
+        if (isRiver &&(!isTileFogOfWar)) boarder = ConsoleMap.getRepresentation("_R");
         for (int x = xCoordinate - 3; x < xCoordinate + 4; x++) {
             showMap.setScreenMapIndex(x, yCoordinate - 3, boarder);
         }
         isRiver = tile.getBoarderInfo(3).isRiver();
         boarder = ConsoleMap.getRepresentation("_");
-        if (isRiver) boarder = ConsoleMap.getRepresentation("_R");
+        if (isRiver &&(!isTileFogOfWar)) boarder = ConsoleMap.getRepresentation("_R");
         for (int x = xCoordinate - 3; x < xCoordinate + 4; x++) {
             showMap.setScreenMapIndex(x, yCoordinate + 3, boarder);
         }
         // set sides
         boarder = ConsoleMap.getRepresentation("/");
-        if (tile.getBoarderInfo(5).isRiver()) boarder = ConsoleMap.getRepresentation("/R");
+        if (tile.getBoarderInfo(5).isRiver() &&(!isTileFogOfWar)) boarder = ConsoleMap.getRepresentation("/R");
         for (int i = 0; i < 3; i++) {
             showMap.setScreenMapIndex(xCoordinate - 6 + i, yCoordinate - i, boarder);
         }
         boarder = ConsoleMap.getRepresentation("/");
-        if (tile.getBoarderInfo(2).isRiver()) boarder = ConsoleMap.getRepresentation("/R");
+        if (tile.getBoarderInfo(2).isRiver() && (!isTileFogOfWar)) boarder = ConsoleMap.getRepresentation("/R");
         for (int i = 0; i < 3; i++) {
             showMap.setScreenMapIndex(xCoordinate + 6 - i, yCoordinate + i + 1, boarder);
         }
         boarder = ConsoleMap.getRepresentation("\\");
-        if (tile.getBoarderInfo(1).isRiver()) boarder = ConsoleMap.getRepresentation("\\R");
+        if (tile.getBoarderInfo(1).isRiver() && (!isTileFogOfWar)) boarder = ConsoleMap.getRepresentation("\\R");
         for (int i = 0; i < 3; i++) {
             showMap.setScreenMapIndex(xCoordinate + 6 - i, yCoordinate - i, boarder);
         }
         boarder = ConsoleMap.getRepresentation("\\");
-        if (tile.getBoarderInfo(4).isRiver()) boarder = ConsoleMap.getRepresentation("\\R");
+        if (tile.getBoarderInfo(4).isRiver() && (!isTileFogOfWar)) boarder = ConsoleMap.getRepresentation("\\R");
         for (int i = 0; i < 3; i++) {
             showMap.setScreenMapIndex(xCoordinate - 6 + i, yCoordinate + i + 1, boarder);
         }

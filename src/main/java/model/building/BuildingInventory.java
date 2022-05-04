@@ -16,8 +16,7 @@ public class BuildingInventory {
 	 * @param building
 	 */
 	public void ownBuilding(BuildingType building) {
-		// TODO - implement BuildingInventory.ownBuilding
-		throw new UnsupportedOperationException();
+		ownedBuildings.add(building);
 	}
 
 	/**
@@ -25,8 +24,7 @@ public class BuildingInventory {
 	 * @param building
 	 */
 	public boolean hasBuilding(BuildingType building) {
-		// TODO - implement BuildingInventory.hasBuilding
-		throw new UnsupportedOperationException();
+		return ownedBuildings.contains(building);
 	}
 
 	/**
@@ -34,8 +32,7 @@ public class BuildingInventory {
 	 * @param building
 	 */
 	public void accessBuilding(BuildingType building) {
-		// TODO - implement BuildingInventory.accessBuilding
-		throw new UnsupportedOperationException();
+		accessedBuilding.add(building);
 	}
 
 	/**
@@ -43,8 +40,11 @@ public class BuildingInventory {
 	 * @param building
 	 */
 	public boolean hasAccessToBuilding(BuildingType building) {
-		// TODO - implement BuildingInventory.hasAccessToBuilding
-		throw new UnsupportedOperationException();
+		return accessedBuilding.contains(building);
+	}
+
+	public int getBeaker(){
+		return 0;
 	}
 
 }

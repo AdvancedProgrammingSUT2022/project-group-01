@@ -16,7 +16,6 @@ public class City {
 	private Civilization civilization;
 	private final Vector<Person> population;
 	private String name;
-
 	private Currency currency;
 	private ProductionInventory productionInventory;
 	private CityState state;
@@ -31,7 +30,10 @@ public class City {
 	private final int turnToExpansion = 5;
 	private int remainedTurnToExpansion = turnToExpansion;
 	private Unit garrisonedUnit;
-	public City(String name, Civilization civilization, Tile center) {
+	private int beaker = 5;//todo check correct value
+	private int happiness;
+
+	public City(String name, Civilization civilization, Tile center, int happiness) {
 		this.civilization =  civilization;
 		this.population = new Vector<>(Arrays.asList(new Person(center)));
 		this.name = name;
@@ -40,10 +42,18 @@ public class City {
 		tiles.add(center);
 		tiles.addAll(center.getAdjacentTiles());
 		nextTiles = new Vector<>();
-		this.currency = new Currency(5,5,5);//TODO: check this values
+		this.currency = new Currency(5,5,5);//TODO: check this value
+		this.happiness = happiness;
 	}
 
+	public int getHappiness() {
+		return happiness;
+	}
 
+	public void updateHappiness(int happiness) {
+		//todo implement here
+
+	}
 
 	public Vector<Tile> getTiles() {
 		return tiles;
@@ -62,13 +72,12 @@ public class City {
 	}
 
 	public Civilization getCivilization(){
-		throw new UnsupportedOperationException();
+		return this.civilization;
 	}
 
 
-	public ProductionInventory getProductionsList() {
-		// TODO - implement model.civilization.city.City.getProductionsList
-		throw new UnsupportedOperationException();
+	public ProductionInventory getProductionInventory() {
+		return this.productionInventory;
 	}
 
 	public void setNewProduction() {
@@ -98,7 +107,7 @@ public class City {
 	}
 
 	private void handlePopulationIncrease(){
-
+		//todo implement here
 	}
 
 	public void destroy() {
@@ -108,8 +117,9 @@ public class City {
 	}
 
 	public void nextTurn() {
-		// TODO - implement model.civilization.city.City.nextTurn
-		throw new UnsupportedOperationException();
+		updateCurrency();
+		productionInventory.payProduction(currency.getProduct());
+		updateBeaker();
 	}
 
 	public double calculateScience(){
@@ -206,5 +216,44 @@ public class City {
 		}
 	}
 
+	/**
+	 * it should be called after updating currency
+	 */
+	public void updateBeaker(){
+		//todo implement here(update currency if is necessary and update with buildings break)
+		this.beaker = 0;
+		if(this.civilization.getCapital() == this)
+			this.beaker = 3;
+		this.beaker += population.size();
+		if(this.currency.getGold() < 0)
+			this.beaker -= this.currency.getGold();
+	}
+
+	public int getBeaker(){
+		return this.beaker;
+	}
+
+	public void increaseDefencePower(int amount){
+		this.defencePower += amount;
+	}
+
+	public void payCurrency(double gold, double production, double food){
+		this.currency.increase(-gold, -production, -food);
+	}
+
+	public HashMap<String, String> getScreen(){
+		HashMap<String, String> out = new HashMap<>(){{
+			put("name", name);
+			put("defencePower", String.valueOf(defencePower));
+			put("health", String.valueOf(health));
+			put("state", state.name().toLowerCase());
+			put("gold", String.valueOf(currency.getGold()));
+			put("food", String.valueOf(currency.getFood()));
+			put("production", String.valueOf(currency.getProduct()));
+			put("beaker", String.valueOf(beaker));
+			put("population",String.valueOf(population.size()));
+		}};
+		return out;
+	}
 
 }
