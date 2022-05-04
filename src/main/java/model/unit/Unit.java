@@ -4,7 +4,6 @@ import model.Game;
 import model.Map;
 import model.civilization.Civilization;
 import model.civilization.city.City;
-import model.civilization.production.Production;
 import model.technology.TechnologyList;
 import model.tile.Boarder;
 import model.tile.Tile;
@@ -42,6 +41,11 @@ public class Unit{
 		this.game = game;
 		actionsQueue = new ActionsQueue();
 		unitType = type;
+	}
+
+	public void produceUnit(UnitType type, City city){
+		// TODO
+
 	}
 
 
