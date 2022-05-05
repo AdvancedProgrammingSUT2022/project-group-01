@@ -1,5 +1,7 @@
 package model.unit;
 
+import lombok.Getter;
+import lombok.Setter;
 import model.Game;
 import model.Map;
 import model.civilization.Civilization;
@@ -17,6 +19,7 @@ import java.util.Collections;
 import java.util.PriorityQueue;
 import java.util.Vector;
 
+@Getter @Setter
 public class Unit{
 	public final static int maxHealth = 10;
 	protected Civilization ownerCivilization;
@@ -27,7 +30,7 @@ public class Unit{
 	protected Tile currentTile;
 	private boolean isHealing;
 	private Game game;
-	private UnitType unitType;
+	private UnitType type;
 	protected ActionsQueue actionsQueue;
 
 	public Unit(UnitType type, Tile tile, Civilization civilization, Game game) {
@@ -39,20 +42,12 @@ public class Unit{
 		this.ownerCivilization = civilization;
 		this.game = game;
 		actionsQueue = new ActionsQueue();
-		unitType = type;
+		this.type = type;
 	}
 
 	public void produceUnit(UnitType type, City city){
 		// TODO
 
-	}
-
-	public UnitType getType() {
-		return unitType;
-	}
-
-	public Tile getCurrentTile() {
-		return currentTile;
 	}
 
 	public boolean nextTurn(Civilization civilization, City city) {
@@ -71,11 +66,7 @@ public class Unit{
 	public void moveTo(Tile tile) {}
 
 	public TraitsList getTraitsList(){
-		return unitType.getUnitTraits();
-	}
-
-	public int getHealth() {
-		return health;
+		return type.getUnitTraits();
 	}
 
 	/**

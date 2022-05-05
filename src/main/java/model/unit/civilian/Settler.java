@@ -16,7 +16,7 @@ import java.util.Vector;
  * Settler is used to found cities,
  * one of the basic units of game
  *
- * @author Ali SAfari
+ * @author Ali Safari
  */
 public class Settler extends Civilian {
 	/**
