@@ -9,6 +9,7 @@ public class LoginMenu {
 
     LoginMenuController controller;
     private final HashMap<CommandAction, Commands> commands;
+
     {
         commands = new HashMap<CommandAction, Commands>() {{
             put(new CommandAction() {
