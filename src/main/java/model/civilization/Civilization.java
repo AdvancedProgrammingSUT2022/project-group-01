@@ -161,8 +161,8 @@ public class Civilization {
 		}
 
 		public void addTileResources(Tile tile){
-			if((tile.getAvailableResource() != null) && (!tile.getAvailableResource().getType().resourceKind.equals(KindsOfResource.BONUS)))
-				addResource(tile.getAvailableResource().getType());
+			if((tile.getAvailableResource() != null) && (!tile.getAvailableResource().resourceKind.equals(KindsOfResource.BONUS)))
+				addResource(tile.getAvailableResource());
 		}
 
 		public Currency getResourcesCurrency(){
