@@ -4,14 +4,11 @@ import controller.LoginMenuController;
 import controller.Menus;
 import controller.ProgramController;
 import utils.Commands;
-
 import java.util.HashMap;
-
 public class LoginMenu {
 
     LoginMenuController controller;
     private final HashMap<CommandAction, Commands> commands;
-
     {
         commands = new HashMap<CommandAction, Commands>() {{
             put(new CommandAction() {

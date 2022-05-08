@@ -7,9 +7,9 @@ import model.civilization.Civilization;
 import model.civilization.Civilizations;
 import model.tile.Terrain;
 import model.tile.Tile;
-import model.unit.Armed;
-import model.unit.Settler;
 import model.unit.UnitType;
+import model.unit.armed.Armed;
+import model.unit.civilian.Settler;
 
 import java.util.Random;
 import java.util.Vector;

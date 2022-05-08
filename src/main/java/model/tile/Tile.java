@@ -9,12 +9,14 @@ import model.civilization.Person;
 import model.civilization.city.City;
 import model.improvement.ImprovementInventory;
 import model.improvement.ImprovementType;
-import model.resource.Resource;
+
 import model.resource.ResourceType;
-import model.unit.Armed;
-import model.unit.Civilian;
 import model.unit.Unit;
+import model.unit.armed.Armed;
+import model.unit.civilian.Civilian;
 import utils.VectorUtils;
+
+import javax.swing.plaf.ColorUIResource;
 
 // TODO added get available resource
 public class Tile {
@@ -29,7 +31,7 @@ public class Tile {
 	private Armed armedUnit;
 	private Civilian civilianUnit;
 	private ImprovementInventory improvementInventory;
-	private Resource availableResource;
+	private ResourceType availableResource;
 	private boolean hasRoad;
 	private boolean hasRailRoad;
 	private Boarder[] nearbyBoarders;
@@ -60,7 +62,7 @@ public class Tile {
 		this.civilianUnit = civilianUnit;
 	}
 
-	public Resource getAvailableResource() {
+	public ResourceType getAvailableResource() {
 		return availableResource;
 	}
 
@@ -68,7 +70,13 @@ public class Tile {
 		this.civilization = civilization;
 	}
 	public Currency getCurrency(){
-		return new Currency(getGoldYield(), getProductionYield(), getFoodYield());
+		 Currency output = new Currency(getGoldYield(), getProductionYield(), getFoodYield());
+		 // Adding Improvement Currency
+		output.add(this.improvementInventory.getCurrency());
+		// Adding Resource Currency
+		if(availableResource != null)
+			output.add(availableResource.getCurrency(this));
+		return output;
 	}
 
 	public int getPCoordinate() {
@@ -121,7 +129,7 @@ public class Tile {
 		return peopleInside;
 	}
 
-	public Tile(Terrain terrain, TerrainFeature feature, Civilization civilization, Resource availableResources, int p, int q, int number) {
+	public Tile(Terrain terrain, TerrainFeature feature, Civilization civilization, ResourceType availableResources, int p, int q, int number) {
 		this.terrain = terrain;
 		this.feature = feature;
 		nearbyBoarders = new Boarder[6];
@@ -131,6 +139,7 @@ public class Tile {
 		pCoordinate = p;
 		qCoordinate = q;
 		this.mapNumber = number;
+		this.improvementInventory = new ImprovementInventory(this);
 	}
 
 	public void addPerson(Person person) {
@@ -141,17 +150,19 @@ public class Tile {
 	}
 	public void buildImprovement(ImprovementType improvement){
 		if(this.improvementInventory != null){
-			if(this.improvementInventory.getImprovement().equals(improvement))
-				if(this.improvementInventory.getState().equals(ProgressState.STOPPED))
+			if(this.improvementInventory.getImprovement().equals(improvement)) {
+				if (this.improvementInventory.getState().equals(ProgressState.STOPPED))
 					this.improvementInventory.progress();
+			}
+			else this.improvementInventory.reset(improvement);
 		}
-		else this.improvementInventory = new ImprovementInventory(this, improvement);
+
 	}
 	public void removeImprovement(ImprovementType improvement){
 		if(this.improvementInventory == null) return;
 		if(this.improvementInventory.getImprovement().equals(improvement)) {
 			this.improvementInventory.removeFromList();
-			this.improvementInventory = null;
+			this.improvementInventory.remove();
 		}
 	}
 	public void removeResource(){
@@ -198,34 +209,25 @@ public class Tile {
 
 	public int getFoodYield() {
 		int yield = 0;
-		if(!this.peopleInside.isEmpty())
-			yield += terrain.food;
+		yield += terrain.food;
 		if(feature != null)
 			yield += feature.food;
-        if(availableResource != null)
-            yield += availableResource.getFood();
 		return yield;
 	}
 
 	public int getGoldYield() {
 		int yield = 0;
-		if(!this.peopleInside.isEmpty())
-			yield += terrain.gold;
+		yield += terrain.gold;
 		if(feature != null)
 			yield += feature.gold;
-        if(availableResource != null)
-            yield += availableResource.getGold();
 		return yield;
 	}
 
 	public int getProductionYield() {
 		int yield = 0;
-		if(!this.peopleInside.isEmpty())
-			yield += terrain.production;
+		yield += terrain.production;
 		if(feature != null)
 			yield += feature.production;
-        if(availableResource != null)
-            yield += availableResource.getProduction();
 		return yield;
 	}
 
@@ -238,9 +240,11 @@ public class Tile {
 	}
 
 	public int getMovementCost() {
-		// TODO - implement Cell.getMovementCost
-		// If river & move => = moving point hash
-		throw new UnsupportedOperationException();
+		int MP = 0;
+		MP += this.terrain.movementCost;
+		if(this.feature != null) MP += this.feature.movementCost;
+		if(hasRoad || hasRoad) MP = 0;
+		return MP;
 	}
 
 	public boolean isPassable() {
@@ -306,7 +310,7 @@ public class Tile {
 
 
 	public void setAvailableResource(ResourceType resourceType){
-		this.availableResource = new Resource(resourceType);
+		this.availableResource = resourceType;
 	}
 	public Vector<Tile> getAdjacentTiles(){
 		Vector<Tile> adjacentTiles = new Vector<>();
@@ -369,5 +373,6 @@ public class Tile {
 		if(this.improvementInventory != null)
 			this.improvementInventory.damage();
 	}
+
 
 }

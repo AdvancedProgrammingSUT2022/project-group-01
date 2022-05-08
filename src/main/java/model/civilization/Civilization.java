@@ -172,4 +172,5 @@ public class Civilization {
 			}
 			return returningCurrency;
 		}
+
 }
