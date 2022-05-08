@@ -22,8 +22,6 @@ public class Civilization {
 	private Currency citiesCurrency;
 	private int happiness;
 	private SavedMap map;
-	double science;
-	//ADDED IMPROVEMENT AND NUMBER BY PARHAM
 	private HashMap<ResourceType, Integer> resourceRepository;
 	private Vector<Unit> units;//TODO merge with safar
 
@@ -35,7 +33,7 @@ public class Civilization {
 		this.capital = capital;
 		units = new Vector<>(); //ADDED BY PRCR
 		cities = new Vector<>(); // ADDED BY PRCR
-		resourceRepository = new HashMap<>(); // ADDED BY PRCR
+		resourceRepository = new HashMap<>(); //ADDED BY PRCR
 	}
 
 	public TechTree getResearchTree() {
@@ -69,21 +67,15 @@ public class Civilization {
 		throw new UnsupportedOperationException();
 	}
 
-	public void increaseHappiness(int amount){
-		happiness += amount;
-	}
-
-	public void decreaseHappiness(int amount){
-		happiness -= amount;
+	public void updateHappiness() {
+		happiness = 0;
+		for (City city : cities)
+			happiness += city.getHappiness();
+		//todo implement for civilization based happiness bonus
 	}
 
 	public int getHappiness(){
 		return happiness;
-	}
-
-	public double calculateScience(){
-		//TODO handle in next checkpoint
-		return 0;
 	}
 
 	public Vector<Civilization> getKnownCivilizations() {
@@ -93,14 +85,6 @@ public class Civilization {
 	public void addKnownCivilization(Civilization civilization){
 		if(!knownCivilizations.contains(civilization))
 			knownCivilizations.add(civilization);
-	}
-
-	public double getScience() {
-		return science;
-	}
-
-	public void setScience(double science) {
-		this.science = science;
 	}
 
 	public Vector<Unit> getUnits() {
@@ -146,42 +130,47 @@ public class Civilization {
 		//todo update unit and ... for currency
 	}
 
-	// HANDLE ADDING RESOURCE
-	public boolean hasResource(ResourceType resource){
-		return this.resourceRepository.containsKey(resource);
+	public City getCapital() {
+		return capital;
 	}
 
-	public void addResource(ResourceType resource){
-		if(hasResource(resource))
-			this.resourceRepository.replace(resource, this.resourceRepository.get(resource) + 1);
-		else this.resourceRepository.put(resource, 1);
-	}
-
-	public void removeResource(ResourceType resource){
-		if(!hasResource(resource))
-			return;
-		this.resourceRepository.replace(resource, this.resourceRepository.get(resource) - 1);
-		if(this.resourceRepository.get(resource) == 0)
-			this.resourceRepository.remove(resource);
-	}
-
-	public void doResourceHappiness(){
-		for(ResourceType resourceType : resourceRepository.keySet()){
-			if(resourceType.resourceKind.equals(KindsOfResource.LUXURY))
-				this.happiness +=4;
+		// HANDLE ADDING RESOURCE
+		public boolean hasResource(ResourceType resource){
+			return this.resourceRepository.containsKey(resource);
 		}
-	}
 
-	public void addTileResources(Tile tile){
-		if((tile.getAvailableResource() != null) && (!tile.getAvailableResource().getType().resourceKind.equals(KindsOfResource.BONUS)))
-			addResource(tile.getAvailableResource().getType());
-	}
-
-	public Currency getResourcesCurrency(){
-		Currency returningCurrency = new Currency(0,0,0);
-		for(ResourceType resource : resourceRepository.keySet()){
-			returningCurrency.increase(resource.gold, resource.production, resource.food);
+		public void addResource(ResourceType resource){
+			if(hasResource(resource))
+				this.resourceRepository.replace(resource, this.resourceRepository.get(resource) + 1);
+			else this.resourceRepository.put(resource, 1);
 		}
-		return returningCurrency;
-	}
+
+		public void removeResource(ResourceType resource){
+			if(!hasResource(resource))
+				return;
+			this.resourceRepository.replace(resource, this.resourceRepository.get(resource) - 1);
+			if(this.resourceRepository.get(resource) == 0)
+				this.resourceRepository.remove(resource);
+		}
+
+		public void doResourceHappiness(){
+			for(ResourceType resourceType : resourceRepository.keySet()){
+				if(resourceType.resourceKind.equals(KindsOfResource.LUXURY))
+					this.happiness +=4;
+			}
+		}
+
+		public void addTileResources(Tile tile){
+			if((tile.getAvailableResource() != null) && (!tile.getAvailableResource().resourceKind.equals(KindsOfResource.BONUS)))
+				addResource(tile.getAvailableResource());
+		}
+
+		public Currency getResourcesCurrency(){
+			Currency returningCurrency = new Currency(0,0,0);
+			for(ResourceType resource : resourceRepository.keySet()){
+				returningCurrency.increase(resource.gold, resource.production, resource.food);
+			}
+			return returningCurrency;
+		}
+
 }

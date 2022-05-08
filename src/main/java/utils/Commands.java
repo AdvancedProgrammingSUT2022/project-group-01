@@ -6,7 +6,7 @@ public enum Commands {
         //info
         INFO("info", null, null, 1,null),
         //select
-        SELECT_UNIT("select unit", new String[]{"position"}, null,1,null),
+        SELECT_UNIT("select unit", new String[]{"position"}, null,0,null),
         SELECT_CITY("select city", null, new String[]{"name", "position"},0,null),
         //unit
         UNIT_MOVE("unit moveto", new String[]{"position"}, null,0,null),

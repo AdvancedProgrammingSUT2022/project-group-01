@@ -7,39 +7,55 @@ import java.util.*;
 
 public class ProductionInventory {
 
-	Civilization civilization;
 	City city;
-	private Vector<Production> productions;
-	private Production currentProduction;
-
-	private void createList() {
-		// TODO - implement model.civilization.production.ProductionInventory.createList
-		throw new UnsupportedOperationException();
+	HashMap<Producible, Double> productions;
+	Producible currentProduction;
+	public ProductionInventory(City city) {
+		this.city = city;
+		currentProduction = null;
+		initList();
 	}
 
-	public ProductionInventory() {
-		// TODO - implement model.civilization.production.ProductionInventory.model.civilization.production.ProductionInventory
-		throw new UnsupportedOperationException();
+	private void initList(){
+		for(Producible producible : Producible.productions){
+			productions.put(producible, (double) producible.getCost(city));
+		}
 	}
 
-	//true means producing is finished
-	public boolean nextTurn() {
-		// TODO - implement model.civilization.production.ProductionInventory.updateProduction
-		throw new UnsupportedOperationException();
+	public void payProduction(double product) {
+		if(currentProduction == null)
+			return;
+		productions.put(currentProduction, productions.get(currentProduction) - product);
+		if(productions.get(currentProduction) <= 0) {
+			currentProduction.produce(city);
+			productions.put(currentProduction,(double) currentProduction.getCost(city));
+			currentProduction = null;
+		}
 	}
 
-	public Object getCurrentProduction() {
-		// TODO - implement here
-		return null;
+	public Producible getCurrentProduction() {
+		return currentProduction;
 	}
 
-	public Vector<Production> getAvailableProductions() {
-		// TODO - implement model.civilization.production.ProductionInventory.getAvailableProductions
-		throw new UnsupportedOperationException();
+	public void setCurrentProduction(Producible producible){
+		this.currentProduction = producible;
+	}
+
+	public Vector<Producible> getAvailableProductions() {
+		Vector<Producible> out = new Vector<>();
+		for(Map.Entry<Producible, Double> set : productions.entrySet())
+			if(set.getKey().isProducible(city))
+				out.add(set.getKey());
+		return out;
 	}
 
 	public void cancelCurrentProduction(){
+		currentProduction = null;
+	}
 
+	public void purchaseProduction(Producible producible){
+		city.payCurrency(producible.getCost(city),0,0);
+		producible.produce(city);
 	}
 
 }

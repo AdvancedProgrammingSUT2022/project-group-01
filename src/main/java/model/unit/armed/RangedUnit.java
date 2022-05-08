@@ -1,8 +1,10 @@
-package model.unit;
+package model.unit.armed;
 
 import model.Game;
 import model.civilization.Civilization;
 import model.tile.Tile;
+import model.unit.UnitType;
+import model.unit.armed.Armed;
 
 public class RangedUnit extends Armed {
 

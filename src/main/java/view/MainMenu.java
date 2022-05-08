@@ -1,6 +1,8 @@
 package view;
 
 import controller.MainMenuController;
+import controller.Menus;
+import controller.ProgramController;
 import utils.Commands;
 
 import java.util.HashMap;
@@ -46,8 +48,9 @@ public class MainMenu extends Menu{
     }
 
     public void run() {
-        // TODO - implement Main.MainMenu.run
-        throw new UnsupportedOperationException();
+        while (ProgramController.getCurrentMenu() == Menus.MAIN_MENU) {
+            Menu.handleCommand(commands, Menu.getInput());
+        }
     }
 
     public void initCommands(){

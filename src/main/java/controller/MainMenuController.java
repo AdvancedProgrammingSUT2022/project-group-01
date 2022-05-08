@@ -57,7 +57,10 @@ public class MainMenuController {
 				gamePlayers.add(user);
 			}
 		}
-		//TODO : START GAME
+		GameInitializer gameInitializer = new GameInitializer();
+		Game game = gameInitializer.startGame(gamePlayers, 37);
+		ProgramController.setCurrentMenu(Menus.GAME_MENU);
+		ProgramController.setGame(game);
 		return "Game Started!";
 	}
 
