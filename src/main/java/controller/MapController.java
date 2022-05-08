@@ -124,7 +124,7 @@ public class MapController extends Controller {
         String number = ConsoleMap.colorCharacter.WHITE_BOLD.setTextColor(String.format("%4d", tile.getMapNumber()));
         // TODO Implement Cities in checkpoint2
         // resource
-        if ((player.getSavedMap().getResourceTypes(tile) != null) && (tile.getAvailableResource().getType().isVisible(game.getCurrentPlayer().getCivilization()))) {
+        if ((player.getSavedMap().getResourceTypes(tile) != null) && (tile.getAvailableResource().isVisible(game.getCurrentPlayer().getCivilization()))) {
             String resourceColor = ConsoleMap.getRepresentation(player.getSavedMap().getResourceTypes(tile));
             setResource(resourceColor, showingMap, xCoordinate, yCoordinate);
         }
@@ -153,8 +153,8 @@ public class MapController extends Controller {
             setCity(cityColor, showingMap, xCoordinate, yCoordinate);
         }
         // resource
-        if ((tile.getAvailableResource() != null) && (tile.getAvailableResource().getType().isVisible(game.getCurrentPlayer().getCivilization()))) {
-            String resourceColor = ConsoleMap.getRepresentation(tile.getAvailableResource().getType());
+        if ((tile.getAvailableResource() != null) && (tile.getAvailableResource().isVisible(game.getCurrentPlayer().getCivilization()))) {
+            String resourceColor = ConsoleMap.getRepresentation(tile.getAvailableResource());
             setResource(resourceColor, showingMap, xCoordinate, yCoordinate);
         }
         // number

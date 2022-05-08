@@ -4,9 +4,7 @@ import controller.LoginMenuController;
 import controller.Menus;
 import controller.ProgramController;
 import utils.Commands;
-
 import java.util.HashMap;
-
 public class LoginMenu {
 
     LoginMenuController controller;
