@@ -6,9 +6,12 @@ import view.GameMenu;
 import view.LoginMenu;
 import view.MainMenu;
 import view.ProfileMenu;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.IOException;
 
+@Getter @Setter
 public class ProgramController {
 
     private static User loggedInUser = null;
