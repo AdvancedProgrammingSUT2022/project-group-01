@@ -1,7 +1,6 @@
 package model.unit;
 
 import model.civilization.city.City;
-import model.civilization.production.Producible;
 import model.resource.ResourceList;
 import model.resource.ResourceType;
 import model.technology.TechnologyList;
@@ -9,7 +8,7 @@ import model.technology.TechnologyType;
 import model.unit.trait.TraitsList;
 import model.unit.trait.UnitTraits;
 
-public enum UnitType implements Producible {
+public enum UnitType {
 	// Ancient Era
 	ARCHER(70, CombatType.ARCHERY, 4, 6, 2, 2, new ResourceList(), new TechnologyList(TechnologyType.ARCHERY), new TraitsList(UnitTraits.NO_MELEE)),
 	CHARIOT_ARCHER(60, CombatType.MOUNTED, 3, 6, 2, 4, new ResourceList(ResourceType.HORSES), new TechnologyList(TechnologyType.THE_WHEEL), new TraitsList(UnitTraits.NO_MELEE, UnitTraits.ROUGH_TERRAIN_PENALTY, UnitTraits.NO_DEFENSIVE_BONUS)),
@@ -68,12 +67,19 @@ public enum UnitType implements Producible {
 		this.requiredResources = requiredResources;
 		this.requiredTechs = requiredTechs;
 		this.traits = traits;
-
-		Producible.productions.add(this);
 	}
 
 	public boolean canCreate(City city) {
 		return requiredTechs.isResearched(city.getCivilization());
+	}
+
+	public Unit create() {
+		return null;
+	}
+
+
+	public int getCost() {
+		return cost;
 	}
 
 	public CombatType getCombatType() {
@@ -106,26 +112,5 @@ public enum UnitType implements Producible {
 
 	public TraitsList getUnitTraits() {
 		return traits;
-	}
-
-	@Override
-	public int getCost(City city) {
-		// TODO : implement city effect on cost
-		return this.cost;
-	}
-
-	@Override
-	public void produce(City city) {
-		return;
-	}
-
-	@Override
-	public boolean isProducible(City city) {
-		return false;
-	}
-
-	@Override
-	public String toString(){
-		return this.name();
 	}
 }

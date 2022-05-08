@@ -2,13 +2,12 @@ package model.building;
 import model.Player;
 import model.civilization.Civilization;
 import model.civilization.city.City;
-import model.civilization.production.Producible;
 import model.resource.ResourceType;
 import model.technology.TechnologyType;
 
 import java.util.Vector;
 
-public enum BuildingType implements Producible {
+public enum BuildingType {
 	BARRACKS(80,1,TechnologyType.BRONZE_WORKING,new Vector<>()){
 		@Override
 		public void effect(Player player, City city){
@@ -95,24 +94,4 @@ public enum BuildingType implements Producible {
 		return 0;
 	}
 
-
-	@Override
-	public void produce(City city) {
-
-	}
-
-	@Override
-	public boolean isProducible(City city) {
-		return false;
-	}
-
-	@Override
-	public int getCost(City city) {
-		return 0;
-	}
-
-	@Override
-	public String toString() {
-		return this.name();
-	}
 }

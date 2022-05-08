@@ -2,15 +2,11 @@ package controller;
 
 import model.Player;
 import model.TurnBasedLogic;
-import model.civilization.Civilization;
 import model.improvement.ImprovementType;
 import model.resource.ResourceType;
-import model.technology.TechnologyType;
 import model.tile.Terrain;
 import model.tile.TerrainFeature;
 import model.tile.Tile;
-import model.unit.Unit;
-import model.unit.civilian.Worker;
 
 public class TileController extends Controller {
 
@@ -65,13 +61,5 @@ public class TileController extends Controller {
         newImprovement.improvementSpecialAction(tile);
         tile.buildImprovement(newImprovement);
         return "improvement " + newImprovement.name() + "was built successfully";
-    }
-
-    public static boolean isAbleToBuildRoad(Unit unit){
-        return unit.getOwnerCivilization().getResearchTree().isResearched(TechnologyType.THE_WHEEL);
-    }
-
-    public static boolean isAbleToBuildRailRoad(Unit unit){
-        return unit.getOwnerCivilization().getResearchTree().isResearched(TechnologyType.RAILROAD);
     }
 }

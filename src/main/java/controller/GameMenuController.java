@@ -6,38 +6,35 @@ import model.civilization.Civilization;
 import model.civilization.Currency;
 import model.tile.Tile;
 import model.unit.*;
-import model.unit.armed.Armed;
-import model.unit.civilian.Civilian;
 
 import java.util.HashMap;
+import java.util.Vector;
 
 public class GameMenuController {
 
     private Game game;
     private MapController mapController;
-    private GameController gameController;
     /**
      * @param
      */
-    public GameMenuController(Game game, GameController gameController) {
+    public GameMenuController(Game game) {
         this.game = game;
         mapController = new MapController(game);
     }
 
     //SELECT:
-    public String selectUnit(HashMap<String, String> args) {//todo: safar implement here
-        String selectingType = args.get("section");//armed or civilian or garbage
-        Tile destTile = game.getMap().getTileByNumber(Integer.parseInt(args.get("position")));
-        //man inja ye chizayi neveshtam vali bebar too controllere khodet inja khalvat she
-        if(destTile == null)
+    public String selectUnit(HashMap<String, String> args) {
+        String type = args.get("section");
+        Tile tile = game.getMap().getTileByNumber(Integer.parseInt(args.get("position")));
+        if(tile == null)
             return "invalid position";
-        if(selectingType.equals("armed")){
-            Armed armed = destTile.getArmedUnit();
+        if(type.equals("armed")){
+            Armed armed = tile.getArmedUnit();
             if(armed == null)
                 return "there is no armed unit here";
             game.setSelectedObject(armed);
-        }else if(selectingType.equals("civilian")){
-            Civilian civilian = destTile.getCivilianUnit();
+        }else if(type.equals("civilian")){
+            Civilian civilian = tile.getCivilianUnit();
             if(civilian == null)
                 return "there is no civilian unit here";
             game.setSelectedObject(civilian);
@@ -48,12 +45,8 @@ public class GameMenuController {
     }
 
     public String selectCity(HashMap<String, String> args) {
-        if(args.containsKey("position"))
-            return gameController.selectCity("position", args.get("position"));
-        else if(args.containsKey("cityname"))
-            return gameController.selectCity("cityname", args.get("cityname"));
-        else
-            return "invalid command!";
+        //todo handle here for next checkpoint
+        return null;
     }
 
     //UNIT:
@@ -61,94 +54,88 @@ public class GameMenuController {
         //TODO handle for armed unit in next checkpoint
         int position = Integer.parseInt(args.get("position"));
         Tile tile = game.getMap().getTileByNumber(position);
-        if(tile == null)
-            return "invalid position";
-        //todo safar: move game.selectedObject -> tile
+        game.getSelectedUnit().setDestTile(tile);
         return "Done!";
     }
 
     public String unitSleep(HashMap<String, String> args) {
-        //todo safar : sleep game.selectedObject
-        return null;//todo return ro dorost kon
+        //TODO implement here in next checkpoint
+        return "boro checkpointe badi bia!";
     }
 
     public String unitAlert(HashMap<String, String> args) {
-        //todo safar : alert game.selectedObject
-        return null;//todo return ro dorost kon
+        //TODO implement here in next checkpoint
+        return "boro checkpointe badi bia!";
     }
 
     public String unitFortify(HashMap<String, String> args) {
-        //todo safar : fortify game.selectedObject
-        return null;//todo return ro dorost kon
+        //TODO implement here in next checkpoint
+        return "boro checkpointe badi bia!";
     }
 
     public String unitFortifyUntilHeal(HashMap<String, String> args) {
-        //todo safar : fortify until heal game.selectedObject
-        return null;//todo return ro dorost kon
+        game.getSelectedUnit().fortifyUntilHeal();
+        return "Done!";
     }
 
     public String unitGarrison(HashMap<String, String> args) {
-        //todo safar : garisson game.selectedObject
-        return null;//todo return ro dorost kon
+        //TODO implement here in next checkpoint
+        return "boro checkpointe badi bia!";
     }
 
     public String unitSetup(HashMap<String, String> args) {
-        //todo safar : setup game.selectedObject
-        return null;//todo return ro dorost kon
+        //TODO implement here in next checkpoint
+        return "boro checkpointe badi bia!";
     }
 
     public String unitAttack(HashMap<String, String> args) {
-        int position = Integer.parseInt(args.get("position"));
-        Tile tile = game.getMap().getTileByNumber(position);
-        if(tile == null)
-            return "invalid position!";
-        //todo safar : call your function here
-        return null;// return ro ham dorost kon =)
+        //TODO implement here in next checkpoint
+        return "boro checkpointe badi bia!";
     }
 
     public String unitFoundCity(HashMap<String, String> args) {
-        //todo safar : call your function here
-        return null;// return ro ham dorost kon =)
+        //TODO implement here in next checkpoint
+        return "boro checkpointe badi bia!";
     }
 
     public String unitCancelMission(HashMap<String, String> args) {
-        //todo safar : call your function here
-        return null;// return ro ham dorost kon =)
+        //TODO implement here in next checkpoint
+        return "boro checkpointe badi bia!";
     }
 
     public String unitWake(HashMap<String, String> args) {
-        //todo safar : call your function here
-        return null;// return ro ham dorost kon =)
+        //TODO implement here in next checkpoint
+        return "boro checkpointe badi bia!";
     }
 
     public String unitDelete(HashMap<String, String> args) {
-        //todo safar : call your function here
-        return null;// return ro ham dorost kon =)
+        //TODO implement here in next checkpoint
+        return "boro checkpointe badi bia!";
     }
 
     public String unitBuild(HashMap<String, String> args) {
-        String buildingItem = args.get("section");//road || rail road ...
-        //todo safar : call your function here
-        return null;// return ro ham dorost kon =)
+        //TODO implement here in next checkpoint
+        return "boro checkpointe badi bia!";
     }
 
     public String unitRemove(HashMap<String, String> args) {
-        String removingItem = args.get("section");//jungle || route
-        //todo safar : call your function here
-        return null;// return ro ham dorost kon =)
+        //TODO implement here in next checkpoint
+        return "boro checkpointe badi bia!";
     }
 
     public String unitRepair(HashMap<String, String> args) {
-        //todo safar : call your function here
-        return null;// return ro ham dorost kon =)
+        //TODO implement here in next checkpoint
+        return "boro checkpointe badi bia!";
     }
 
     //MAP:
     public String mapShow(HashMap<String, String> args) {
         if(args.containsKey("position")){
-            return gameController.mapShow("position", args.get("position"));
+            int position = Integer.parseInt(args.get("position"));
+            return mapController.setPosition(position);
         }else if(args.containsKey("cityname")){
-            return gameController.mapShow("cityname", args.get("cityname"));
+            //TODO boro positionesho peyda kon va mesle bala
+            //TODO in phase1
         }
         return "invalid command!";
     }
@@ -174,7 +161,7 @@ public class GameMenuController {
     }
 
     public String increaseResource(HashMap<String, String> args) {
-        /*String section = args.get("section");
+        String section = args.get("section");
         int amount = Integer.parseInt(args.get("amount"));
         Currency currency = new Currency(0,0,0);
         if(section.equals("gold")){
@@ -187,8 +174,7 @@ public class GameMenuController {
             return "invalid resource";
         }
         game.getSelectedCity().getCurrency().add(currency);
-        return "Done!";*/
-        return null;
+        return "Done!";
     }
 
     public String spawnUnit(HashMap<String, String> args) {

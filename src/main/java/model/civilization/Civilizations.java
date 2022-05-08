@@ -29,8 +29,4 @@ public enum Civilizations {
 	public ConsoleMap.colorCharacter getColor() {
 		return color;
 	}
-
-	public String[] getCityNames() {
-		return cityNames;
-	}
 }

@@ -23,6 +23,7 @@ public class Game {
         map = new Map(mapSize);
     }
     public void nextTurn(){}
+    public void applyCommandForPlayer(Command command, HashMap<String, String> args, Player player){}
     public Trade getTradeForCivilization(Civilization civilization){
         //TODO: implement here
         return null;

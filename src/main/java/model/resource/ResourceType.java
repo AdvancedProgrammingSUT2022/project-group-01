@@ -1,12 +1,10 @@
 package model.resource;
 
 import model.civilization.Civilization;
-import model.civilization.Currency;
 import model.improvement.ImprovementType;
 import model.technology.TechnologyType;
 import model.tile.Terrain;
 import model.tile.TerrainFeature;
-import model.tile.Tile;
 
 import java.util.List;
 import java.util.Vector;
@@ -216,14 +214,5 @@ public enum ResourceType {
         this.possibleTerrains = new Vector<>();
         this.necessaryImprovement = null;
         this.visibilityTechnology = null;
-    }
-
-    public Currency getCurrency(Tile tile){
-        Currency currency = new Currency(0,0,0);
-        if(tile.getCivilization() == null) return currency;
-        if(!isVisible(tile.getCivilization())) return currency;
-        if(tile.getPeopleInside().isEmpty()) return currency;
-        currency.increase(gold,production,food);
-        return currency;
     }
 }

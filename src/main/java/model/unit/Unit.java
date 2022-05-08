@@ -1,57 +1,74 @@
 package model.unit;
 
-import lombok.Getter;
-import lombok.Setter;
 import model.Game;
 import model.Map;
 import model.civilization.Civilization;
 import model.civilization.city.City;
+import model.civilization.production.Production;
 import model.technology.TechnologyList;
 import model.tile.Boarder;
 import model.tile.Tile;
 import model.unit.action.*;
-import model.unit.armed.Armed;
-import model.unit.civilian.Civilian;
-import model.unit.trait.TraitsList;
+import org.mockito.internal.matchers.Or;
 import utils.OrderedPair;
 
 import java.util.Collections;
 import java.util.PriorityQueue;
 import java.util.Vector;
 
-@Getter @Setter
-public class Unit{
+public class Unit extends Production {
 	public final static int maxHealth = 10;
-	protected Civilization ownerCivilization;
+	private Tile destTile;
+	private Civilization ownerCivilization;
 	private int health;
 	private int movementPoint;
 	private TechnologyList requiredTechnologies;
 	private int cost;
-	protected Tile currentTile;
+	private Tile currentTile;
 	private boolean isHealing;
 	private Game game;
-	private UnitType type;
-	protected ActionsQueue actionsQueue;
+	private UnitType unitType;
+	private ActionsQueue actionsQueue;
 
 	public Unit(UnitType type, Tile tile, Civilization civilization, Game game) {
 		this.health = maxHealth;
 		this.movementPoint = type.getMovement();
 		this.requiredTechnologies = type.getRequiredTechs();
+		this.cost = type.getCost();
 		this.currentTile = tile;
 		this.isHealing = false;
 		this.ownerCivilization = civilization;
 		this.game = game;
 		actionsQueue = new ActionsQueue();
-		this.type = type;
+		unitType = type;
+		destTile = null;
 	}
 
-	public void produceUnit(UnitType type, City city){
-		// TODO
+	public UnitType getType() {
+		return unitType;
+	}
 
+	public Tile getCurrentTile() {
+		return currentTile;
 	}
 
 	public boolean nextTurn(Civilization civilization, City city) {
-
+		// TODO : add other functions
+		if (isHealing) {
+			health++;
+			if (health == maxHealth) {
+				isHealing = false;
+			}
+		}
+		if (destTile != null) {
+			Tile nextTile = dijkstra(destTile);
+			if (nextTile == null) {
+				destTile = null;
+				return false;
+			}
+			this.moveTo(nextTile);
+			return true;
+		}
 		return false;
 	}
 
@@ -63,18 +80,23 @@ public class Unit{
 		// TODO implement this
 	}
 
-	public void moveTo(Tile tile) {}
-
-	public TraitsList getTraitsList(){
-		return type.getUnitTraits();
+	public void setDestTile(Tile tile) {
+		//todo make it boolean
+		this.destTile = tile;
 	}
 
-	/**
-	 * kill unit immediately
-	 */
-	public void suicide() {
+	public void moveTo(Tile tile) {
+		//todo implement here for armed
 		currentTile.removeUnit(this);
-		changeHealth(-getHealth());
+		tile.setCivilianUnit((Civilian) this);
+		this.currentTile = tile;
+	}
+
+	public void execute(UnitActions actionType) {
+	}
+
+	public int getHealth() {
+		return health;
 	}
 
 	/**
@@ -87,7 +109,7 @@ public class Unit{
 		health += deltaHealth;
 	}
 
-	private Vector<Tile> dijkstra(Tile destination) {
+	private Tile dijkstra(Tile destination) {
 		Map gameMap = game.getMap();//TODO get user map in next checkpoint
 
 		PriorityQueue<OrderedPair<Distance, Integer>> heap = new PriorityQueue<>();
@@ -135,12 +157,12 @@ public class Unit{
 			destination = gameMap.getTileByNumber(par.get(destination.getMapNumber()));
 		}
 		Collections.reverse(path);
-		Vector<Tile> stopTiles = new Vector<>();
-		for(int i = 1; i + 1 < path.size(); i++)
-			if(dis.get(path.get(i).getMapNumber()).getTurn() < dis.get(path.get(i + 1).getMapNumber()).getTurn())
-				stopTiles.add(path.get(i));
-		stopTiles.add(destination);
-		return stopTiles;
+		Tile firstStop = currentTile;
+		for (Tile tile : path) {
+			if (dis.get(tile.getMapNumber()).getTurn() <= 1)
+				firstStop = tile;
+		}
+		return firstStop;
 	}
 
 	public Civilization getOwnerCivilization() {
@@ -203,10 +225,6 @@ public class Unit{
 		return false;
 	}
 
-	public boolean isReachable(Tile destTile){
-		return dijkstra(destTile) != null;
-	}
-
 	// Commands
 
 	/**
@@ -214,7 +232,7 @@ public class Unit{
 	 */
 	public void fortifyUntilHeal() {
 		actionsQueue.resetQueue();
-		actionsQueue.addAction(new Action(this, Actions.FORTIFY_UNTIL_HEAL));
+		actionsQueue.addAction(new Fortify(this, maxHealth - health));
 	}
 
 	/**
@@ -222,7 +240,7 @@ public class Unit{
 	 */
 	public void fortify(){
 		actionsQueue.resetQueue();
-		actionsQueue.addAction(new Action(this, Actions.FORTIFY));
+		actionsQueue.addAction(new Fortify(this, 1));
 	}
 
 	/**
@@ -230,7 +248,7 @@ public class Unit{
 	 */
 	public void sleep(){
 		actionsQueue.resetQueue();
-		actionsQueue.addAction(new Action(this, Actions.SLEEP));
+		actionsQueue.addAction(new Sleep());
 	}
 
 	/**
@@ -245,7 +263,7 @@ public class Unit{
 	 */
 	public void alert(){
 		actionsQueue.resetQueue();
-		actionsQueue.addAction(new Action(this, Actions.ALERT));
+		actionsQueue.addAction(new Alert(this));
 	}
 
 	/**
@@ -253,21 +271,6 @@ public class Unit{
 	 */
 	public void cancel(){
 		actionsQueue.resetQueue();
-	}
-
-	/**
-	 * move this unit to destination
-	 * @param destTile is destination of this unit
-	 */
-	public void goTo(Tile destTile){
-		Vector<Tile> stopPoints = dijkstra(destTile);
-		// TODO : handle no path condition
-		assert stopPoints != null;
-
-		actionsQueue.resetQueue();
-		for (Tile stopPoint : stopPoints) {
-			actionsQueue.addAction(new Action(this, Actions.MOVE, stopPoint));
-		}
 	}
 
 }

@@ -2,23 +2,16 @@ package model.improvement;
 
 import model.ProgressState;
 import model.TurnBasedLogic;
-import model.civilization.Currency;
 import model.tile.Tile;
-
-import javax.swing.plaf.ColorUIResource;
 
 public class ImprovementInventory implements TurnBasedLogic {
 	private ImprovementType improvement;
 	private int turnsLeft;
 	private ProgressState state;
-	private Tile tile;
 
-	public ImprovementInventory(Tile tile) {
-		this.tile = tile;
-	}
-	public void reset(ImprovementType improvement){
+	public ImprovementInventory(Tile tile, ImprovementType improvement) {
 		this.improvement = improvement;
-		this.turnsLeft = improvement.getProductionTime(this.tile);
+		this.turnsLeft = improvement.getProductionTime(tile);
 		state = ProgressState.IN_PROGRESS;
 		addToList();
 	}
@@ -30,13 +23,6 @@ public class ImprovementInventory implements TurnBasedLogic {
 				removeFromList();
 			}
 		}
-	}
-
-	public void remove(){
-		this.state = ProgressState.STOPPED;
-		this.improvement = null;
-		this.turnsLeft = 0;
-		removeFromList();
 	}
 	public void stop(){
 		if(this.state.equals(ProgressState.IN_PROGRESS)) {
@@ -88,14 +74,6 @@ public class ImprovementInventory implements TurnBasedLogic {
 
 	public void damage(){
 		this.state = ProgressState.DAMAGED;
-	}
-
-	public Currency getCurrency(){
-		Currency currency = new Currency(0,0,0);
-		if(this.improvement == null) return currency;
-		if(!this.state.equals(ProgressState.COMPLETE)) return currency;
-		currency.increase(improvement.goldYield, improvement.productionYield,improvement.foodYield);
-		return currency;
 	}
 
 }
