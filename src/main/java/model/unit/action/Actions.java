@@ -54,13 +54,38 @@ public enum Actions {
 			action -> {
 				((Settler) action.getUnit()).settle();
 			}
+	),
+	BUILD_IMPROVEMENT(null,
+			action -> action.getImprovementType().isEligibleToBuild(action.getUnit().getOwnerCivilization(), action.getUnit().getCurrentTile()),
+			action -> action.getUnit().getCurrentTile().buildImprovement(action.getImprovementType())
+	),
+	PILLAGE_IMPROVEMENT(1,
+			action -> action.getUnit().getCurrentTile().getBuiltImprovement() != null,
+			action -> action.getUnit().getCurrentTile().pillageImprovement()
+	),
+	REMOVE_IMPROVEMENT(null,
+			PILLAGE_IMPROVEMENT.isPossibleFunc,
+			action -> action.getUnit().getCurrentTile().removeImprovement()
+	),
+	// TODO : need repair method in Tile
+	REPAIR_IMPROVEMENT(null,
+			null,
+			null
+	),
+	BUILD_ROAD(null,
+			action -> !action.getUnit().getCurrentTile().doesHaveRoad(),
+			action -> action.getUnit().getCurrentTile().buildRoad()
+	),
+	BUILD_RAIL(null,
+			action -> !action.getUnit().getCurrentTile().doesHaveRailRoad(),
+			action -> action.getUnit().getCurrentTile().buildRailRoad()
 	);
 
-	private final int requiredTurns;
+	private final Integer requiredTurns;
 	private final Function<Action, Boolean> isPossibleFunc;
 	private final Consumer<Action> doActionFunc;
 
-	Actions(int requiredTurns, Function<Action, Boolean> isPossibleFunc, Consumer<Action> doActionFunc) {
+	Actions(Integer requiredTurns, Function<Action, Boolean> isPossibleFunc, Consumer<Action> doActionFunc) {
 		this.requiredTurns = requiredTurns;
 		this.isPossibleFunc = isPossibleFunc;
 		this.doActionFunc = doActionFunc;

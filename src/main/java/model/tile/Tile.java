@@ -147,12 +147,10 @@ public class Tile {
 		}
 		else this.improvementInventory = new ImprovementInventory(this, improvement);
 	}
-	public void removeImprovement(ImprovementType improvement){
+	public void removeImprovement(){
 		if(this.improvementInventory == null) return;
-		if(this.improvementInventory.getImprovement().equals(improvement)) {
-			this.improvementInventory.removeFromList();
-			this.improvementInventory = null;
-		}
+		this.improvementInventory.removeFromList();
+		this.improvementInventory = null;
 	}
 	public void removeResource(){
 		availableResource = null;

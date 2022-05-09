@@ -14,14 +14,12 @@ public class Worker extends Civilian {
 	public boolean canImprove(){
 		return false;
 	}
-	public boolean improveTile(ImprovementType improvement){
-		return false;
+	public void improveTile(ImprovementType improvement){
+
 	}
 	public void buildRoad(){}
-	public void buildRailRoadTo(Tile destination){}
 	public void pauseImprovement(){}
 	public void repairImprovement(){}
-	public void repairRoad(){}
 	public void removeImprovement(){}
 	public void removeRoad(){}
 }
