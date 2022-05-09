@@ -368,4 +368,7 @@ public class Tile {
 			this.improvementInventory.damage();
 	}
 
+	public ImprovementInventory getImprovementInventory() {
+		return improvementInventory;
+	}
 }

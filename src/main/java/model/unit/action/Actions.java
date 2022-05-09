@@ -1,6 +1,7 @@
 package model.unit.action;
 
 import com.sun.source.doctree.SeeTree;
+import model.ProgressState;
 import model.unit.armed.Siege;
 import model.unit.Unit;
 import model.unit.civilian.Settler;
@@ -72,13 +73,25 @@ public enum Actions {
 			null,
 			null
 	),
-	BUILD_ROAD(null,
+	PAUSE_IMPROVEMENT(1,
+			action -> action.getUnit().getCurrentTile().getImprovementInventory().getState().equals(ProgressState.IN_PROGRESS),
+			action -> action.getUnit().getCurrentTile().stopImprovementProgress()
+	),
+	BUILD_ROAD(1,
 			action -> !action.getUnit().getCurrentTile().doesHaveRoad(),
 			action -> action.getUnit().getCurrentTile().buildRoad()
 	),
 	BUILD_RAIL(null,
 			action -> !action.getUnit().getCurrentTile().doesHaveRailRoad(),
 			action -> action.getUnit().getCurrentTile().buildRailRoad()
+	),
+	REMOVE_ROAD(1,
+			action -> action.getUnit().getCurrentTile().doesHaveRoad(),
+			action -> action.getUnit().getCurrentTile().removeRoads()
+	),
+	REMOVE_RAIL(1,
+			action -> action.getUnit().getCurrentTile().doesHaveRailRoad(),
+			action -> action.getUnit().getCurrentTile().removeRoads()
 	);
 
 	private final Integer requiredTurns;
