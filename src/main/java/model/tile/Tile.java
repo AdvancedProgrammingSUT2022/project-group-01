@@ -374,5 +374,13 @@ public class Tile {
 			this.improvementInventory.damage();
 	}
 
+	public ProgressState getImprovementInventoryState(){
+		return this.improvementInventory.getState();
+	}
+
+	public ImprovementType getImprovementInAction(){
+		return this.improvementInventory.getImprovement();
+	}
+
 
 }

@@ -22,6 +22,7 @@ public class GameMenuController {
     public GameMenuController(Game game, GameController gameController) {
         this.game = game;
         mapController = new MapController(game);
+        this.gameController = gameController;
     }
 
     //SELECT:

@@ -26,6 +26,11 @@ public class ImprovementInventory implements TurnBasedLogic {
 		if(this.state.equals(ProgressState.IN_PROGRESS) | this.state.equals(ProgressState.DAMAGED)) {
 			this.turnsLeft -= 1;
 			if (this.turnsLeft == 0) {
+				if(this.state.equals(ProgressState.IN_PROGRESS)) {
+					if ((this.tile != null) && (this.tile.getCivilization() != null) && (this.tile.getAvailableResource() != null)){
+						this.tile.getCivilization().addResource(this.tile.getAvailableResource(), tile.getAvailableResource().outputNumberToCivilization);
+					}
+				}
 				this.state = ProgressState.COMPLETE;
 				removeFromList();
 			}

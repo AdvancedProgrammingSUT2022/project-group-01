@@ -55,10 +55,21 @@ public class MapController extends Controller {
     }
 
 
-    public Vector<Vector<String>> getConsoleMap(Tile currentTile) {
+    public String getConsoleMap(Tile currentTile) {
         ConsoleMap newConsole = new ConsoleMap(game.getMap().getMapSize());
         setMap(currentTile, newConsole, game.getCurrentPlayer(), game.getMap());
-        return newConsole.getScreenMap();
+        StringBuilder output = new StringBuilder();
+        for(Vector<String> v : newConsole.getScreenMap()){
+            for(String s : v){
+                output.append(s);
+            }
+            output.append("\n");
+        }
+        return output.toString();
+    }
+
+    public void updateCurrentPlayersMap(){
+        updateSavedMap(game.getCurrentPlayer(), game.getCurrentPlayer().getCivilization().visibleTiles(), game.getMap());
     }
 
     public void updateSavedMap(Player player, Vector<Tile> visibleTiles, Map map) {
@@ -210,13 +221,13 @@ public class MapController extends Controller {
         Unit civilianUnit = tile.getCivilianUnit();
         if (armedUnit != null) {
             String name = ConsoleMap.getRepresentation(armedUnit.getType());
-            name = armedUnit.getOwnerCivilization().getCivilization().getColor() + name;
+            name = armedUnit.getOwnerCivilization().getCivilization().getColor().setTextColor(name);
             showMap.setScreenMapIndex(xCoordinate - 4, yCoordinate - 1, name);
             showMap.setScreenMapIndex(xCoordinate - 3, yCoordinate - 1, ConsoleMap.colorCharacter.RESET.color);
         }
         if (civilianUnit != null) {
             String name = ConsoleMap.getRepresentation(civilianUnit.getType());
-            name = civilianUnit.getOwnerCivilization().getCivilization().getColor() + name;
+            name = civilianUnit.getOwnerCivilization().getCivilization().getColor().setTextColor(name);
             showMap.setScreenMapIndex(xCoordinate + 3, yCoordinate - 1, name);
             showMap.setScreenMapIndex(xCoordinate + 4, yCoordinate - 1, ConsoleMap.colorCharacter.RESET.color);
         }

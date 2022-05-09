@@ -129,6 +129,16 @@ public class GameMenu{
 					return controller.spawnUnit(args);
 				}
 			}, Commands.SPAWN_UNIT);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.mapMove(args);
+				}
+			}, Commands.MAP_MOVE);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.mapShow(args);
+				}
+			}, Commands.MAP_SHOW);
 		}};
 
 	}

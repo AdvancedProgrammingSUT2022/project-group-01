@@ -58,7 +58,7 @@ public class MainMenuController {
 			}
 		}
 		GameInitializer gameInitializer = new GameInitializer();
-		Game game = gameInitializer.startGame(gamePlayers, 37);
+		Game game = gameInitializer.startGame(gamePlayers, 17);
 		ProgramController.setCurrentMenu(Menus.GAME_MENU);
 		ProgramController.setGame(game);
 		return "Game Started!";

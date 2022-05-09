@@ -58,6 +58,7 @@ public enum ResourceType {
             this.necessaryImprovement = ImprovementType.FARM;
         }
     },
+    //Strategic Resources
     COAL(0, 1, 0, true, KindsOfResource.STRATEGIC) {
         @Override
         public void initializeVectors() {
@@ -85,6 +86,7 @@ public enum ResourceType {
             this.necessaryImprovement = ImprovementType.MINE;
         }
     },
+    // Luxury Resources
     COTTON(0, 0, 2, false, KindsOfResource.LUXURY) {
         @Override
         public void initializeVectors() {
@@ -194,6 +196,7 @@ public enum ResourceType {
     public Vector<TerrainFeature> possibleLandFeatures;
     public ImprovementType necessaryImprovement;
     public TechnologyType visibilityTechnology;
+    public final int outputNumberToCivilization = 4;
 
     ResourceType(int food, int production, int gold, boolean tradable, KindsOfResource resourceKind) {
         this.food = food;
