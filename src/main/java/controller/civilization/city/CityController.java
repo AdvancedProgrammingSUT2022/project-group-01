@@ -37,7 +37,7 @@ public class CityController {
         Currency currency = city.getCurrency();
         Pair<Tile, Integer> pair = pairs.get(tileIndex);
         if(currency.getGold() < pair.getSecond())
-            return "insufficient gold!";
+            return "you don't have enough gold!";
         currency.add(new Currency(-pair.getSecond(), 0,0));
         city.addNewTiles(new Vector<>(Arrays.asList(pair.getFirst())));
         return "tile purchased!";
@@ -128,7 +128,7 @@ public class CityController {
             return "invalid production!";
         double cost = productions.get(productionIndex).getCost(city);
         if(cost > city.getCurrency().getGold())
-            return "you don't have enough money";
+            return "you don't have enough gold!";
         city.payCurrency(cost, 0,0);
         productions.get(productionIndex).produce(city);
         return "done";

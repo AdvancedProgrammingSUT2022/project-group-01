@@ -36,14 +36,14 @@ public enum Commands {
     //CITY
         PURCHASE_PRODUCTION("purchase production", new String[]{"type"},null,0,null),
         SET_PRODUCTION("set production", new String[]{"type"}, null, 0,null),
-        LIST_OF_PRODUCTIONS("list of productions", null,null,0,null),
+        LIST_OF_ALL_OF_PRODUCTIONS("list of productions", null,null,1,null),
+        LIST_OF_PRODUCTIONS("list of productions", null, null,0,null),
         CHANGE_PRODUCTION("change production", new String[]{"type"}, null,0,null),
         GET_PURCHASABLE_TILES("get purchasable tiles",null,null,0,null),
-        PURCHASE_TILE("purchase tile", new String[]{"position"},null,0,null),
+        PURCHASE_TILE("purchase tile", new String[]{"index"},null,0,null),
         LIST_OF_POPULATION("list of population",null,null,0,null),
         SET_TILE_FOR_POPULATION("set tile for population", new String[]{"index","position"},null,0,null),
         DELETE_POPULATION_FROM_TILE("delete population from tile", new String[]{"index"},null,0,null),
-        
     //GLOBAL
         MENU_ENTER("menu enter", null, null, 1,null),
         MENU_EXIT("menu exit", null,null,0,null),

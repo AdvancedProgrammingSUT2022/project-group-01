@@ -1,9 +1,11 @@
 package controller;
 
+import controller.civilization.city.CityController;
 import model.Game;
 import model.Player;
 import model.civilization.Civilization;
 import model.civilization.Currency;
+import model.civilization.city.City;
 import model.tile.Tile;
 import model.unit.*;
 import model.unit.armed.Armed;
@@ -13,16 +15,18 @@ import java.util.HashMap;
 
 public class GameMenuController {
 
-    private Game game;
-    private MapController mapController;
-    private GameController gameController;
+    private final Game game;
+    private final MapController mapController;
+    private final GameController gameController;
+    private CityController cityController;
     /**
      * @param
      */
-    public GameMenuController(Game game, GameController gameController) {
+    public GameMenuController(Game game, GameController gameController, CityController cityController) {
         this.game = game;
         mapController = new MapController(game);
         this.gameController = gameController;
+        this.cityController = cityController;
     }
 
     //SELECT:
@@ -209,4 +213,86 @@ public class GameMenuController {
         tile.setCivilianUnit(civilian);
         return "you're cheater!";
     }
+
+    public String listOfProductions(HashMap<String, String> args){
+        if(!(game.getSelectedObject() instanceof City)){
+            return "select city first!";
+        }
+        City city = (City) game.getSelectedObject();
+        return cityController.getProductionsListToProduce(city);
+    }
+
+    public String listOfAllProductions(HashMap<String, String> args){
+        String section = args.get("section");
+        if(!section.equals("-a") && !section.equals("--all")){
+            return "invalid flag!";
+        }
+        if(!(game.getSelectedObject() instanceof City)){
+            return "select city first!";
+        }
+        City city = (City) game.getSelectedObject();
+        return cityController.getProductionsListToPurchase(city);
+    }
+
+    public String purchaseProduction(HashMap<String, String> args){
+        return null;
+        //todo implement here
+    }
+
+    public String setProduction(HashMap<String, String> args){
+        return null;
+        //todo implement here
+    }
+
+    public String changeProduction(HashMap<String, String> args){
+        return null;
+        //todo implement here
+    }
+
+    public String getPurchasableTiles(HashMap<String, String> args){
+        if(!(game.getSelectedObject() instanceof City)){
+            return "select city first!";
+        }
+        City city = (City) game.getSelectedObject();
+        return cityController.getPurchasableTile(city);
+    }
+
+    public String purchaseTile(HashMap<String, String> args){
+        if(!(game.getSelectedObject() instanceof City)){
+            return "select city first!";
+        }
+        City city = (City) game.getSelectedObject();
+        return cityController.purchaseTile(city, Integer.parseInt(args.get("index")));
+    }
+
+    public String listOfPopulation(HashMap<String, String> args){
+        if(!(game.getSelectedObject() instanceof City)){
+            return "select city first!";
+        }
+        City city = (City) game.getSelectedObject();
+        return cityController.getPopulation(city);
+    }
+
+    public String setTileForPopulation(HashMap<String, String> args){
+        if(!(game.getSelectedObject() instanceof City)){
+            return "select city first!";
+        }
+        City city = (City) game.getSelectedObject();
+        int civilianIndex = Integer.parseInt(args.get("index"));
+        Tile dest = game.getMap().getTileByNumber(Integer.parseInt(args.get("position")));
+        if(dest == null)
+            return "invalid destination!";
+        return cityController.setPopulation(city, civilianIndex, dest);
+    }
+
+    public String deletePopulation(HashMap<String, String> args){
+        if(!(game.getSelectedObject() instanceof City)){
+            return "select city first!";
+        }
+        City city = (City) game.getSelectedObject();
+        return cityController.deletePopulation(city, Integer.parseInt(args.get("index")));
+    }
+
+
+
 }
