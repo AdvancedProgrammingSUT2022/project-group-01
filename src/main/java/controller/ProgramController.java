@@ -15,6 +15,7 @@ import java.io.IOException;
 public class ProgramController {
 
     private static User loggedInUser = null;
+    @Getter
     protected static Database database = new Database();
     private static Menus currentMenu;
     @Getter @Setter
