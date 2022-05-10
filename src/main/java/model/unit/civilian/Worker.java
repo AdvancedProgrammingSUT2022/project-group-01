@@ -44,6 +44,7 @@ public class Worker extends Civilian {
 		actionsQueue.addAction(new Action(this, Actions.REMOVE_IMPROVEMENT));
 	}
 	public void removeRoad(){
+
 		actionsQueue.resetQueue();
 		actionsQueue.addAction(new Action(this, Actions.REMOVE_ROAD));
 	}
