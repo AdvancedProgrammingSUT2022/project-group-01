@@ -5,13 +5,13 @@ import model.Notification;
 import model.civilization.Civilization;
 import model.technology.TechnologyType;
 import model.unit.Unit;
-
+import model.Game;
 import java.util.Vector;
 
 public class InfoMenuController {
 	private Information information;
-	public InfoMenuController(Civilization civilization){
-		information = new Information(civilization);
+	public InfoMenuController(Game game){
+		information = new Information(game.getCurrentPlayer().getCivilization());
 	}
 
 	public TechnologyType getCurrentResearch(){return null; }

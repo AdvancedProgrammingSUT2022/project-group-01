@@ -57,7 +57,7 @@ public class ProgramController {
                     profileMenu.run();
                 }break;
                 case INFO_MENU:{
-                    //TODO talk to safari
+                    InfoMenuController infoMenuController = new InfoMenuController(
                 }break;
                 case GAME_MENU:{
                     MapController mapController = new MapController(game);
