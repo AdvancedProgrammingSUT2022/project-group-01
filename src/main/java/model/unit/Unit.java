@@ -1,5 +1,6 @@
 package model.unit;
 
+import controller.ProgramController;
 import lombok.Getter;
 import lombok.Setter;
 import model.Game;
@@ -29,30 +30,33 @@ public class Unit{
 	private int cost;
 	protected Tile currentTile;
 	private boolean isHealing;
-	private Game game;
 	private UnitType type;
 	protected ActionsQueue actionsQueue;
 
-	public Unit(UnitType type, Tile tile, Civilization civilization, Game game) {
+	public Unit(UnitType type, Tile tile, Civilization civilization) {
 		this.health = maxHealth;
 		this.movementPoint = type.getMovement();
 		this.requiredTechnologies = type.getRequiredTechs();
 		this.currentTile = tile;
 		this.isHealing = false;
 		this.ownerCivilization = civilization;
-		this.game = game;
 		actionsQueue = new ActionsQueue();
 		this.type = type;
+
+		civilization.addUnit(this);
 	}
 
-	public void produceUnit(UnitType type, City city){
-		// TODO
-
+	public static void produceUnit(UnitType type, City city){
+//		this(type, City., ProgramController.getGame());
+	}
+	public static Unit spawnUnit(UnitType type, Tile tile, Civilization ownerCivilization){
+		if(type.getCombatType() == CombatType.CIVILIAN)
+			return Civilian.spawnCivilian(type, tile, ownerCivilization);
+		return Armed.spawnArmed(type, tile, ownerCivilization);
 	}
 
-	public boolean nextTurn(Civilization civilization, City city) {
-
-		return false;
+	public void nextTurn() {
+		actionsQueue.doAction();
 	}
 
 	public void defendAgainstMelee(Unit enemy) {
@@ -73,6 +77,7 @@ public class Unit{
 	 * kill unit immediately
 	 */
 	public void suicide() {
+		ownerCivilization.removeUnit(this);
 		currentTile.removeUnit(this);
 		changeHealth(-getHealth());
 	}
@@ -88,10 +93,10 @@ public class Unit{
 	}
 
 	private Vector<Tile> dijkstra(Tile destination) {
-		Map gameMap = game.getMap();//TODO get user map in next checkpoint
+		Map gameMap = ProgramController.getGame().getMap();//TODO get user map in next checkpoint
 
 		PriorityQueue<OrderedPair<Distance, Integer>> heap = new PriorityQueue<>();
-		int mapSize = gameMap.getMapSize();
+		int mapSize = gameMap.getMapSize() * gameMap.getMapSize();
 		Vector<Distance> dis = new Vector<>(mapSize);
 		Vector<Integer> par = new Vector<>(mapSize);
 
@@ -99,7 +104,7 @@ public class Unit{
 			dis.add(new Distance(Distance.infinity, -1));
 			par.add(-1);
 		}
-
+//		System.err.printf("?!?!?!? %d\n", dis.size());
 		int start = currentTile.getMapNumber();
 		dis.set(start, new Distance(0, 0));
 		heap.add(new OrderedPair<>(dis.get(start), start));
@@ -109,13 +114,17 @@ public class Unit{
 			Distance distance = min.getFirst();
 			Tile node = gameMap.getTileByNumber(min.getSecond());
 
+//			System.err.printf("## (%d, %d)\n", distance.turn, distance.remainedMP);
+
 			for (int i = 0; i < 6; i++) {
 				Boarder boarder = node.getBoarder(i);
 				Tile adjacentTile = boarder.getOtherTile(node);
 				if (adjacentTile == null) continue;
-				Distance nextDistance = distance.getDistanceAfter(currentTile, boarder);
-				int adjacentTileID = adjacentTile.getMapNumber();
+//				System.err.printf("$$ (%d)\n", adjacentTile.getMapNumber());
 
+				Distance nextDistance = distance.getDistanceAfter(node, boarder);
+				int adjacentTileID = adjacentTile.getMapNumber();
+//				System.err.printf("^^ (%d, %d)\n", nextDistance.turn, nextDistance.remainedMP);
 				if (dis.get(adjacentTileID).compareTo(nextDistance) > 0) {
 					par.set(adjacentTileID, node.getMapNumber());
 
@@ -132,14 +141,16 @@ public class Unit{
 		Vector<Tile> path = new Vector<>();
 		while (currentTile.getMapNumber() != destination.getMapNumber()) {
 			path.add(destination);
+			System.err.printf("*** %d\n", destination.getMapNumber());
 			destination = gameMap.getTileByNumber(par.get(destination.getMapNumber()));
 		}
+		path.add(destination);
 		Collections.reverse(path);
 		Vector<Tile> stopTiles = new Vector<>();
 		for(int i = 1; i + 1 < path.size(); i++)
 			if(dis.get(path.get(i).getMapNumber()).getTurn() < dis.get(path.get(i + 1).getMapNumber()).getTurn())
 				stopTiles.add(path.get(i));
-		stopTiles.add(destination);
+		stopTiles.add(path.lastElement());
 		return stopTiles;
 	}
 
@@ -170,13 +181,15 @@ public class Unit{
 			int resultRemainedMP = remainedMP;
 			Tile nextTile = boarder.getOtherTile(currentTile);
 			if (remainedMP == 0) {
-				if ((Unit.this instanceof Armed) && currentTile.getArmedUnit() != null)
+				if (turn != 0 && (Unit.this instanceof Armed) && currentTile.getArmedUnit() != null)
 					return new Distance(infinity, -1);
-				if ((Unit.this instanceof Civilian) && currentTile.getCivilianUnit() != null)
+				if (turn != 0 && (Unit.this instanceof Civilian) && currentTile.getCivilianUnit() != null)
 					return new Distance(infinity, -1);
-				resultTurn++;
+				resultTurn ++;
 				resultRemainedMP = movementPoint;
+//				System.err.printf("MP is %d\n", movementPoint);
 			}
+//			System.err.println(nextTile.getMovementCost());
 			resultRemainedMP = Math.max(0, resultRemainedMP - (boarder.isRiver() ? resultRemainedMP : nextTile.getMovementCost()));
 			return new Distance(resultTurn, resultRemainedMP);
 		}
@@ -263,11 +276,13 @@ public class Unit{
 		Vector<Tile> stopPoints = dijkstra(destTile);
 		// TODO : handle no path condition
 		assert stopPoints != null;
-
+		System.err.printf("????????????? %d\n", stopPoints.size());
 		actionsQueue.resetQueue();
 		for (Tile stopPoint : stopPoints) {
+			System.err.println(stopPoint.getMapNumber());
 			actionsQueue.addAction(new Action(this, Actions.MOVE, stopPoint));
 		}
+		System.err.println("##############");
 	}
 
 }

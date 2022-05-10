@@ -24,8 +24,12 @@ public class Settler extends Civilian {
 	 */
 	private static final int minimumCityDistance = 4;
 
-	public Settler(UnitType type, Tile tile, Civilization civilization, Game game) {
-		super(type, tile, civilization, game);
+	public Settler(UnitType type, Tile tile, Civilization civilization) {
+		super(type, tile, civilization);
+	}
+
+	public static Settler spawnSettler(UnitType type, Tile tile, Civilization civilization) {
+		return new Settler(type, tile, civilization);
 	}
 
 	/**

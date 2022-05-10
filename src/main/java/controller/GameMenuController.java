@@ -3,11 +3,13 @@ package controller;
 import controller.civilization.city.CityController;
 import model.Game;
 import model.Player;
+import model.civilization.Civilization;
 import model.civilization.city.City;
 import model.technology.TechTree;
 import model.technology.TechnologyList;
 import model.technology.TechnologyType;
 import model.tile.Tile;
+import model.unit.Unit;
 import model.unit.UnitType;
 import model.unit.armed.Armed;
 import model.unit.civilian.Civilian;
@@ -72,6 +74,10 @@ public class GameMenuController {
 		if (tile == null)
 			return "invalid position";
 		//todo safar: move game.selectedObject -> tile
+		if (!(game.getSelectedObject() instanceof Unit))
+			return "Selected \"Object\" is not Unit";
+		Unit unit = (Unit) game.getSelectedObject();
+		unit.goTo(tile);
 		return "Done!";
 	}
 
@@ -153,6 +159,8 @@ public class GameMenuController {
 
 	//MAP:
 	public String mapShow(HashMap<String, String> args) {
+//		System.err.println("???");
+//		System.err.println(game.getMap().getTileByNumber(70).getArmedUnit());
 		if (args.containsKey("position")) {
 			return gameController.mapShow("position", args.get("position"));
 		} else if (args.containsKey("cityname")) {
@@ -200,21 +208,34 @@ public class GameMenuController {
 	}
 
 	public String spawnUnit(HashMap<String, String> args) {
-		//todo next Checkpoint
-		HashMap<String, UnitType> units = new HashMap<>() {{
-			put("worker", UnitType.WORKER);
-			put("scout", UnitType.SCOUT);
-			put("settler", UnitType.SETTLER);
-		}};
-		String type = args.get("section");
+//		System.err.println("We are here");
+		if(!isInteger(args.get("position")))
+			return "position is not integer";
 		int position = Integer.parseInt(args.get("position"));
-		if (!units.containsKey(type))
-			return "invalid unit type";
 		Tile tile = game.getMap().getTileByNumber(position);
-		Civilian civilian = new Civilian(units.get(type), tile, game.getCurrentPlayer().getCivilization(), game);
-		game.getCurrentPlayer().getCivilization().addUnit(civilian);
-		tile.setCivilianUnit(civilian);
-		return "you're cheater!";
+		if(tile == null)
+			return "invalid position";
+		UnitType unitType = null;
+		for (UnitType value : UnitType.values()) {
+//			System.err.println(StringUtils.convertToPascalCase(value.name()));
+//			System.err.println(args.get("name"));
+			if (StringUtils.convertToPascalCase(value.name()).toLowerCase().equals(args.get("name")))
+				unitType = value;
+		}
+		if (unitType == null)
+			return "invalid unit type";
+		Unit unit = Unit.spawnUnit(unitType, tile, game.getCurrentPlayer().getCivilization());
+		if(unit instanceof Armed && tile.getArmedUnit() != null)
+			return "there is already armed unit here";
+		if(unit instanceof Civilian && tile.getCivilianUnit() != null)
+			return "there is already civilian unit here";
+
+		game.getCurrentPlayer().getCivilization().addUnit(unit);
+		if(unit instanceof Civilian)
+			tile.setCivilianUnit((Civilian) unit);
+		if(unit instanceof Armed)
+			tile.setArmedUnit((Armed) unit);
+		return "god sent you some units !";
 	}
 
 	public String listOfProductions(HashMap<String, String> args) {
@@ -410,4 +431,10 @@ public class GameMenuController {
 		return true;
 	}
 
+	public String cheatNextTurn(HashMap<String, String> args) {
+		for (Unit unit : game.getCurrentPlayer().getCivilization().getUnits()) {
+			unit.nextTurn();
+		}
+		return "time fast forwarded !";
+	}
 }
