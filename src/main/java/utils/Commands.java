@@ -51,8 +51,16 @@ public enum Commands {
     //CHEATS
         INCREASE_RESOURCE("increase", new String[]{"amount"}, null, 1, null),
         SPAWN_UNIT("spawn unit", new String[]{"position"}, null,1,null),
+        ADD_TECHNOLOGY("add technology", new String[]{"name"}, null, 0, null),
+        ADD_BEAKER("add beaker", new String[]{"amount"}, null, 0, null),
+
     //PROFILE
-        PROFILE_CHANGE("profile change",null, new String[]{"new","current"},1,null);
+        PROFILE_CHANGE("profile change",null, new String[]{"new","current"},1,null),
+    // TECHNOLOGY
+        SHOW_RESEARCHABLE_TECHS("get researchable techs", null, null, 0, null),
+        GET_CURRENT_RESEARCH("get current research", null, null, 0, null),
+        RESEARCH("research", new String[]{"name"}, null, 0, null),
+        CHANGE_RESEARCH("change research", new String[]{"name"}, null, 0, null);
 
     private final String offset;
     private final String[] requiredKeys;
