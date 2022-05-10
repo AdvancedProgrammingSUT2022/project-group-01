@@ -57,6 +57,7 @@ public class Unit{
 
 	public void nextTurn() {
 		actionsQueue.doAction();
+
 	}
 
 	public void defendAgainstMelee(Unit enemy) {

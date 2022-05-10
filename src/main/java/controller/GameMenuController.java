@@ -273,6 +273,13 @@ public class GameMenuController {
 		//todo implement here
 	}
 
+	public String showNextTiles(HashMap<String, String> args){
+		if(!(game.getSelectedObject() instanceof City))
+			return "select city first!";
+		City city = (City) game.getSelectedObject();
+		return cityController.getNextTiles(city);
+	}
+
 	public String getPurchasableTiles(HashMap<String, String> args) {
 		if (!(game.getSelectedObject() instanceof City)) {
 			return "select city first!";
