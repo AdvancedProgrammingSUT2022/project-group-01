@@ -148,12 +148,12 @@ public class MenusTest {
     @Test
     public void menuExitMain(){
         String answer = "Done!";
-        Assertions.assertEquals(answer, mainMenuController.menuExit(null));
+        Assertions.assertEquals(answer, mainMenuController.menuExit(args));
     }
 
     @Test
     public void currentMenuMain(){
         String answer = "Main Menu";
-        Assertions.assertEquals(answer, mainMenuController.
+        //we were here
     }
 }

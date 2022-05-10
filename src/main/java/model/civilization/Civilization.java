@@ -1,5 +1,6 @@
 package model.civilization;
 
+import model.TurnBasedLogic;
 import model.civilization.city.City;
 import model.improvement.ImprovementType;
 import model.map.SavedMap;
@@ -13,17 +14,18 @@ import utils.VectorUtils;
 
 import java.util.*;
 
-public class Civilization {
+public class Civilization implements TurnBasedLogic {
 
 	private Civilizations civilization;//enum
 	private Vector<City> cities;
 	private City capital;
 	private Currency currency;
 	private Currency citiesCurrency;
-	private int happiness;
+	private int happiness = 15;
 	private SavedMap map;
 	private HashMap<ResourceType, Integer> resourceRepository;
 	private Vector<Unit> units;//TODO merge with safar
+	private int beaker;
 
 	private TechTree techTree;//TODO merge with safar
 	private Vector<Civilization> knownCivilizations;
@@ -63,16 +65,30 @@ public class Civilization {
 		throw new UnsupportedOperationException();
 	}
 
-	public void nextTurn() {
-		// TODO - implement model.civilization.Civilization.nextTurn
-		throw new UnsupportedOperationException();
+	public void nextTurn(Civilization civilization) {
+		if(civilization != this)
+			return;
+		updateCurrency();
+		updateHappiness();
+		updateBeaker();
+		for(Unit unit : units)
+			unit.nextTurn();
+		techTree.addScience(beaker);
+
+	}
+
+	private void updateBeaker() {
+		beaker = 0;
+		for(City city : cities)
+			beaker += city.getBeaker();
 	}
 
 	public void updateHappiness() {
-		happiness = 0;
-		for (City city : cities)
-			happiness += city.getHappiness();
-		//todo implement for civilization based happiness bonus
+		happiness = 20;
+		happiness -= cities.size()*2;
+		for(City city : cities)
+			happiness -= city.getPopulation().size()/5;
+		doResourceHappiness();
 	}
 
 	public int getHappiness(){
@@ -173,5 +189,4 @@ public class Civilization {
 			}
 			return returningCurrency;
 		}
-
 }

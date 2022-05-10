@@ -19,6 +19,17 @@ public class CityController {
         this.game = game;
     }
 
+    public String getNextTiles(City city){
+        Vector<Tile> tiles = city.getNextTiles();
+        StringBuilder stringBuilder = new StringBuilder();
+        for(int i=0; i<tiles.size();i++){
+            stringBuilder.append(i+1).append("- ").append(tiles.get(i).getMapNumber());
+            if(i != tiles.size()-1)
+                stringBuilder.append("\n");
+        }
+        return stringBuilder.toString();
+    }
+
     public String getPurchasableTile(City city){
         StringBuilder items = new StringBuilder();
         Vector<Pair<Tile, Integer>> pairs = city.getPurchasableTiles();

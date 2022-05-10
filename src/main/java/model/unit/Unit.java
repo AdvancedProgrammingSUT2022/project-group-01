@@ -50,9 +50,8 @@ public class Unit{
 
 	}
 
-	public boolean nextTurn(Civilization civilization, City city) {
+	public void nextTurn() {
 
-		return false;
 	}
 
 	public void defendAgainstMelee(Unit enemy) {

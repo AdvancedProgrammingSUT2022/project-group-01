@@ -169,6 +169,11 @@ public class GameMenu{
 					return controller.changeResearch(args);
 				}
 			}, Commands.CHANGE_RESEARCH);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.showNextTiles(args);
+				}
+			}, Commands.SHOW_NEXT_TILES);
 		}};
 
 	}
