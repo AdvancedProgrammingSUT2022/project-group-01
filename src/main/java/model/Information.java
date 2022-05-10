@@ -20,7 +20,7 @@ public class Information {
 	private int civilizationSize;
 	private HashMap<ResourceType, Integer> resources;
 
-	public Information(Civilization civilization){ //TODO : get Game in constructor
+	public Information(Civilization civilization, Game game){ //TODO : get Game in constructor
 		this.civilization = civilization;
 		this.game = game;
 	}
@@ -53,7 +53,7 @@ public class Information {
 
 	//city panel
 	public String cityPanel(City city){
-		return "TODOOO";
+		return "I'm a fucking city";
 	}
 
 
