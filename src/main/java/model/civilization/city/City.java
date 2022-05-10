@@ -98,7 +98,7 @@ public class City implements TurnBasedLogic {
 			currency.add(tile.getCurrency());
 			changes.add(tile.getCurrency());
 		}
-		
+
 		//you can show changes like food: +2 and ...
 	}
 
