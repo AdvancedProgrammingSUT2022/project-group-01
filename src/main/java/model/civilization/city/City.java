@@ -7,6 +7,7 @@ import model.civilization.Civilization;
 import model.civilization.Currency;
 import model.civilization.Person;
 import model.civilization.production.ProductionInventory;
+import model.tile.Terrain;
 import model.tile.Tile;
 import model.unit.Unit;
 import utils.Pair;
@@ -31,11 +32,12 @@ public class City {
 	private int remainedTurnToExpansion = turnToExpansion;
 	private Unit garrisonedUnit;
 	private int beaker = 5;//todo check correct value
-	private int happiness;
+	private int happiness = 15;
+	private int remainedTurnToGrowth = 5;
 
-	public City(String name, Civilization civilization, Tile center, int happiness) {
+	public City(String name, Civilization civilization, Tile center) {
 		this.civilization =  civilization;
-		this.population = new Vector<>(Arrays.asList(new Person(center)));
+		this.population = new Vector<>(Arrays.asList(new Person()));
 		this.name = name;
 		this.center = center;
 		tiles = new Vector<>();
@@ -43,7 +45,8 @@ public class City {
 		tiles.addAll(center.getAdjacentTiles());
 		nextTiles = new Vector<>();
 		this.currency = new Currency(5,5,5);//TODO: check this value
-		this.happiness = happiness;
+		if(center.getTerrain().equals(Terrain.HILLS))
+			defencePower += 5;
 	}
 
 	public int getHappiness() {
@@ -51,8 +54,7 @@ public class City {
 	}
 
 	public void updateHappiness(int happiness) {
-		//todo implement here
-
+		happiness = 15 - 3*(civilization.getCities().size()-1);
 	}
 
 	public Vector<Tile> getTiles() {
@@ -107,13 +109,21 @@ public class City {
 	}
 
 	private void handlePopulationIncrease(){
-		//todo implement here
+		if(remainedTurnToExpansion == 0 && currency.getFood() > 10){
+			population.add(new Person());
+			remainedTurnToGrowth = 5;
+		}
+		if(remainedTurnToExpansion > 0)
+			remainedTurnToGrowth--;
 	}
 
 	public void destroy() {
-		//TODO free tiles and others:check with parham
 		population.clear();
 		civilization.getCities().remove(this);
+		for(Tile tile : tiles){
+			tile.setOwnerCity(null);
+			tile.setCivilization(null);
+		}
 	}
 
 	public void nextTurn() {
