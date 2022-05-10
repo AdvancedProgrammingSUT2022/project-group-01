@@ -1,5 +1,6 @@
 package model.civilization;
 
+import lombok.Getter;
 import model.civilization.city.City;
 import model.improvement.ImprovementType;
 import model.map.SavedMap;
@@ -22,6 +23,7 @@ public class Civilization {
 	private Currency citiesCurrency;
 	private int happiness;
 	private SavedMap map;
+	@Getter
 	private HashMap<ResourceType, Integer> resourceRepository;
 	private Vector<Unit> units;//TODO merge with safar
 
@@ -173,5 +175,13 @@ public class Civilization {
 			}
 			return returningCurrency;
 		}
+
+		public int getPopulationSize(){
+			int population = 0;
+			for(City city : this.getCities()) population += city.getPopulation().size();
+			return population;
+		}
+
+
 
 }

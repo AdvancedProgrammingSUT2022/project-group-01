@@ -1,8 +1,11 @@
 package model.technology;
 
+import lombok.Getter;
+
 import java.util.HashMap;
 import java.util.Vector;
 
+@Getter
 public class TechTree {
 	private HashMap<TechnologyType, Integer> researchedTechs;
 	private TechnologyType currentResearch;
@@ -57,5 +60,14 @@ public class TechTree {
 
 	public boolean isResearching() {
 		return currentResearch != null;
+	}
+
+	public void completeResearch(TechnologyType technologyType) {
+		researchedTechs.put(technologyType, technologyType.getCost());
+	}
+
+	public Integer getRemainingScience(){
+		if(currentResearch == null) return null;
+		return Math.max(0, currentResearch.getCost() - researchedTechs.get(currentResearch));
 	}
 }

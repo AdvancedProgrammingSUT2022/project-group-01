@@ -1,23 +1,30 @@
 package model.tile;
 
-import controller.GameController;
-import controller.GameInitializer;
-import controller.MapController;
-import controller.TileController;
-import model.Game;
-import model.Player;
-import model.User;
+import controller.*;
+import model.*;
+
+import java.util.*;
+
+import model.Map;
 import model.civilization.Civilization;
 import model.civilization.Civilizations;
 import model.civilization.city.City;
+import model.improvement.ImprovementType;
+import model.map.OpenSimplexNoise;
 import model.resource.ResourceType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 import java.util.Vector;
 
-
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.when;
+@ExtendWith(MockitoExtension.class)
 public class TileTest {
     @Test
     public void testFeature(){
@@ -50,4 +57,80 @@ public class TileTest {
         Assertions.assertTrue(s.startsWith(" "));
         Assertions.assertEquals(17, game.getMap().getMapSize());
     }
+
+
+   @Test
+    public void mapGenerator1(){
+        TileController.initializeEnums();
+        User user1 = new User("a","b","c");
+        User user2 = new User("aa","bb","cc");
+        Player p1 = new Player(user1);
+        Player p2 = new Player(user2);
+        Vector<Player> pvec = new Vector<>(List.of(p1,p2));
+        Game game = new Game(pvec, 21);
+        MapGenerationController mgc = new MapGenerationController(game);
+
+
+        mgc.generateMap(21);
+        Assertions.assertNotNull(game.getMap().getTile(14,14).getTerrain());
+    }
+
+
+
+//    @Test
+//    public void setPositionTest(){
+//        TileController.initializeEnums();
+//        MapController mc = new MapController(game);
+//        Map map = new Map(4);
+//        when(game.getMap()).thenReturn(map);
+//        Assertions.assertEquals(mc.setPosition(-2), "invalid position");
+//        Assertions.assertEquals(mc.setPosition(1000),"invalid position");
+//    }
+
+
+    @Test
+    public void moveCenterTileTest(){
+        User user1 = new User("a","b","c");
+        User user2 = new User("aa","bb","cc");
+        TileController.initializeEnums();
+        Vector<User> vec = new Vector<>(List.of(user1,user2));
+        GameInitializer gi = new GameInitializer();
+        Game game = gi.startGame(vec,17);
+        Game spyGame = spy(game);
+        MapController mc = new MapController(spyGame);
+
+        Tile tile = spyGame.getCurrentPlayer().getMapCenterTile();
+        mc.moveCenterTile(1,"right");
+
+        Assertions.assertSame(spyGame.getCurrentPlayer().getMapCenterTile(),tile.getBoarder(1).getOtherTile(tile));
+        Assertions.assertEquals(mc.moveMap("left",3),"changed map position");
+    }
+
+    @Mock
+    Game game2;
+    MapController mc2;
+    @Test
+    public void showTileInfoTest(){
+        Tile tile = new Tile(Terrain.DESERT,TerrainFeature.FOREST,null,ResourceType.GEMS,10,10,4);
+        GameController gc = new GameController(game2 , mc2);
+        GameController gcSpy = spy(gc);
+        Tile tileSpy = spy(tile);
+        Mockito.doReturn(Terrain.OCEAN).when(tileSpy).getTerrain();
+        Assertions.assertTrue(gc.showTileInfo(tileSpy).contains("Tile Number :"));
+
+    }
+
+@Test
+    public void mapGeneration2Test(){
+        User user1 = new User("a","b","c");
+        User user2 = new User("aa","bb","cc");
+        TileController.initializeEnums();
+        Vector<User> vec = new Vector<>(List.of(user1,user2));
+        GameInitializer gi = new GameInitializer();
+        Game game = gi.startGame(vec,17);
+
+    }
+
+
+
 }

@@ -1,13 +1,15 @@
 package model;
 
+import model.civilization.Civilization;
+
 import java.util.Vector;
 
 public interface TurnBasedLogic {
     static Vector<TurnBasedLogic> turnBasedObjects = new Vector<>();
-    void nextTurn();
-    static void callNextTurns(){
+    void nextTurn(Civilization civilization);
+    static void callNextTurns(Civilization civilization){
         for(TurnBasedLogic object : turnBasedObjects){
-            object.nextTurn();
+            object.nextTurn(civilization);
         }
     }
     default void addToList(){

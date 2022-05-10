@@ -10,8 +10,10 @@ import model.civilization.city.City;
 import model.improvement.ImprovementInventory;
 import model.improvement.ImprovementType;
 
+import model.improvement.MiscellaneousTileActionsInventory;
 import model.resource.ResourceType;
 import model.unit.Unit;
+import model.unit.action.UnitActions;
 import model.unit.armed.Armed;
 import model.unit.civilian.Civilian;
 import utils.VectorUtils;
@@ -31,6 +33,7 @@ public class Tile {
 	private Armed armedUnit;
 	private Civilian civilianUnit;
 	private ImprovementInventory improvementInventory;
+	private MiscellaneousTileActionsInventory miscellaneousTileActionsInventory;
 	private ResourceType availableResource;
 	private boolean hasRoad;
 	private boolean hasRailRoad;
@@ -70,7 +73,7 @@ public class Tile {
 		this.civilization = civilization;
 	}
 	public Currency getCurrency(){
-		 Currency output = new Currency(getGoldYield(), getProductionYield(), getFoodYield());
+		 Currency output = new Currency(getGoldYield() - getMaintenance(), getProductionYield(), getFoodYield());
 		 // Adding Improvement Currency
 		output.add(this.improvementInventory.getCurrency());
 		// Adding Resource Currency
@@ -140,6 +143,7 @@ public class Tile {
 		qCoordinate = q;
 		this.mapNumber = number;
 		this.improvementInventory = new ImprovementInventory(this);
+		this.miscellaneousTileActionsInventory = new MiscellaneousTileActionsInventory(this);
 	}
 
 	public void addPerson(Person person) {
@@ -306,6 +310,8 @@ public class Tile {
 	}
 
 
+
+
 	public void setAvailableResource(ResourceType resourceType){
 		this.availableResource = resourceType;
 	}
@@ -381,5 +387,20 @@ public class Tile {
 
 	public void repairImprovement(){
 		this.improvementInventory.repair();
+	}
+
+	public int getImprovementTurnsLeft(){
+		return this.improvementInventory.getTurnsLeft();
+	}
+
+	public void orderWorkerAction(UnitActions action){
+		this.miscellaneousTileActionsInventory.setAction(action);
+	}
+
+	public int getMaintenance(){
+		int cost = 0;
+		if(hasRoad) cost += 3;
+		if(hasRailRoad) cost += 3;
+		return cost;
 	}
 }

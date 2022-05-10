@@ -52,20 +52,21 @@ public class TileController extends Controller {
         }
     }
 
-    public String orderBuildingImprovement(Player player, Tile tile, ImprovementType improvementType) {
-        if (!tile.getCivilization().equals(player.getCivilization()))
-            return "you should own a tile to build improvement on it";
-        if (!improvementType.isEligibleToBuild(player.getCivilization(), tile))
+    public String orderBuildingImprovement(Worker worker, Tile tile, ImprovementType improvementType) {
+        if (!tile.getCivilization().equals(worker.getOwnerCivilization()))
+            return "you should own the tile to build improvement on it";
+        if (!improvementType.isEligibleToBuild(worker.getOwnerCivilization(), tile))
             return "you can't build this improvement here";
         //TODO add to production list
+        worker.improveTile(improvementType);
         return "improvement ordered";
     }
 
-    public String buildImprovement(Tile tile, ImprovementType newImprovement) {
-        newImprovement.improvementSpecialAction(tile);
-        tile.buildImprovement(newImprovement);
-        return "improvement " + newImprovement.name() + "was built successfully";
-    }
+//    public String buildImprovement(Tile tile, ImprovementType newImprovement) {
+//        newImprovement.improvementSpecialAction(tile);
+//        tile.buildImprovement(newImprovement);
+//        return "improvement " + newImprovement.name() + "was built successfully";
+//    }
 
     public static boolean isAbleToBuildRoad(Unit unit){
         return unit.getOwnerCivilization().getResearchTree().isResearched(TechnologyType.THE_WHEEL);
