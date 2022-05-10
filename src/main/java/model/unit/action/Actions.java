@@ -1,6 +1,7 @@
 package model.unit.action;
 
 import com.sun.source.doctree.SeeTree;
+import model.ProgressState;
 import model.unit.armed.Siege;
 import model.unit.Unit;
 import model.unit.civilian.Settler;
@@ -54,13 +55,50 @@ public enum Actions {
 			action -> {
 				((Settler) action.getUnit()).settle();
 			}
+	),
+	BUILD_IMPROVEMENT(null,
+			action -> action.getImprovementType().isEligibleToBuild(action.getUnit().getOwnerCivilization(), action.getUnit().getCurrentTile()),
+			action -> action.getUnit().getCurrentTile().buildImprovement(action.getImprovementType())
+	),
+	PILLAGE_IMPROVEMENT(1,
+			action -> action.getUnit().getCurrentTile().getBuiltImprovement() != null,
+			action -> action.getUnit().getCurrentTile().pillageImprovement()
+	),
+	REMOVE_IMPROVEMENT(null,
+			PILLAGE_IMPROVEMENT.isPossibleFunc,
+			action -> action.getUnit().getCurrentTile().removeImprovement()
+	),
+	// TODO : need repair method in Tile
+	REPAIR_IMPROVEMENT(null,
+			null,
+			null
+	),
+	PAUSE_IMPROVEMENT(1,
+			action -> action.getUnit().getCurrentTile().getImprovementInventory().getState().equals(ProgressState.IN_PROGRESS),
+			action -> action.getUnit().getCurrentTile().stopImprovementProgress()
+	),
+	BUILD_ROAD(1,
+			action -> !action.getUnit().getCurrentTile().doesHaveRoad(),
+			action -> action.getUnit().getCurrentTile().buildRoad()
+	),
+	BUILD_RAIL(null,
+			action -> !action.getUnit().getCurrentTile().doesHaveRailRoad(),
+			action -> action.getUnit().getCurrentTile().buildRailRoad()
+	),
+	REMOVE_ROAD(1,
+			action -> action.getUnit().getCurrentTile().doesHaveRoad(),
+			action -> action.getUnit().getCurrentTile().removeRoads()
+	),
+	REMOVE_RAIL(1,
+			action -> action.getUnit().getCurrentTile().doesHaveRailRoad(),
+			action -> action.getUnit().getCurrentTile().removeRoads()
 	);
 
-	private final int requiredTurns;
+	private final Integer requiredTurns;
 	private final Function<Action, Boolean> isPossibleFunc;
 	private final Consumer<Action> doActionFunc;
 
-	Actions(int requiredTurns, Function<Action, Boolean> isPossibleFunc, Consumer<Action> doActionFunc) {
+	Actions(Integer requiredTurns, Function<Action, Boolean> isPossibleFunc, Consumer<Action> doActionFunc) {
 		this.requiredTurns = requiredTurns;
 		this.isPossibleFunc = isPossibleFunc;
 		this.doActionFunc = doActionFunc;

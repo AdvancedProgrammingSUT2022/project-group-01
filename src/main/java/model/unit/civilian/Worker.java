@@ -5,23 +5,50 @@ import model.civilization.Civilization;
 import model.improvement.ImprovementType;
 import model.tile.Tile;
 import model.unit.UnitType;
+import model.unit.action.Action;
+import model.unit.action.Actions;
 import model.unit.civilian.Civilian;
+
+import java.util.Random;
 
 public class Worker extends Civilian {
 	public Worker(UnitType type, Tile tile, Civilization civilization, Game game){
 		super(type, tile, civilization, game);
 	}
-	public boolean canImprove(){
-		return false;
+	public boolean canImprove(ImprovementType improvementType){
+		return improvementType.isEligibleToBuild(ownerCivilization, currentTile);
 	}
-	public boolean improveTile(ImprovementType improvement){
-		return false;
+	public void improveTile(ImprovementType improvement){
+		actionsQueue.resetQueue();
+		actionsQueue.addAction(new Action(this, Actions.BUILD_IMPROVEMENT, improvement));
 	}
-	public void buildRoad(){}
-	public void buildRailRoadTo(Tile destination){}
-	public void pauseImprovement(){}
-	public void repairImprovement(){}
-	public void repairRoad(){}
-	public void removeImprovement(){}
-	public void removeRoad(){}
+	public void buildRoad(){
+		actionsQueue.resetQueue();
+		actionsQueue.addAction(new Action(this, Actions.BUILD_ROAD));
+	}
+	public void buildRail(){
+		actionsQueue.resetQueue();
+		actionsQueue.addAction(new Action(this, Actions.BUILD_RAIL));
+	}
+	public void pauseImprovement(){
+		actionsQueue.resetQueue();
+		actionsQueue.addAction(new Action(this, Actions.PAUSE_IMPROVEMENT));
+	}
+	public void repairImprovement(){
+		// TODO : update with parham's code
+		actionsQueue.resetQueue();
+		actionsQueue.addAction(new Action(this, Actions.REMOVE_IMPROVEMENT));
+	}
+	public void removeImprovement(){
+		actionsQueue.resetQueue();
+		actionsQueue.addAction(new Action(this, Actions.REMOVE_IMPROVEMENT));
+	}
+	public void removeRoad(){
+		actionsQueue.resetQueue();
+		actionsQueue.addAction(new Action(this, Actions.REMOVE_ROAD));
+	}
+	public void removeRail(){
+		actionsQueue.resetQueue();
+		actionsQueue.addAction(new Action(this, Actions.REMOVE_RAIL));
+	}
 }
