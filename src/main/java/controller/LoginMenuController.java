@@ -1,13 +1,11 @@
 package controller;
 
-import lombok.Getter;
 import model.Database;
 import model.User;
 
 import javax.xml.crypto.Data;
 import java.util.*;
 
-@Getter
 public class LoginMenuController {
 
 	private final Database database;

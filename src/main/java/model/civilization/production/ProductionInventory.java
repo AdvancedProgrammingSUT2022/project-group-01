@@ -58,6 +58,4 @@ public class ProductionInventory {
 		producible.produce(city);
 	}
 
-
-
 }

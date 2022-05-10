@@ -21,7 +21,7 @@ public class Database {
             FileWriter fileWriter = new FileWriter("./database/users.json");
             gson.toJson(users, fileWriter);
             fileWriter.close();
-        } catch (IOException e) {
+        }catch(IOException e) {
             e.printStackTrace();
         }
     }
@@ -42,7 +42,6 @@ public class Database {
     }
     public void addUser(String username, String nickname, String password){
         users.add(new User(username,password, nickname));
-        save();
     }
 
     /**

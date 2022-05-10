@@ -112,20 +112,4 @@ public class CommandProcessorTest {
         Assertions.assertEquals(answer, result);
     }
 
-    @Test
-    public void testEleven(){
-        String input = "list of productions";
-        HashMap<String, String> result = CommandProcessor.extractCommand(input, Commands.LIST_OF_PRODUCTIONS);
-        Assertions.assertNotNull(result);
-    }
-
-    @Test
-    public void testTwelve(){
-        String input = "list of productions -a";
-        HashMap<String, String> result = CommandProcessor.extractCommand(input, Commands.LIST_OF_ALL_OF_PRODUCTIONS);
-        HashMap<String, String> answer = new HashMap<>(){{
-            put("section", "-a");
-        }};
-        Assertions.assertEquals(answer,result);
-    }
 }

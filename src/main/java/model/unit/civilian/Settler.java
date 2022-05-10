@@ -24,12 +24,8 @@ public class Settler extends Civilian {
 	 */
 	private static final int minimumCityDistance = 4;
 
-	public Settler(UnitType type, Tile tile, Civilization civilization) {
-		super(type, tile, civilization);
-	}
-
-	public static Settler spawnSettler(UnitType type, Tile tile, Civilization civilization) {
-		return new Settler(type, tile, civilization);
+	public Settler(UnitType type, Tile tile, Civilization civilization, Game game) {
+		super(type, tile, civilization, game);
 	}
 
 	/**
@@ -61,7 +57,7 @@ public class Settler extends Civilian {
 		actionsQueue.resetQueue();
 
 		String name = ownerCivilization.getCivilization().getCityNames()[ownerCivilization.getCities().size()];
-		City newCity = new City(name, ownerCivilization, currentTile);//todo implement here (based on difficulty)
+		City newCity = new City(name, ownerCivilization, currentTile,15);//todo implement here (based on difficulty)
 		ownerCivilization.addNewCity(newCity);
 		suicide();
 	}
