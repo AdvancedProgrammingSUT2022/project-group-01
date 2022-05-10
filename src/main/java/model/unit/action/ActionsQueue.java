@@ -97,4 +97,9 @@ public class ActionsQueue {
 	public void resetQueue() {
 		queue.clear();
 	}
+
+	//TODO ADDED BY PARHAM
+	public Action getCurrentAction(){
+		return queue.get(0);
+	}
 }

@@ -10,8 +10,14 @@ import model.unit.UnitType;
 public class Armed extends Unit {
 	private int XP = 0;
 
-	public Armed(UnitType type, Tile tile, Civilization civilization, Game game){
-		super(type, tile, civilization, game);
+	public Armed(UnitType type, Tile tile, Civilization civilization){
+		super(type, tile, civilization);
+	}
+
+	public static Armed spawnArmed(UnitType unitType, Tile tile, Civilization ownerCivilization){
+		if(unitType.getRange() != -1)
+			return RangedUnit.spawnRanged(unitType, tile, ownerCivilization);
+		return new Armed(unitType, tile, ownerCivilization);
 	}
 
 	@Override

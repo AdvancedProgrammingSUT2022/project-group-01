@@ -78,14 +78,6 @@ public class CommandProcessor {
         return true;
     }
 
-    private static void updateProbableAbbreviations(HashMap<String, String> in, String[] fullForms){
-        for(Map.Entry<String, String> set: in.entrySet()){
-            for(int i=0;i<fullForms.length;i++){
-               // if(set.getKey().startsWith("-"+fullForms[i].charAt(0))
-            }
-        }
-    }
-
     public static HashMap<String, String> extractCommand(String input, Commands command) {
         input = input.toLowerCase();
         input = input.trim();
@@ -108,10 +100,5 @@ public class CommandProcessor {
         if(!doesContainRequiredKeys(out, required))
             return null;
         return out;
-    }
-
-    public static void main(String[] args){
-        HashMap<String, String> out = extractCommand("INFO CITY", Commands.INFO);
-        System.out.println(out);
     }
 }

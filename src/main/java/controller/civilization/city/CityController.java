@@ -13,19 +13,21 @@ import java.util.Vector;
 
 public class CityController {
 
-    private Game game;
+    private final Game game;
 
     public CityController(Game game){
         this.game = game;
     }
 
-    public String changePersonTile(City city, int personId, Tile newTile){
-        Vector<Person> population = city.getPopulation();
-        if(population.size() <= personId){
-            return "invalid id!";
+    public String getNextTiles(City city){
+        Vector<Tile> tiles = city.getNextTiles();
+        StringBuilder stringBuilder = new StringBuilder();
+        for(int i=0; i<tiles.size();i++){
+            stringBuilder.append(i+1).append("- ").append(tiles.get(i).getMapNumber());
+            if(i != tiles.size()-1)
+                stringBuilder.append("\n");
         }
-        population.get(personId).setTile(newTile);
-        return "done!";
+        return stringBuilder.toString();
     }
 
     public String getPurchasableTile(City city){
@@ -33,7 +35,7 @@ public class CityController {
         Vector<Pair<Tile, Integer>> pairs = city.getPurchasableTiles();
         for (int i=0;i<pairs.size();i++) {
             Pair<Tile, Integer> pair = pairs.get(i);
-            items.append(pair.getFirst().getMapNumber() + " : " + pair.getSecond() + "$\n");
+            items.append(pair.getFirst().getMapNumber()).append(" : ").append(pair.getSecond()).append("$\n");
         }
         return items.toString();
     }
@@ -46,7 +48,7 @@ public class CityController {
         Currency currency = city.getCurrency();
         Pair<Tile, Integer> pair = pairs.get(tileIndex);
         if(currency.getGold() < pair.getSecond())
-            return "insufficient gold!";
+            return "you don't have enough gold!";
         currency.add(new Currency(-pair.getSecond(), 0,0));
         city.addNewTiles(new Vector<>(Arrays.asList(pair.getFirst())));
         return "tile purchased!";
@@ -113,7 +115,7 @@ public class CityController {
         return out.toString();
     }
 
-    public String getProductionsListToResearch(City city){
+    public String getProductionsListToProduce(City city){
         Vector<Producible> productions = city.getProductionInventory().getAvailableProductions();
         return listProductionsAndTurns(productions, city);
     }
@@ -135,6 +137,10 @@ public class CityController {
         Vector<Producible> productions = Producible.productions;
         if(productions.size() <= productionIndex)
             return "invalid production!";
+        double cost = productions.get(productionIndex).getCost(city);
+        if(cost > city.getCurrency().getGold())
+            return "you don't have enough gold!";
+        city.payCurrency(cost, 0,0);
         productions.get(productionIndex).produce(city);
         return "done";
     }

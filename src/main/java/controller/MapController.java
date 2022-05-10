@@ -7,6 +7,7 @@ import model.map.ConsoleMap;
 import model.map.SavedMap;
 import model.tile.Tile;
 import model.unit.Unit;
+import org.mockito.Mock;
 
 import java.util.Vector;
 
@@ -55,10 +56,21 @@ public class MapController extends Controller {
     }
 
 
-    public Vector<Vector<String>> getConsoleMap(Tile currentTile) {
+    public String getConsoleMap(Tile currentTile) {
         ConsoleMap newConsole = new ConsoleMap(game.getMap().getMapSize());
         setMap(currentTile, newConsole, game.getCurrentPlayer(), game.getMap());
-        return newConsole.getScreenMap();
+        StringBuilder output = new StringBuilder();
+        for(Vector<String> v : newConsole.getScreenMap()){
+            for(String s : v){
+                output.append(s);
+            }
+            output.append("\n");
+        }
+        return output.toString();
+    }
+
+    public void updateCurrentPlayersMap(){
+        updateSavedMap(game.getCurrentPlayer(), game.getCurrentPlayer().getCivilization().visibleTiles(), game.getMap());
     }
 
     public void updateSavedMap(Player player, Vector<Tile> visibleTiles, Map map) {
@@ -72,7 +84,7 @@ public class MapController extends Controller {
         }
     }
 
-    public void setMap(Tile centerTile, ConsoleMap showingMap, Player player, Map map) {
+    private void setMap(Tile centerTile, ConsoleMap showingMap, Player player, Map map) {
         Vector<Tile> showingTiles = new Vector<>();
         showingTiles.add(centerTile);
         int maxCoordinate = map.getMapSize() - 1;
@@ -89,16 +101,11 @@ public class MapController extends Controller {
             }
         }
         for (Tile tile : showingTiles) {
-            if (player.getSavedMap().getVisibilityState(tile).equals(Tile.VisibilityState.FOG_OF_WAR))
-                addTileToShowingMap(showingMap, tile, player, centerTile);
-        }
-        for (Tile tile : showingTiles) {
-            if (!player.getSavedMap().getVisibilityState(tile).equals(Tile.VisibilityState.FOG_OF_WAR))
                 addTileToShowingMap(showingMap, tile, player, centerTile);
         }
     }
 
-    public void addTileToShowingMap(ConsoleMap showingMap, Tile tile, Player player, Tile centerTile) {
+    private void addTileToShowingMap(ConsoleMap showingMap, Tile tile, Player player, Tile centerTile) {
         int xCoordinate = 26 + (tile.getPCoordinate() - centerTile.getPCoordinate() + tile.getQCoordinate() - centerTile.getQCoordinate()) * 10;
         int yCoordinate = 15 + (tile.getQCoordinate() - tile.getPCoordinate() - centerTile.getQCoordinate() + centerTile.getPCoordinate()) * 3;
         if (player.getSavedMap().getVisibilityState(tile).equals(Tile.VisibilityState.FOG_OF_WAR)) {
@@ -109,22 +116,26 @@ public class MapController extends Controller {
             addVisible(showingMap, tile, xCoordinate, yCoordinate);
     }
 
-    public void addFogOfWar(ConsoleMap showingMap, Tile tile, int xCoordinate, int yCoordinate) {
+    private void addFogOfWar(ConsoleMap showingMap, Tile tile, int xCoordinate, int yCoordinate) {
         String fogOfWarColor = ConsoleMap.colorCharacter.FOG_OF_WAR.color;
         //number
         String number = ConsoleMap.colorCharacter.WHITE_BOLD.setTextColor(String.format("%4d", tile.getMapNumber()));
         setNumber(number, showingMap, xCoordinate, yCoordinate);
+        //coordinates
+        String x = ConsoleMap.colorCharacter.BLACK.setTextColor(String.format("%2d", tile.getPCoordinate() + tile.getQCoordinate()));
+        String y = ConsoleMap.colorCharacter.BLACK.setTextColor(String.format("%2d", tile.getQCoordinate() - tile.getPCoordinate() + (game.getMap().getMapSize() - 1)));
+        setCoordinates(x,y,showingMap,xCoordinate,yCoordinate);
         //background
         setBackground(fogOfWarColor, showingMap, xCoordinate, yCoordinate);
         setBoarder(tile, showingMap, xCoordinate, yCoordinate);
     }
 
-    public void addDiscovered(ConsoleMap showingMap, Tile tile, Player player, int xCoordinate, int yCoordinate) {
+    private void addDiscovered(ConsoleMap showingMap, Tile tile, Player player, int xCoordinate, int yCoordinate) {
         String terrainColor = ConsoleMap.getRepresentation(player.getSavedMap().getTerrain(tile));
         String number = ConsoleMap.colorCharacter.WHITE_BOLD.setTextColor(String.format("%4d", tile.getMapNumber()));
         // TODO Implement Cities in checkpoint2
         // resource
-        if ((player.getSavedMap().getResourceTypes(tile) != null) && (tile.getAvailableResource().getType().isVisible(game.getCurrentPlayer().getCivilization()))) {
+        if ((player.getSavedMap().getResourceTypes(tile) != null) && (tile.getAvailableResource().isVisible(game.getCurrentPlayer().getCivilization()))) {
             String resourceColor = ConsoleMap.getRepresentation(player.getSavedMap().getResourceTypes(tile));
             setResource(resourceColor, showingMap, xCoordinate, yCoordinate);
         }
@@ -141,7 +152,7 @@ public class MapController extends Controller {
         setBoarder(tile, showingMap, xCoordinate, yCoordinate);
     }
 
-    public void addVisible(ConsoleMap showingMap, Tile tile, int xCoordinate, int yCoordinate) {
+    private void addVisible(ConsoleMap showingMap, Tile tile, int xCoordinate, int yCoordinate) {
         String terrainColor = ConsoleMap.getRepresentation(tile.getTerrain());
         // improvements
         setImprovement(tile, showingMap, xCoordinate, yCoordinate);
@@ -153,13 +164,17 @@ public class MapController extends Controller {
             setCity(cityColor, showingMap, xCoordinate, yCoordinate);
         }
         // resource
-        if ((tile.getAvailableResource() != null) && (tile.getAvailableResource().getType().isVisible(game.getCurrentPlayer().getCivilization()))) {
-            String resourceColor = ConsoleMap.getRepresentation(tile.getAvailableResource().getType());
+        if ((tile.getAvailableResource() != null) && (tile.getAvailableResource().isVisible(game.getCurrentPlayer().getCivilization()))) {
+            String resourceColor = ConsoleMap.getRepresentation(tile.getAvailableResource());
             setResource(resourceColor, showingMap, xCoordinate, yCoordinate);
         }
         // number
         String number = ConsoleMap.colorCharacter.WHITE_BOLD.setTextColor(String.format("%4d", tile.getMapNumber()));
         setNumber(number, showingMap, xCoordinate, yCoordinate);
+        //coordinates
+        String x = ConsoleMap.colorCharacter.BLACK.setTextColor(String.format("%2d",2 * tile.getPCoordinate() + tile.getQCoordinate()));
+        String y = ConsoleMap.colorCharacter.BLACK.setTextColor(String.format("%2d", 2 * tile.getQCoordinate() + tile.getPCoordinate()));
+        setCoordinates(x,y,showingMap,xCoordinate,yCoordinate);
         //units
         setUnits(tile, showingMap, xCoordinate, yCoordinate);
         // feature
@@ -173,7 +188,7 @@ public class MapController extends Controller {
         setBoarder(tile, showingMap, xCoordinate, yCoordinate);
     }
 
-    public void setBackground(String color, ConsoleMap showingMap, int xCoordinate, int yCoordinate) {
+    private void setBackground(String color, ConsoleMap showingMap, int xCoordinate, int yCoordinate) {
         for (int i = xCoordinate - 3; i < (xCoordinate + 4); i++) {
             for (int j = yCoordinate - 2; j < yCoordinate + 3; j++) {
                 showingMap.setScreenMapIndex(i, j, color + showingMap.getScreenMap().get(j).get(i) + ConsoleMap.colorCharacter.RESET.color);
@@ -193,7 +208,7 @@ public class MapController extends Controller {
         }
     }
 
-    public void setFeature(String name, ConsoleMap showMap, int xCoordinate, int yCoordinate) {
+    private void setFeature(String name, ConsoleMap showMap, int xCoordinate, int yCoordinate) {
         showMap.setScreenMapIndex(xCoordinate - 1, yCoordinate + 2, name);
         showMap.setScreenMapIndex(xCoordinate, yCoordinate + 2, ConsoleMap.colorCharacter.RESET.color);
     }
@@ -205,18 +220,25 @@ public class MapController extends Controller {
         showMap.setScreenMapIndex(xCoordinate + 1, yCoordinate, ConsoleMap.colorCharacter.RESET.color);
     }
 
+    private void setCoordinates(String x, String y, ConsoleMap showMap, int xCoordinate, int yCoordinate){
+        showMap.setScreenMapIndex(xCoordinate - 5, yCoordinate, x);
+        showMap.setScreenMapIndex(xCoordinate + 4, yCoordinate, y);
+        showMap.setScreenMapIndex(xCoordinate - 4,yCoordinate,ConsoleMap.colorCharacter.RESET.color);
+        showMap.setScreenMapIndex(xCoordinate + 5,yCoordinate,ConsoleMap.colorCharacter.RESET.color);
+    }
+
     private void setUnits(Tile tile, ConsoleMap showMap, int xCoordinate, int yCoordinate) {
         Unit armedUnit = tile.getArmedUnit();
         Unit civilianUnit = tile.getCivilianUnit();
         if (armedUnit != null) {
             String name = ConsoleMap.getRepresentation(armedUnit.getType());
-            name = armedUnit.getOwnerCivilization().getCivilization().getColor() + name;
+            name = armedUnit.getOwnerCivilization().getCivilization().getColor().setTextColor(name);
             showMap.setScreenMapIndex(xCoordinate - 4, yCoordinate - 1, name);
             showMap.setScreenMapIndex(xCoordinate - 3, yCoordinate - 1, ConsoleMap.colorCharacter.RESET.color);
         }
         if (civilianUnit != null) {
             String name = ConsoleMap.getRepresentation(civilianUnit.getType());
-            name = civilianUnit.getOwnerCivilization().getCivilization().getColor() + name;
+            name = civilianUnit.getOwnerCivilization().getCivilization().getColor().setTextColor(name);
             showMap.setScreenMapIndex(xCoordinate + 3, yCoordinate - 1, name);
             showMap.setScreenMapIndex(xCoordinate + 4, yCoordinate - 1, ConsoleMap.colorCharacter.RESET.color);
         }
@@ -274,6 +296,7 @@ public class MapController extends Controller {
         for (int i = 0; i < 3; i++) {
             showMap.setScreenMapIndex(xCoordinate - 6 + i, yCoordinate + i + 1, boarder);
         }
+
     }
 
 }

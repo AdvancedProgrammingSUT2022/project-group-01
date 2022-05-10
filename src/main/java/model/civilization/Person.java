@@ -7,7 +7,7 @@ public class Person {
 	private Tile tile = null;//TODO: merge with parham
 	private Currency currency;
 
-	public Person(Tile tile) {
+	public Person() {
 		currency = new Currency(0,1,-2);
 	}
 
