@@ -1,6 +1,7 @@
 package model.civilization;
 
 import model.TurnBasedLogic;
+import lombok.Getter;
 import model.civilization.city.City;
 import model.map.SavedMap;
 import model.resource.KindsOfResource;
@@ -23,6 +24,7 @@ public class Civilization implements TurnBasedLogic {
 	private Currency citiesCurrency;
 	private int happiness = 15;
 	private SavedMap map;
+	@Getter
 	private HashMap<ResourceType, Integer> resourceRepository;
 	private Vector<Unit> units;//TODO merge with safar
 	private int beaker;
@@ -194,5 +196,11 @@ public class Civilization implements TurnBasedLogic {
 
 	public void removeUnit(Unit unit) {
 		units.remove(unit);
+	}
+  
+	public int getPopulationSize(){
+		int population = 0;
+		for(City city : this.getCities()) population += city.getPopulation().size();
+		return population;
 	}
 }

@@ -2,6 +2,7 @@ package model.improvement;
 
 import model.ProgressState;
 import model.TurnBasedLogic;
+import model.civilization.Civilization;
 import model.civilization.Currency;
 import model.tile.Tile;
 
@@ -22,7 +23,8 @@ public class ImprovementInventory implements TurnBasedLogic {
 		state = ProgressState.IN_PROGRESS;
 		addToList();
 	}
-	public void nextTurn(){
+	public void nextTurn(Civilization civilization){
+		if(!tile.getCivilization().equals(civilization)) return;
 		if(this.state.equals(ProgressState.IN_PROGRESS) | this.state.equals(ProgressState.DAMAGED)) {
 			this.turnsLeft -= 1;
 			if (this.turnsLeft == 0) {

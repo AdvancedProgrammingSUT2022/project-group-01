@@ -17,6 +17,8 @@ public class Action {
 
 	private Tile tile; // Move
 	private ImprovementType improvementType; // Worker
+	@Getter
+	private Actions actionType;
 
 	Function<Action, Boolean> isPossibleFunc;
 	Consumer<Action> doActionFunc;
@@ -26,10 +28,12 @@ public class Action {
 		this.remainedTurns = actionType.getRequiredTurns();
 		this.isPossibleFunc	= actionType.getIsPossibleFunc();
 		this.doActionFunc = actionType.getDoActionFunc();
+		this.actionType = actionType;
 	}
 	public Action(Unit unit, Actions actionType, Tile tile){
 		this(unit, actionType);
 		this.tile = tile;
+		this.actionType = actionType;
 	}
 
 	public Action(Worker unit, Actions actionType, ImprovementType improvementType){
