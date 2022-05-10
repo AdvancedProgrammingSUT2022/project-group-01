@@ -160,7 +160,8 @@ public class Tile {
 	}
 	public void removeImprovement(){
 		if(this.improvementInventory == null) return;
-		this.improvementInventory.remove();
+		this.improvementInventory.removeFromList();
+		this.improvementInventory = null;
 	}
 	public void removeResource(){
 		availableResource = null;
