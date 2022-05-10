@@ -1,9 +1,10 @@
 package controller;
 
+import lombok.Getter;
 import model.*;
 import java.util.*;
 import java.util.Map;
-
+@Getter
 public class MainMenuController {
 
 	Database database;
