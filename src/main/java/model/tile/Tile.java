@@ -164,7 +164,8 @@ public class Tile {
 	}
 	public void removeImprovement(){
 		if(this.improvementInventory == null) return;
-		this.improvementInventory.remove();
+		this.improvementInventory.removeFromList();
+		this.improvementInventory = null;
 	}
 	public void removeResource(){
 		availableResource = null;
@@ -287,9 +288,9 @@ public class Tile {
 	 * @param unit
 	 */
 	public void removeUnit(Unit unit) {
-		if(this.civilianUnit.equals(unit))
+		if(this.civilianUnit != null && this.civilianUnit.equals(unit))
 			this.civilianUnit = null;
-		else if(this.armedUnit.equals(unit))
+		else if(this.armedUnit != null && this.armedUnit.equals(unit))
 			this.armedUnit = null;
 	}
 

@@ -1,9 +1,10 @@
 package controller;
 
+import lombok.Getter;
 import model.*;
 import java.util.*;
 import java.util.Map;
-
+@Getter
 public class MainMenuController {
 
 	Database database;
@@ -58,7 +59,7 @@ public class MainMenuController {
 			}
 		}
 		GameInitializer gameInitializer = new GameInitializer();
-		Game game = gameInitializer.startGame(gamePlayers, 17);
+		Game game = gameInitializer.startGame(gamePlayers, 37);
 		ProgramController.setCurrentMenu(Menus.GAME_MENU);
 		ProgramController.setGame(game);
 		return "Game Started!";
