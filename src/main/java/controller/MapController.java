@@ -55,10 +55,21 @@ public class MapController extends Controller {
     }
 
 
-    public Vector<Vector<String>> getConsoleMap(Tile currentTile) {
+    public String getConsoleMap(Tile currentTile) {
         ConsoleMap newConsole = new ConsoleMap(game.getMap().getMapSize());
         setMap(currentTile, newConsole, game.getCurrentPlayer(), game.getMap());
-        return newConsole.getScreenMap();
+        StringBuilder output = new StringBuilder();
+        for(Vector<String> v : newConsole.getScreenMap()){
+            for(String s : v){
+                output.append(s);
+            }
+            output.append("\n");
+        }
+        return output.toString();
+    }
+
+    public void updateCurrentPlayersMap(){
+        updateSavedMap(game.getCurrentPlayer(), game.getCurrentPlayer().getCivilization().visibleTiles(), game.getMap());
     }
 
     public void updateSavedMap(Player player, Vector<Tile> visibleTiles, Map map) {
@@ -124,7 +135,7 @@ public class MapController extends Controller {
         String number = ConsoleMap.colorCharacter.WHITE_BOLD.setTextColor(String.format("%4d", tile.getMapNumber()));
         // TODO Implement Cities in checkpoint2
         // resource
-        if ((player.getSavedMap().getResourceTypes(tile) != null) && (tile.getAvailableResource().getType().isVisible(game.getCurrentPlayer().getCivilization()))) {
+        if ((player.getSavedMap().getResourceTypes(tile) != null) && (tile.getAvailableResource().isVisible(game.getCurrentPlayer().getCivilization()))) {
             String resourceColor = ConsoleMap.getRepresentation(player.getSavedMap().getResourceTypes(tile));
             setResource(resourceColor, showingMap, xCoordinate, yCoordinate);
         }
@@ -153,8 +164,8 @@ public class MapController extends Controller {
             setCity(cityColor, showingMap, xCoordinate, yCoordinate);
         }
         // resource
-        if ((tile.getAvailableResource() != null) && (tile.getAvailableResource().getType().isVisible(game.getCurrentPlayer().getCivilization()))) {
-            String resourceColor = ConsoleMap.getRepresentation(tile.getAvailableResource().getType());
+        if ((tile.getAvailableResource() != null) && (tile.getAvailableResource().isVisible(game.getCurrentPlayer().getCivilization()))) {
+            String resourceColor = ConsoleMap.getRepresentation(tile.getAvailableResource());
             setResource(resourceColor, showingMap, xCoordinate, yCoordinate);
         }
         // number
@@ -210,13 +221,13 @@ public class MapController extends Controller {
         Unit civilianUnit = tile.getCivilianUnit();
         if (armedUnit != null) {
             String name = ConsoleMap.getRepresentation(armedUnit.getType());
-            name = armedUnit.getOwnerCivilization().getCivilization().getColor() + name;
+            name = armedUnit.getOwnerCivilization().getCivilization().getColor().setTextColor(name);
             showMap.setScreenMapIndex(xCoordinate - 4, yCoordinate - 1, name);
             showMap.setScreenMapIndex(xCoordinate - 3, yCoordinate - 1, ConsoleMap.colorCharacter.RESET.color);
         }
         if (civilianUnit != null) {
             String name = ConsoleMap.getRepresentation(civilianUnit.getType());
-            name = civilianUnit.getOwnerCivilization().getCivilization().getColor() + name;
+            name = civilianUnit.getOwnerCivilization().getCivilization().getColor().setTextColor(name);
             showMap.setScreenMapIndex(xCoordinate + 3, yCoordinate - 1, name);
             showMap.setScreenMapIndex(xCoordinate + 4, yCoordinate - 1, ConsoleMap.colorCharacter.RESET.color);
         }

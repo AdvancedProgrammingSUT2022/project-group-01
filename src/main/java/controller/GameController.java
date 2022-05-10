@@ -74,18 +74,54 @@ public class GameController {
     }
 
     public String mapShow(String selectingType, String value){
+        mapController.updateCurrentPlayersMap();
         if(selectingType.equals("position")){
             int position = Integer.parseInt(value);
             mapController.setPosition(position);
-            return "done";
+            return mapController.getConsoleMap(game.getCurrentPlayer().getMapCenterTile());
         }else if(selectingType.equals("cityname")){
             City city = findCityByName(value);
             if(city == null)
                 return "there is no city with this name";
             mapController.setPosition(city.getCenterTile().getMapNumber());
-            return "done";
+            return mapController.getConsoleMap(game.getCurrentPlayer().getMapCenterTile());
         }else{
             return "invalid command!";
         }
+    }
+
+
+    public String showTileInfo(Tile tile){
+        StringBuilder s = new StringBuilder();
+        s.append("Tile Number : ").append(tile.getMapNumber()).append("\n");
+        s.append("Terrain : ").append(tile.getTerrain().name()).append("\n");
+        s.append("Feature : ");
+        if(tile.getFeature() != null) s.append(tile.getFeature().name());
+        s.append("\n");
+        s.append("Gold : ").append(tile.getCurrency().getGold()).append("\n");
+        s.append("Food : ").append(tile.getCurrency().getFood()).append("\n");
+        s.append("Production : ").append(tile.getCurrency().getProduct()).append("\n");
+        s.append("Owner Civilization");
+        if(tile.getCivilization() != null) s.append(tile.getCivilization().getCivilization().name());
+        s.append("\n");
+        s.append("Armed Unit Inside : ");
+        if(tile.getArmedUnit() != null) s.append(tile.getArmedUnit().getType().name());
+        s.append("\n");
+        s.append("Civilian Unit Inside : ");
+        if(tile.getCivilianUnit() != null) s.append(tile.getCivilianUnit().getType().name());
+        s.append("\n");
+        s.append("Resources : ");
+        if(tile.getAvailableResource() != null) s.append(tile.getAvailableResource().name());
+        s.append("\n");
+        s.append("Improvement : ");
+        if(tile.getImprovementInAction() != null){
+            s.append(tile.getImprovementInAction().name()).append(" ");
+            s.append(tile.getImprovementInventoryState());
+        }
+        s.append("\n");
+        s.append("Owner City : ");
+        if(tile.getOwnerCity() != null) s.append(tile.getOwnerCity().getName());
+        s.append("\n");
+        return s.toString();
     }
 }

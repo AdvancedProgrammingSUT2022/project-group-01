@@ -34,6 +34,7 @@ public class Civilization {
 		units = new Vector<>(); //ADDED BY PRCR
 		cities = new Vector<>(); // ADDED BY PRCR
 		resourceRepository = new HashMap<>(); //ADDED BY PRCR
+		techTree = new TechTree(); // TODO ADDED TEMPORARILY BY PRCR
 	}
 
 	public TechTree getResearchTree() {
@@ -139,10 +140,10 @@ public class Civilization {
 			return this.resourceRepository.containsKey(resource);
 		}
 
-		public void addResource(ResourceType resource){
+		public void addResource(ResourceType resource, int number){
 			if(hasResource(resource))
-				this.resourceRepository.replace(resource, this.resourceRepository.get(resource) + 1);
-			else this.resourceRepository.put(resource, 1);
+				this.resourceRepository.replace(resource, this.resourceRepository.get(resource) + number);
+			else this.resourceRepository.put(resource, number);
 		}
 
 		public void removeResource(ResourceType resource){
@@ -161,8 +162,8 @@ public class Civilization {
 		}
 
 		public void addTileResources(Tile tile){
-			if((tile.getAvailableResource() != null) && (!tile.getAvailableResource().getType().resourceKind.equals(KindsOfResource.BONUS)))
-				addResource(tile.getAvailableResource().getType());
+			if((tile.getAvailableResource() != null) && (!tile.getAvailableResource().resourceKind.equals(KindsOfResource.BONUS)))
+				addResource(tile.getAvailableResource(),1);
 		}
 
 		public Currency getResourcesCurrency(){
@@ -172,4 +173,5 @@ public class Civilization {
 			}
 			return returningCurrency;
 		}
+
 }

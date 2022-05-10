@@ -57,7 +57,7 @@ public class Settler extends Civilian {
 		actionsQueue.resetQueue();
 
 		String name = ownerCivilization.getCivilization().getCityNames()[ownerCivilization.getCities().size()];
-		City newCity = new City(name, ownerCivilization, currentTile,15);//todo implement here (based on difficulty)
+		City newCity = new City(name, ownerCivilization, currentTile);//todo implement here (based on difficulty)
 		ownerCivilization.addNewCity(newCity);
 		suicide();
 	}

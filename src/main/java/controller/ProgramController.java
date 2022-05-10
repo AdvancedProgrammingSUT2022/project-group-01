@@ -1,6 +1,10 @@
 package controller;
 
+import controller.civilization.city.CityController;
+import lombok.Getter;
+import lombok.Setter;
 import model.Database;
+import model.Game;
 import model.User;
 import view.GameMenu;
 import view.LoginMenu;
@@ -12,9 +16,11 @@ import java.io.IOException;
 public class ProgramController {
 
     private static User loggedInUser = null;
+    @Getter
     protected static Database database = new Database();
     private static Menus currentMenu;
-
+    @Getter @Setter
+    private static Game game;
     public ProgramController() {
         currentMenu = Menus.LOGIN_MENU;
     }
@@ -54,7 +60,12 @@ public class ProgramController {
                     //TODO talk to safari
                 }break;
                 case GAME_MENU:{
-                    //TODO implement here
+                    MapController mapController = new MapController(game);
+                    GameController gameController = new GameController(game, mapController);
+                    CityController cityController = new CityController(game);
+                    GameMenuController gameMenuController = new GameMenuController(game,gameController,cityController);
+                    GameMenu gameMenu = new GameMenu(gameMenuController);
+                    gameMenu.run();
                 }break;
                 case MAIN_MENU:{
                     MainMenuController mainMenuController = new MainMenuController(database);

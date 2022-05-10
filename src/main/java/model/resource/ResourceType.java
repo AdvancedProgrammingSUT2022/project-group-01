@@ -1,10 +1,12 @@
 package model.resource;
 
 import model.civilization.Civilization;
+import model.civilization.Currency;
 import model.improvement.ImprovementType;
 import model.technology.TechnologyType;
 import model.tile.Terrain;
 import model.tile.TerrainFeature;
+import model.tile.Tile;
 
 import java.util.List;
 import java.util.Vector;
@@ -56,6 +58,7 @@ public enum ResourceType {
             this.necessaryImprovement = ImprovementType.FARM;
         }
     },
+    //Strategic Resources
     COAL(0, 1, 0, true, KindsOfResource.STRATEGIC) {
         @Override
         public void initializeVectors() {
@@ -83,6 +86,7 @@ public enum ResourceType {
             this.necessaryImprovement = ImprovementType.MINE;
         }
     },
+    // Luxury Resources
     COTTON(0, 0, 2, false, KindsOfResource.LUXURY) {
         @Override
         public void initializeVectors() {
@@ -192,6 +196,7 @@ public enum ResourceType {
     public Vector<TerrainFeature> possibleLandFeatures;
     public ImprovementType necessaryImprovement;
     public TechnologyType visibilityTechnology;
+    public final int outputNumberToCivilization = 4;
 
     ResourceType(int food, int production, int gold, boolean tradable, KindsOfResource resourceKind) {
         this.food = food;
@@ -214,5 +219,14 @@ public enum ResourceType {
         this.possibleTerrains = new Vector<>();
         this.necessaryImprovement = null;
         this.visibilityTechnology = null;
+    }
+
+    public Currency getCurrency(Tile tile){
+        Currency currency = new Currency(0,0,0);
+        if(tile.getCivilization() == null) return currency;
+        if(!isVisible(tile.getCivilization())) return currency;
+        if(tile.getPeopleInside().isEmpty()) return currency;
+        currency.increase(gold,production,food);
+        return currency;
     }
 }
