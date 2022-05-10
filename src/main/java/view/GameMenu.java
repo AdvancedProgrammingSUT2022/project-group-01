@@ -171,6 +171,9 @@ public class GameMenu{
 			}, Commands.CHANGE_RESEARCH);
 			put(new CommandAction() {
 				public String action(HashMap<String, String> args) {
+					return controller.cheatNextTurn(args);
+				}
+			}, Commands.CHEAT_NEXT_TURN),
 					return controller.showNextTiles(args);
 				}
 			}, Commands.SHOW_NEXT_TILES);

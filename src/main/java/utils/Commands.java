@@ -6,7 +6,7 @@ public enum Commands {
         //info
         INFO("info", null, null, 1,null),
         //select
-        SELECT_UNIT("select unit", new String[]{"position"}, null,0,null),
+        SELECT_UNIT("select unit", new String[]{"position"}, null,1,null),
         SELECT_CITY("select city", null, new String[]{"name", "position"},0,null),
         //unit
         UNIT_MOVE("unit moveto", new String[]{"position"}, null,0,null),
@@ -51,10 +51,10 @@ public enum Commands {
         CURRENT_MENU("menu show-current",null,null,0,null),
     //CHEATS
         INCREASE_RESOURCE("increase", new String[]{"amount"}, null, 1, null),
-        SPAWN_UNIT("spawn unit", new String[]{"position"}, null,1,null),
+        SPAWN_UNIT("spawn unit", new String[]{"position", "name"}, null,0,null),
         ADD_TECHNOLOGY("add technology", new String[]{"name"}, null, 0, null),
         ADD_BEAKER("add beaker", new String[]{"amount"}, null, 0, null),
-
+        CHEAT_NEXT_TURN("cheat next turn", null, null, 0, null),
     //PROFILE
         PROFILE_CHANGE("profile change",null, new String[]{"new","current"},1,null),
     // TECHNOLOGY

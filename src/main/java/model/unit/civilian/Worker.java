@@ -12,9 +12,14 @@ import model.unit.civilian.Civilian;
 import java.util.Random;
 
 public class Worker extends Civilian {
-	public Worker(UnitType type, Tile tile, Civilization civilization, Game game){
-		super(type, tile, civilization, game);
+	public Worker(UnitType type, Tile tile, Civilization civilization){
+		super(type, tile, civilization);
 	}
+
+	public static Worker spawnWorker(UnitType type, Tile tile, Civilization civilization) {
+		return new Worker(type, tile, civilization);
+	}
+
 	public boolean canImprove(ImprovementType improvementType){
 		return improvementType.isEligibleToBuild(ownerCivilization, currentTile);
 	}
