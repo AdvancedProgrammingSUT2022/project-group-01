@@ -10,7 +10,7 @@ import model.civilization.Civilization;
 import model.civilization.Civilizations;
 import model.civilization.city.City;
 import model.improvement.ImprovementType;
-
+import model.map.OpenSimplexNoise;
 import model.resource.ResourceType;
 import model.technology.TechnologyType;
 import model.tile.Boarder;

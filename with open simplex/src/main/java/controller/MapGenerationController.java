@@ -1,8 +1,7 @@
 package controller;
 
-import com.raylabz.opensimplex.OpenSimplexNoise;
 import model.Game;
-
+import model.map.OpenSimplexNoise;
 import model.resource.ResourceType;
 import model.tile.Boarder;
 import model.tile.Terrain;
@@ -81,7 +80,7 @@ public class MapGenerationController extends Controller {
             for (int x = 0; x < mapSize; x++) {
                 double nx = (double) x / mapSize - 0.5;
                 double ny = (double) y / mapSize - 0.5;
-                array[y][x] = 1 * noise.getNoise2D(1 * nx, 1 * ny).getValue() + 0.5 * noise.getNoise2D(2 * nx, 2 * ny).getValue() + 0.25 * noise.getNoise2D(4 * nx, 4 * ny).getValue();
+                array[y][x] = 1 * noise.eval(1 * nx, 1 * ny) + 0.5 * noise.eval(2 * nx, 2 * ny) + 0.25 * noise.eval(4 * nx, 4 * ny);
                 array[y][x] = (array[y][x] + 1.75) / 3.5;
             }
         }
