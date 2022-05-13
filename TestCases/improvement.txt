@@ -43,3 +43,19 @@ spawn unit -p 76 -n Worker
 map show -p 75
 select unit civilian -p 76
 unit action list
+unit build improvement -n Miner
+unit build improvement -n Mine
+cheat next turn
+cheat next turn
+cheat next turn
+cheat next turn
+cheat next turn
+cheat next turn
+cheat next turn
+cheat next turn
+cheat next turn
+cheat next turn
+cheat next turn
+cheat next turn
+cheat next turn
+map show -p 75

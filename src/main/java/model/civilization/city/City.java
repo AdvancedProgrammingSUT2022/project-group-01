@@ -50,6 +50,10 @@ public class City implements TurnBasedLogic {
 		this.currency = new Currency(5,5,5);//TODO: check this value
 		if(center.getTerrain().equals(Terrain.HILLS))
 			defencePower += 5;
+		for(Tile tile : tiles) {
+			tile.setCivilization(civilization);
+			tile.setOwnerCity(this);
+		}
 	}
 
 	public Vector<Tile> getTiles() {

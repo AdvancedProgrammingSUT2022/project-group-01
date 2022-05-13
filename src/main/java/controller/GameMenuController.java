@@ -1,6 +1,8 @@
 package controller;
 
 import controller.civilization.city.CityController;
+import controller.unit.UnitController;
+import controller.unit.WorkerController;
 import model.Game;
 import model.Player;
 import model.civilization.city.City;
@@ -12,6 +14,7 @@ import model.unit.Unit;
 import model.unit.UnitType;
 import model.unit.armed.Armed;
 import model.unit.civilian.Civilian;
+import model.unit.civilian.Settler;
 import model.unit.civilian.Worker;
 import utils.Commands;
 import utils.StringUtils;
@@ -21,6 +24,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.util.HashMap;
+import java.util.Set;
 
 public class GameMenuController {
 
@@ -137,9 +141,12 @@ public class GameMenuController {
 		return null;// return ro ham dorost kon =)
 	}
 
+	@GameCommand(command = Commands.UNIT_FOUND_CITY)
 	public String unitFoundCity(HashMap<String, String> args) {
 		//todo safar : call your function here
-		return null;// return ro ham dorost kon =)
+		Settler settler = (Settler) game.getSelectedObject();
+		UnitController unitController = new UnitController(game);
+		return unitController.foundCity(settler);// return ro ham dorost kon =)
 	}
 
 	public String unitCancelMission(HashMap<String, String> args) {
@@ -426,6 +433,21 @@ public class GameMenuController {
 		return "progress made";
 	}
 
+	@GameCommand(command = Commands.CHEAT_NEXT_TURN)
+	public String cheatNextTurn(HashMap<String, String> args) {
+		for (Unit unit : game.getCurrentPlayer().getCivilization().getUnits()) {
+			unit.nextTurn();
+		}
+		return "time fast forwarded !";
+	}
+
+	@GameCommand(command = Commands.UNIT_BUILD_IMPROVEMENT)
+	public String buildImprovement(HashMap<String, String> args){
+		WorkerController workerController = new WorkerController(game);
+		if (!workerController.checkSelectedObject())
+			return "worker is not selected !";
+		return workerController.buildImprovement(args.get("name"));
+	}
 
 	private boolean isInteger(String input) {
 		try {
@@ -434,13 +456,5 @@ public class GameMenuController {
 			return false;
 		}
 		return true;
-	}
-
-	@GameCommand(command = Commands.CHEAT_NEXT_TURN)
-	public String cheatNextTurn(HashMap<String, String> args) {
-		for (Unit unit : game.getCurrentPlayer().getCivilization().getUnits()) {
-			unit.nextTurn();
-		}
-		return "time fast forwarded !";
 	}
 }

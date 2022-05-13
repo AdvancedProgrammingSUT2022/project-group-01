@@ -71,11 +71,6 @@ public class GameMenu{
 			}, Commands.UNIT_ATTACK);
 			put(new CommandAction() {
 				public String action(HashMap<String, String> args) {
-					return controller.unitFoundCity(args);
-				}
-			}, Commands.UNIT_FOUND_CITY);
-			put(new CommandAction() {
-				public String action(HashMap<String, String> args) {
 					return controller.unitCancelMission(args);
 				}
 			}, Commands.UNIT_CANCEL_MISSION);

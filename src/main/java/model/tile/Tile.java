@@ -393,6 +393,7 @@ public class Tile {
 	}
 
 	public int getImprovementTurnsLeft(){
+		if(this.improvementInventory == null) return -1;
 		return this.improvementInventory.getTurnsLeft();
 	}
 
