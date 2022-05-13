@@ -16,6 +16,8 @@ public class ImprovementInventory implements TurnBasedLogic {
 
 	public ImprovementInventory(Tile tile) {
 		this.tile = tile;
+		this.state = ProgressState.COMPLETE;
+		this.turnsLeft = 0;
 	}
 	public void reset(ImprovementType improvement){
 		this.improvement = improvement;

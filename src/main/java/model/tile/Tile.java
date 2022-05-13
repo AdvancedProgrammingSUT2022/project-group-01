@@ -32,7 +32,7 @@ public class Tile {
 	private City ownerCity;
 	private Armed armedUnit;
 	private Civilian civilianUnit;
-	private ImprovementInventory improvementInventory;
+	private ImprovementInventory improvementInventory = new ImprovementInventory(this);
 	private MiscellaneousTileActionsInventory miscellaneousTileActionsInventory;
 	private ResourceType availableResource;
 	private boolean hasRoad;
@@ -142,7 +142,7 @@ public class Tile {
 		pCoordinate = p;
 		qCoordinate = q;
 		this.mapNumber = number;
-		this.improvementInventory = new ImprovementInventory(this);
+		//this.improvementInventory = new ImprovementInventory(this);
 		this.miscellaneousTileActionsInventory = new MiscellaneousTileActionsInventory(this);
 	}
 
@@ -154,9 +154,11 @@ public class Tile {
 	}
 	public void buildImprovement(ImprovementType improvement){
 		if(this.improvementInventory != null){
-			if(this.improvementInventory.getImprovement().equals(improvement)) {
-				if (this.improvementInventory.getState().equals(ProgressState.STOPPED))
-					this.improvementInventory.progress();
+			if(this.improvementInventory.getImprovement() != null) {
+				if (this.improvementInventory.getImprovement().equals(improvement)) {
+					if (this.improvementInventory.getState().equals(ProgressState.STOPPED))
+						this.improvementInventory.progress();
+				}
 			}
 			else this.improvementInventory.reset(improvement);
 		}

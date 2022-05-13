@@ -19,6 +19,7 @@ public enum ImprovementType {
             this.affectingResources = new Vector<>(List.of(ResourceType.IVORY, ResourceType.FURS, ResourceType.DEER));
             this.preRequisiteTech = TechnologyType.TRAPPING;
         }
+
     },
     FARM(1, 0, 0) {
         @Override
@@ -48,6 +49,7 @@ public enum ImprovementType {
 
         @Override
         public void improvementSpecialAction(Tile tile) {
+            if(tile.getFeature() == null) return;
             if (tile.getFeature().equals(TerrainFeature.JUNGLE)
                     || tile.getFeature().equals(TerrainFeature.FOREST)
                     || tile.getFeature().equals(TerrainFeature.MARSH))
@@ -90,6 +92,7 @@ public enum ImprovementType {
 
         @Override
         public void improvementSpecialAction(Tile tile) {
+            if(tile.getFeature() == null) return;
             if (tile.getFeature().equals(TerrainFeature.JUNGLE)
                     || tile.getFeature().equals(TerrainFeature.FOREST)
                     || tile.getFeature().equals(TerrainFeature.MARSH))
@@ -203,7 +206,7 @@ public enum ImprovementType {
     }
 
     public int getProductionTime(Tile tile) {
-        return 0;
+        return 3;
     }
 
     public boolean isEligibleToBuild(Civilization civilization, Tile tile) {

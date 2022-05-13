@@ -22,6 +22,7 @@ public class GameInitializer extends Controller{
         return game;
     }
     private void initializeGame(int mapSize){
+        TileController.initializeEnums();
         this.game = new Game(new Vector<>(),mapSize);
         MapGenerationController mapGenerationController = new MapGenerationController(game);
         mapGenerationController.generateMap(mapSize);

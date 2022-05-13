@@ -15,34 +15,32 @@ import model.unit.action.Actions;
 import java.util.*;
 
 public class Information {
-	Game game;
+	private Game game;
 	private Civilization civilization;
-	private int civilizationSize;
-	private HashMap<ResourceType, Integer> resources;
 
-	public Information(Civilization civilization, Game game){ //TODO : get Game in constructor
+
+	public Information(Civilization civilization, Game game){
 		this.civilization = civilization;
 		this.game = game;
 	}
 
-	public void updateCivilization(Civilization civilization){
-
-	}
-	public void updateInformation(){}
-	public HashMap<ResourceType, Integer> getResources(){return null; };
-	public TechTree getTechTree(){
-		//TODO: Implement here
-		return null;
-	}
-	public String getCitiesList(){
+	public String cityListPanel(){
 		StringBuilder s = new StringBuilder();
 		s.append("City List :").append("\n");
+		int i = 1;
 		for(City city : civilization.getCities()) {
+			s.append(i).append(". ");
+			s.append("Name : ");
 			s.append(city.getName()).append("\n");
+			s.append("Population : ").append(city.getPopulation()).append("\n");
+			s.append("Defence Power : ").append(city.getDefencePower()).append("\n");
+			s.append("Attack Power : ").append(city.getAttackPower()).append("\n");
+			i++;
 		}
 		return s.toString();
 	}
-	public City goToCityPanel(String name){
+
+	public City getCityByName(String name){
 		for(City city : civilization.getCities()){
 			if(city.getName().equals(name)){
 				return city;
@@ -53,11 +51,25 @@ public class Information {
 
 	//city panel
 	public String cityPanel(City city){
-		return "I'm a fucking city";
+		StringBuilder s = new StringBuilder();
+		s.append("City Panel :").append("\n");
+		s.append("Name : ").append(city.getName()).append("\n");
+		s.append("Population : ").append(city.getPopulation()).append("\n");
+		s.append("Defence Power : ").append(city.getDefencePower()).append("\n");
+		s.append("Attack Power : ").append(city.getAttackPower()).append("\n");
+		s.append("Number Of Tiles : ").append(city.getTiles().size()).append("\n");
+		s.append("Beaker : ").append(city.getBeaker()).append("\n");
+		s.append("Currency : ").append(city.getCurrency().getGold()).append("G, ");
+		s.append(city.getCurrency().getFood()).append("F, ").append(city.getCurrency().getProduct()).append("P").append("\n");
+		s.append("Current Production : ");
+		if(city.getProductionInventory().getCurrentProduction() != null)
+			s.append(city.getProductionInventory().getCurrentProduction());
+		s.append("\n");
+		return s.toString();
 	}
 
 
-	// panel eghtesadi
+	// barresi kolli eghtesadi in get cities list
 	public String EconomicOverview(City city){
 		StringBuilder s = new StringBuilder();
 		s.append("City name : ").append(city.getName()).append("\n");
@@ -98,52 +110,39 @@ public class Information {
 		return s.toString();
 	}
 
-	public int getScore(){return 0;}
-
-	public Vector<Civilization> knownCivilizations(){ return civilization.getKnownCivilizations(); }
-
-	public void demographics(){}
-
-	public Vector<Notification> getNotifications(){
-		return null;
-		//TODO: implement here
+	public String getNotificationsHistory(){
+		StringBuilder output = new StringBuilder();
+		output.append("Notifications List").append("\n");
+		for(Notification notification : civilization.getNotificationInbox().getNotifications()){
+			output.append("Text : ").append(notification.getText()).append("\n");
+			output.append("Turn : ").append(notification.getAnnouncementTurn()).append("\n");
+			output.append("Reading Status : ");
+			if(notification.isRead()) output.append("is read");
+			else output.append("not read");
+			output.append("\n");
+		}
+		return output.toString();
 	}
 
-	public Vector<Unit> getUnits(){
-		return null;
-	}
 
-	public void economicsStatus(){}
-
-	public int getHappiness() {
-		//return happiness;TODO
-		return 0;
-	}
-
-	public int getPopulation() {
-		//return population;TODO
-		return 0;
-	}
-
-	public Vector<Trade> getTrades(){
-		return null;
-		//TODO: implemnet here
-	}
-
+	//Panel list yegan ha
 	public String unitPanelUnitList(){
 		StringBuilder s = new StringBuilder();
 		s.append("Units list : ").append("\n");
 		int i = 1;
 		for(Unit unit : civilization.getUnits()){
+			s.append(i).append(". ");
 			s.append(unit.getType().name()).append(" ");
 			if(unit.getActionsQueue().getCurrentAction().getActionType().equals(Actions.SLEEP))
 				s.append("sleeping");
 			else s.append("active");
 			s.append("\n");
+			i++;
 		}
 		return s.toString();
 	}
 
+	//active unit in Panel List yegan ha
 	public String activeUnit(int i){
 		if(civilization.getUnits().size() < i) return "bruh! enter a valid index" + unitPanelUnitList();
 		Unit selectedUnit = civilization.getUnits().get(i - 1);
@@ -152,8 +151,23 @@ public class Information {
 		return "The selected unit has waken up. \n The map is now centered on the unit's tile.";
 	}
 
+	// barreC koli nezami dar Panel Yegan ha
 	public String militaryOverview(){
-		return "TODO :))))";
+		StringBuilder s = new StringBuilder();
+		s.append("Military Overview :").append("\n");
+		for(Unit unit : civilization.getUnits()){
+			s.append("Name : ").append(unit.getType().name()).append("\n");
+			s.append("Status : ");
+			if(unit.getActionsQueue().getCurrentAction() != null) s.append(unit.getActionsQueue().getCurrentAction().getActionType());
+			s.append("\n");
+			s.append("Turns left of action : ");
+			if(unit.getActionsQueue().getCurrentAction() != null)
+				s.append(unit.getActionsQueue().getCurrentAction().getRemainedTurns());
+			s.append("\n");
+			s.append("Health : ").append(unit.getHealth()).append("\n");
+			s.append("Combat Strength : ").append(unit.getType().getCombatStrength()).append("\n");
+		}
+		return s.toString();
 	}
 
 	// jamiat shenasi
@@ -183,7 +197,6 @@ public class Information {
 
 		return s.toString();
 	}
-
 
 	private String getPopulationData(Civilization civ){
 		ArrayList<Civilization> civilizations = new ArrayList<>();
@@ -405,7 +418,7 @@ public class Information {
 		return number;
 	}
 
-	// the research info
+	// Panel Kavosh ha
 	public String researchInfo(){
 		return "Research Info" + "\n" +
 				"Current Research :" +
@@ -414,6 +427,20 @@ public class Information {
 	}
 
 
+	// TODO Diplomacy Panel
+	public String diplomacyPanel(){return null;}
+
+	// TODO Victory Progress Panel
+	public String victoryProgressPanel(){return null;}
+
+
+	public int getScore(){return 0;}
+
+	//TODO Diplomatic Overview
+	public String diplomaticOverview(){return null;}
+
+	//TODO Deal History Screen
+	public String dealHistoryScreen(){return null;}
 
 
 

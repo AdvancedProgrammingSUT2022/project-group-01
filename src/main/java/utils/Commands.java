@@ -4,7 +4,8 @@ package utils;
 public enum Commands {
     //GAME
         //info
-        INFO("info", null, null, 1,null),
+        INFO("info", null,null,1,null),
+        //INFO_ACTIVE_UNIT("active unit", new String[]{"
         //select
         SELECT_UNIT("select unit", new String[]{"position"}, null,0,null),
         SELECT_CITY("select city", null, new String[]{"name", "position"},0,null),

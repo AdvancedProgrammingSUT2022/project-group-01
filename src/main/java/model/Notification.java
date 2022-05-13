@@ -1,9 +1,13 @@
 package model;
 
+import lombok.Getter;
+
 public class Notification {
-	private String text;
+	private final String text;
+	@Getter
 	private boolean isRead;
-	private int announcementTurn;
+	@Getter
+	private final int announcementTurn;
 	public Notification(String text, int announcementTurn){
 		this.text = text;
 		isRead = false;
@@ -14,8 +18,11 @@ public class Notification {
 	public String getText(){
 		return text;
 	}
+	public void setRead(){
+		isRead = true;
+	}
 
-	enum NotificationTexts{
+	public enum NotificationTexts{
 		ZERO_GOLD("You have no gold! Go study the documentation to learn how to play."),
 		NEARBY_ENEMY("You have an enemy near your tiles!"),
 		GETTING_ATTACKED("You are getting attacked."),

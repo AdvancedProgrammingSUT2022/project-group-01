@@ -1,8 +1,9 @@
 package model.civilization;
 
+
 import lombok.Getter;
 import model.civilization.city.City;
-import model.improvement.ImprovementType;
+import model.information.NotificationInbox;
 import model.map.SavedMap;
 import model.resource.KindsOfResource;
 import model.resource.ResourceType;
@@ -22,6 +23,8 @@ public class Civilization {
 	private Currency currency;
 	private Currency citiesCurrency;
 	private int happiness;
+	@Getter
+	private NotificationInbox notificationInbox;
 	private SavedMap map;
 	@Getter
 	private HashMap<ResourceType, Integer> resourceRepository;
@@ -37,6 +40,7 @@ public class Civilization {
 		cities = new Vector<>(); // ADDED BY PRCR
 		resourceRepository = new HashMap<>(); //ADDED BY PRCR
 		techTree = new TechTree(); // TODO ADDED TEMPORARILY BY PRCR
+		notificationInbox = new NotificationInbox();
 	}
 
 	public TechTree getResearchTree() {
