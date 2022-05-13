@@ -1,5 +1,6 @@
 package model.civilization;
 
+import lombok.Setter;
 import model.TurnBasedLogic;
 import lombok.Getter;
 import model.civilization.city.City;
@@ -15,7 +16,7 @@ import utils.VectorUtils;
 
 import java.util.HashMap;
 import java.util.Vector;
-
+@Getter @Setter
 public class Civilization implements TurnBasedLogic {
 
 	private Civilizations civilization;//enum

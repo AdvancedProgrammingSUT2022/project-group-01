@@ -1,5 +1,6 @@
 package model.unit.action;
 import model.improvement.ImprovementType;
+import model.tile.Terrain;
 import model.tile.TerrainFeature;
 import model.tile.Tile;
 
@@ -12,7 +13,9 @@ public enum UnitActions {
         }
         @Override
         public boolean checkIfActionIsDoable(Tile tile){
-            return tile.doesHaveRoad();
+            if(tile.getTerrain().equals(Terrain.MOUNTAIN) || tile.getTerrain().equals(Terrain.OCEAN))
+                return false;
+            return (tile.getFeature() == null) || (!tile.getFeature().equals(TerrainFeature.ICE));
         }
     },
     BUILD_RAILROAD(3,null){
@@ -22,7 +25,9 @@ public enum UnitActions {
         }
         @Override
         public boolean checkIfActionIsDoable(Tile tile){
-            return tile.doesHaveRoad();
+            if(tile.getTerrain().equals(Terrain.MOUNTAIN) || tile.getTerrain().equals(Terrain.OCEAN))
+                return false;
+            return (tile.getFeature() == null) || (!tile.getFeature().equals(TerrainFeature.ICE));
         }
     },
     REMOVE_ROADS(3,null){

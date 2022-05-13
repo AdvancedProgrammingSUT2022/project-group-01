@@ -19,6 +19,11 @@ public enum ImprovementType {
             this.affectingResources = new Vector<>(List.of(ResourceType.IVORY, ResourceType.FURS, ResourceType.DEER));
             this.preRequisiteTech = TechnologyType.TRAPPING;
         }
+        @Override
+        public int getProductionTime(Tile tile) {
+            return 6;
+        }
+
 
     },
     FARM(1, 0, 0) {
@@ -221,9 +226,5 @@ public enum ImprovementType {
 
 
     public void initializeVectors() {
-        this.preRequisiteTech = null;
-        this.affectingResources = new Vector<>();
-        this.canBuiltOnTerrainFeatures = new Vector<>();
-        this.canBuiltOnTerrains = new Vector<>();
     }
 }

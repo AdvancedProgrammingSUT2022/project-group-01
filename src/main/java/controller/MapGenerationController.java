@@ -28,8 +28,8 @@ public class MapGenerationController extends Controller {
                 map.get(i).add(null);
             }
         }
-        OpenSimplexNoise elevationNoise = new OpenSimplexNoise(123);
-        OpenSimplexNoise humidityNoise = new OpenSimplexNoise(40);
+        OpenSimplexNoise elevationNoise = new OpenSimplexNoise(25);
+        OpenSimplexNoise humidityNoise = new OpenSimplexNoise(400);
         double[][] elevation;
         double[][] humidity;
         elevation = makeNoise(elevationNoise, mapSize);
@@ -81,8 +81,9 @@ public class MapGenerationController extends Controller {
             for (int x = 0; x < mapSize; x++) {
                 double nx = (double) x / mapSize - 0.5;
                 double ny = (double) y / mapSize - 0.5;
-                array[y][x] = 1 * noise.getNoise2D(1 * nx, 1 * ny).getValue() + 0.5 * noise.getNoise2D(2 * nx, 2 * ny).getValue() + 0.25 * noise.getNoise2D(4 * nx, 4 * ny).getValue();
-                array[y][x] = (array[y][x] + 1.75) / 3.5;
+//                array[y][x] = 1 * noise.getNoise2D(1 * nx, 1 * ny).getValue() + 0.5 * noise.getNoise2D(2 * nx, 2 * ny).getValue() + 0.25 * noise.getNoise2D(4 * nx, 4 * ny).getValue();
+//                array[y][x] = (array[y][x] + 1.75) / 3.5;
+                array[y][x] = (1+ noise.getNoise2D(y,x).getValue()) /2;
             }
         }
         for (int x = (mapSize - 1) / 2; x < mapSize; x++) {

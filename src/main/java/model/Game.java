@@ -6,11 +6,13 @@ import model.civilization.*;
 import model.civilization.Currency;
 import model.civilization.city.City;
 import model.information.NotificationBuilder;
+import model.tile.TerrainFeature;
 import model.tile.Tile;
 import model.unit.Unit;
 
+import java.awt.*;
 import java.util.*;
-
+@Getter
 public class Game {
     Vector<Player> players;
     Vector<Trade> trades;
@@ -42,10 +44,13 @@ public class Game {
     }
 
     //cheats
-    public void increaseTurn(int amount){}
+    public void increaseTurn(int amount){this.turn += amount;}
     public void increaseCurrency(Currency currency, Civilization civilization){}
     public void increaseScience(double amount, Civilization civilization){}
     public void increaseHappiness(int amount, Civilization civilization){}
+    public void setFeature(Tile tile, TerrainFeature feature){
+
+    }
 
     public Map getMap() {
         return map;

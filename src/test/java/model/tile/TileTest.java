@@ -1,128 +1,272 @@
 package model.tile;
 
-import controller.*;
-import model.*;
-
+import model.ProgressState;
+import model.civilization.Civilization;
+import model.civilization.Civilizations;
+import model.civilization.Person;
+import model.civilization.city.City;
+import model.improvement.ImprovementType;
 import model.resource.ResourceType;
-import org.junit.jupiter.api.Assertions;
+import model.unit.Unit;
+import model.unit.UnitType;
+import model.unit.action.UnitActions;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.stubbing.Answer;
 
 import java.util.List;
 import java.util.Vector;
+import java.util.concurrent.Callable;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Future;
 
-import static org.mockito.Mockito.spy;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 public class TileTest {
-    @Test
-    public void testFeature(){
-        Tile tile = new Tile(Terrain.PLAINS, TerrainFeature.FOREST,null, ResourceType.IRON, 10,10,10);
-        Assertions.assertEquals(tile.getFeature(), TerrainFeature.FOREST);
-    }
-    @Test
-    public void repairTest(){
-        Tile tile = new Tile(Terrain.PLAINS,TerrainFeature.FOREST,null,ResourceType.IRON,10,10,10);
-        tile.buildRoad();
-        Assertions.assertTrue(tile.getHasRoute());
-    }
-    @Test
-    public void boarderTest(){
-        Tile tile = new Tile(Terrain.DESERT,TerrainFeature.JUNGLE, null, ResourceType.GEMS,15,50,50);
-        Boarder boarder = new Boarder(tile,null,true,18);
-        boarder.setRiver();
-        Assertions.assertTrue(tile.hasRiverNearby());
-    }
-    @Test
-    public void mapShowTest(){
-        User user1 = new User("a","b","c");
-        User user2 = new User("aa","bb","cc");
-        TileController.initializeEnums();
-        Vector<User> vec = new Vector<>(List.of(user1,user2));
-        GameInitializer gi = new GameInitializer();
-        Game game = gi.startGame(vec,17);
-        MapController mc = new MapController(game);
-        String s = mc.getConsoleMap(game.getCurrentPlayer().getMapCenterTile()).substring(0,2);
-        Assertions.assertTrue(s.startsWith(" "));
-        Assertions.assertEquals(17, game.getMap().getMapSize());
-    }
-
-
-   @Test
-    public void mapGenerator1(){
-        TileController.initializeEnums();
-        User user1 = new User("a","b","c");
-        User user2 = new User("aa","bb","cc");
-        Player p1 = new Player(user1);
-        Player p2 = new Player(user2);
-        Vector<Player> pvec = new Vector<>(List.of(p1,p2));
-        Game game = new Game(pvec, 21);
-        MapGenerationController mgc = new MapGenerationController(game);
-
-
-        mgc.generateMap(21);
-        Assertions.assertNotNull(game.getMap().getTile(14,14).getTerrain());
-    }
-
-
-
-//    @Test
-//    public void setPositionTest(){
-//        TileController.initializeEnums();
-//        MapController mc = new MapController(game);
-//        Map map = new Map(4);
-//        when(game.getMap()).thenReturn(map);
-//        Assertions.assertEquals(mc.setPosition(-2), "invalid position");
-//        Assertions.assertEquals(mc.setPosition(1000),"invalid position");
-//    }
-
-
-    @Test
-    public void moveCenterTileTest(){
-        User user1 = new User("a","b","c");
-        User user2 = new User("aa","bb","cc");
-        TileController.initializeEnums();
-        Vector<User> vec = new Vector<>(List.of(user1,user2));
-        GameInitializer gi = new GameInitializer();
-        Game game = gi.startGame(vec,17);
-        Game spyGame = spy(game);
-        MapController mc = new MapController(spyGame);
-
-        Tile tile = spyGame.getCurrentPlayer().getMapCenterTile();
-        mc.moveCenterTile(1,"right");
-
-        Assertions.assertSame(spyGame.getCurrentPlayer().getMapCenterTile(),tile.getBoarder(1).getOtherTile(tile));
-        Assertions.assertEquals(mc.moveMap("left",3),"changed map position");
-    }
-
     @Mock
-    Game game2;
-    MapController mc2;
+    Tile tileUnderTest;
+
     @Test
-    public void showTileInfoTest(){
-        Tile tile = new Tile(Terrain.DESERT,TerrainFeature.FOREST,null,ResourceType.GEMS,10,10,4);
-        GameController gc = new GameController(game2 , mc2);
-        GameController gcSpy = spy(gc);
-        Tile tileSpy = spy(tile);
-        Mockito.doReturn(Terrain.OCEAN).when(tileSpy).getTerrain();
-        Assertions.assertTrue(gc.showTileInfo(tileSpy).contains("Tile Number :"));
+    void testAddPerson() throws Exception {
+        // Setup
+        final Person person = new Person();
 
+        // Run the test
+        tileUnderTest.addPerson(person);
+
+        // Verify the results
     }
 
-@Test
-    public void mapGeneration2Test(){
-        User user1 = new User("a","b","c");
-        User user2 = new User("aa","bb","cc");
-        TileController.initializeEnums();
-        Vector<User> vec = new Vector<>(List.of(user1,user2));
-        GameInitializer gi = new GameInitializer();
-        Game game = gi.startGame(vec,17);
+    @Test
+    void testBuildImprovement() throws Exception {
+        // Setup
+        // Run the test
+        tileUnderTest.buildImprovement(ImprovementType.CAMP);
 
+        // Verify the results
+    }
+
+    @Test
+    void testBuildRailRoad() throws Exception {
+        // Setup
+        // Run the test
+        tileUnderTest.buildRailRoad();
+
+        // Verify the results
+    }
+
+    @Test
+    void testBuildRoad() throws Exception {
+        // Setup
+        // Run the test
+        tileUnderTest.buildRoad();
+
+        // Verify the results
+    }
+
+    @Test
+    void testBuildRoute() throws Exception {
+        // Setup
+        // Run the test
+        tileUnderTest.buildRoute();
+
+        // Verify the results
+    }
+
+    @Test
+    void testDestroy() throws Exception {
+        // Setup
+        // Run the test
+        tileUnderTest.destroy();
+
+        // Verify the results
+    }
+
+    @Test
+    void testDoesHaveRailRoad() throws Exception {
+        assertFalse(tileUnderTest.doesHaveRailRoad());
+    }
+
+    @Test
+    void testDoesHaveRoad() throws Exception {
+        assertFalse(tileUnderTest.doesHaveRoad());
+    }
+
+    @Test
+    void testGetAdjacentTiles() throws Exception {
+        // Setup
+        // Run the test
+        final Vector<Tile> result = tileUnderTest.getAdjacentTiles();
+
+        // Verify the results
+    }
+
+    @Test
+    void testGetBoarder() throws Exception {
+        // Setup
+        // Run the test
+        final Boarder result = tileUnderTest.getBoarder(0);
+
+        // Verify the results
     }
 
 
+    @Test
+    void testGetBoarderInfo() throws Exception {
+        // Setup
+        // Run the test
+        final Boarder result = tileUnderTest.getBoarderInfo(0);
 
+        // Verify the results
+    }
+
+    @Test
+    void testGetBuiltImprovement() throws Exception {
+        // Setup
+        // Run the test
+        final ImprovementType result = tileUnderTest.getBuiltImprovement();
+
+        // Verify the results
+        assertNotEquals(ImprovementType.CAMP, result);
+    }
+
+    @Test
+    void testGetCombatModifierRate() throws Exception {
+        assertEquals(0, tileUnderTest.getCombatModifierRate());
+    }
+
+    @Test
+    void testGetFoodYield() throws Exception {
+        assertEquals(0, tileUnderTest.getFoodYield());
+    }
+
+    @Test
+    void testGetGoldYield() throws Exception {
+        assertEquals(0, tileUnderTest.getGoldYield());
+    }
+
+    @Test
+    void testGetImprovementTurnsLeft() throws Exception {
+        // Setup
+        // Run the test
+        final int result = tileUnderTest.getImprovementTurnsLeft();
+
+        // Verify the results
+        assertEquals(0, result);
+    }
+
+    @Test
+    void testGetMaintenance() throws Exception {
+        assertEquals(0, tileUnderTest.getMaintenance());
+    }
+
+    @Test
+    void testGetMovementCost() throws Exception {
+        assertEquals(0, tileUnderTest.getMovementCost());
+    }
+
+    @Test
+    void testGetProductionYield() throws Exception {
+        assertEquals(0, tileUnderTest.getProductionYield());
+    }
+
+    @Test
+    void testOrderWorkerAction() throws Exception {
+        // Setup
+        // Run the test
+        tileUnderTest.orderWorkerAction(UnitActions.BUILD_ROAD);
+
+        // Verify the results
+    }
+
+    @Test
+    void testPillageImprovement() throws Exception {
+        // Setup
+        // Run the test
+        tileUnderTest.pillageImprovement();
+
+        // Verify the results
+    }
+
+    @Test
+    void testRemoveBuiltImprovements() throws Exception {
+        // Setup
+        // Run the test
+        tileUnderTest.removeBuiltImprovements(ImprovementType.CAMP);
+
+        // Verify the results
+    }
+
+    @Test
+    void testRemoveFeature() throws Exception {
+        // Setup
+        // Run the test
+        tileUnderTest.removeFeature();
+
+        // Verify the results
+    }
+
+    @Test
+    void testRemoveImprovement() throws Exception {
+        // Setup
+        // Run the test
+        tileUnderTest.removeImprovement();
+
+        // Verify the results
+    }
+
+    @Test
+    void testRemovePerson() throws Exception {
+        // Setup
+        final Person person = new Person();
+
+        // Run the test
+        tileUnderTest.removePerson(person);
+
+        // Verify the results
+    }
+
+    @Test
+    void testRemoveResource() throws Exception {
+        // Setup
+        // Run the test
+        tileUnderTest.removeResource();
+
+        // Verify the results
+    }
+
+    @Test
+    void testRemoveRoads() throws Exception {
+        // Setup
+        // Run the test
+        tileUnderTest.removeRoads();
+
+        // Verify the results
+    }
+
+    @Test
+    void testRepairImprovement() throws Exception {
+        // Setup
+        // Run the test
+        tileUnderTest.repairImprovement();
+
+        // Verify the results
+    }
+
+    @Test
+    void testStopImprovementProgress() throws Exception {
+        // Setup
+        // Run the test
+        tileUnderTest.stopImprovementProgress();
+
+        // Verify the results
+    }
 }

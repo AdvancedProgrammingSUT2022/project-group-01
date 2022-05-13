@@ -428,6 +428,15 @@ public class TileTest {
 
     }
 
-
+    @Test
+    public void boarderRemainedTest(){
+        Tile firstTile = new Tile(Terrain.MOUNTAIN,TerrainFeature.FLOOD_PLAINS,null,ResourceType.MARBLE,10,10,10);
+        Tile secondTile = new Tile(Terrain.MOUNTAIN,TerrainFeature.FLOOD_PLAINS,null,ResourceType.MARBLE,11,9,12);
+        Boarder boarder = new Boarder(firstTile,secondTile,true,21);
+        Assertions.assertTrue(boarder.isNearTile(firstTile));
+        Assertions.assertNotNull(boarder.getWeight());
+        boarder.destroyRiver();
+        Assertions.assertNotNull(boarder.getAdjacentTiles());
+    }
 
 }

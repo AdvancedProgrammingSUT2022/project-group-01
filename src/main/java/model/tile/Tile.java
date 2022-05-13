@@ -1,6 +1,8 @@
 package model.tile;
 import java.util.Vector;
 
+import lombok.Getter;
+import lombok.Setter;
 import model.Player;
 import model.ProgressState;
 import model.civilization.Civilization;
@@ -21,6 +23,7 @@ import utils.VectorUtils;
 import javax.swing.plaf.ColorUIResource;
 
 // TODO added get available resource
+@Getter @Setter
 public class Tile {
 	private int pCoordinate;
 	private int qCoordinate;
@@ -102,9 +105,6 @@ public class Tile {
 		this.feature = feature;
 	}
 
-	public void setPCoordinate(int pCoordinate) {
-		this.pCoordinate = pCoordinate;
-	}
 
 	public void setBoarder(Boarder boarder, int i){
 		this.nearbyBoarders[i] = boarder;
@@ -124,10 +124,6 @@ public class Tile {
 		return qCoordinate;
 	}
 
-	public void setQCoordinate(int qCoordinate) {
-		this.qCoordinate = qCoordinate;
-	}
-
 	public Vector<Person> getPeopleInside() {
 		return peopleInside;
 	}
@@ -139,6 +135,7 @@ public class Tile {
 		this.civilization = civilization;
 		this.availableResource = availableResources;
 		this.isDestroyed = false;
+		this.peopleInside = new Vector<>();
 		pCoordinate = p;
 		qCoordinate = q;
 		this.mapNumber = number;
@@ -151,6 +148,7 @@ public class Tile {
 	public void removePerson(Person person){
 		peopleInside.remove(person);
 	}
+
 	public void buildImprovement(ImprovementType improvement){
 		if(this.improvementInventory != null){
 			if(this.improvementInventory.getImprovement() != null) {
@@ -162,7 +160,6 @@ public class Tile {
 			}
 			else this.improvementInventory.reset(improvement);
 		}
-
 	}
 	public void removeImprovement(){
 		if(this.improvementInventory == null) return;
@@ -175,10 +172,11 @@ public class Tile {
 	public boolean doesHaveRoad() {
 		return hasRoad;
 	}
-	public void addRiver(Tile tile){}
+
 	public void buildRoad() {
 		this.hasRoad = true;
 	}
+
 	public Boarder getBoarderInfo(int i){return nearbyBoarders[i];}
 	public boolean doesHaveRailRoad() {
 		return hasRailRoad;
@@ -195,7 +193,7 @@ public class Tile {
 		this.hasRoad = false;
 		this.hasRailRoad = false;
 	}
-	public boolean checkRiverByTile(Tile tile){return false;}
+
 	public boolean isDestroyed() {
 		return isDestroyed;
 	}
@@ -247,7 +245,7 @@ public class Tile {
 		int MP = 0;
 		MP += this.terrain.movementCost;
 		if(this.feature != null) MP += this.feature.movementCost;
-		if(hasRoad || hasRoad) MP = 0;
+		if(hasRoad || hasRoad) MP /= 4;
 		return MP;
 	}
 
@@ -272,6 +270,7 @@ public class Tile {
 	 * @param improvement
 	 */
 	public void removeBuiltImprovements(ImprovementType improvement) {
+		if(improvementInventory.getImprovement() == null) return;
 		if (this.improvementInventory.getImprovement().equals(improvement)){
 			if(this.improvementInventory.getState().equals(ProgressState.COMPLETE))
 				this.improvementInventory = null;
@@ -297,9 +296,6 @@ public class Tile {
 			this.armedUnit = null;
 	}
 
-	public boolean getIsDestroyed() {
-		return isDestroyed;
-	}
 
 	public void destroy() {
 		this.isDestroyed = true;
