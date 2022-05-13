@@ -1,8 +1,9 @@
 package model.civilization;
 
-import model.TurnBasedLogic;
+
 import lombok.Getter;
 import model.civilization.city.City;
+import model.information.NotificationInbox;
 import model.map.SavedMap;
 import model.resource.KindsOfResource;
 import model.resource.ResourceType;
@@ -12,22 +13,22 @@ import model.tile.Tile;
 import model.unit.Unit;
 import utils.VectorUtils;
 
-import java.util.HashMap;
-import java.util.Vector;
+import java.util.*;
 
-public class Civilization implements TurnBasedLogic {
+public class Civilization {
 
 	private Civilizations civilization;//enum
 	private Vector<City> cities;
 	private City capital;
 	private Currency currency;
 	private Currency citiesCurrency;
-	private int happiness = 15;
+	private int happiness;
+	@Getter
+	private NotificationInbox notificationInbox;
 	private SavedMap map;
 	@Getter
 	private HashMap<ResourceType, Integer> resourceRepository;
 	private Vector<Unit> units;//TODO merge with safar
-	private int beaker;
 
 	private TechTree techTree;//TODO merge with safar
 	private Vector<Civilization> knownCivilizations;
@@ -39,6 +40,7 @@ public class Civilization implements TurnBasedLogic {
 		cities = new Vector<>(); // ADDED BY PRCR
 		resourceRepository = new HashMap<>(); //ADDED BY PRCR
 		techTree = new TechTree(); // TODO ADDED TEMPORARILY BY PRCR
+		notificationInbox = new NotificationInbox();
 	}
 
 	public TechTree getResearchTree() {
@@ -54,7 +56,7 @@ public class Civilization implements TurnBasedLogic {
 		return this.currency;
 	}
 
-	public void addUnit(Unit unit) {
+	public void addUnit(Unit unit){
 		units.add(unit);
 	}
 
@@ -62,39 +64,24 @@ public class Civilization implements TurnBasedLogic {
 		cities.add(city);
 	}
 
-	private void updateCurrency() {
-		for(City city: cities)
-			currency.add(city.getChangesOfCurrency());
+	private void updateCurrency() {//TODO for each turn
+		// TODO - implement model.civilization.Civilization.updateCurrency
+		throw new UnsupportedOperationException();
 	}
 
-	public void nextTurn(Civilization civilization) {
-		if(civilization != this)
-			return;
-		for(City city : cities)
-			city.nextTurn();
-		updateCurrency();
-		updateHappiness();
-		updateBeaker();
-		for(Unit unit : units)
-			unit.nextTurn();
-		techTree.addScience(beaker);
-	}
-
-	private void updateBeaker() {
-		beaker = 0;
-		for(City city : cities)
-			beaker += city.getBeaker();
+	public void nextTurn() {
+		// TODO - implement model.civilization.Civilization.nextTurn
+		throw new UnsupportedOperationException();
 	}
 
 	public void updateHappiness() {
-		happiness = 20;
-		happiness -= cities.size()*2;
-		for(City city : cities)
-			happiness -= city.getPopulation().size()/5;
-		doResourceHappiness();
+		happiness = 0;
+		for (City city : cities)
+			happiness += city.getHappiness();
+		//todo implement for civilization based happiness bonus
 	}
 
-	public int getHappiness() {
+	public int getHappiness(){
 		return happiness;
 	}
 
@@ -102,8 +89,8 @@ public class Civilization implements TurnBasedLogic {
 		return knownCivilizations;
 	}
 
-	public void addKnownCivilization(Civilization civilization) {
-		if (!knownCivilizations.contains(civilization))
+	public void addKnownCivilization(Civilization civilization){
+		if(!knownCivilizations.contains(civilization))
 			knownCivilizations.add(civilization);
 	}
 
@@ -111,25 +98,23 @@ public class Civilization implements TurnBasedLogic {
 		return units;
 	}
 
-	public Vector<City> getCities() {
+	public Vector<City> getCities(){
 		return cities;
 	}
 
-	public void increaseCurrency(Currency currency) {
+	public void increaseCurrency(Currency currency){
 		this.currency.add(currency);
 	}
-
 	public Civilizations getCivilization() {
 		return civilization;
 	}
 
-	public Vector<Tile> visibleTiles() {
+	public Vector<Tile> visibleTiles(){
 		Vector<Tile> ourCells = new Vector<>();
 		for (City city : cities) {
 			ourCells.addAll(city.getTiles());
 		}
-		for (Unit unit : units) {
-//			System.err.println(unit.getCurrentTile().getMapNumber());
+		for(Unit unit : units) {
 			ourCells.add(unit.getCurrentTile());
 		}
 		Vector<Tile> out = new Vector<>();
@@ -140,13 +125,13 @@ public class Civilization implements TurnBasedLogic {
 		return out;
 	}
 
-	public void deleteCity(City city) {
+	public void deleteCity(City city){
 		cities.remove(city);
 	}
 
-	private void handleCurrency() {
-		citiesCurrency = new Currency(0, 0, 0);
-		for (City city : cities) {
+	private void handleCurrency(){
+		citiesCurrency = new Currency(0,0,0);
+		for(City city : cities){
 			citiesCurrency.add(city.getCurrency());
 		}
 		//todo update unit and ... for currency
@@ -156,52 +141,51 @@ public class Civilization implements TurnBasedLogic {
 		return capital;
 	}
 
-	// HANDLE ADDING RESOURCE
-	public boolean hasResource(ResourceType resource) {
-		return this.resourceRepository.containsKey(resource);
-	}
-
-	public void addResource(ResourceType resource, int number) {
-		if (hasResource(resource))
-			this.resourceRepository.replace(resource, this.resourceRepository.get(resource) + number);
-		else this.resourceRepository.put(resource, number);
-	}
-
-	public void removeResource(ResourceType resource) {
-		if (!hasResource(resource))
-			return;
-		this.resourceRepository.replace(resource, this.resourceRepository.get(resource) - 1);
-		if (this.resourceRepository.get(resource) == 0)
-			this.resourceRepository.remove(resource);
-	}
-
-	public void doResourceHappiness() {
-		for (ResourceType resourceType : resourceRepository.keySet()) {
-			if (resourceType.resourceKind.equals(KindsOfResource.LUXURY))
-				this.happiness += 4;
+		// HANDLE ADDING RESOURCE
+		public boolean hasResource(ResourceType resource){
+			return this.resourceRepository.containsKey(resource);
 		}
-	}
 
-	public void addTileResources(Tile tile) {
-		if ((tile.getAvailableResource() != null) && (!tile.getAvailableResource().resourceKind.equals(KindsOfResource.BONUS)))
-			addResource(tile.getAvailableResource(), 1);
-	}
-
-	public Currency getResourcesCurrency() {
-		Currency returningCurrency = new Currency(0, 0, 0);
-		for (ResourceType resource : resourceRepository.keySet()) {
-			returningCurrency.increase(resource.gold, resource.production, resource.food);
+		public void addResource(ResourceType resource, int number){
+			if(hasResource(resource))
+				this.resourceRepository.replace(resource, this.resourceRepository.get(resource) + number);
+			else this.resourceRepository.put(resource, number);
 		}
-		return returningCurrency;
-	}
 
-	public void removeUnit(Unit unit) {
-		units.remove(unit);
-	}
-  
-	public int getPopulationSize(){
-		int population = 0;
-		for(City city : this.getCities()) population += city.getPopulation().size();
-		return population;
-	}
+		public void removeResource(ResourceType resource){
+			if(!hasResource(resource))
+				return;
+			this.resourceRepository.replace(resource, this.resourceRepository.get(resource) - 1);
+			if(this.resourceRepository.get(resource) == 0)
+				this.resourceRepository.remove(resource);
+		}
+
+		public void doResourceHappiness(){
+			for(ResourceType resourceType : resourceRepository.keySet()){
+				if(resourceType.resourceKind.equals(KindsOfResource.LUXURY))
+					this.happiness +=4;
+			}
+		}
+
+		public void addTileResources(Tile tile){
+			if((tile.getAvailableResource() != null) && (!tile.getAvailableResource().resourceKind.equals(KindsOfResource.BONUS)))
+				addResource(tile.getAvailableResource(),1);
+		}
+
+		public Currency getResourcesCurrency(){
+			Currency returningCurrency = new Currency(0,0,0);
+			for(ResourceType resource : resourceRepository.keySet()){
+				returningCurrency.increase(resource.gold, resource.production, resource.food);
+			}
+			return returningCurrency;
+		}
+
+		public int getPopulationSize(){
+			int population = 0;
+			for(City city : this.getCities()) population += city.getPopulation().size();
+			return population;
+		}
+
+
+
 }

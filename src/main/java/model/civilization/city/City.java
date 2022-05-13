@@ -2,26 +2,21 @@ package model.civilization.city;
 //TODO : added Getter setter for center
 import java.util.*;
 
-import lombok.Getter;
-import model.TurnBasedLogic;
 import model.building.BuildingInventory;
 import model.civilization.Civilization;
 import model.civilization.Currency;
 import model.civilization.Person;
 import model.civilization.production.ProductionInventory;
-import model.tile.Terrain;
 import model.tile.Tile;
 import model.unit.Unit;
 import utils.Pair;
 
-@Getter
 public class City {
 
 	private Civilization civilization;
 	private final Vector<Person> population;
 	private String name;
 	private Currency currency;
-	private Currency changesOfCurrency;
 	private ProductionInventory productionInventory;
 	private CityState state;
 	private BuildingInventory buildingInventory;//TODO: merge with parham
@@ -36,11 +31,11 @@ public class City {
 	private int remainedTurnToExpansion = turnToExpansion;
 	private Unit garrisonedUnit;
 	private int beaker = 5;//todo check correct value
-	private int remainedTurnToGrowth = 8;
+	private int happiness;
 
-	public City(String name, Civilization civilization, Tile center) {
+	public City(String name, Civilization civilization, Tile center, int happiness) {
 		this.civilization =  civilization;
-		this.population = new Vector<>(Arrays.asList(new Person()));
+		this.population = new Vector<>(Arrays.asList(new Person(center)));
 		this.name = name;
 		this.center = center;
 		tiles = new Vector<>();
@@ -48,8 +43,16 @@ public class City {
 		tiles.addAll(center.getAdjacentTiles());
 		nextTiles = new Vector<>();
 		this.currency = new Currency(5,5,5);//TODO: check this value
-		if(center.getTerrain().equals(Terrain.HILLS))
-			defencePower += 5;
+		this.happiness = happiness;
+	}
+
+	public int getHappiness() {
+		return happiness;
+	}
+
+	public void updateHappiness(int happiness) {
+		//todo implement here
+
 	}
 
 	public Vector<Tile> getTiles() {
@@ -93,41 +96,35 @@ public class City {
 	}
 
 	private void updateCurrency() {
+		//TODO anything else? :
 		Currency changes = new Currency(0,0,0);
 		//don't forget to update changes for unit and ...
 		for(Tile tile : tiles){
 			currency.add(tile.getCurrency());
 			changes.add(tile.getCurrency());
 		}
-		changesOfCurrency = changes;
 		//you can show changes like food: +2 and ...
 	}
 
 	private void handlePopulationIncrease(){
-		if(remainedTurnToExpansion == 0 && currency.getFood() > 15){
-			population.add(new Person());
-			remainedTurnToGrowth = 8;
-		}
-		if(remainedTurnToExpansion > 0)
-			remainedTurnToGrowth--;
+		//todo implement here
 	}
 
 	public void destroy() {
+		//TODO free tiles and others:check with parham
 		population.clear();
 		civilization.getCities().remove(this);
-		for(Tile tile : tiles){
-			tile.setOwnerCity(null);
-			tile.setCivilization(null);
-		}
 	}
 
 	public void nextTurn() {
 		updateCurrency();
 		productionInventory.payProduction(currency.getProduct());
-		handleNextTiles();
-		handlePopulationIncrease();
 		updateBeaker();
-		//todo create notification here
+	}
+
+	public double calculateScience(){
+		// TODO
+		return 0;
 	}
 
 	public Unit getGarrisonedUnit() {
@@ -228,10 +225,8 @@ public class City {
 		if(this.civilization.getCapital() == this)
 			this.beaker = 3;
 		this.beaker += population.size();
-		if(this.currency.getGold() < 0) {
+		if(this.currency.getGold() < 0)
 			this.beaker -= this.currency.getGold();
-			//todo add warning notification
-		}
 	}
 
 	public int getBeaker(){
@@ -247,7 +242,7 @@ public class City {
 	}
 
 	public HashMap<String, String> getScreen(){
-		return new HashMap<>(){{
+		HashMap<String, String> out = new HashMap<>(){{
 			put("name", name);
 			put("defencePower", String.valueOf(defencePower));
 			put("health", String.valueOf(health));
@@ -258,6 +253,7 @@ public class City {
 			put("beaker", String.valueOf(beaker));
 			put("population",String.valueOf(population.size()));
 		}};
+		return out;
 	}
 
 }

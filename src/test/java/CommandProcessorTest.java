@@ -13,10 +13,10 @@ public class CommandProcessorTest {
     //test without key value and with single arg
     public void testOne(){
         HashMap<String, String> answer = new HashMap<String, String>() {{
-            put("section", "tank");
+            put("section", "city");
         }};
-        String input = "unit build tank";
-        HashMap<String, String> result = CommandProcessor.extractCommand(input, Commands.UNIT_BUILD);
+        String input = "INFO CITY";
+        HashMap<String, String> result = CommandProcessor.extractCommand(input, Commands.INFO);
         System.out.println(result);
         Assertions.assertEquals(answer, result);
     }
