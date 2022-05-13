@@ -1,9 +1,12 @@
 package controller;
 
 import controller.civilization.city.CityController;
+import controller.unit.UnitController;
+import controller.unit.WorkerController;
 import model.Game;
 import model.Player;
 import model.civilization.city.City;
+import model.improvement.ImprovementType;
 import model.technology.TechTree;
 import model.technology.TechnologyType;
 import model.tile.Tile;
@@ -11,9 +14,17 @@ import model.unit.Unit;
 import model.unit.UnitType;
 import model.unit.armed.Armed;
 import model.unit.civilian.Civilian;
+import model.unit.civilian.Settler;
+import model.unit.civilian.Worker;
+import utils.Commands;
 import utils.StringUtils;
 
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import java.util.HashMap;
+import java.util.Set;
 
 public class GameMenuController {
 
@@ -37,17 +48,14 @@ public class GameMenuController {
 		String selectingType = args.get("section");//armed or civilian or garbage
 		Tile destTile = game.getMap().getTileByNumber(Integer.parseInt(args.get("position")));
 		//man inja ye chizayi neveshtam vali bebar too controllere khodet inja khalvat she
-		if (destTile == null)
-			return "invalid position";
+		if (destTile == null) return "invalid position";
 		if (selectingType.equals("armed")) {
 			Armed armed = destTile.getArmedUnit();
-			if (armed == null)
-				return "there is no armed unit here";
+			if (armed == null) return "there is no armed unit here";
 			game.setSelectedObject(armed);
 		} else if (selectingType.equals("civilian")) {
 			Civilian civilian = destTile.getCivilianUnit();
-			if (civilian == null)
-				return "there is no civilian unit here";
+			if (civilian == null) return "there is no civilian unit here";
 			game.setSelectedObject(civilian);
 		} else {
 			return "invalid unit type, types are [armed, civilian]";
@@ -56,12 +64,9 @@ public class GameMenuController {
 	}
 
 	public String selectCity(HashMap<String, String> args) {
-		if (args.containsKey("position"))
-			return gameController.selectCity("position", args.get("position"));
-		else if (args.containsKey("cityname"))
-			return gameController.selectCity("cityname", args.get("cityname"));
-		else
-			return "invalid command!";
+		if (args.containsKey("position")) return gameController.selectCity("position", args.get("position"));
+		else if (args.containsKey("cityname")) return gameController.selectCity("cityname", args.get("cityname"));
+		else return "invalid command!";
 	}
 
 	//UNIT:
@@ -69,14 +74,33 @@ public class GameMenuController {
 		//TODO handle for armed unit in next checkpoint
 		int position = Integer.parseInt(args.get("position"));
 		Tile tile = game.getMap().getTileByNumber(position);
-		if (tile == null)
-			return "invalid position";
+		if (tile == null) return "invalid position";
 		//todo safar: move game.selectedObject -> tile
-		if (!(game.getSelectedObject() instanceof Unit))
-			return "Selected \"Object\" is not Unit";
+		if (!(game.getSelectedObject() instanceof Unit)) return "Selected \"Object\" is not Unit";
 		Unit unit = (Unit) game.getSelectedObject();
 		unit.goTo(tile);
 		return "Done!";
+	}
+
+	@GameCommand(command = Commands.UNIT_ACTION_LIST)
+	public String unitActionList(HashMap<String, String> args) {
+		System.err.println("We are Here !");
+		if (game.getSelectedObject() == null || !(game.getSelectedObject() instanceof Worker))
+			return "worker is not selected !";
+		Worker worker = (Worker) game.getSelectedObject();
+
+		StringBuilder actions = new StringBuilder();
+
+		if (worker.canRemoveFeature())
+			actions.append(String.format("-- Remove %s\n", StringUtils.convertToPascalCase(worker.getCurrentTile().getFeature().name())));
+
+		if (worker.canRemoveRoad()) actions.append("-- Remove Road\n");
+		Tile tile = worker.getCurrentTile();
+		for (ImprovementType improvement : ImprovementType.values()) {
+			if (improvement.isEligibleToBuild(game.getCurrentPlayer().getCivilization(), tile))
+				actions.append(String.format("-- Build Improvement %s\n", StringUtils.convertToPascalCase(improvement.name())));
+		}
+		return actions.toString();
 	}
 
 	public String unitSleep(HashMap<String, String> args) {
@@ -112,15 +136,17 @@ public class GameMenuController {
 	public String unitAttack(HashMap<String, String> args) {
 		int position = Integer.parseInt(args.get("position"));
 		Tile tile = game.getMap().getTileByNumber(position);
-		if (tile == null)
-			return "invalid position!";
+		if (tile == null) return "invalid position!";
 		//todo safar : call your function here
 		return null;// return ro ham dorost kon =)
 	}
 
+	@GameCommand(command = Commands.UNIT_FOUND_CITY)
 	public String unitFoundCity(HashMap<String, String> args) {
 		//todo safar : call your function here
-		return null;// return ro ham dorost kon =)
+		Settler settler = (Settler) game.getSelectedObject();
+		UnitController unitController = new UnitController(game);
+		return unitController.foundCity(settler);// return ro ham dorost kon =)
 	}
 
 	public String unitCancelMission(HashMap<String, String> args) {
@@ -199,34 +225,31 @@ public class GameMenuController {
         cityController.increaseResource(
 	}
 
+	@GameCommand(command = Commands.SPAWN_UNIT)
 	public String spawnUnit(HashMap<String, String> args) {
-//		System.err.println("We are here");
-		if(!isInteger(args.get("position")))
+		if (!isInteger(args.get("position")))
 			return "position is not integer";
+
 		int position = Integer.parseInt(args.get("position"));
 		Tile tile = game.getMap().getTileByNumber(position);
-		if(tile == null)
-			return "invalid position";
+		if (tile == null) return "invalid position";
 		UnitType unitType = null;
-		for (UnitType value : UnitType.values()) {
-//			System.err.println(StringUtils.convertToPascalCase(value.name()));
-//			System.err.println(args.get("name"));
+		for (UnitType value : UnitType.values())
 			if (StringUtils.convertToPascalCase(value.name()).toLowerCase().equals(args.get("name")))
 				unitType = value;
-		}
+
 		if (unitType == null)
 			return "invalid unit type";
+
 		Unit unit = Unit.spawnUnit(unitType, tile, game.getCurrentPlayer().getCivilization());
-		if(unit instanceof Armed && tile.getArmedUnit() != null)
+		if (unit instanceof Armed && tile.getArmedUnit() != null)
 			return "there is already armed unit here";
-		if(unit instanceof Civilian && tile.getCivilianUnit() != null)
+		if (unit instanceof Civilian && tile.getCivilianUnit() != null)
 			return "there is already civilian unit here";
 
 		game.getCurrentPlayer().getCivilization().addUnit(unit);
-		if(unit instanceof Civilian)
-			tile.setCivilianUnit((Civilian) unit);
-		if(unit instanceof Armed)
-			tile.setArmedUnit((Armed) unit);
+		if (unit instanceof Civilian) tile.setCivilianUnit((Civilian) unit);
+		if (unit instanceof Armed) tile.setArmedUnit((Armed) unit);
 		return "god sent you some units !";
 	}
 
@@ -266,9 +289,9 @@ public class GameMenuController {
 		return cityController.setProductionToProduce(city,type);
 	}
 
-	public String showNextTiles(HashMap<String, String> args){
-		if(!(game.getSelectedObject() instanceof City))
-			return "select city first!";
+	@GameCommand(command = Commands.SHOW_NEXT_TILES)
+	public String showNextTiles(HashMap<String, String> args) {
+		if (!(game.getSelectedObject() instanceof City)) return "select city first!";
 		City city = (City) game.getSelectedObject();
 		return cityController.getNextTiles(city);
 	}
@@ -304,8 +327,7 @@ public class GameMenuController {
 		City city = (City) game.getSelectedObject();
 		int civilianIndex = Integer.parseInt(args.get("index"));
 		Tile dest = game.getMap().getTileByNumber(Integer.parseInt(args.get("position")));
-		if (dest == null)
-			return "invalid destination!";
+		if (dest == null) return "invalid destination!";
 		return cityController.setPopulation(city, civilianIndex, dest);
 	}
 
@@ -317,124 +339,117 @@ public class GameMenuController {
 		return cityController.deletePopulation(city, Integer.parseInt(args.get("index")));
 	}
 
+	@GameCommand(command = Commands.ADD_TECHNOLOGY)
 	public String addTechnology(HashMap<String, String> args) {
 		final TechTree techTree = game.getCurrentPlayer().getCivilization().getResearchTree();
 		TechnologyType technologyType = null;
 		for (TechnologyType value : TechnologyType.values()) {
-			if (StringUtils.convertToPascalCase(value.name()).toLowerCase().equals(args.get("name"))){
+			if (StringUtils.convertToPascalCase(value.name()).toLowerCase().equals(args.get("name"))) {
 				technologyType = value;
 			}
 		}
-		if(technologyType == null)
-			return "invalid name";
-		if(techTree.isResearched(technologyType))
-			return "already researched";
+		if (technologyType == null) return "invalid name";
+		if (techTree.isResearched(technologyType)) return "already researched";
 		techTree.completeResearch(technologyType);
 		return "you bastard, cheat complete";
 	}
 
+	@GameCommand(command = Commands.SHOW_RESEARCHABLE_TECHS)
 	public String getResearchableTechnologies(HashMap<String, String> args) {
 		final Player currentPlayer = game.getCurrentPlayer();
 		final TechTree researchTree = currentPlayer.getCivilization().getResearchTree();
 
-		if(researchTree.getResearchableTechs().isEmpty())
-			return "All Technologies are researched\n";
+		if (researchTree.getResearchableTechs().isEmpty()) return "All Technologies are researched\n";
 
 		StringBuilder stringBuilder = new StringBuilder();
 		int index = 1;
 		for (TechnologyType researchableTech : researchTree.getResearchableTechs()) {
-			stringBuilder.append(String.format("%d- %s\n", index,
-					StringUtils.convertToPascalCase(researchableTech.name())
-			));
-			index ++;
+			stringBuilder.append(String.format("%d- %s\n", index, StringUtils.convertToPascalCase(researchableTech.name())));
+			index++;
 		}
 		stringBuilder.deleteCharAt(stringBuilder.length() - 1);
 		return stringBuilder.toString();
 	}
 
-	public String getCurrentResearch(HashMap<String, String> args){
+	@GameCommand(command = Commands.GET_CURRENT_RESEARCH)
+	public String getCurrentResearch(HashMap<String, String> args) {
 		TechTree techTree = game.getCurrentPlayer().getCivilization().getResearchTree();
-		if(techTree.getCurrentResearch() == null)
-			return "no research at this time";
-		return String.format("\"%s\" is being researched now, %d more science is required to complete research",
-			StringUtils.convertToPascalCase(techTree.getCurrentResearch().name()),
-			techTree.getRemainingScience()
-		);
+		if (techTree.getCurrentResearch() == null) return "no research at this time";
+		return String.format("\"%s\" is being researched now, %d more science is required to complete research", StringUtils.convertToPascalCase(techTree.getCurrentResearch().name()), techTree.getRemainingScience());
 	}
 
+	@GameCommand(command = Commands.RESEARCH)
 	public String research(HashMap<String, String> args) {
 		final TechTree techTree = game.getCurrentPlayer().getCivilization().getResearchTree();
-		if(techTree.isResearching())
-			return "another research is in progress";
+		if (techTree.isResearching()) return "another research is in progress";
 
 		TechnologyType technologyType = null;
 		for (TechnologyType value : TechnologyType.values()) {
-			if (StringUtils.convertToPascalCase(value.name()).toLowerCase().equals(args.get("name"))){
+			if (StringUtils.convertToPascalCase(value.name()).toLowerCase().equals(args.get("name"))) {
 				technologyType = value;
 			}
 		}
 
-		if(technologyType == null)
-			return "invalid name";
-		if(techTree.isResearched(technologyType))
-			return "already researched";
-		if(!techTree.isResearchable(technologyType))
-			return "not researchable at this time";
+		if (technologyType == null) return "invalid name";
+		if (techTree.isResearched(technologyType)) return "already researched";
+		if (!techTree.isResearchable(technologyType)) return "not researchable at this time";
 		techTree.research(technologyType);
 		return "scientist started this research";
 	}
 
+	@GameCommand(command = Commands.CHANGE_RESEARCH)
 	public String changeResearch(HashMap<String, String> args) {
 		final TechTree techTree = game.getCurrentPlayer().getCivilization().getResearchTree();
-		if(!techTree.isResearching())
-			return "no research is in progress now";
+		if (!techTree.isResearching()) return "no research is in progress now";
 
 		TechnologyType technologyType = null;
 		for (TechnologyType value : TechnologyType.values()) {
-			if (StringUtils.convertToPascalCase(value.name()).toLowerCase().equals(args.get("name"))){
+			if (StringUtils.convertToPascalCase(value.name()).toLowerCase().equals(args.get("name"))) {
 				technologyType = value;
 			}
 		}
 
-		if(technologyType == null)
-			return "invalid name";
-		if(techTree.isResearched(technologyType))
-			return "already researched";
-		if(!techTree.isResearchable(technologyType))
-			return "not researchable at this time";
+		if (technologyType == null) return "invalid name";
+		if (techTree.isResearched(technologyType)) return "already researched";
+		if (!techTree.isResearchable(technologyType)) return "not researchable at this time";
 		techTree.changeResearch(technologyType);
 		return "scientist started this research";
 	}
 
-	public String addBeaker(HashMap<String, String> args){
-		if(!isInteger(args.get("amount")))
-			return "invalid amount";
+	@GameCommand(command = Commands.ADD_BEAKER)
+	public String addBeaker(HashMap<String, String> args) {
+		if (!isInteger(args.get("amount"))) return "invalid amount";
 		int amount = Integer.parseInt(args.get("amount"));
-		if(amount <= 0)
-			return "positive amount is required";
+		if (amount <= 0) return "positive amount is required";
 
 		TechTree techTree = game.getCurrentPlayer().getCivilization().getResearchTree();
-		if(!techTree.isResearching())
-			return "no research at this time";
+		if (!techTree.isResearching()) return "no research at this time";
 		techTree.addScience(amount);
 		return "progress made";
 	}
 
+	@GameCommand(command = Commands.CHEAT_NEXT_TURN)
+	public String cheatNextTurn(HashMap<String, String> args) {
+		for (Unit unit : game.getCurrentPlayer().getCivilization().getUnits()) {
+			unit.nextTurn();
+		}
+		return "time fast forwarded !";
+	}
 
+	@GameCommand(command = Commands.UNIT_BUILD_IMPROVEMENT)
+	public String buildImprovement(HashMap<String, String> args){
+		WorkerController workerController = new WorkerController(game);
+		if (!workerController.checkSelectedObject())
+			return "worker is not selected !";
+		return workerController.buildImprovement(args.get("name"));
+	}
 
-	private boolean isInteger(String input){
+	private boolean isInteger(String input) {
 		try {
 			Integer.parseInt(input);
 		} catch (NumberFormatException nfe) {
 			return false;
 		}
 		return true;
-	}
-
-	public String cheatNextTurn(HashMap<String, String> args) {
-		for (Unit unit : game.getCurrentPlayer().getCivilization().getUnits()) {
-			unit.nextTurn();
-		}
-		return "time fast forwarded !";
 	}
 }

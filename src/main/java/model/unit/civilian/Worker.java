@@ -3,6 +3,7 @@ package model.unit.civilian;
 import model.Game;
 import model.civilization.Civilization;
 import model.improvement.ImprovementType;
+import model.tile.TerrainFeature;
 import model.tile.Tile;
 import model.unit.UnitType;
 import model.unit.action.Action;
@@ -42,11 +43,19 @@ public class Worker extends Civilian {
 	public void repairImprovement(){
 		// TODO : update with parham's code
 		actionsQueue.resetQueue();
-		actionsQueue.addAction(new Action(this, Actions.REMOVE_IMPROVEMENT));
+		actionsQueue.addAction(new Action(this, Actions.REPAIR_IMPROVEMENT));
 	}
 	public void removeImprovement(){
 		actionsQueue.resetQueue();
 		actionsQueue.addAction(new Action(this, Actions.REMOVE_IMPROVEMENT));
+	}
+
+	public boolean canRemoveFeature(){
+		final TerrainFeature feature = currentTile.getFeature();
+		return feature == TerrainFeature.FOREST || feature == TerrainFeature.JUNGLE || feature == TerrainFeature.MARSH;
+	}
+	public void removeFeature(){
+
 	}
 	public void removeRoad(){
 
@@ -56,5 +65,9 @@ public class Worker extends Civilian {
 	public void removeRail(){
 		actionsQueue.resetQueue();
 		actionsQueue.addAction(new Action(this, Actions.REMOVE_RAIL));
+	}
+
+	public boolean canRemoveRoad() {
+		return currentTile.isHasRoad() || currentTile.isHasRailRoad();
 	}
 }

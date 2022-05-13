@@ -13,7 +13,7 @@ import java.util.Vector;
 
 public class MapGenerationController extends Controller {
     private final Game game;
-    Random rand = new Random();
+    Random rand = new Random(58);
 
     public MapGenerationController(Game game) {
         this.game = game;
@@ -74,7 +74,7 @@ public class MapGenerationController extends Controller {
     }
 
     private double[][] makeNoise(OpenSimplexNoise noise, int mapSize) {
-        Random rand = new Random();
+        Random rand = new Random(58);
         double[][] array = new double[mapSize][mapSize];
         for (int y = 0; y < mapSize; y++) {
             for (int x = 0; x < mapSize; x++) {

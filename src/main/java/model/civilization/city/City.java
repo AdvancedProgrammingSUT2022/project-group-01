@@ -38,6 +38,7 @@ public class City {
 	private Unit garrisonedUnit;
 	private int beaker = 5;//todo check correct value
 	private int remainedTurnToGrowth = 8;
+	private final int happiness = 0; // TODO : important
 
 	public City(String name, Civilization civilization, Tile center) {
 		this.civilization =  civilization;
@@ -188,7 +189,7 @@ public class City {
 		}
 		if(remainedTurnToExpansion == 0){
 			remainedTurnToExpansion = turnToExpansion;
-			int i = new Random().nextInt(nextTiles.size());
+			int i = new Random(58).nextInt(nextTiles.size());
 			addNewTiles(new Vector<>(Arrays.asList(nextTiles.get(i))));
 		}
 		remainedTurnToExpansion--;
