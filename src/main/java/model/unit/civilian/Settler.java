@@ -64,7 +64,6 @@ public class Settler extends Civilian {
 		System.out.println("new city name is " + name);
 		City newCity = new City(name, ownerCivilization, currentTile);//todo implement here (based on difficulty)
 		ownerCivilization.addNewCity(newCity);
-//		currentTile
 		suicide();
 	}
 

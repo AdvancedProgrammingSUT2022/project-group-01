@@ -201,7 +201,11 @@ public class GameMenuController {
 
 	//GLOBAL:
 	public String menuEnter(HashMap<String, String> args) {
-		return "invalid navigation";
+		String menuName = args.get("section");
+		if(menuName.equals("info")){
+			ProgramController.setCurrentMenu(Menus.INFO_MENU);
+		}
+		return "invalid navigation!";
 	}
 
 	public String menuExit(HashMap<String, String> args) {

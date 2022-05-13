@@ -15,12 +15,13 @@ import model.unit.Unit;
 import utils.Pair;
 
 @Getter
-public class City implements TurnBasedLogic {
+public class City {
 
 	private Civilization civilization;
 	private final Vector<Person> population;
 	private String name;
 	private Currency currency;
+	private Currency changesOfCurrency;
 	private ProductionInventory productionInventory;
 	private CityState state;
 	private BuildingInventory buildingInventory;//TODO: merge with parham
@@ -40,7 +41,7 @@ public class City implements TurnBasedLogic {
 
 	public City(String name, Civilization civilization, Tile center) {
 		this.civilization =  civilization;
-		this.population = new Vector<>(Arrays.asList(new Person()));
+		this.population = new Vector<>(Arrays.asList(new Person(null)));
 		this.name = name;
 		this.center = center;
 		tiles = new Vector<>();
@@ -87,7 +88,7 @@ public class City implements TurnBasedLogic {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param civilization
 	 * @param state
 	 */
@@ -103,13 +104,13 @@ public class City implements TurnBasedLogic {
 			currency.add(tile.getCurrency());
 			changes.add(tile.getCurrency());
 		}
-
+		changesOfCurrency = changes;
 		//you can show changes like food: +2 and ...
 	}
 
 	private void handlePopulationIncrease(){
 		if(remainedTurnToExpansion == 0 && currency.getFood() > 15){
-			population.add(new Person());
+			population.add(new Person(null));
 			remainedTurnToGrowth = 8;
 		}
 		if(remainedTurnToExpansion > 0)
@@ -125,13 +126,12 @@ public class City implements TurnBasedLogic {
 		}
 	}
 
-	public void nextTurn(Civilization civilization) {
-		if(this.civilization != civilization)
-			return;
+	public void nextTurn() {
 		updateCurrency();
 		productionInventory.payProduction(currency.getProduct());
 		handleNextTiles();
 		handlePopulationIncrease();
+		updateBeaker();
 		//todo create notification here
 	}
 
@@ -233,8 +233,10 @@ public class City implements TurnBasedLogic {
 		if(this.civilization.getCapital() == this)
 			this.beaker = 3;
 		this.beaker += population.size();
-		if(this.currency.getGold() < 0)
+		if(this.currency.getGold() < 0) {
 			this.beaker -= this.currency.getGold();
+			//todo add warning notification
+		}
 	}
 
 	public int getBeaker(){

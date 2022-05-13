@@ -134,10 +134,7 @@ public class GameMenu{
 					return controller.mapShow(args);
 				}
 			}, Commands.MAP_SHOW);
-
-
-
-
+      
 			for (Method method : GameMenuController.class.getDeclaredMethods()) {
 				final GameCommand annotation = method.getAnnotation(GameCommand.class);
 				if(annotation == null) continue;

@@ -6,13 +6,10 @@ import model.improvement.ImprovementType;
 import model.tile.TerrainFeature;
 import model.tile.Tile;
 import model.unit.UnitType;
-import model.unit.action.Action;
-import model.unit.action.Actions;
 import model.unit.civilian.Civilian;
 
-import java.util.Random;
-
 public class Worker extends Civilian {
+
 	public Worker(UnitType type, Tile tile, Civilization civilization){
 		super(type, tile, civilization);
 	}
