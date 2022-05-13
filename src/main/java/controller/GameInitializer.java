@@ -55,8 +55,9 @@ public class GameInitializer extends Controller{
         Vector<Tile> freeLandList = new Vector<>(game.getMap().getReachableTiles());
         for(Player player : game.getPlayers()){
             Tile occupyTile = freeLandList.get(random.nextInt(freeLandList.size()));
-            Armed firstWarrior = new Armed(UnitType.WARRIOR, occupyTile,player.getCivilization(),game);
-            Settler firstSettler = new Settler(UnitType.SETTLER, occupyTile, player.getCivilization(), game);
+            Armed firstWarrior = new Armed(UnitType.WARRIOR, occupyTile,player.getCivilization());
+            Settler firstSettler = new Settler(UnitType.SETTLER, occupyTile, player.getCivilization());
+
             occupyTile.setArmedUnit(firstWarrior);
             occupyTile.setCivilianUnit(firstSettler);
             freeLandList.remove(occupyTile);

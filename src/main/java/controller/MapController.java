@@ -101,13 +101,8 @@ public class MapController extends Controller {
             }
         }
         for (Tile tile : showingTiles) {
-            //if (player.getSavedMap().getVisibilityState(tile).equals(Tile.VisibilityState.DISCOVERED))
                 addTileToShowingMap(showingMap, tile, player, centerTile);
         }
-//        for (Tile tile : showingTiles) {
-//            if (!player.getSavedMap().getVisibilityState(tile).equals(Tile.VisibilityState.FOG_OF_WAR))
-//                addTileToShowingMap(showingMap, tile, player, centerTile);
-//        }
     }
 
     private void addTileToShowingMap(ConsoleMap showingMap, Tile tile, Player player, Tile centerTile) {

@@ -142,7 +142,6 @@ public class Tile {
 		pCoordinate = p;
 		qCoordinate = q;
 		this.mapNumber = number;
-		//this.improvementInventory = new ImprovementInventory(this);
 		this.miscellaneousTileActionsInventory = new MiscellaneousTileActionsInventory(this);
 	}
 
@@ -159,6 +158,7 @@ public class Tile {
 					if (this.improvementInventory.getState().equals(ProgressState.STOPPED))
 						this.improvementInventory.progress();
 				}
+
 			}
 			else this.improvementInventory.reset(improvement);
 		}
@@ -167,6 +167,7 @@ public class Tile {
 	public void removeImprovement(){
 		if(this.improvementInventory == null) return;
 		this.improvementInventory.remove();
+
 	}
 	public void removeResource(){
 		availableResource = null;
@@ -289,9 +290,10 @@ public class Tile {
 	 * @param unit
 	 */
 	public void removeUnit(Unit unit) {
-		if(this.civilianUnit.equals(unit))
+		if(this.civilianUnit != null && this.civilianUnit.equals(unit))
 			this.civilianUnit = null;
-		else if(this.armedUnit.equals(unit))
+		else if(this.armedUnit != null && this.armedUnit.equals(unit))
+
 			this.armedUnit = null;
 	}
 

@@ -28,6 +28,7 @@ public class ProfileMenuController {
         if(database.findUserByNickname(nickname)!=null)
             return String.format("user with nickname %s already exist!", nickname);
         ProgramController.getLoggedInUser().setNickname(nickname);
+        ProgramController.getDatabase().save();
         return "nickname changed successfully!";
     }
 
@@ -39,15 +40,12 @@ public class ProfileMenuController {
         if(currentPassword.equals(newPassword))
             return "please enter a new password";
         ProgramController.getLoggedInUser().setPassword(newPassword);
+        ProgramController.getDatabase().save();
         return "password changed successfully!";
     }
 
     private String changeUsername(HashMap<String, String> args){
-        String newUsername = args.get("new");
-        if(database.findUserByUsername(newUsername) != null)
-            return String.format("user with username %s already exist!", newUsername);
-        ProgramController.getLoggedInUser().setUsername(newUsername);
-        return "username changed succesfully!";
+        return "you can't change your username!";
     }
 
     public String menuEnter(HashMap<String, String> args){
