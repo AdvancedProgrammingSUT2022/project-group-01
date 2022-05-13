@@ -60,8 +60,9 @@ public class Notification {
 			return text + city.getName();
 		}
 
+
 		public String getText(){
 			return this.text;
-		}
+					}
 	}
 }

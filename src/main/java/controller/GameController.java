@@ -46,12 +46,14 @@ public class GameController {
         return "invalid command!";
     }
 
-    public String mapShow(String selectingType, String value){mapController.updateCurrentPlayersMap();
+    public String mapShow(String selectingType, String value){
+        mapController.updateCurrentPlayersMap();
         if(selectingType.equals("position")){
             int position = Integer.parseInt(value);
             mapController.setPosition(position);
             return mapController.getConsoleMap(game.getCurrentPlayer().getMapCenterTile());
-        }else if(selectingType.equals("cityname")){
+        }
+        else if(selectingType.equals("cityname")){
             City city = findCityByName(value);
             if(city == null)
                 return "there is no city with this name";

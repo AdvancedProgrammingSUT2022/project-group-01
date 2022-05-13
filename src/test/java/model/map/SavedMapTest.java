@@ -1,10 +1,12 @@
-package model;
+package model.map;
 
 import controller.GameInitializer;
 import controller.MapController;
 import controller.TileController;
-import model.civilization.Civilization;
-import model.civilization.Civilizations;
+import model.Game;
+import model.ProgressState;
+import model.TurnBasedLogic;
+import model.User;
 import model.civilization.city.City;
 import model.improvement.ImprovementType;
 import model.resource.ResourceType;
@@ -17,25 +19,16 @@ import model.unit.armed.Armed;
 import model.unit.civilian.Civilian;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 import java.util.Vector;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
 
-@ExtendWith(MockitoExtension.class)
-class InformationTest {
-
+class SavedMapTest {
     private static Game game;
     private static MapController mc;
-
-
     @BeforeAll
     public static void beforechert(){
         User user1 = new User("a","b","c");
@@ -45,6 +38,7 @@ class InformationTest {
         GameInitializer gi = new GameInitializer();
         game = gi.startGame(vec,17);
         mc = new MapController(game);
+        game.getMap().getMap();
         Tile tile = game.getCurrentPlayer().getMapCenterTile();
         tile.setCivilization(game.getCurrentPlayer().getCivilization());
         Armed armed = new Armed(UnitType.WARRIOR,tile,game.getCurrentPlayer().getCivilization());
@@ -63,28 +57,22 @@ class InformationTest {
         TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
         Assertions.assertEquals(tile.getImprovementInventoryState(), ProgressState.COMPLETE);
         mc.updateSavedMap(game.getCurrentPlayer(),new Vector<>(List.of(tile)),game.getMap());
-        mc.moveCenterTile(1,"right");
-        mc.getConsoleMap(tile);
-        TileController.initializeEnums();
-        City city = new City(game.getCurrentPlayer().getCivilization().getCivilization().getCityNames()[1],game.getCurrentPlayer().getCivilization(),tile);
-        game.getCurrentPlayer().getCivilization().addNewCity(city);
-        city.updateBeaker();
-        Unit unit = new Armed(UnitType.WARRIOR,city.getCenterTile(),game.getCurrentPlayer().getCivilization());
-        city.setGarrisonedUnit(unit);
-        city.getGarrisonedUnit();
-        city.updateDefencePower(2);
-        city.setAttackPower(4);
-        game.getCurrentPlayer().getMapCenterTile().setOwnerCity(city);
     }
 
     @Test
-    public void informationTester1(){
-        game.getInformationPanel().economicOverview();
-        game.getInformationPanel().getScore();
-        game.getInformationPanel().dealHistoryScreen();
-        game.getInformationPanel().diplomaticOverview();
-        game.getInformationPanel().victoryProgressPanel();
-        game.getInformationPanel().diplomacyPanel();
+    public void update(){
+        game.getCurrentPlayer().getMapCenterTile().getArmedUnit().moveTo(game.getMap().getTileByNumber(50));
+        game.nextTurn();
+        game.nextTurn();
+        mc.updateSavedMap(game.getCurrentPlayer(),game.getCurrentPlayer().getCivilization().visibleTiles(),game.getMap());
+        Terrain terrain = game.getCurrentPlayer().getSavedMap().getTerrain(game.getCurrentPlayer().getMapCenterTile());
+        Assertions.assertEquals(terrain,game.getCurrentPlayer().getMapCenterTile().getTerrain());
+        TerrainFeature feature = game.getCurrentPlayer().getSavedMap().getFeature(game.getCurrentPlayer().getMapCenterTile());
+        Assertions.assertEquals(feature,game.getCurrentPlayer().getMapCenterTile().getFeature());
+        ResourceType resourceType = game.getCurrentPlayer().getSavedMap().getResourceTypes(game.getCurrentPlayer().getMapCenterTile());
+        Assertions.assertEquals(resourceType,game.getCurrentPlayer().getMapCenterTile().getAvailableResource());
+        game.getCurrentPlayer().getMapCenterTile().removeResource();
+        mc.updateSavedMap(game.getCurrentPlayer(),game.getCurrentPlayer().getCivilization().visibleTiles(),game.getMap());
+        Assertions.assertEquals(game.getCurrentPlayer().getSavedMap().getResourceTypes(game.getCurrentPlayer().getMapCenterTile()),game.getCurrentPlayer().getMapCenterTile().getAvailableResource());
     }
-
 }

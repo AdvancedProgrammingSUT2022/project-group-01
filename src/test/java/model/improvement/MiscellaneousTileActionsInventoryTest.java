@@ -19,12 +19,7 @@ public class MiscellaneousTileActionsInventoryTest {
     @Mock
     Tile tile;
     @Mock Civilization civ1;
-    @Test
-    public void setActionTest(){
-        MiscellaneousTileActionsInventory miscellaneousTileActionsInventory = new MiscellaneousTileActionsInventory(tile);
-        when(tile.doesHaveRoad()).thenReturn(true);
-        miscellaneousTileActionsInventory.setAction(UnitActions.BUILD_ROAD);
-    }
+
     @Test
     public void nextTurnTest(){
        // Civilization civilization = new Civilization(Civilizations.ASSYRIAN,new City("hi",null,tile));

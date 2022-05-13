@@ -10,7 +10,7 @@ public class UserTest {
         Assertions.assertEquals(user.getUsername(),"username");
         Assertions.assertEquals(user.getPassword(),"password");
         Assertions.assertEquals(user.getNickname(),"nickname");
-        Assertions.assertEquals(user.getScore(),0);
+        Assertions.assertEquals(user.getScore(),"0");
     }
 
 }

@@ -1,12 +1,16 @@
-package controller;
+package model;
 
-import model.Game;
-import model.ProgressState;
-import model.TurnBasedLogic;
-import model.User;
+import controller.GameInitializer;
+import controller.MapController;
+import controller.TileController;
+import model.civilization.Civilization;
+import model.civilization.Civilizations;
+import model.civilization.Currency;
+import model.civilization.Trade;
 import model.civilization.city.City;
 import model.improvement.ImprovementType;
 import model.resource.ResourceType;
+import model.tile.Terrain;
 import model.tile.TerrainFeature;
 import model.tile.Tile;
 import model.unit.Unit;
@@ -17,14 +21,19 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 import java.util.Vector;
 
-import static org.mockito.Mockito.spy;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-public class GameControllerTest {
-
+@ExtendWith(MockitoExtension.class)
+class GameTest {
     private static Game game;
     private static MapController mc;
     @BeforeAll
@@ -36,7 +45,6 @@ public class GameControllerTest {
         GameInitializer gi = new GameInitializer();
         game = gi.startGame(vec,17);
         mc = new MapController(game);
-        game.getMap().getMap();
         Tile tile = game.getCurrentPlayer().getMapCenterTile();
         tile.setCivilization(game.getCurrentPlayer().getCivilization());
         Armed armed = new Armed(UnitType.WARRIOR,tile,game.getCurrentPlayer().getCivilization());
@@ -69,49 +77,49 @@ public class GameControllerTest {
         city.setAttackPower(4);
         game.getCurrentPlayer().getMapCenterTile().setOwnerCity(city);
     }
-    @Test
-    public void mapShowTest(){
 
-        GameController gameController = new GameController(game,mc);
-        gameController.mapShow("pos","2");
-        gameController.mapShow("position","40");
-        gameController.mapShow("position","10000");
-        gameController.mapShow("cityname","uzarsif");
-        gameController.mapShow("cityname",game.getCurrentPlayer().getCivilization().getCities().get(0).getName());
+    @Test
+    public void nextTurn(){
+        game.nextTurn();
+        game.nextTurn();
     }
 
     @Test
-    public void showTileInfoTest(){
-        GameController gc = new GameController(game,mc);
-        gc.showTileInfo(game.getCurrentPlayer().getMapCenterTile());
-        game.getCurrentPlayer().getMapCenterTile().setCivilization(game.getCurrentPlayer().getCivilization());
-        game.getCurrentPlayer().getMapCenterTile().buildImprovement(ImprovementType.LUMBER_MILL);
+    public void setCurrentPlayer(){
+        Player player = game.getCurrentPlayer();
         game.nextTurn();
-        game.nextTurn();
-        game.nextTurn();
-        game.nextTurn();
-        game.nextTurn();
-        gc.showTileInfo(game.getCurrentPlayer().getMapCenterTile());
+        game.setCurrentPlayer(player);
     }
 
     @Test
-    public void selectCityTest(){
-        game.getCurrentPlayer().getMapCenterTile().setCivilization(game.getCurrentPlayer().getCivilization());
-        game.getCurrentPlayer().getMapCenterTile().buildImprovement(ImprovementType.LUMBER_MILL);
-        game.nextTurn();
-        game.nextTurn();
-        game.nextTurn();
-        game.nextTurn();
-        GameController gc = new GameController(game,mc);
-        gc.selectCity("position","51");
-        gc.selectCity("pos","100");
-        gc.selectCity("position","-4");
-        gc.selectCity("position",String.valueOf(game.getCurrentPlayer().getMapCenterTile().getMapNumber()));
-        gc.selectCity("name","hallooha");
-        gc.selectCity("name",game.getCurrentPlayer().getMapCenterTile().getOwnerCity().getName());
-        gc.cheatSetFeature(game.getCurrentPlayer().getMapCenterTile(), TerrainFeature.FOREST);
-        gc.cheatSetFeature(game.getMap().getTileByNumber(30),TerrainFeature.FOREST );
-        gc.cheatSetFeature(game.getMap().getTileByNumber(30),TerrainFeature.ICE );
-        gc.cheatSetFeature(game.getMap().getTileByNumber(40),TerrainFeature.OASIS );
+    public void selectObject(){
+        Unit unit = game.getCurrentPlayer().getMapCenterTile().getArmedUnit();
+        game.setSelectedObject(unit);
+        game.getSelectedObject();
+        Assertions.assertEquals(game.getSelectedObject(), unit);
+    }
+
+    @Test
+    public void civilizationTrade(){
+        game.getTradeForCivilization(game.getCurrentPlayer().getCivilization());
+        Assertions.assertNull(game.getTradeForCivilization(game.getCurrentPlayer().getCivilization()));
+    }
+
+    @Test
+    public void getters(){
+        game.getMap();
+        game.getCurrentPlayer();
+        game.getTurn();
+        game.getPlayers();
+        game.getInformationPanel();
+        game.getTrades();
+    }
+
+    @Test
+    public void increaseTurnTest(){
+        int a = game.getTurn();
+        game.increaseTurn(3);
+        int b = game.getTurn();
+        Assertions.assertEquals(a + 3, b);
     }
 }

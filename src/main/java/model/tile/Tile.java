@@ -177,7 +177,9 @@ public class Tile {
 		this.hasRoad = true;
 	}
 
-	public Boarder getBoarderInfo(int i){return nearbyBoarders[i];}
+	public Boarder getBoarderInfo(int i){
+		return nearbyBoarders[i];
+	}
 	public boolean doesHaveRailRoad() {
 		return hasRailRoad;
 	}
@@ -187,6 +189,10 @@ public class Tile {
 	}
 
 	public boolean hasRiverNearby() {
+		for(Boarder boarder : this.nearbyBoarders) {
+			if(boarder != null)
+				if (boarder.isRiver()) return true;
+		}
 		return false;
 	}
 	public void removeRoads(){
@@ -273,7 +279,7 @@ public class Tile {
 		if(improvementInventory.getImprovement() == null) return;
 		if (this.improvementInventory.getImprovement().equals(improvement)){
 			if(this.improvementInventory.getState().equals(ProgressState.COMPLETE))
-				this.improvementInventory = null;
+				this.improvementInventory.remove();
 			}
 	}
 

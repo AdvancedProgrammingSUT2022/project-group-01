@@ -17,6 +17,7 @@ public class User {
         this.nickname = nickname;
         this.username = username;
         this.password = password;
+        this.score = "0";
     }
 
     public String getUsername() {

@@ -45,6 +45,7 @@ public class City {
 		this.name = name;
 		this.center = center;
 		tiles = new Vector<>();
+		this.productionInventory = new ProductionInventory(this);
 		tiles.add(center);
 		tiles.addAll(center.getAdjacentTiles());
 		nextTiles = new Vector<>();

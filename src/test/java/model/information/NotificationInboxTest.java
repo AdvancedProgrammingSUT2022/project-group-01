@@ -1,11 +1,13 @@
 package model.information;
 
 import model.Notification;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Vector;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -42,24 +44,17 @@ class NotificationInboxTest {
         final boolean result = notificationInboxUnderTest.isInboxEmpty();
 
         // Verify the results
-        assertTrue(result);
+        assertFalse(result);
     }
 
-    @Test
-    void testMarkAllAsRead() {
-        // Setup
-        // Run the test
-        notificationInboxUnderTest.markAllAsRead();
-
-        // Verify the results
-    }
 
     @Test
     void testSetUnsetTurns() {
-        // Setup
-        // Run the test
-        notificationInboxUnderTest.setUnsetTurns(0);
-
-        // Verify the results
+        NotificationInbox notificationInbox1 = new NotificationInbox();
+        Notification notification = new Notification(Notification.NotificationTexts.ZERO_GOLD.getText(),-1);
+        notificationInbox1.addNotification(notification);
+        notificationInbox1.setUnsetTurns(3);
+        notificationInbox1.markAllAsRead();
+        Assertions.assertEquals(3, notificationInbox1.getNotifications().get(0).getAnnouncementTurn());
     }
 }

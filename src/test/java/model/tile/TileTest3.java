@@ -35,6 +35,7 @@ public class TileTest3 {
     public void boarderTest(){
         Tile tile = new Tile(Terrain.DESERT,TerrainFeature.JUNGLE, null, ResourceType.GEMS,15,50,50);
         Boarder boarder = new Boarder(tile,null,true,18);
+        tile.setBoarder(boarder,1);
         boarder.setRiver();
         Assertions.assertTrue(tile.hasRiverNearby());
     }

@@ -100,6 +100,7 @@ public class ActionsQueue {
 
 	//TODO ADDED BY PARHAM
 	public Action getCurrentAction(){
+		if(queue.isEmpty()) return null;
 		return queue.get(0);
 	}
 }

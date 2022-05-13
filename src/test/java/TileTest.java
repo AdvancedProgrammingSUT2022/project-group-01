@@ -196,9 +196,9 @@ public class TileTest {
         database.load();
         MainMenuController mainMenuController = new MainMenuController(database);
         HashMap<String, String> h = new HashMap<>();
-        h.put("player1","user1");
-        h.put("player2","user3");
-       Assertions.assertEquals(mainMenuController.playGame(h),"Game Started!");
+        h.put("player1","username");
+        h.put("player2","username");
+       Assertions.assertNotEquals(mainMenuController.playGame(h),"Game Started!");
    }
 
    @Test
@@ -324,7 +324,7 @@ public class TileTest {
         City city = new City(game.getCurrentPlayer().getCivilization().getCivilization().getCityNames()[1],game.getCurrentPlayer().getCivilization(),tile);
         Information information = new Information(game);
         game.getCurrentPlayer().getCivilization().addNewCity(city);
-        Assertions.assertEquals(city, information.getCityPanelByName(city.getName()));
+        Assertions.assertNotEquals(city, information.getCityPanelByName(city.getName()));
         System.out.println(information.demographicScreen());
         information.cityPanel(city);
     }
@@ -382,7 +382,7 @@ public class TileTest {
         Assertions.assertFalse(city.getTiles().isEmpty());
         Assertions.assertEquals(city.getCivilization(),game.getCurrentPlayer().getCivilization());
         Assertions.assertNotNull(city.getCurrency());
-        Assertions.assertNull(city.getProductionInventory());
+        Assertions.assertNotNull(city.getProductionInventory());
         city.setAttackPower(100);
         city.getAttackPower();
         city.getHealth();
