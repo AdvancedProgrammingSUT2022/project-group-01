@@ -3,10 +3,8 @@ package utils;
 
 public enum Commands {
     //GAME
-        //info
-        INFO("info", null, null, 1,null),
         //select
-        SELECT_UNIT("select unit", new String[]{"position"}, null,1,null),
+        SELECT_UNIT("select unit", new String[]{"position"}, null,0,null),
         SELECT_CITY("select city", null, new String[]{"name", "position"},0,null),
         //unit
         UNIT_MOVE("unit moveto", new String[]{"position"}, null,0,null),
@@ -28,41 +26,21 @@ public enum Commands {
     //MAP
         MAP_SHOW("map show", null,new String[]{"position","cityname"},0,null),
         MAP_MOVE("map move", new String[]{"count"}, null, 1,null),
-        SHOW_NEXT_TILES("show next tiles",null,null,0,null),
     //LOGIN
         REGISTER("user create", new String[]{"username","password","nickname"}, null,0,null),
         LOGIN("user login", new String[]{"username", "password"}, null,0,null),
     //MAIN
         PLAY_GAME("play game", null,null,0,new String[]{"player"}),
         LOGOUT("user logout", null,null, 0,null),
-    //CITY
-        PURCHASE_PRODUCTION("purchase production", new String[]{"type"},null,0,null),
-        SET_PRODUCTION("set production", new String[]{"type"}, null, 0,null),
-        LIST_OF_ALL_OF_PRODUCTIONS("list of productions", null,null,1,null),
-        LIST_OF_PRODUCTIONS("list of productions", null, null,0,null),
-        CHANGE_PRODUCTION("change production", new String[]{"type"}, null,0,null),
-        GET_PURCHASABLE_TILES("get purchasable tiles",null,null,0,null),
-        PURCHASE_TILE("purchase tile", new String[]{"index"},null,0,null),
-        LIST_OF_POPULATION("list of population",null,null,0,null),
-        SET_TILE_FOR_POPULATION("set tile for population", new String[]{"index","position"},null,0,null),
-        DELETE_POPULATION_FROM_TILE("delete population from tile", new String[]{"index"},null,0,null),
     //GLOBAL
         MENU_ENTER("menu enter", null, null, 1,null),
         MENU_EXIT("menu exit", null,null,0,null),
         CURRENT_MENU("menu show-current",null,null,0,null),
     //CHEATS
         INCREASE_RESOURCE("increase", new String[]{"amount"}, null, 1, null),
-        SPAWN_UNIT("spawn unit", new String[]{"position", "name"}, null,0,null),
-        ADD_TECHNOLOGY("add technology", new String[]{"name"}, null, 0, null),
-        ADD_BEAKER("add beaker", new String[]{"amount"}, null, 0, null),
-        CHEAT_NEXT_TURN("cheat next turn", null, null, 0, null),
+        SPAWN_UNIT("spawn unit", new String[]{"position"}, null,1,null),
     //PROFILE
-        PROFILE_CHANGE("profile change",null, new String[]{"new","current"},1,null),
-    // TECHNOLOGY
-        SHOW_RESEARCHABLE_TECHS("get researchable techs", null, null, 0, null),
-        GET_CURRENT_RESEARCH("get current research", null, null, 0, null),
-        RESEARCH("research", new String[]{"name"}, null, 0, null),
-        CHANGE_RESEARCH("change research", new String[]{"name"}, null, 0, null);
+        PROFILE_CHANGE("profile change",null, new String[]{"new","current"},1,null);
 
     private final String offset;
     private final String[] requiredKeys;
