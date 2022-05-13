@@ -57,6 +57,7 @@ public class City {
 			tile.setCivilization(civilization);
 			tile.setOwnerCity(this);
 		}
+		this.productionInventory = new ProductionInventory(this);
 	}
 
 	public Vector<Tile> getTiles() {
@@ -108,6 +109,7 @@ public class City {
 
 	public void resetChangesOfCurrency(){
 		changesOfCurrency.setValue(0,0,0);
+		currency.increase(0,-1*currency.getProduct(),0);
 	}
 
 	private void handlePopulationIncrease(){
@@ -174,10 +176,6 @@ public class City {
 
 	public Vector<Person> getPopulation() {
 		return population;
-	}
-
-	public Tile getCenterTile() {
-		return center;
 	}
 
 	private void handleNextTiles(){

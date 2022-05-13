@@ -184,6 +184,16 @@ public class GameMenu{
 					return controller.purchaseProduction(args);
 				}
 			}, Commands.PURCHASE_PRODUCTION);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.unitActionList(args);
+				}
+			}, Commands.UNIT_ACTION_LIST);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.listOfProductions(args);
+				}
+			}, Commands.LIST_OF_PRODUCTIONS);
 		}};
 
 	}

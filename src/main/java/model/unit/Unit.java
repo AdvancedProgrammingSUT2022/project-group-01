@@ -47,7 +47,11 @@ public class Unit{
 	}
 
 	public static void produceUnit(UnitType type, City city){
-		spawnUnit(type, city.getCenterTile(), city.getCivilization());
+		Unit unit = spawnUnit(type, city.getCenter(), city.getCivilization());
+		if(unit instanceof Armed)
+			city.getCenter().setArmedUnit((Armed)unit);
+		else
+			city.getCenter().setCivilianUnit((Civilian)unit);
 	}
 
 	public static Unit spawnUnit(UnitType type, Tile tile, Civilization ownerCivilization){

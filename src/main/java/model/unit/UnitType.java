@@ -116,7 +116,7 @@ public enum UnitType implements Producible {
 
 	@Override
 	public void produce(City city) {
-		return;
+		Unit.produceUnit(this, city);
 	}
 
 	@Override
