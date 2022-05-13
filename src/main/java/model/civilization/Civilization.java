@@ -62,21 +62,22 @@ public class Civilization implements TurnBasedLogic {
 		cities.add(city);
 	}
 
-	private void updateCurrency() {//TODO for each turn
-		// TODO - implement model.civilization.Civilization.updateCurrency
-		throw new UnsupportedOperationException();
+	private void updateCurrency() {
+		for(City city: cities)
+			currency.add(city.getChangesOfCurrency());
 	}
 
 	public void nextTurn(Civilization civilization) {
 		if(civilization != this)
 			return;
+		for(City city : cities)
+			city.nextTurn();
 		updateCurrency();
 		updateHappiness();
 		updateBeaker();
 		for(Unit unit : units)
 			unit.nextTurn();
 		techTree.addScience(beaker);
-
 	}
 
 	private void updateBeaker() {

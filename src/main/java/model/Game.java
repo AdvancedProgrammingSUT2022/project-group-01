@@ -15,14 +15,19 @@ public class Game {
     Player currentPlayer;
     private Object selectedObject;
     private Map map;
-    int turn;
+    int turn = 0;
 
     public Game(Vector<Player> players, int mapSize){
         //TODO : ADDED MAP FIRST INITIALIZE AND map size
         this.players = players;
         map = new Map(mapSize);
     }
-    public void nextTurn(){}
+    public void nextTurn(){
+        if(currentPlayer == players.get(players.size()-1))
+            turn++;
+        TurnBasedLogic.callNextTurns(currentPlayer.getCivilization());
+        currentPlayer = players.get((players.indexOf(currentPlayer)+1)%players.size());
+    }
     public Trade getTradeForCivilization(Civilization civilization){
         //TODO: implement here
         return null;

@@ -173,7 +173,9 @@ public class GameMenu{
 				public String action(HashMap<String, String> args) {
 					return controller.cheatNextTurn(args);
 				}
-			}, Commands.CHEAT_NEXT_TURN),
+			}, Commands.CHEAT_NEXT_TURN);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
 					return controller.showNextTiles(args);
 				}
 			}, Commands.SHOW_NEXT_TILES);

@@ -68,7 +68,6 @@ public class Information {
 		s.append("City Currency : ").append("Gold : ").append(city.getCurrency().getGold())
 				.append(" Food : ").append(city.getCurrency().getFood()).append(" Production : ")
 				.append(city.getCurrency().getProduct()).append("\n");
-		s.append("City happiness : ").append(city.getHappiness()).append("\n");
 		s.append("City buildings : ").append(" ").append("\n");
 		// Improvements
 		s.append("City Improvements : ");
