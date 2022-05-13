@@ -168,10 +168,10 @@ public class CityController {
             case "gold":{currency.increase(amount,0,0);}break;
             case "food":{currency.increase(0,0,amount);}break;
             case "product":{currency.increase(0,amount,0);}break;
-            default:{return "invalid resource";}break;
+            default:{return "invalid resource";}
         }
         city.getCurrency().add(currency);
         city.getChangesOfCurrency().add(currency);
-        return "done!";
+        return "hey cheater, "+resourceName+" increased!";
     }
 }

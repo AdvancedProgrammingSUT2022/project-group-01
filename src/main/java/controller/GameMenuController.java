@@ -65,7 +65,7 @@ public class GameMenuController {
 
 	public String selectCity(HashMap<String, String> args) {
 		if (args.containsKey("position")) return gameController.selectCity("position", args.get("position"));
-		else if (args.containsKey("cityname")) return gameController.selectCity("cityname", args.get("cityname"));
+		else if (args.containsKey("name")) return gameController.selectCity("name", args.get("name"));
 		else return "invalid command!";
 	}
 
@@ -222,7 +222,8 @@ public class GameMenuController {
         int amount = Integer.parseInt(args.get("amount"));
         if(!(game.getSelectedObject() instanceof City))
         	return "select city first!";
-        cityController.increaseResource(
+        City city = (City) game.getSelectedObject();
+        return cityController.increaseResource(city,resourceName,amount);
 	}
 
 	@GameCommand(command = Commands.SPAWN_UNIT)

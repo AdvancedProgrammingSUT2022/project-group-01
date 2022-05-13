@@ -61,7 +61,6 @@ public class Settler extends Civilian {
 		actionsQueue.resetQueue();
 
 		String name = ownerCivilization.getCivilization().getCityNames()[ownerCivilization.getCities().size()];
-		System.out.println("new city name is " + name);
 		City newCity = new City(name, ownerCivilization, currentTile);//todo implement here (based on difficulty)
 		ownerCivilization.addNewCity(newCity);
 //		currentTile

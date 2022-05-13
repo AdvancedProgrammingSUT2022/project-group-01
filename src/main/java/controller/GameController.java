@@ -47,7 +47,7 @@ public class GameController {
         for(Player player : players){
             Civilization civilization = player.getCivilization();
             for(City city : civilization.getCities()){
-                if(city.getName().equals(name)){
+                if(city.getName().toLowerCase().equals(name)){
                     return city;
                 }
             }
@@ -69,6 +69,7 @@ public class GameController {
             if(city == null)
                 return "there is no city with this name";
             game.setSelectedObject(city);
+            return "city selected";
         }
         return "invalid command!";
     }
