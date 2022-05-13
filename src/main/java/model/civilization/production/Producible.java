@@ -10,4 +10,7 @@ public interface Producible {
     boolean isProducible(City city);
     int getCost(City city);
     String toString();
+    default void addToProductions(){
+        productions.add(this);
+    }
 }

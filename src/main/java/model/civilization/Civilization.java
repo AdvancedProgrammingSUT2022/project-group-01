@@ -63,8 +63,10 @@ public class Civilization implements TurnBasedLogic {
 	}
 
 	private void updateCurrency() {
-		for(City city: cities)
+		for(City city: cities) {
 			currency.add(city.getChangesOfCurrency());
+			city.resetChangesOfCurrency();
+		}
 	}
 
 	public void nextTurn(Civilization civilization) {
@@ -142,14 +144,6 @@ public class Civilization implements TurnBasedLogic {
 
 	public void deleteCity(City city) {
 		cities.remove(city);
-	}
-
-	private void handleCurrency() {
-		citiesCurrency = new Currency(0, 0, 0);
-		for (City city : cities) {
-			citiesCurrency.add(city.getCurrency());
-		}
-		//todo update unit and ... for currency
 	}
 
 	public City getCapital() {

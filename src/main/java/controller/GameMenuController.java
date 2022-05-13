@@ -3,10 +3,8 @@ package controller;
 import controller.civilization.city.CityController;
 import model.Game;
 import model.Player;
-import model.civilization.Civilization;
 import model.civilization.city.City;
 import model.technology.TechTree;
-import model.technology.TechnologyList;
 import model.technology.TechnologyType;
 import model.tile.Tile;
 import model.unit.Unit;
@@ -194,21 +192,11 @@ public class GameMenuController {
 	}
 
 	public String increaseResource(HashMap<String, String> args) {
-        /*String section = args.get("section");
+        String resourceName = args.get("section");
         int amount = Integer.parseInt(args.get("amount"));
-        Currency currency = new Currency(0,0,0);
-        if(section.equals("gold")){
-            currency.increase(amount,0,0);
-        }else if(section.equals("product")){
-            currency.increase(0,amount,0);
-        }else if(section.equals("food")){
-            currency.increase(0,0,amount);
-        }else{
-            return "invalid resource";
-        }
-        game.getSelectedCity().getCurrency().add(currency);
-        return "Done!";*/
-		return null;
+        if(!(game.getSelectedObject() instanceof City))
+        	return "select city first!";
+        cityController.increaseResource(
 	}
 
 	public String spawnUnit(HashMap<String, String> args) {
@@ -263,18 +251,19 @@ public class GameMenuController {
 	}
 
 	public String purchaseProduction(HashMap<String, String> args) {
-		return null;
-		//todo implement here
+		if(!(game.getSelectedObject() instanceof City))
+			return "select city first";
+		String type = args.get("type");
+		City city = (City) game.getSelectedObject();
+		return cityController.purchaseProduction(city, type);
 	}
 
 	public String setProduction(HashMap<String, String> args) {
-		return null;
-		//todo implement here
-	}
-
-	public String changeProduction(HashMap<String, String> args) {
-		return null;
-		//todo implement here
+		String type = args.get("type");
+		if(!(game.getSelectedObject() instanceof City))
+			return "select city first!";
+		City city = (City) game.getSelectedObject();
+		return cityController.setProductionToProduce(city,type);
 	}
 
 	public String showNextTiles(HashMap<String, String> args){

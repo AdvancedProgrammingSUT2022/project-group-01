@@ -37,7 +37,6 @@ public enum Commands {
         SET_PRODUCTION("set production", new String[]{"type"}, null, 0,null),
         LIST_OF_ALL_OF_PRODUCTIONS("list of productions", null,null,1,null),
         LIST_OF_PRODUCTIONS("list of productions", null, null,0,null),
-        CHANGE_PRODUCTION("change production", new String[]{"type"}, null,0,null),
         GET_PURCHASABLE_TILES("get purchasable tiles",null,null,0,null),
         PURCHASE_TILE("purchase tile", new String[]{"index"},null,0,null),
         LIST_OF_POPULATION("list of population",null,null,0,null),

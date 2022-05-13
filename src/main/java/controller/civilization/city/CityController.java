@@ -98,18 +98,24 @@ public class CityController {
      *
      * @param productions list of productions want to be printed
      * @param city city
-     * @return a string that contains (producible : turns) form for each producible
+     * @param toProduct true if you want turns and false if you want cost as gold
+     * @return a string that contains (producible : turns) or (producible : gold) form for each producible
      */
-    private String listProductionsAndTurns(Vector<Producible> productions, City city){
+    private String listProductions(Vector<Producible> productions, City city,boolean toProduct){
         StringBuilder out = new StringBuilder();
         int i = 1;
         for(Producible producible : productions){
             Double turns = Math.ceil(producible.getCost(city)/city.getCurrency().getProduct());
-            out.append(i).append(" ").append(producible.toString()).append(" : ").append(turns);
-            if(turns > 1)
-                out.append(" turns\n");
-            else
-                out.append(" turn\n");
+            out.append(i).append("- ").append(producible.toString()).append(" : ");
+            if(toProduct) {
+                out.append(turns);
+                if (turns > 1)
+                    out.append(" turns\n");
+                else
+                    out.append(" turn\n");
+            }else{
+                out.append(producible.getCost(city)).append(" gold\n");
+            }
             i++;
         }
         return out.toString();
@@ -117,31 +123,55 @@ public class CityController {
 
     public String getProductionsListToProduce(City city){
         Vector<Producible> productions = city.getProductionInventory().getAvailableProductions();
-        return listProductionsAndTurns(productions, city);
+        return listProductions(productions, city, true);
     }
 
-    public String setProductionToBeProduces(City city, int productionIndex){
-        Vector<Producible> productions = city.getProductionInventory().getAvailableProductions();
-        if(productions.size() <= productionIndex)
+    public String setProductionToProduce(City city, String type){
+        Producible producible = stringToProducible(type);
+        if(producible == null)
             return "invalid production!";
-        city.getProductionInventory().setCurrentProduction(productions.get(productionIndex));
+        if(!producible.isProducible(city))
+            return "you don't have necessary technology!";
+        city.getProductionInventory().setCurrentProduction(producible);
         return "done!";
     }
 
     public String getProductionsListToPurchase(City city){
         Vector<Producible> productions = Producible.productions;
-        return listProductionsAndTurns(productions, city);
+        return listProductions(productions, city, false);
     }
 
-    public String purchaseProduction(City city, int productionIndex){
-        Vector<Producible> productions = Producible.productions;
-        if(productions.size() <= productionIndex)
+    public String purchaseProduction(City city, String type){
+        Producible purchasing = stringToProducible(type);
+        if(purchasing == null)
             return "invalid production!";
-        double cost = productions.get(productionIndex).getCost(city);
+        int cost = purchasing.getCost(city);
         if(cost > city.getCurrency().getGold())
             return "you don't have enough gold!";
         city.payCurrency(cost, 0,0);
-        productions.get(productionIndex).produce(city);
+        purchasing.produce(city);
+        System.out.printf("%s purchased\n", purchasing.toString());//todo remove here
         return "done";
+    }
+
+    private Producible stringToProducible(String type){
+        Producible out = null;
+        for (Producible producible : Producible.productions)
+            if(producible.toString().toLowerCase().equals(type))
+                out = producible;
+        return out;
+    }
+
+    public String increaseResource(City city, String resourceName, int amount){
+        Currency currency = new Currency(0,0,0);
+        switch (resourceName){
+            case "gold":{currency.increase(amount,0,0);}break;
+            case "food":{currency.increase(0,0,amount);}break;
+            case "product":{currency.increase(0,amount,0);}break;
+            default:{return "invalid resource";}break;
+        }
+        city.getCurrency().add(currency);
+        city.getChangesOfCurrency().add(currency);
+        return "done!";
     }
 }

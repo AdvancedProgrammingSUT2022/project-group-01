@@ -8,6 +8,7 @@ import model.building.BuildingInventory;
 import model.civilization.Civilization;
 import model.civilization.Currency;
 import model.civilization.Person;
+import model.civilization.production.Producible;
 import model.civilization.production.ProductionInventory;
 import model.tile.Terrain;
 import model.tile.Tile;
@@ -48,8 +49,13 @@ public class City {
 		tiles.addAll(center.getAdjacentTiles());
 		nextTiles = new Vector<>();
 		this.currency = new Currency(5,5,5);//TODO: check this value
+		this.changesOfCurrency = new Currency(5,5,5);
 		if(center.getTerrain().equals(Terrain.HILLS))
 			defencePower += 5;
+		for(Tile tile : tiles) {
+			tile.setCivilization(civilization);
+			tile.setOwnerCity(this);
+		}
 	}
 
 	public Vector<Tile> getTiles() {
@@ -77,9 +83,8 @@ public class City {
 		return this.productionInventory;
 	}
 
-	public void setNewProduction() {
-		// TODO - implement model.civilization.city.City.setNewProduction
-		throw new UnsupportedOperationException();
+	public void setNewProduction(Producible producible) {
+		productionInventory.setCurrentProduction(producible);
 	}
 
 	/**
@@ -93,14 +98,15 @@ public class City {
 	}
 
 	private void updateCurrency() {
-		Currency changes = new Currency(0,0,0);
 		//don't forget to update changes for unit and ...
 		for(Tile tile : tiles){
 			currency.add(tile.getCurrency());
-			changes.add(tile.getCurrency());
+			changesOfCurrency.add(tile.getCurrency());
 		}
-		changesOfCurrency = changes;
-		//you can show changes like food: +2 and ...
+	}
+
+	public void resetChangesOfCurrency(){
+		changesOfCurrency.setValue(0,0,0);
 	}
 
 	private void handlePopulationIncrease(){
