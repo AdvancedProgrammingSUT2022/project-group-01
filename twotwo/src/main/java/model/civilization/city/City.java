@@ -179,7 +179,7 @@ public class City {
 		}
 		if(remainedTurnToExpansion == 0){
 			remainedTurnToExpansion = turnToExpansion;
-			int i = new Random().nextInt(nextTiles.size());
+			int i = new Random(58).nextInt(nextTiles.size());
 			addNewTiles(new Vector<>(Arrays.asList(nextTiles.get(i))));
 		}
 		remainedTurnToExpansion--;

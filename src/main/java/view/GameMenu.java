@@ -1,11 +1,16 @@
 package view;
 
+import controller.GameCommand;
 import controller.GameMenuController;
 import controller.Menus;
 import controller.ProgramController;
 import utils.Commands;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.function.BiFunction;
 
 public class GameMenu{
 
@@ -126,11 +131,6 @@ public class GameMenu{
 			}, Commands.INCREASE_RESOURCE);
 			put(new CommandAction() {
 				public String action(HashMap<String, String> args) {
-					return controller.spawnUnit(args);
-				}
-			}, Commands.SPAWN_UNIT);
-			put(new CommandAction() {
-				public String action(HashMap<String, String> args) {
 					return controller.mapMove(args);
 				}
 			}, Commands.MAP_MOVE);
@@ -139,44 +139,24 @@ public class GameMenu{
 					return controller.mapShow(args);
 				}
 			}, Commands.MAP_SHOW);
-			put(new CommandAction() {
-				public String action(HashMap<String, String> args) {
-					return controller.addTechnology(args);
-				}
-			}, Commands.ADD_TECHNOLOGY);
-			put(new CommandAction() {
-				public String action(HashMap<String, String> args) {
-					return controller.getResearchableTechnologies(args);
-				}
-			}, Commands.SHOW_RESEARCHABLE_TECHS);
-			put(new CommandAction() {
-				public String action(HashMap<String, String> args) {
-					return controller.getCurrentResearch(args);
-				}
-			}, Commands.GET_CURRENT_RESEARCH);
-			put(new CommandAction() {
-				public String action(HashMap<String, String> args) {
-					return controller.research(args);
-				}
-			}, Commands.RESEARCH);
-			put(new CommandAction() {
-				public String action(HashMap<String, String> args) {
-					return controller.addBeaker(args);
-				}
-			}, Commands.ADD_BEAKER);
-			put(new CommandAction() {
-				public String action(HashMap<String, String> args) {
-					return controller.changeResearch(args);
-				}
-			}, Commands.CHANGE_RESEARCH);
-			put(new CommandAction() {
-				public String action(HashMap<String, String> args) {
-					return controller.cheatNextTurn(args);
-				}
-			}, Commands.CHEAT_NEXT_TURN),
-					return controller.showNextTiles(args);
-				}
-			}, Commands.SHOW_NEXT_TILES);
+
+
+
+
+			for (Method method : GameMenuController.class.getDeclaredMethods()) {
+				final GameCommand annotation = method.getAnnotation(GameCommand.class);
+				if(annotation == null) continue;
+				put(new CommandAction() {
+					@Override
+					public String action(HashMap<String, String> args) {
+						try {
+							return (String) method.invoke(controller, args);
+						} catch (IllegalAccessException | InvocationTargetException e){
+							throw new RuntimeException(e);
+						}
+					}
+				}, annotation.command());
+			}
 		}};
 
 	}

@@ -50,7 +50,7 @@ public class GameInitializer extends Controller{
         }
     }
     private void unitInitializer(){
-        Random random = new Random();
+        Random random = new Random(58);
         Vector<Tile> freeLandList = new Vector<>(game.getMap().getReachableTiles());
         for(Player player : game.getPlayers()){
             Tile occupyTile = freeLandList.get(random.nextInt(freeLandList.size()));

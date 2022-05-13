@@ -24,6 +24,7 @@ public enum Commands {
         UNIT_BUILD("unit build",null,null,1,null),
         UNIT_REMOVE("unit remove", null,null,1,null),
         UNIT_REPAIR("unit repair", null,null,0,null),
+        UNIT_ACTION_LIST("unit action list", null, null, 0, null),
     //MAP
         MAP_SHOW("map show", null,new String[]{"position","cityname"},0,null),
         MAP_MOVE("map move", new String[]{"count"}, null, 1,null),

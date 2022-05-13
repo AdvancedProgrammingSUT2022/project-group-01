@@ -1,6 +1,7 @@
 package model.tile;
 import java.util.Vector;
 
+import lombok.Getter;
 import model.Player;
 import model.ProgressState;
 import model.civilization.Civilization;
@@ -21,6 +22,7 @@ import utils.VectorUtils;
 import javax.swing.plaf.ColorUIResource;
 
 // TODO added get available resource
+@Getter
 public class Tile {
 	private int pCoordinate;
 	private int qCoordinate;
@@ -250,7 +252,7 @@ public class Tile {
 	}
 
 	public boolean isPassable() {
-		return this.terrain.passable;
+		return this.terrain.passable && (this.feature == null || this.feature.passable);
 	}
 
 	public void buildRoute() {
