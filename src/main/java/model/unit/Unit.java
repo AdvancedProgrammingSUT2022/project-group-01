@@ -49,8 +49,13 @@ public class Unit{
 		// TODO
 
 	}
+	public static Unit spawnUnit(UnitType type, Tile tile, Civilization ownerCivilization){
+		if(type.getCombatType() == CombatType.CIVILIAN)
+			return Civilian.spawnCivilian(type, tile, ownerCivilization);
+		return Armed.spawnArmed(type, tile, ownerCivilization);
+	}
 
-	public boolean nextTurn(Civilization civilization, City city) {
+	public boolean nextTurn() {
 
 		return false;
 	}

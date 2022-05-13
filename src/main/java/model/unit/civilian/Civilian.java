@@ -12,7 +12,11 @@ public class Civilian extends Unit {
 		super(type, tile, civilization, game);
 	}
 
-	public void captureUnit(Unit enemy){
+    public static Unit spawnCivilian(UnitType type, Tile tile, Civilization ownerCivilization) {
+		return null;
+    }
+
+    public void captureUnit(Unit enemy){
 		ownerCivilization = enemy.getOwnerCivilization();
 	}
 

@@ -11,12 +11,24 @@ import utils.Pair;
 import java.util.Arrays;
 import java.util.Vector;
 
+
 public class CityController {
 
     private Game game;
 
     public CityController(Game game){
         this.game = game;
+    }
+
+    public String getNextTiles(City city){
+        Vector<Tile> tiles = city.getNextTiles();
+        StringBuilder stringBuilder = new StringBuilder();
+        for(int i=0; i<tiles.size();i++){
+            stringBuilder.append(i+1).append("- ").append(tiles.get(i).getMapNumber());
+            if(i != tiles.size()-1)
+                stringBuilder.append("\n");
+        }
+        return stringBuilder.toString();
     }
 
     public String changePersonTile(City city, int personId, Tile newTile){
@@ -36,6 +48,11 @@ public class CityController {
             items.append(pair.getFirst().getMapNumber() + " : " + pair.getSecond() + "$\n");
         }
         return items.toString();
+    }
+
+    public String getProductionsListToProduce(City city){
+        Vector<Producible> productions = city.getProductionInventory().getAvailableProductions();
+        return listProductionsAndTurns(productions, city);
     }
 
     public String purchaseTile(City city, int tileIndex){

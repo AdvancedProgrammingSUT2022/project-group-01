@@ -14,7 +14,11 @@ public class Armed extends Unit {
 		super(type, tile, civilization, game);
 	}
 
-	@Override
+    public static Unit spawnArmed(UnitType type, Tile tile, Civilization ownerCivilization) {
+		return null;
+    }
+
+    @Override
 	public void moveTo(Tile tile) {
 		//todo implement here for armed
 		currentTile.removeUnit(this);
