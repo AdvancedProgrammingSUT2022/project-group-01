@@ -1,5 +1,6 @@
 package model.civilization.production;
 
+import model.Notification;
 import model.civilization.Civilization;
 import model.civilization.city.City;
 
@@ -30,6 +31,8 @@ public class ProductionInventory {
 			currentProduction.produce(city);
 			productions.put(currentProduction,(double) currentProduction.getCost(city));
 			currentProduction = null;
+			Notification notification = new Notification(this.city, Notification.NotificationTexts.PRODUCTION_BUILT);
+			this.city.getCivilization().getNotificationInbox().addNotification(notification);
 		}
 	}
 

@@ -28,8 +28,8 @@ public class MapGenerationController extends Controller {
                 map.get(i).add(null);
             }
         }
-        OpenSimplexNoise elevationNoise = new OpenSimplexNoise();
-        OpenSimplexNoise humidityNoise = new OpenSimplexNoise(2);
+        OpenSimplexNoise elevationNoise = new OpenSimplexNoise(123);
+        OpenSimplexNoise humidityNoise = new OpenSimplexNoise(40);
         double[][] elevation;
         double[][] humidity;
         elevation = makeNoise(elevationNoise, mapSize);

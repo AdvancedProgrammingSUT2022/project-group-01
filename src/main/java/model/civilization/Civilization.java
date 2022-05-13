@@ -42,6 +42,7 @@ public class Civilization implements TurnBasedLogic {
 		cities = new Vector<>(); // ADDED BY PRCR
 		resourceRepository = new HashMap<>(); //ADDED BY PRCR
 		techTree = new TechTree(); // TODO ADDED TEMPORARILY BY PRCR
+		this.currency = new Currency(0,0,0); //ADDED BY PRCR temp
 	}
 
 	public TechTree getResearchTree() {
@@ -207,4 +208,6 @@ public class Civilization implements TurnBasedLogic {
 		for(City city : this.getCities()) population += city.getPopulation().size();
 		return population;
 	}
+
+
 }

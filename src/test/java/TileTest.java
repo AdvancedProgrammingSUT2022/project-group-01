@@ -154,8 +154,8 @@ public class TileTest {
 
         Tile tile = spyGame.getCurrentPlayer().getMapCenterTile();
         tile.setCivilization(game.getCurrentPlayer().getCivilization());
-        Armed armed = new Armed(UnitType.WARRIOR,tile,game.getCurrentPlayer().getCivilization(),game);
-        Civilian civilian = new Civilian(UnitType.WORKER,tile,game.getCurrentPlayer().getCivilization(),game);
+        Armed armed = new Armed(UnitType.WARRIOR,tile,game.getCurrentPlayer().getCivilization());
+        Civilian civilian = new Civilian(UnitType.WORKER,tile,game.getCurrentPlayer().getCivilization());
         tile.setArmedUnit(armed);
         tile.setCivilianUnit(civilian);
         tile.setAvailableResource(ResourceType.IRON);
@@ -214,8 +214,8 @@ public class TileTest {
 
        Tile tile = spyGame.getCurrentPlayer().getMapCenterTile();
        tile.setCivilization(game.getCurrentPlayer().getCivilization());
-       Armed armed = new Armed(UnitType.WARRIOR,tile,game.getCurrentPlayer().getCivilization(),game);
-       Civilian civilian = new Civilian(UnitType.WORKER,tile,game.getCurrentPlayer().getCivilization(),game);
+       Armed armed = new Armed(UnitType.WARRIOR,tile,game.getCurrentPlayer().getCivilization());
+       Civilian civilian = new Civilian(UnitType.WORKER,tile,game.getCurrentPlayer().getCivilization());
        tile.setArmedUnit(armed);
        tile.setCivilianUnit(civilian);
        tile.setAvailableResource(ResourceType.IRON);
@@ -249,8 +249,8 @@ public class TileTest {
 
         Tile tile = spyGame.getCurrentPlayer().getMapCenterTile();
         tile.setCivilization(game.getCurrentPlayer().getCivilization());
-        Armed armed = new Armed(UnitType.WARRIOR,tile,game.getCurrentPlayer().getCivilization(),game);
-        Civilian civilian = new Civilian(UnitType.WORKER,tile,game.getCurrentPlayer().getCivilization(),game);
+        Armed armed = new Armed(UnitType.WARRIOR,tile,game.getCurrentPlayer().getCivilization());
+        Civilian civilian = new Civilian(UnitType.WORKER,tile,game.getCurrentPlayer().getCivilization());
         tile.setArmedUnit(armed);
         tile.setCivilianUnit(civilian);
         tile.setAvailableResource(ResourceType.IRON);
@@ -289,43 +289,144 @@ public class TileTest {
         }
     }
 
-//    @Test
-//    public void informationTest(){
-//        User user1 = new User("a","b","c");
-//        User user2 = new User("aa","bb","cc");
-//        TileController.initializeEnums();
-//        Vector<User> vec = new Vector<>(List.of(user1,user2));
-//        GameInitializer gi = new GameInitializer();
-//        Game game = gi.startGame(vec,17);
-//        Game spyGame = spy(game);
-//        MapController mc = new MapController(spyGame);
-//
-//        Tile tile = spyGame.getCurrentPlayer().getMapCenterTile();
-//        tile.setCivilization(game.getCurrentPlayer().getCivilization());
-//        Armed armed = new Armed(UnitType.WARRIOR,tile,game.getCurrentPlayer().getCivilization(),game);
-//        Civilian civilian = new Civilian(UnitType.WORKER,tile,game.getCurrentPlayer().getCivilization(),game);
-//        tile.setArmedUnit(armed);
-//        tile.setCivilianUnit(civilian);
-//        tile.setAvailableResource(ResourceType.IRON);
-//        tile.buildRoad();
-//        tile.buildImprovement(ImprovementType.LUMBER_MILL);
-//        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
-//        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
-//        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
-//        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
-//        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
-//        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
-//        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
-//        Assertions.assertEquals(tile.getImprovementInventoryState(), ProgressState.COMPLETE);
-//        mc.updateSavedMap(game.getCurrentPlayer(),new Vector<>(List.of(tile)),game.getMap());
-//        mc.moveCenterTile(1,"right");
-//        mc.getConsoleMap(tile);
-//        TileController.initializeEnums();
-//        Information information = new Information(game.getCurrentPlayer().getCivilization(),game);
-//        information.cityPanel(null);
-//        System.out.println(information.demographicScreen());
-//    }
+    @Test
+    public void informationTest(){
+        User user1 = new User("a","b","c");
+        User user2 = new User("aa","bb","cc");
+        TileController.initializeEnums();
+        Vector<User> vec = new Vector<>(List.of(user1,user2));
+        GameInitializer gi = new GameInitializer();
+        Game game = gi.startGame(vec,17);
+        Game spyGame = spy(game);
+        MapController mc = new MapController(spyGame);
 
+        Tile tile = spyGame.getCurrentPlayer().getMapCenterTile();
+        tile.setCivilization(game.getCurrentPlayer().getCivilization());
+        Armed armed = new Armed(UnitType.WARRIOR,tile,game.getCurrentPlayer().getCivilization());
+        Civilian civilian = new Civilian(UnitType.WORKER,tile,game.getCurrentPlayer().getCivilization());
+        tile.setArmedUnit(armed);
+        tile.setCivilianUnit(civilian);
+        tile.setAvailableResource(ResourceType.IRON);
+        tile.buildRoad();
+        tile.buildImprovement(ImprovementType.LUMBER_MILL);
+        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
+        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
+        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
+        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
+        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
+        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
+        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
+        Assertions.assertEquals(tile.getImprovementInventoryState(), ProgressState.COMPLETE);
+        mc.updateSavedMap(game.getCurrentPlayer(),new Vector<>(List.of(tile)),game.getMap());
+        mc.moveCenterTile(1,"right");
+        mc.getConsoleMap(tile);
+        TileController.initializeEnums();
+        City city = new City(game.getCurrentPlayer().getCivilization().getCivilization().getCityNames()[1],game.getCurrentPlayer().getCivilization(),tile);
+        Information information = new Information(game);
+        game.getCurrentPlayer().getCivilization().addNewCity(city);
+        Assertions.assertEquals(city, information.getCityPanelByName(city.getName()));
+        System.out.println(information.demographicScreen());
+        information.cityPanel(city);
+    }
+
+    @Test
+    public void cityTest(){
+        User user1 = new User("a","b","c");
+        User user2 = new User("aa","bb","cc");
+        TileController.initializeEnums();
+        Vector<User> vec = new Vector<>(List.of(user1,user2));
+        GameInitializer gi = new GameInitializer();
+        Game game = gi.startGame(vec,17);
+        Game spyGame = spy(game);
+        MapController mc = new MapController(spyGame);
+
+        Tile tile = spyGame.getCurrentPlayer().getMapCenterTile();
+        tile.setCivilization(game.getCurrentPlayer().getCivilization());
+        Armed armed = new Armed(UnitType.WARRIOR,tile,game.getCurrentPlayer().getCivilization());
+        Civilian civilian = new Civilian(UnitType.WORKER,tile,game.getCurrentPlayer().getCivilization());
+        tile.setArmedUnit(armed);
+        tile.setCivilianUnit(civilian);
+        tile.setAvailableResource(ResourceType.IRON);
+        tile.buildRoad();
+        tile.buildImprovement(ImprovementType.LUMBER_MILL);
+        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
+        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
+        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
+        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
+        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
+        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
+        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
+        Assertions.assertEquals(tile.getImprovementInventoryState(), ProgressState.COMPLETE);
+        mc.updateSavedMap(game.getCurrentPlayer(),new Vector<>(List.of(tile)),game.getMap());
+        mc.moveCenterTile(1,"right");
+        mc.getConsoleMap(tile);
+        TileController.initializeEnums();
+        City city = new City(game.getCurrentPlayer().getCivilization().getCivilization().getCityNames()[1],game.getCurrentPlayer().getCivilization(),tile);
+        game.getCurrentPlayer().getCivilization().addNewCity(city);
+        city.updateBeaker();
+        Unit unit = new Armed(UnitType.WARRIOR,city.getCenterTile(),game.getCurrentPlayer().getCivilization());
+        city.setGarrisonedUnit(unit);
+        city.getGarrisonedUnit();
+        city.updateDefencePower(2);
+        city.setAttackPower(4);
+        Assertions.assertEquals(city.getAttackPower(),4);
+        city.setHealth(10);
+        Assertions.assertEquals(city.getHealth(),10);
+        city.getPurchasableTiles();
+        city.addNewTiles(new Vector<Tile>(List.of(tile)));
+        city.increaseDefencePower(23);
+        city.payCurrency(0,0,0);
+        Assertions.assertEquals(city.getScreen().get("name"), game.getCurrentPlayer().getCivilization().getCivilization().getCityNames()[1]);
+        city.setName("Hi");
+        Assertions.assertEquals("Hi", city.getName());
+        Assertions.assertFalse(city.getTiles().isEmpty());
+        Assertions.assertEquals(city.getCivilization(),game.getCurrentPlayer().getCivilization());
+        Assertions.assertNotNull(city.getCurrency());
+        Assertions.assertNull(city.getProductionInventory());
+        city.setAttackPower(100);
+        city.getAttackPower();
+        city.getHealth();
+    }
+
+    @Test
+    public void improvementTest(){
+        User user1 = new User("a","b","c");
+        User user2 = new User("aa","bb","cc");
+        TileController.initializeEnums();
+        Vector<User> vec = new Vector<>(List.of(user1,user2));
+        GameInitializer gi = new GameInitializer();
+        Game game = gi.startGame(vec,17);
+        Game spyGame = spy(game);
+        MapController mc = new MapController(spyGame);
+
+        Tile tile = spyGame.getCurrentPlayer().getMapCenterTile();
+        tile.setCivilization(game.getCurrentPlayer().getCivilization());
+        Armed armed = new Armed(UnitType.WARRIOR,tile,game.getCurrentPlayer().getCivilization());
+        Civilian civilian = new Civilian(UnitType.WORKER,tile,game.getCurrentPlayer().getCivilization());
+        tile.setArmedUnit(armed);
+        tile.setCivilianUnit(civilian);
+        tile.setAvailableResource(ResourceType.IRON);
+        tile.buildRoad();
+        tile.buildImprovement(ImprovementType.LUMBER_MILL);
+        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
+        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
+        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
+        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
+        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
+        Assertions.assertEquals(tile.getImprovementInventoryState(), ProgressState.IN_PROGRESS);
+        tile.stopImprovementProgress();
+        tile.buildImprovement(ImprovementType.LUMBER_MILL);
+        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
+        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
+        tile.getCurrency();
+        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
+        tile.pillageImprovement();
+        tile.repairImprovement();
+        tile.getCurrency();
+        tile.removeImprovement();
+
+
+    }
 
 
 

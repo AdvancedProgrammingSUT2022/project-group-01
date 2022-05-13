@@ -15,16 +15,16 @@ import model.unit.action.Actions;
 import java.util.*;
 
 public class Information {
-	private Game game;
-	private Civilization civilization;
+	private final Game game;
 
 
-	public Information(Civilization civilization, Game game){
-		this.civilization = civilization;
+
+	public Information(Game game){
 		this.game = game;
 	}
 
 	public String cityListPanel(){
+		Civilization civilization = game.getCurrentPlayer().getCivilization();
 		StringBuilder s = new StringBuilder();
 		s.append("City List :").append("\n");
 		int i = 1;
@@ -40,13 +40,14 @@ public class Information {
 		return s.toString();
 	}
 
-	public City getCityByName(String name){
+	public String getCityPanelByName(String name){
+		Civilization civilization = game.getCurrentPlayer().getCivilization();
 		for(City city : civilization.getCities()){
 			if(city.getName().equals(name)){
-				return city;
+				return cityPanel(city);
 			}
 		}
-		return null;
+		return "It is not a valid city";
 	}
 
 	//city panel
@@ -68,9 +69,14 @@ public class Information {
 		return s.toString();
 	}
 
-
+	public String economicOverview(){
+		StringBuilder s = new StringBuilder();
+		for(City city : game.getCurrentPlayer().getCivilization().getCities())
+			s.append(cityEconomicOverview(city)).append("\n");
+		return s.toString();
+	}
 	// barresi kolli eghtesadi in get cities list
-	public String EconomicOverview(City city){
+	public String cityEconomicOverview(City city){
 		StringBuilder s = new StringBuilder();
 		s.append("City name : ").append(city.getName()).append("\n");
 		s.append("City population : ").append(city.getPopulation()).append("\n");
@@ -110,6 +116,7 @@ public class Information {
 	}
 
 	public String getNotificationsHistory(){
+		Civilization civilization = game.getCurrentPlayer().getCivilization();
 		StringBuilder output = new StringBuilder();
 		output.append("Notifications List").append("\n");
 		for(Notification notification : civilization.getNotificationInbox().getNotifications()){
@@ -119,13 +126,15 @@ public class Information {
 			if(notification.isRead()) output.append("is read");
 			else output.append("not read");
 			output.append("\n");
+			notification.setRead(true);
 		}
 		return output.toString();
 	}
 
 
 	//Panel list yegan ha
-	public String unitPanelUnitList(){
+	public String unitListPanel(){
+		Civilization civilization = game.getCurrentPlayer().getCivilization();
 		StringBuilder s = new StringBuilder();
 		s.append("Units list : ").append("\n");
 		int i = 1;
@@ -143,7 +152,8 @@ public class Information {
 
 	//active unit in Panel List yegan ha
 	public String activeUnit(int i){
-		if(civilization.getUnits().size() < i) return "bruh! enter a valid index" + unitPanelUnitList();
+		Civilization civilization = game.getCurrentPlayer().getCivilization();
+		if(civilization.getUnits().size() < i) return "bruh! enter a valid index" + unitListPanel();
 		Unit selectedUnit = civilization.getUnits().get(i - 1);
 		selectedUnit.wake();
 		game.getCurrentPlayer().setMapCenterTile(selectedUnit.getCurrentTile());
@@ -152,6 +162,7 @@ public class Information {
 
 	// barreC koli nezami dar Panel Yegan ha
 	public String militaryOverview(){
+		Civilization civilization = game.getCurrentPlayer().getCivilization();
 		StringBuilder s = new StringBuilder();
 		s.append("Military Overview :").append("\n");
 		for(Unit unit : civilization.getUnits()){
@@ -171,6 +182,7 @@ public class Information {
 
 	// jamiat shenasi
 	public String demographicScreen(){
+		Civilization civilization = game.getCurrentPlayer().getCivilization();
 		StringBuilder s = new StringBuilder();
 		// Civilization name
 		s.append("Civilization name : ").append("\n");
@@ -338,7 +350,7 @@ public class Information {
 		double sum = 0;
 		for(Player player : game.getPlayers()){
 			civilizations.add(player.getCivilization());
-			sum += getNumberOfCivilizationTiles(civilization);
+			sum += getNumberOfCivilizationTiles(player.getCivilization());
 		}
 		civilizations.sort(new Comparator<>() {
 			@Override
@@ -350,7 +362,7 @@ public class Information {
 			}
 		});
 		return "number of tiles : " + "\n" +
-				"size : " + getNumberOfCivilizationTiles(civilization) + "\n" +
+				"size : " + getNumberOfCivilizationTiles(civ) + "\n" +
 				"max : " + getNumberOfCivilizationTiles(civilizations.get(0))+ "\n" +
 				"min : " + getNumberOfCivilizationTiles(civilizations.get(civilizations.size() - 1)) + "\n" +
 				"average : " + sum / civilizations.size() + "\n" +
@@ -379,7 +391,7 @@ public class Information {
 			}
 		});
 		return "number of units : " + "\n" +
-				"size : " + civilization.getUnits().size() + "\n" +
+				"size : " + civ.getUnits().size() + "\n" +
 				"max : " + civilizations.get(0).getUnits().size()+ "\n" +
 				"min : " + civilizations.get(civilizations.size() - 1).getUnits().size() + "\n" +
 				"average : " + sum / civilizations.size() + "\n" +
@@ -419,6 +431,7 @@ public class Information {
 
 	// Panel Kavosh ha
 	public String researchInfo(){
+		Civilization civilization = game.getCurrentPlayer().getCivilization();
 		return "Research Info" + "\n" +
 				"Current Research :" +
 				civilization.getResearchTree().getCurrentResearch() + "\n" +
@@ -442,6 +455,7 @@ public class Information {
 	public String dealHistoryScreen(){return null;}
 
 
-
+    public void updateInformation() {
+    }
 
 }

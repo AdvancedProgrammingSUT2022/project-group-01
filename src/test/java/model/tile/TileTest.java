@@ -3,14 +3,6 @@ package model.tile;
 import controller.*;
 import model.*;
 
-import java.util.*;
-
-import model.Map;
-import model.civilization.Civilization;
-import model.civilization.Civilizations;
-import model.civilization.city.City;
-import model.improvement.ImprovementType;
-import model.map.OpenSimplexNoise;
 import model.resource.ResourceType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -23,7 +15,7 @@ import java.util.List;
 import java.util.Vector;
 
 import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.when;
+
 @ExtendWith(MockitoExtension.class)
 public class TileTest {
     @Test

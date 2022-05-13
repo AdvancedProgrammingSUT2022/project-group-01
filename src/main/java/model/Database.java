@@ -2,13 +2,14 @@ package model;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import lombok.Getter;
 
 import java.io.*;
 import java.lang.reflect.Type;
 import java.util.Vector;
 
 public class Database {
-
+    @Getter
     private Vector<User> users;
 
     public Database() {

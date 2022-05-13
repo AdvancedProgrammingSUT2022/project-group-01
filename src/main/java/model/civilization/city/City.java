@@ -3,6 +3,7 @@ package model.civilization.city;
 import java.util.*;
 
 import lombok.Getter;
+import model.Notification;
 import model.TurnBasedLogic;
 import model.building.BuildingInventory;
 import model.civilization.Civilization;
@@ -50,6 +51,7 @@ public class City {
 		this.currency = new Currency(5,5,5);//TODO: check this value
 		if(center.getTerrain().equals(Terrain.HILLS))
 			defencePower += 5;
+		this.state = CityState.NORMAL;
 	}
 
 	public Vector<Tile> getTiles() {
@@ -128,6 +130,7 @@ public class City {
 		handlePopulationIncrease();
 		updateBeaker();
 		//todo create notification here
+
 	}
 
 	public Unit getGarrisonedUnit() {

@@ -2,6 +2,7 @@ package model.information;
 
 import lombok.Getter;
 import model.Notification;
+import org.mockito.internal.matchers.Not;
 
 import java.util.Vector;
 
@@ -22,7 +23,14 @@ public class NotificationInbox {
 
     public void markAllAsRead(){
         for(Notification notification : notifications)
-            notification.setRead();
+            notification.readNotification();
+    }
+
+    public void setUnsetTurns(int i){
+        for(Notification notification : notifications){
+            if(notification.getAnnouncementTurn() == -1)
+                notification.setAnnouncementTurn(i);
+        }
     }
 
 
