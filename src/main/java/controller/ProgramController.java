@@ -1,17 +1,22 @@
 package controller;
 
+import controller.civilization.city.CityController;
 import lombok.Getter;
 import lombok.Setter;
 import model.Database;
 import model.Game;
 import model.User;
-import view.*;
+import view.GameMenu;
+import view.LoginMenu;
+import view.MainMenu;
+import view.ProfileMenu;
 
 import java.io.IOException;
 
 public class ProgramController {
 
     private static User loggedInUser = null;
+    @Getter
     protected static Database database = new Database();
     private static Menus currentMenu;
     @Getter @Setter
@@ -52,14 +57,13 @@ public class ProgramController {
                     profileMenu.run();
                 }break;
                 case INFO_MENU:{
-                    /*InfoMenuController infoMenuController = new InfoMenuController(game);
-                    InfoMenu infoMenu = new InfoMenu(infoMenuController);
-                    infoMenu.run();*/
+                    //InfoMenuController infoMenuController = new InfoMenuController(
                 }break;
                 case GAME_MENU:{
                     MapController mapController = new MapController(game);
                     GameController gameController = new GameController(game, mapController);
-                    GameMenuController gameMenuController = new GameMenuController(game,gameController);
+                    CityController cityController = new CityController(game);
+                    GameMenuController gameMenuController = new GameMenuController(game,gameController,cityController);
                     GameMenu gameMenu = new GameMenu(gameMenuController);
                     gameMenu.run();
                 }break;
