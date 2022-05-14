@@ -17,7 +17,6 @@ public enum Commands {
         UNIT_ALERT("unit alert", null,null,0,null),
         UNIT_FORTIFY("unit fortify",null,null,0,null),
         UNIT_FORTIFY_UNTIL_HEAL("unit fortify heal",null,null,0,null),
-        UNIT_GARRISON("unit garrison",null,null,0,null),
         UNIT_SETUP("unit setup ranged",null,null,0,null),
         UNIT_MELEE_ATTACK("unit melee attack", new String[]{"position"}, null,0,null),
         UNIT_RANGED_ATTACK("unit ranged attack", new String[]{"position"}, null,0,null),

@@ -81,7 +81,11 @@ public class Unit {
 
 	public void moveTo(Tile tile) {
 		updateMapAfterMove();
+		if(currentTile.getOwnerCity() != null && currentTile != tile)
+			currentTile.getOwnerCity().setGarrisonedUnit(null);
 		currentTile = tile;
+		if(currentTile.getOwnerCity() != null)
+			currentTile.getOwnerCity().setGarrisonedUnit(this);
 	}
 
 	public TraitsList getTraitsList() {

@@ -2,6 +2,7 @@ package controller;
 
 import controller.civilization.city.CityController;
 import controller.unit.UnitController;
+import controller.unit.WorkerController;
 import model.*;
 import model.civilization.city.City;
 import model.improvement.ImprovementType;
@@ -45,7 +46,7 @@ class GameMenuControllerTest {
         GameInitializer gi = new GameInitializer();
         game = gi.startGame(vec,17);
         mc = new MapController(game);
-        gameMenuController = new GameMenuController(game,new GameController(game,mc),new CityController(game),new UnitController(game));
+        gameMenuController = new GameMenuController(game,new GameController(game,mc),new CityController(game),new UnitController(game), new WorkerController(game));
         game.getMap().getMap();
         game.setMap(game.getMap());
         Tile tile = game.getCurrentPlayer().getMapCenterTile();

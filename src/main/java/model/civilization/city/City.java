@@ -103,7 +103,6 @@ public class City {
 			currency.add(tile.getCurrency());
 			changesOfCurrency.add(tile.getCurrency());
 			Currency cur = tile.getCurrency();
-			System.out.printf("f: %d, g: %d, p: %d\n",(int)cur.getFood(),(int)cur.getGold(),(int) cur.getProduct());
 		}
 		currency.increase(-currency.getGold(),0,0);
 		if((productionInventory.getCurrentProduction() != null) &&(productionInventory.getCurrentProduction().equals(UnitType.SETTLER))){
@@ -115,10 +114,6 @@ public class City {
 	}
 
 	public void changeHealth(double deltaHealth) {
-		System.out.println("###\n".repeat(3));
-		System.out.println(this.name);
-		System.out.println(deltaHealth);
-		System.out.println("###\n".repeat(3));
 		health += deltaHealth;
 		health = Math.min(cityMaxHealth, health);
 		if (health <= 0) {

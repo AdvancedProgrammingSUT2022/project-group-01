@@ -21,7 +21,6 @@ public enum Actions {
 	FORTIFY_UNTIL_HEAL(10,
 			FORTIFY.isPossibleFunc,
 			action -> {
-				System.out.println("!!!!!!!!!!!!!!!!!!!".repeat(1));
 				action.getUnit().changeHealth(+1);
 				if(action.getUnit().getHealth() == Unit.maxHealth)
 					action.completeAction();

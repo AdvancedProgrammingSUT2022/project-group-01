@@ -51,11 +51,6 @@ public class GameMenu{
 			}, Commands.UNIT_FORTIFY_UNTIL_HEAL);
 			put(new CommandAction() {
 				public String action(HashMap<String, String> args) {
-					return controller.unitGarrison(args);
-				}
-			}, Commands.UNIT_GARRISON);
-			put(new CommandAction() {
-				public String action(HashMap<String, String> args) {
 					return controller.unitSetup(args);
 				}
 			}, Commands.UNIT_SETUP);

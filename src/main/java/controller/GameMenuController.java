@@ -25,6 +25,7 @@ import model.unit.civilian.Worker;
 import utils.Commands;
 import utils.StringUtils;
 
+import javax.xml.stream.events.StartDocument;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -174,11 +175,6 @@ public class GameMenuController {
 		if (isAnotherPlayerUnit())
 			return "you don't own this unit";
 		return unitController.fortifyUntilHeal(unit);
-	}
-
-	public String unitGarrison(HashMap<String, String> args) {
-		//todo safar : garisson game.selectedObject
-		return null;//todo return ro dorost kon
 	}
 
 	@GameCommand(command = Commands.UNIT_SETUP)
@@ -749,17 +745,9 @@ public class GameMenuController {
 			return "invalid tile";
 		if(tile.getArmedUnit() == null)
 			return "there isn't any armed unit there";
+
 		Armed target = tile.getArmedUnit();
-		if(target.getOwnerCivilization() == city.getCivilization())
-			return "why do you want to attack your units, are you idiot ?";
-		if(!city.getCenter().getAttackingArea(2, false).contains(tile))
-			return "this unit is not in attack range";
-		if(city.isAttackedThisTurn())
-			return "you already attacked this turn";
-		double damage = city.getAttackPower();
-		target.changeHealth( -(int) (damage * (1 / target.getDefensePower())) );
-		city.setAttackedThisTurn(true);
-		return "Attacked to unit, say goodbye to that bastard";
+		return cityController.cityAttack(city, target, tile);
 	}
 
 	public String showCurrentMap(){

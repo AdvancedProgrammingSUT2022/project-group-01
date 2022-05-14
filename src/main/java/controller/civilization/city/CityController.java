@@ -5,12 +5,11 @@ import model.civilization.Currency;
 import model.civilization.Person;
 import model.civilization.city.City;
 import model.civilization.production.Producible;
-import model.civilization.production.ProductionInventory;
 import model.tile.Tile;
+import model.unit.armed.Armed;
 import utils.Pair;
 
 import java.util.Arrays;
-import java.util.Locale;
 import java.util.Vector;
 
 public class CityController {
@@ -182,4 +181,19 @@ public class CityController {
 
         return "hey cheater, "+resourceName+" increased!";
     }
+
+	public String cityAttack(City city, Armed target, Tile tile) {
+        if(target.getOwnerCivilization() == city.getCivilization())
+            return "why do you want to attack your units, are you idiot ?";
+        if(!city.getCenter().getAttackingArea(2, false).contains(tile))
+            return "this unit is not in attack range";
+        if(city.isAttackedThisTurn())
+            return "you already attacked this turn";
+        double damage = city.getAttackPower();
+        if(city.getGarrisonedUnit() != null)
+            damage += city.getGarrisonedUnit().getType().getCombatStrength();
+        target.changeHealth( -(int) (damage * (1 / target.getDefensePower())) );
+        city.setAttackedThisTurn(true);
+        return "Attacked to unit, say goodbye to that bastard";
+	}
 }

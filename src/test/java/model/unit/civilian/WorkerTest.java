@@ -107,22 +107,22 @@ class WorkerTest {
         // Verify the results
     }
 
-    @Test
-    void testRemoveRoad() {
-        // Setup
-        // Run the test
-        workerUnderTest.removeRoad();
+//    @Test
+//    void testRemoveRoad() {
+//        // Setup
+//        // Run the test
+//        workerUnderTest.removeRoad();
+//
+//        // Verify the results
+//    }
 
-        // Verify the results
-    }
-
-    @Test
-    void testRemoveRail() {
-        // Setup
-        // Run the test
-        workerUnderTest.removeRail();
-
-        // Verify the results
-    }
+//    @Test
+//    void testRemoveRail() {
+//        // Setup
+//        // Run the test
+//        workerUnderTest.removeRail();
+//
+//        // Verify the results
+//    }
 
 }

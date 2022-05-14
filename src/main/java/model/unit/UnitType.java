@@ -121,7 +121,7 @@ public enum UnitType implements Producible {
 
 	@Override
 	public boolean isProducible(City city) {
-		return city.getCivilization().getResearchTree().isResearched(requiredTechs);
+		return requiredResources.isAvailable(city.getCivilization()) && city.getCivilization().getResearchTree().isResearched(requiredTechs);
 	}
 
 	@Override

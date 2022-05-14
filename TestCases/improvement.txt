@@ -27,6 +27,8 @@ get current research
 spawn unit -p 70 -n Tank
 spawn unit -p 95 -n panzer
 spawn unit -p 98 -n infantry
+map show -p 75
+map show -p 70
 select unit armed -p 70
 unit moveto -p 93
 unit moveto -p 117
@@ -161,3 +163,4 @@ select city --name Karakorum
 city attack --target 76
 select unit armed -p 76
 unit info
+cheat next turn

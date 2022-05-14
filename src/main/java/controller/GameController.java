@@ -78,9 +78,11 @@ public class GameController {
 
     public String mapShow(String selectingType, String value) {
         mapController.updateCurrentPlayersMap();
+
         if (selectingType.equals("position")) {
             int position = Integer.parseInt(value);
             mapController.setPosition(position);
+//            return mapShow();
             return "map is set";
         }else if(selectingType.equals("cityname")){
             City city = findCityByName(value);
