@@ -4,6 +4,7 @@ import model.Game;
 import model.Player;
 import model.civilization.Civilization;
 import model.civilization.city.City;
+import model.tile.TerrainFeature;
 import model.tile.Tile;
 import model.unit.armed.Armed;
 import model.unit.civilian.Civilian;
@@ -91,10 +92,8 @@ public class GameController {
         }
     }
 
-
     public String showTileInfo(Tile tile){
-        StringBuilder s = new StringBuilder();
-        s.append("Tile Number : ").append(tile.getMapNumber()).append("\n");
+        StringBuilder s = new StringBuilder().append("Tile Number : ").append(tile.getMapNumber()).append("\n");
         s.append("Terrain : ").append(tile.getTerrain().name()).append("\n");
         s.append("Feature : ");
         if(tile.getFeature() != null) s.append(tile.getFeature().name());
@@ -124,5 +123,13 @@ public class GameController {
         if(tile.getOwnerCity() != null) s.append(tile.getOwnerCity().getName());
         s.append("\n");
         return s.toString();
+    }
+
+    public String cheatSetFeature(Tile tile, TerrainFeature feature){
+        if(tile.getImprovementInAction() != null) return "you can't use cheat on this tile";
+        if(tile.getAvailableResource() != null) return "you can't use cheat on this tile";
+        if(!tile.getTerrain().possibleFeatures.contains(feature)) return "you can't use cheat on this tile";
+        tile.setFeature(feature);
+        return "God's grace has brought you the feature you desired.";
     }
 }

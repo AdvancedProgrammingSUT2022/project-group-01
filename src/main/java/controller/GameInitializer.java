@@ -22,6 +22,7 @@ public class GameInitializer extends Controller{
         return game;
     }
     private void initializeGame(int mapSize){
+        TileController.initializeEnums();
         this.game = new Game(new Vector<>(),mapSize);
         MapGenerationController mapGenerationController = new MapGenerationController(game);
         mapGenerationController.generateMap(mapSize);
@@ -56,6 +57,7 @@ public class GameInitializer extends Controller{
             Tile occupyTile = freeLandList.get(random.nextInt(freeLandList.size()));
             Armed firstWarrior = new Armed(UnitType.WARRIOR, occupyTile,player.getCivilization());
             Settler firstSettler = new Settler(UnitType.SETTLER, occupyTile, player.getCivilization());
+
             occupyTile.setArmedUnit(firstWarrior);
             occupyTile.setCivilianUnit(firstSettler);
             freeLandList.remove(occupyTile);

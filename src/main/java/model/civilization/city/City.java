@@ -3,6 +3,7 @@ package model.civilization.city;
 import java.util.*;
 
 import lombok.Getter;
+import model.Notification;
 import model.TurnBasedLogic;
 import model.building.BuildingInventory;
 import model.civilization.Civilization;
@@ -38,7 +39,6 @@ public class City {
 	private Unit garrisonedUnit;
 	private int beaker = 5;//todo check correct value
 	private int remainedTurnToGrowth = 8;
-	private final int happiness = 0; // TODO : important
 
 	public City(String name, Civilization civilization, Tile center) {
 		this.civilization =  civilization;
@@ -46,6 +46,7 @@ public class City {
 		this.name = name;
 		this.center = center;
 		tiles = new Vector<>();
+		this.productionInventory = new ProductionInventory(this);
 		tiles.add(center);
 		tiles.addAll(center.getAdjacentTiles());
 		nextTiles = new Vector<>();
@@ -58,6 +59,7 @@ public class City {
 			tile.setOwnerCity(this);
 		}
 		this.productionInventory = new ProductionInventory(this);
+		this.state = CityState.NORMAL;
 	}
 
 	public Vector<Tile> getTiles() {
@@ -176,6 +178,10 @@ public class City {
 
 	public Vector<Person> getPopulation() {
 		return population;
+	}
+
+	public Tile getCenterTile() {
+		return center;
 	}
 
 	private void handleNextTiles(){

@@ -11,7 +11,7 @@ import java.util.Vector;
 public class InfoMenuController {
 	private Information information;
 	public InfoMenuController(Game game){
-		information = new Information(game.getCurrentPlayer().getCivilization());
+		information = new Information(game);
 	}
 
 	public TechnologyType getCurrentResearch(){return null; }

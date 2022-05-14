@@ -11,7 +11,7 @@ import model.tile.Tile;
 import java.util.HashMap;
 
 public class SavedMap {
-    HashMap<Tile, SavedMapData> savedMap;
+    private HashMap<Tile, SavedMapData> savedMap;
 
     public SavedMap(Map map, int mapSize) {
         savedMap = new HashMap<>();

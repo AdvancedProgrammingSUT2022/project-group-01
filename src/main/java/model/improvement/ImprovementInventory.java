@@ -1,10 +1,12 @@
 package model.improvement;
 
+import model.Notification;
 import model.ProgressState;
 import model.TurnBasedLogic;
 import model.civilization.Civilization;
 import model.civilization.Currency;
 import model.tile.Tile;
+import org.mockito.internal.matchers.Not;
 
 import javax.swing.plaf.ColorUIResource;
 
@@ -16,6 +18,8 @@ public class ImprovementInventory implements TurnBasedLogic {
 
 	public ImprovementInventory(Tile tile) {
 		this.tile = tile;
+		this.state = ProgressState.COMPLETE;
+		this.turnsLeft = 0;
 	}
 	public void reset(ImprovementType improvement){
 		this.improvement = improvement;
@@ -37,6 +41,8 @@ public class ImprovementInventory implements TurnBasedLogic {
 				}
 				this.state = ProgressState.COMPLETE;
 				removeFromList();
+				Notification notification = new Notification(tile, Notification.NotificationTexts.IMPROVEMENT_BUILT);
+				civilization.getNotificationInbox().addNotification(notification);
 			}
 		}
 	}
@@ -84,27 +90,17 @@ public class ImprovementInventory implements TurnBasedLogic {
 	public void progress(){
 		if(this.state.equals(ProgressState.STOPPED)){
 			this.state = ProgressState.IN_PROGRESS;
-			addToList();
-		}
-	}
-
+			addToList();}}
 	public void repair(){
 		if(this.state.equals(ProgressState.DAMAGED)) {
 			this.turnsLeft = 3;
-			addToList();
-		}
+			addToList();}
 	}
-
-	public void damage(){
-		this.state = ProgressState.DAMAGED;
-	}
+	public void damage(){this.state = ProgressState.DAMAGED;}
 
 	public Currency getCurrency(){
 		Currency currency = new Currency(0,0,0);
 		if(this.improvement == null) return currency;
 		if(!this.state.equals(ProgressState.COMPLETE)) return currency;
 		currency.increase(improvement.goldYield, improvement.productionYield,improvement.foodYield);
-		return currency;
-	}
-
-}
+		return currency;}}

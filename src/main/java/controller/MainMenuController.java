@@ -55,9 +55,12 @@ public class MainMenuController {
 				User user = database.findUserByUsername(set.getValue());
 				if(user == null)
 					return "invalid players!";
+				if(gamePlayers.contains(user))
+					return "invalid players!";
 				gamePlayers.add(user);
 			}
 		}
+
 		GameInitializer gameInitializer = new GameInitializer();
 		Game game = gameInitializer.startGame(gamePlayers, 37);
 		ProgramController.setCurrentMenu(Menus.GAME_MENU);

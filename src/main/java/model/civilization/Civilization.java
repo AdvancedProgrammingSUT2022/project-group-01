@@ -1,8 +1,10 @@
 package model.civilization;
 
+import lombok.Setter;
 import model.TurnBasedLogic;
 import lombok.Getter;
 import model.civilization.city.City;
+import model.information.NotificationInbox;
 import model.map.SavedMap;
 import model.resource.KindsOfResource;
 import model.resource.ResourceType;
@@ -14,7 +16,7 @@ import utils.VectorUtils;
 
 import java.util.HashMap;
 import java.util.Vector;
-
+@Getter @Setter
 public class Civilization implements TurnBasedLogic {
 
 	private Civilizations civilization;//enum
@@ -28,6 +30,8 @@ public class Civilization implements TurnBasedLogic {
 	private HashMap<ResourceType, Integer> resourceRepository;
 	private Vector<Unit> units;//TODO merge with safar
 	private int beaker;
+	@Getter
+	private NotificationInbox notificationInbox = new NotificationInbox();
 
 	private TechTree techTree;//TODO merge with safar
 	private Vector<Civilization> knownCivilizations;
@@ -39,6 +43,7 @@ public class Civilization implements TurnBasedLogic {
 		cities = new Vector<>(); // ADDED BY PRCR
 		resourceRepository = new HashMap<>(); //ADDED BY PRCR
 		techTree = new TechTree(); // TODO ADDED TEMPORARILY BY PRCR
+		this.currency = new Currency(0,0,0); //ADDED BY PRCR temp
 	}
 
 	public TechTree getResearchTree() {
@@ -198,4 +203,6 @@ public class Civilization implements TurnBasedLogic {
 		for(City city : this.getCities()) population += city.getPopulation().size();
 		return population;
 	}
+
+
 }

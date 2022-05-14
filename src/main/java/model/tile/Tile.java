@@ -76,8 +76,8 @@ public class Tile {
 		this.civilization = civilization;
 	}
 	public Currency getCurrency(){
-		Currency output = new Currency(getGoldYield() - getMaintenance(), getProductionYield(), getFoodYield());
-		// Adding Improvement Currency
+		 Currency output = new Currency(getGoldYield() - getMaintenance(), getProductionYield(), getFoodYield());
+		 // Adding Improvement Currency
 		output.add(this.improvementInventory.getCurrency());
 		// Adding Resource Currency
 		if(availableResource != null)
@@ -151,8 +151,6 @@ public class Tile {
 
 	public void buildImprovement(ImprovementType improvement){
 		if(this.improvementInventory != null){
-			System.out.println("improvement " + improvement);
-			System.out.println("fuck " + getImprovementTurnsLeft());
 			if(this.improvementInventory.getImprovement() != null) {
 				if (this.improvementInventory.getImprovement().equals(improvement)) {
 					if (this.improvementInventory.getState().equals(ProgressState.STOPPED))
@@ -179,7 +177,9 @@ public class Tile {
 		this.hasRoad = true;
 	}
 
-	public Boarder getBoarderInfo(int i){return nearbyBoarders[i];}
+	public Boarder getBoarderInfo(int i){
+		return nearbyBoarders[i];
+	}
 	public boolean doesHaveRailRoad() {
 		return hasRailRoad;
 	}
@@ -189,6 +189,10 @@ public class Tile {
 	}
 
 	public boolean hasRiverNearby() {
+		for(Boarder boarder : this.nearbyBoarders) {
+			if(boarder != null)
+				if (boarder.isRiver()) return true;
+		}
 		return false;
 	}
 	public void removeRoads(){
@@ -208,7 +212,7 @@ public class Tile {
 		pCoordinate = p;
 		qCoordinate = q;
 		nearbyBoarders = new Boarder[6];
-		this.mapNumber = number;
+        this.mapNumber = number;
 	}
 
 	public int getFoodYield() {
@@ -268,15 +272,15 @@ public class Tile {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param improvement
 	 */
 	public void removeBuiltImprovements(ImprovementType improvement) {
 		if(improvementInventory.getImprovement() == null) return;
 		if (this.improvementInventory.getImprovement().equals(improvement)){
 			if(this.improvementInventory.getState().equals(ProgressState.COMPLETE))
-				this.improvementInventory = null;
-		}
+				this.improvementInventory.remove();
+			}
 	}
 
 	public void stopImprovementProgress(){
@@ -287,7 +291,7 @@ public class Tile {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param unit
 	 */
 	public void removeUnit(Unit unit) {
@@ -304,7 +308,7 @@ public class Tile {
 	}
 
 	public ImprovementType getBuiltImprovement() {
-		if(this.improvementInventory != null && this.improvementInventory.getState() != null){
+		if(this.improvementInventory != null){
 			if(this.improvementInventory.getState().equals(ProgressState.COMPLETE))
 				return this.improvementInventory.getImprovement();
 		}
