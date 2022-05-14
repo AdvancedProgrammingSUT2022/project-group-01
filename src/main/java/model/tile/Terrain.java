@@ -2,8 +2,11 @@ package model.tile;
 import java.util.List;
 import java.util.Vector;
 
+import lombok.Getter;
 import model.resource.ResourceType;
 import model.resource.*;
+
+@Getter
 public enum Terrain {
 	DESERT(0,0,0,0,1,true,false,true){
 		@Override

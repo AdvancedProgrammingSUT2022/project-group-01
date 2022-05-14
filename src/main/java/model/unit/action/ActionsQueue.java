@@ -16,7 +16,7 @@ public class ActionsQueue {
 	 * Vector of Unit Action and remaining turns Pair to store actions
 	 */
 	private final Vector<Action> queue;
-
+	private boolean didFirst = false;
 	/**
 	 * construct new empty action queue
 	 */
@@ -48,6 +48,10 @@ public class ActionsQueue {
 	 * do the first action in queue
 	 */
 	public void doAction() {
+		if(didFirst){
+			didFirst = false;
+			return ;
+		}
 		if (isEmpty()) return;
 
 		queue.firstElement().doAction();
@@ -91,13 +95,21 @@ public class ActionsQueue {
 	 * remove all element of queue
 	 */
 	public void resetQueue() {
+		didFirst = false;
 		queue.clear();
 	}
 
-	//TODO ADDED BY PARHAM
 	public Action getCurrentAction(){
 		if(queue.isEmpty())
 			return null;
 		return queue.get(0);
+	}
+
+	public void doActionInTurn() {
+		didFirst = true;
+		if (isEmpty()) return;
+
+		queue.firstElement().doAction();
+		removeCompletedAction();
 	}
 }

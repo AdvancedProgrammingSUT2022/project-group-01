@@ -134,3 +134,16 @@ cheat next turn
 cheat next turn
 tile info -p 76
 unit info
+select unit armed -p 75
+unit info
+unit alert
+unit info
+cheat next turn
+spawn unit -p 76 -n Warrior
+cheat next turn
+unit info
+cheat next turn
+cheat next turn
+unit info
+unit moveto -p 98
+unit info

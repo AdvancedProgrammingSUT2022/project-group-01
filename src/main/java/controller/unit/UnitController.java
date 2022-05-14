@@ -20,7 +20,8 @@ public class UnitController {
 	public String foundCity(Settler settler) {
 		if (!settler.canSettle())
 			return "Cannot Settle new city here";
-
+		if(settler.outOfMP())
+			return "unit is out of movement point";
 		settler.settle();
 		return "City Founded";
 	}
@@ -60,7 +61,7 @@ public class UnitController {
 		stringBuilder.append(String.format("Unit is at %d\n", unit.getCurrentTile().getMapNumber()));
 		stringBuilder.append(String.format("Current Health is %d / 10\n", unit.getHealth()));
 		stringBuilder.append(String.format("Unit Type : %s\n", unit.getType().toString()));
-		stringBuilder.append(String.format("remaining Movement Point is %f\n", unit.getMovementPoint()));
+		stringBuilder.append(String.format("remaining Movement Point is %f\n", unit.getRemainingMP()));
 		stringBuilder.append(String.format("current action is %s\n", unit.getJob() == null ? "null" : unit.getJob().toString()));
 		return stringBuilder.toString();
 	}
@@ -88,7 +89,8 @@ public class UnitController {
 
 	public String pillage(Unit unit) {
 		Tile tile = unit.getCurrentTile();
-		// maybe road ? todo
+		if(unit.outOfMP())
+			return "unit is out of movement point";
 		if(tile.getBuiltImprovement() == null)
 			return "there is nothing here to pillage";
 		unit.pillage();
@@ -112,6 +114,8 @@ public class UnitController {
 	}
 
 	public String meleeAttack(Armed armed, Tile tile) {
+		if(armed.outOfMP())
+			return "unit is out of movement point";
 		if(armed.getTraitsList().contains(UnitTraits.NO_MELEE))
 			return "this unit can't melee attack";
 		if(!armed.getCurrentTile().getSight(1).contains(tile))
@@ -132,10 +136,15 @@ public class UnitController {
 				&& (armed.getCurrentTile().getTerrain().isRough()
 				|| (armed.getCurrentTile().getFeature() != null && armed.getCurrentTile().getFeature().isRough())))
 			cityAttackModifier *= 0.5f;
+
+		armed.consumeMP(armed.getTraitsList().contains(UnitTraits.MOVE_AFTER_ATTACK) ? 1 : armed.getRemainingMP());
+
 		return "knives out";
 	}
 
 	public String rangedAttack(RangedUnit ranged, Tile tile) {
+		if(ranged.outOfMP())
+			return "unit is out of movement point";
 		if(ranged.getTraitsList().contains(UnitTraits.NEED_SETUP)
 				&& !(((Siege) ranged).readyToAttack()))
 			return "this unit need setup before attack";
@@ -160,10 +169,15 @@ public class UnitController {
 				&& (ranged.getCurrentTile().getTerrain().isRough()
 				|| (ranged.getCurrentTile().getFeature() != null && ranged.getCurrentTile().getFeature().isRough())))
 			cityAttackModifier *= 0.5f;
+
+		ranged.consumeMP(ranged.getTraitsList().contains(UnitTraits.MOVE_AFTER_ATTACK) ? 1 : ranged.getRemainingMP());
+
 		return "bows out";
 	}
 
 	public String setup(Siege siege) {
+		if(siege.outOfMP())
+			return "unit is out of movement point";
 		if(!siege.getTraitsList().contains(UnitTraits.NEED_SETUP))
 			return "this type of siege doesn't need setup";
 		if(siege.readyToAttack())

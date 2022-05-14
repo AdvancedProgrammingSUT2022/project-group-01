@@ -36,6 +36,7 @@ public enum Actions {
 			action -> {
 				((Siege) action.getUnit()).completeSetup();
 				action.decreaseTurn();
+				action.getUnit().consumeMP(1);
 			}
 	),
 	ALERT(1,
@@ -51,31 +52,30 @@ public enum Actions {
 			action -> {
 				action.getUnit().moveTo(action.getTile());
 				action.decreaseTurn();
+				action.getUnit().consumeMP(action.getUnit().getRemainingMP());
 			}
 	),
 	SETTLE(1,
 			action -> ((Settler) action.getUnit()).canSettle(),
 			action -> {
 				((Settler) action.getUnit()).settle();
+				action.getUnit().consumeMP(action.getUnit().getRemainingMP());
 			}
 	),
 	BUILD_IMPROVEMENT(null,
 			action -> action.getImprovementType().isEligibleToBuild(action.getUnit().getOwnerCivilization(), action.getUnit().getCurrentTile()),
 			action -> {
-				System.err.println("123 : " + action.getUnit().getCurrentTile().getImprovementTurnsLeft());
-
 				action.getUnit().getCurrentTile().buildImprovement(action.getImprovementType());
-//				action.getUnit().getCurrentTile().buildImprovement(action.getImprovementType());
-				System.err.println("123 : " + action.getUnit().getCurrentTile().getImprovementTurnsLeft());
 				action.decreaseTurn();
+				action.getUnit().consumeMP(action.getUnit().getRemainingMP());
 			}
 	),
 	PILLAGE_IMPROVEMENT(1,
 			action -> action.getUnit().getCurrentTile().getBuiltImprovement() != null,
 			action -> {
-				System.out.println("pillaging");
 				action.getUnit().getCurrentTile().pillageImprovement();
 				action.decreaseTurn();
+				action.getUnit().consumeMP(1);
 			}
 	),
 	REMOVE_IMPROVEMENT(1,
@@ -84,6 +84,7 @@ public enum Actions {
 				if(action.isLastTurn())
 					action.getUnit().getCurrentTile().removeImprovement();
 				action.decreaseTurn();
+				action.getUnit().consumeMP(action.getUnit().getRemainingMP());
 			}
 	),
 	REPAIR_IMPROVEMENT(3,
@@ -91,13 +92,12 @@ public enum Actions {
 			action -> {
 				action.getUnit().getCurrentTile().repairImprovement();
 				action.decreaseTurn();
+				action.getUnit().consumeMP(action.getUnit().getRemainingMP());
 			}
 	),
 	PAUSE_IMPROVEMENT(1,
 			action -> action.getUnit().getCurrentTile().getImprovementInventoryState().equals(ProgressState.IN_PROGRESS),
-			action -> {
-
-			}
+			action -> {}
 	),
 	BUILD_ROAD(3,
 			action -> !action.getUnit().getCurrentTile().doesHaveRoad(),
@@ -105,6 +105,7 @@ public enum Actions {
 				if(action.isLastTurn())
 					action.getUnit().getCurrentTile().buildRoad();
 				action.decreaseTurn();
+				action.getUnit().consumeMP(action.getUnit().getRemainingMP());
 			}
 	),
 	BUILD_RAIL(3,
@@ -113,6 +114,7 @@ public enum Actions {
 				if(action.isLastTurn())
 					action.getUnit().getCurrentTile().buildRailRoad();
 				action.decreaseTurn();
+				action.getUnit().consumeMP(action.getUnit().getRemainingMP());
 			}
 	),
 	REMOVE_ROUTE(3,
@@ -122,15 +124,16 @@ public enum Actions {
 				if(action.isLastTurn())
 					action.getUnit().getCurrentTile().removeRoads();
 				action.decreaseTurn();
+				action.getUnit().consumeMP(action.getUnit().getRemainingMP());
 			}
 	),
 	REMOVE_FEATURE(null,
 			action -> action.getUnit().getCurrentTile().getFeature().getRemoveTime() != -1,
 			action -> {
-				System.out.println("removing\n");
 				if(action.isLastTurn())
 					action.getTile().removeFeature();
 				action.decreaseTurn();
+				action.getUnit().consumeMP(action.getUnit().getRemainingMP());
 			}
 	);
 
