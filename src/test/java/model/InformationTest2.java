@@ -57,7 +57,7 @@ class InformationTest2 {
         City city = new City(game.getCurrentPlayer().getCivilization().getCivilization().getCityNames()[1],game.getCurrentPlayer().getCivilization(),tile);
         game.getCurrentPlayer().getCivilization().addNewCity(city);
         city.updateBeaker();
-        Unit unit = new Armed(UnitType.WARRIOR,city.getCenterTile(),game.getCurrentPlayer().getCivilization());
+        Unit unit = new Armed(UnitType.WARRIOR,city.getCenter(),game.getCurrentPlayer().getCivilization());
         city.setGarrisonedUnit(unit);
         unit.moveTo(game.getMap().getTileByNumber(100));
         city.getGarrisonedUnit();

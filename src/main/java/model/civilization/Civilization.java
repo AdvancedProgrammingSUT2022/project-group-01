@@ -16,6 +16,7 @@ import utils.VectorUtils;
 
 import java.util.HashMap;
 import java.util.Vector;
+
 @Getter @Setter
 public class Civilization implements TurnBasedLogic {
 
@@ -25,6 +26,7 @@ public class Civilization implements TurnBasedLogic {
 	private Currency currency;
 	private Currency citiesCurrency;
 	private int happiness = 15;
+	private int happinessBase = 0;
 	private SavedMap map;
 	@Getter
 	private HashMap<ResourceType, Integer> resourceRepository;
@@ -43,7 +45,8 @@ public class Civilization implements TurnBasedLogic {
 		cities = new Vector<>(); // ADDED BY PRCR
 		resourceRepository = new HashMap<>(); //ADDED BY PRCR
 		techTree = new TechTree(); // TODO ADDED TEMPORARILY BY PRCR
-		this.currency = new Currency(0,0,0); //ADDED BY PRCR temp
+		addToList();
+		this.currency = new Currency(0,0,0);
 	}
 
 	public TechTree getResearchTree() {
@@ -68,8 +71,19 @@ public class Civilization implements TurnBasedLogic {
 	}
 
 	private void updateCurrency() {
-		for(City city: cities)
+		for(City city: cities) {
+			if(city == null) {
+				System.out.println("salam2");
+				return;
+			}
+			if(city.getChangesOfCurrency() == null){
+				System.out.println("malam2");
+				return;
+			}
+
 			currency.add(city.getChangesOfCurrency());
+			city.resetChangesOfCurrency();
+		}
 	}
 
 	public void nextTurn(Civilization civilization) {
@@ -97,6 +111,7 @@ public class Civilization implements TurnBasedLogic {
 		for(City city : cities)
 			happiness -= city.getPopulation().size()/5;
 		doResourceHappiness();
+		happiness += happinessBase;
 	}
 
 	public int getHappiness() {
@@ -147,14 +162,6 @@ public class Civilization implements TurnBasedLogic {
 
 	public void deleteCity(City city) {
 		cities.remove(city);
-	}
-
-	private void handleCurrency() {
-		citiesCurrency = new Currency(0, 0, 0);
-		for (City city : cities) {
-			citiesCurrency.add(city.getCurrency());
-		}
-		//todo update unit and ... for currency
 	}
 
 	public City getCapital() {

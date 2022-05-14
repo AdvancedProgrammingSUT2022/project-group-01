@@ -13,7 +13,7 @@ import java.util.function.Function;
 @Getter @Setter
 public class Action {
 	private final Unit unit;
-	private int remainedTurns;
+	private Integer remainedTurns;
 
 	private Tile tile; // Move
 	private ImprovementType improvementType; // Worker
@@ -38,6 +38,10 @@ public class Action {
 
 	public Action(Worker unit, Actions actionType, ImprovementType improvementType){
 		this(unit, actionType);
+		this.remainedTurns = improvementType.getProductionTime(unit.getCurrentTile());
+		System.err.println("?!?@?@");
+		System.err.println(this.remainedTurns);
+		System.err.println(improvementType);
 		this.improvementType = improvementType;
 	}
 
@@ -53,6 +57,8 @@ public class Action {
 		return remainedTurns;
 	}
 	public void doAction(){
+		if(this.improvementType != null)
+			System.err.println(remainedTurns);
 		doActionFunc.accept(this);
 	}
 	public boolean isPossible(){

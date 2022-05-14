@@ -41,7 +41,7 @@ public class Tile {
 	private boolean hasRailRoad;
 	private Boarder[] nearbyBoarders;
 	private boolean isDestroyed;
-	private Vector<Person> peopleInside;
+	private Vector<Person> peopleInside = new Vector<>();
 	private Currency currency;
 	public Civilization getCivilization() {
 		return civilization;
@@ -253,7 +253,7 @@ public class Tile {
 	}
 
 	public boolean isPassable() {
-		return this.terrain.passable;
+		return this.terrain.passable && (this.feature == null || this.feature.passable);
 	}
 
 	public void buildRoute() {
@@ -385,6 +385,7 @@ public class Tile {
 	}
 
 	public int getImprovementTurnsLeft(){
+		if(this.improvementInventory == null) return -1;
 		return this.improvementInventory.getTurnsLeft();
 	}
 

@@ -8,7 +8,7 @@ import model.technology.TechnologyType;
 
 import java.util.Vector;
 
-public enum BuildingType implements Producible {
+public enum BuildingType implements Producible{
 	BARRACKS(80,1,TechnologyType.BRONZE_WORKING,new Vector<>()){
 		@Override
 		public void effect(Player player, City city){
@@ -67,7 +67,7 @@ public enum BuildingType implements Producible {
 		this.maintenance = maintenance;
 		this.requiredTechnology = requiredTechnology;
 		this.necessaryResources = necessaryResources;
-		Producible.productions.add(this);
+		//Producible.productions.add(this);
 	}
 
 	/**

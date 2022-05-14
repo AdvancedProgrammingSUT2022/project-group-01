@@ -24,7 +24,7 @@ public class GameController {
         for(Player player : players){
             Civilization civilization = player.getCivilization();
             for(City city : civilization.getCities()){
-                if(city.getName().equals(name)){
+                if(city.getName().toLowerCase().equals(name)){
                     return city;
                 }}
         }
@@ -42,7 +42,9 @@ public class GameController {
             City city = findCityByName(value);
             if(city == null)
                 return "there is no city with this name";
-            game.setSelectedObject(city);}
+            game.setSelectedObject(city);
+            return "city selected";
+        }
         return "invalid command!";
     }
 
@@ -57,9 +59,12 @@ public class GameController {
             City city = findCityByName(value);
             if(city == null)
                 return "there is no city with this name";
-            mapController.setPosition(city.getCenterTile().getMapNumber());
-            return mapController.getConsoleMap(game.getCurrentPlayer().getMapCenterTile());}
-        else{return "invalid command!";}
+
+            mapController.setPosition(city.getCenter().getMapNumber());
+            return mapController.getConsoleMap(game.getCurrentPlayer().getMapCenterTile());
+        }else{
+            return "invalid command!";
+        }
     }
 
     public String showTileInfo(Tile tile){StringBuilder s = new StringBuilder().append("Tile Number : ").append(tile.getMapNumber()).append("\n");

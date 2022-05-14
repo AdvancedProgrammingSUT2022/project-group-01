@@ -179,6 +179,96 @@ public class GameMenu{
 					return controller.showNextTiles(args);
 				}
 			}, Commands.SHOW_NEXT_TILES);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.purchaseProduction(args);
+				}
+			}, Commands.PURCHASE_PRODUCTION);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.unitActionList(args);
+				}
+			}, Commands.UNIT_ACTION_LIST);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.listOfProductions(args);
+				}
+			}, Commands.LIST_OF_PRODUCTIONS);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.listOfAllProductions(args);
+				}
+			}, Commands.LIST_OF_ALL_OF_PRODUCTIONS);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.setProduction(args);
+				}
+			}, Commands.SET_PRODUCTION);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.getPurchasableTiles(args);
+				}
+			}, Commands.GET_PURCHASABLE_TILES);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.purchaseTile(args);
+				}
+			}, Commands.PURCHASE_TILE);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.purchaseTile(args);
+				}
+			}, Commands.PURCHASE_TILE);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.listOfPopulation(args);
+				}
+			}, Commands.LIST_OF_POPULATION);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.setTileForPopulation(args);
+				}
+			}, Commands.SET_TILE_FOR_POPULATION);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.deletePopulation(args);
+				}
+			}, Commands.DELETE_POPULATION_FROM_TILE);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.buildImprovement(args);
+				}
+			}, Commands.UNIT_BUILD_IMPROVEMENT);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.makeTileVisible(args);
+				}
+			}, Commands.MAKE_TILE_VISIBLE);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.createFeature(args);
+				}
+			}, Commands.CREATE_FEATURE);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.addHappiness(args);
+				}
+			}, Commands.ADD_HAPPINESS);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.addScore(args);
+				}
+			}, Commands.ADD_SCORE);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.nextTurn(args);
+				}
+			}, Commands.NEXT_TURN);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.multiNextTurn(args);
+				}
+			}, Commands.MULTI_NEXT_TURN);
 		}};
 
 	}

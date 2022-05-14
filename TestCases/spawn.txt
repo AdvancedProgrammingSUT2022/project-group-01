@@ -1,5 +1,5 @@
-user login -u ali -p safari
-play game -p1 ali -p2 amnam
+user login -u ali -p 1@3$5^7*9
+play game -p1 ali -p2 ahmad
 spawn unit -p 70 -n Tank
 spawn unit -p 95 -n panzer
 spawn unit -p 98 -n infantry
@@ -12,3 +12,10 @@ cheat next turn
 map show -p 74
 cheat next turn
 map show -p 74
+cheat next turn
+cheat next turn
+map show -p 75
+spawn unit -p 76 -n Worker
+map show -p 75
+select unit civilian -p 76
+unit action list

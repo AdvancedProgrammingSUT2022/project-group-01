@@ -63,6 +63,7 @@ public class Settler extends Civilian {
 		String name = ownerCivilization.getCivilization().getCityNames()[ownerCivilization.getCities().size()];
 		City newCity = new City(name, ownerCivilization, currentTile);//todo implement here (based on difficulty)
 		ownerCivilization.addNewCity(newCity);
+//		currentTile
 		suicide();
 	}
 

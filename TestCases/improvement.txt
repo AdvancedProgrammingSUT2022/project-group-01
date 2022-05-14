@@ -1,0 +1,61 @@
+user login -u ali -p safari
+play game -p1 ali -p2 amnam
+get researchable techs
+add technology -n Agriculture
+add technology -n Agriculture
+get researchable techs
+add technology -n Animal_Husbandry
+add technology -n Archery
+add technology -n Mining
+add technology -n Mining
+get researchable techs
+get current research
+research -n Pottery
+get current research
+add beaker -a 10
+get current research
+add beaker -a 30
+get current research
+get researchable techs
+research -n Masonry
+get current research
+add beaker -a 10
+change research -n Calendar
+get current research
+change research -n Masonry
+get current research
+spawn unit -p 70 -n Tank
+spawn unit -p 95 -n panzer
+spawn unit -p 98 -n infantry
+map show -p 70
+select unit armed -p 70
+map show -p 95
+map show -p 75
+unit moveto -p 75
+cheat next turn
+map show -p 74
+cheat next turn
+map show -p 74
+cheat next turn
+cheat next turn
+map show -p 75
+spawn unit -p 76 -n Worker
+map show -p 75
+select unit civilian -p 76
+unit action list
+unit build improvement -n Miner
+unit build improvement -n Mine
+cheat next turn
+cheat next turn
+cheat next turn
+cheat next turn
+cheat next turn
+cheat next turn
+cheat next turn
+cheat next turn
+cheat next turn
+cheat next turn
+cheat next turn
+cheat next turn
+cheat next turn
+map show -p 75
