@@ -241,7 +241,7 @@ public class GameMenu{
 			}, Commands.UNIT_BUILD_IMPROVEMENT);
 			put(new CommandAction() {
 				public String action(HashMap<String, String> args) {
-					return controller.makeTileVisible(args);
+					return controller.removeFogOfWar(args);
 				}
 			}, Commands.MAKE_TILE_VISIBLE);
 			put(new CommandAction() {
@@ -269,6 +269,21 @@ public class GameMenu{
 					return controller.multiNextTurn(args);
 				}
 			}, Commands.MULTI_NEXT_TURN);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.buildImprovement(args);
+				}
+			}, Commands.UNIT_BUILD_IMPROVEMENT);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.unitInfo(args);
+				}
+			}, Commands.UNIT_INFO);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.damageUnit(args);
+				}
+			}, Commands.DAMAGE_UNIT);
 		}};
 
 	}

@@ -25,11 +25,12 @@ public class ImprovementInventory {
 		this.improvement = improvement;
 		this.turnsLeft = improvement.getProductionTime(this.tile);
 		state = ProgressState.IN_PROGRESS;
+		progress();
 	}
 	public void nextTurn(){
 		if(this.state.equals(ProgressState.IN_PROGRESS) | this.state.equals(ProgressState.DAMAGED)) {
 			this.turnsLeft -= 1;
-			if (this.turnsLeft == 0) {
+			if (this.turnsLeft <= 0) {
 				if(this.state.equals(ProgressState.IN_PROGRESS)) {
 					if ((this.tile != null) && (this.tile.getCivilization() != null) && (this.tile.getAvailableResource() != null)){
 						this.tile.getCivilization().addResource(this.tile.getAvailableResource(), tile.getAvailableResource().outputNumberToCivilization);
@@ -74,7 +75,6 @@ public class ImprovementInventory {
 	}
 
 	public void progress(){
-		if(this.state != ProgressState.IN_PROGRESS)
 			nextTurn();
 	}
 	public void repair(){
@@ -83,7 +83,7 @@ public class ImprovementInventory {
 			}
 	}
 	public void damage(){this.state = ProgressState.DAMAGED;
-	this.turnsLeft = 3;}
+	this.turnsLeft = 0;}
 
 	public Currency getCurrency(){
 		Currency currency = new Currency(0,0,0);

@@ -39,7 +39,6 @@ public class City {
 	private Unit garrisonedUnit;
 	private int beaker = 5;//todo check correct value
 	private int remainedTurnToGrowth = 8;
-	private final int happiness = 0; // TODO : important
 
 	public City(String name, Civilization civilization, Tile center) {
 		this.civilization =  civilization;
@@ -55,11 +54,12 @@ public class City {
 		this.changesOfCurrency = new Currency(5,5,5);
 		if(center.getTerrain().equals(Terrain.HILLS))
 			defencePower += 5;
-		this.state = CityState.NORMAL;
 		for(Tile tile : tiles) {
 			tile.setCivilization(civilization);
 			tile.setOwnerCity(this);
 		}
+		this.productionInventory = new ProductionInventory(this);
+		this.state = CityState.NORMAL;
 	}
 
 	public Vector<Tile> getTiles() {
@@ -139,7 +139,6 @@ public class City {
 		handlePopulationIncrease();
 		updateBeaker();
 		//todo create notification here
-
 	}
 
 	public Unit getGarrisonedUnit() {
@@ -179,6 +178,10 @@ public class City {
 
 	public Vector<Person> getPopulation() {
 		return population;
+	}
+
+	public Tile getCenterTile() {
+		return center;
 	}
 
 	private void handleNextTiles(){

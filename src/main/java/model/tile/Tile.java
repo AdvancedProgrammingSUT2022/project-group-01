@@ -250,7 +250,7 @@ public class Tile {
 	}
 
 	public boolean isPassable() {
-		return this.terrain.passable && (this.feature == null || this.feature.passable);
+		return this.terrain.passable;
 	}
 
 
@@ -369,7 +369,6 @@ public class Tile {
 	}
 
 	public int getImprovementTurnsLeft(){
-		if(this.improvementInventory == null) return -1;
 		return this.improvementInventory.getTurnsLeft();
 	}
 

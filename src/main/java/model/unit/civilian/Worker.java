@@ -68,6 +68,7 @@ public class Worker extends Civilian {
 	}
 
 	public boolean canRemoveRoad() {
-		return currentTile.isHasRoad() || currentTile.isHasRailRoad();
+		// todo
+		return false;
 	}
 }
