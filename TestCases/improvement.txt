@@ -89,4 +89,18 @@ cheat next turn
 map show -p 124
 unit info
 unit action list
-improvement build -n Pasture
+unit pillage
+cheat next turn
+cheat next turn
+map show -p 76
+unit repair
+cheat next turn
+cheat next turn
+map show -p 76
+cheat next turn
+cheat next turn
+map show -p 76
+unit info
+cheat next turn
+cheat next turn
+map show -p 76

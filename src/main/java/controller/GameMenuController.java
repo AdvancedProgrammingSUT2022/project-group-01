@@ -18,7 +18,6 @@ import model.unit.armed.Armed;
 import model.unit.civilian.Civilian;
 import model.unit.civilian.Settler;
 import model.unit.civilian.Worker;
-import org.mockito.exceptions.misusing.CannotVerifyStubOnlyMock;
 import utils.Commands;
 import utils.StringUtils;
 
@@ -29,18 +28,20 @@ public class GameMenuController {
 	private final Game game;
 	private final MapController mapController;
 	private final GameController gameController;
-	private CityController cityController;
 	private final UnitController unitController;
+	private final WorkerController workerController;
+	private CityController cityController;
 
 	/**
 	 * @param
 	 */
-	public GameMenuController(Game game, GameController gameController, CityController cityController, UnitController unitController) {
+	public GameMenuController(Game game, GameController gameController, CityController cityController, UnitController unitController, WorkerController workerController) {
 		this.game = game;
 		mapController = new MapController(game);
 		this.gameController = gameController;
 		this.cityController = cityController;
 		this.unitController = unitController;
+		this.workerController = workerController;
 	}
 
 	//SELECT:
@@ -70,13 +71,17 @@ public class GameMenuController {
 	}
 
 	//UNIT:
+	// todo
 	public String unitMove(HashMap<String, String> args) {
 		//TODO handle for armed unit in next checkpoint
 		int position = Integer.parseInt(args.get("position"));
 		Tile tile = game.getMap().getTileByNumber(position);
 		if (tile == null) return "invalid position";
 		//todo safar: move game.selectedObject -> tile
-		if (!(game.getSelectedObject() instanceof Unit)) return "Selected \"Object\" is not Unit";
+		if (!(game.getSelectedObject() instanceof Unit))
+			return "Selected \"Object\" is not Unit";
+		if (isAnotherPlayerUnit())
+			return "you don't own this unit";
 		Unit unit = (Unit) game.getSelectedObject();
 		unit.goTo(tile);
 		return "Done!";
@@ -87,6 +92,8 @@ public class GameMenuController {
 		System.err.println("We are Here !");
 		if (game.getSelectedObject() == null || !(game.getSelectedObject() instanceof Worker))
 			return "worker is not selected !";
+		if (isAnotherPlayerUnit())
+			return "you don't own this unit";
 		Worker worker = (Worker) game.getSelectedObject();
 
 		StringBuilder actions = new StringBuilder();
@@ -106,17 +113,19 @@ public class GameMenuController {
 	@GameCommand(command = Commands.UNIT_SLEEP)
 	public String unitSleep(HashMap<String, String> args) {
 		Unit unit = getSelectedUnit();
-		if(unit == null)
+		if (unit == null)
 			return "you haven't select any unit";
+		if (isAnotherPlayerUnit())
+			return "you don't own this unit";
 		return unitController.sleep(unit);
 	}
 
 	@GameCommand(command = Commands.DAMAGE_UNIT)
-	public String damageUnit(HashMap<String, String> args){
+	public String damageUnit(HashMap<String, String> args) {
 		if (!isInteger(args.get("amount"))) return "invalid amount";
 		int amount = Integer.parseInt(args.get("amount"));
 		Unit unit = getSelectedUnit();
-		if(unit == null)
+		if (unit == null)
 			return "you haven't select any unit";
 		return unitController.damage(unit, amount);
 	}
@@ -129,16 +138,20 @@ public class GameMenuController {
 	@GameCommand(command = Commands.UNIT_FORTIFY)
 	public String unitFortify(HashMap<String, String> args) {
 		Unit unit = getSelectedUnit();
-		if(unit == null)
+		if (unit == null)
 			return "you haven't select any unit";
+		if (isAnotherPlayerUnit())
+			return "you don't own this unit";
 		return unitController.fortify(unit);
 	}
 
 	@GameCommand(command = Commands.UNIT_FORTIFY_UNTIL_HEAL)
 	public String unitFortifyUntilHeal(HashMap<String, String> args) {
 		Unit unit = getSelectedUnit();
-		if(unit == null)
+		if (unit == null)
 			return "you haven't select any unit";
+		if (isAnotherPlayerUnit())
+			return "you don't own this unit";
 		return unitController.fortifyUntilHeal(unit);
 	}
 
@@ -161,63 +174,69 @@ public class GameMenuController {
 	}
 
 	@GameCommand(command = Commands.UNIT_INFO)
-	public String unitInfo(HashMap<String, String> args){
+	public String unitInfo(HashMap<String, String> args) {
 		Unit unit = getSelectedUnit();
-		if(unit == null)
+		if (unit == null)
 			return "you haven't select any unit";
 		return unitController.info(unit);
 	}
 
 	@GameCommand(command = Commands.UNIT_FOUND_CITY)
 	public String unitFoundCity(HashMap<String, String> args) {
-		//todo safar : call your function here
+		if (getSelectedUnit() == null)
+			return "you haven't select any unit";
+		if (isAnotherPlayerUnit())
+			return "you don't own this unit";
+		if (!(getSelectedUnit() instanceof Settler))
+			return "selected unit is not Settler";
 		Settler settler = (Settler) game.getSelectedObject();
 		UnitController unitController = new UnitController(game);
-		return unitController.foundCity(settler);// return ro ham dorost kon =)
+		return unitController.foundCity(settler);
 	}
 
 	@GameCommand(command = Commands.UNIT_CANCEL_MISSION)
 	public String unitCancelMission(HashMap<String, String> args) {
 		Unit unit = getSelectedUnit();
-		if(unit == null)
+		if (unit == null)
 			return "you haven't select any unit";
+		if (isAnotherPlayerUnit())
+			return "you don't own this unit";
 		return unitController.cancel(unit);
 	}
 
 	@GameCommand(command = Commands.UNIT_WAKE)
 	public String unitWake(HashMap<String, String> args) {
 		Unit unit = getSelectedUnit();
-		if(unit == null)
+		if (unit == null)
 			return "you haven't select any unit";
+		if (isAnotherPlayerUnit())
+			return "you don't own this unit";
 		return unitController.wake(unit);
 	}
 
 	@GameCommand(command = Commands.UNIT_DELETE)
 	public String unitDelete(HashMap<String, String> args) {
 		Unit unit = getSelectedUnit();
-		if(unit == null)
+		if (unit == null)
 			return "you haven't select any unit";
+		if (isAnotherPlayerUnit())
+			return "you don't own this unit";
 		return unitController.delete(unit);
 	}
 
-	public String unitBuild(HashMap<String, String> args) {
-		String buildingItem = args.get("section");//road || rail road ...
-		//todo safar : call your function here
-		return null;// return ro ham dorost kon =)
+	@GameCommand(command = Commands.UNIT_PILLAGE)
+	public String unitPillage(HashMap<String, String> args){
+		Unit unit = getSelectedUnit();
+		if (unit == null)
+			return "you haven't select any unit";
+		if (isAnotherPlayerUnit())
+			return "you don't own this unit";
+		return unitController.pillage(unit);
 	}
 
-	public String unitRemove(HashMap<String, String> args) {
-		String removingItem = args.get("section");//jungle || route
-		//todo safar : call your function here
-		return null;// return ro ham dorost kon =)
-	}
-
-	public String unitRepair(HashMap<String, String> args) {
-		//todo safar : call your function here
-		return null;// return ro ham dorost kon =)
-	}
 
 	//MAP:
+
 	public String mapShow(HashMap<String, String> args) {
 //		System.err.println("???");
 //		System.err.println(game.getMap().getTileByNumber(70).getArmedUnit());
@@ -228,7 +247,6 @@ public class GameMenuController {
 		}
 		return "invalid command!";
 	}
-
 	public String mapMove(HashMap<String, String> args) {
 		String section = args.get("section");
 		int count = Integer.parseInt(args.get("count"));
@@ -236,6 +254,7 @@ public class GameMenuController {
 	}
 
 	//GLOBAL:
+
 	public String menuEnter(HashMap<String, String> args) {
 		String menuName = args.get("section");
 		if (menuName.equals("info")) {
@@ -243,7 +262,6 @@ public class GameMenuController {
 		}
 		return "invalid navigation!";
 	}
-
 	public String menuExit(HashMap<String, String> args) {
 		ProgramController.setCurrentMenu(Menus.MAIN_MENU);
 		return "Done!";
@@ -252,7 +270,6 @@ public class GameMenuController {
 	public String currentMenu(HashMap<String, String> args) {
 		return "Game Menu";
 	}
-
 	public String increaseResource(HashMap<String, String> args) {
 		String resourceName = args.get("section");
 		int amount = Integer.parseInt(args.get("amount"));
@@ -468,7 +485,7 @@ public class GameMenuController {
 	@GameCommand(command = Commands.CHEAT_NEXT_TURN)
 	public String cheatNextTurn(HashMap<String, String> args) {
 		for (Unit unit : game.getCurrentPlayer().getCivilization().getUnits()) {
-			unit.nextTurn();
+//			unit.nextTurn();
 			System.out.println("unit type " + unit.toString());
 		}
 		game.nextTurn();
@@ -477,10 +494,46 @@ public class GameMenuController {
 
 	@GameCommand(command = Commands.UNIT_BUILD_IMPROVEMENT)
 	public String buildImprovement(HashMap<String, String> args) {
-		WorkerController workerController = new WorkerController(game);
-		if (!workerController.checkSelectedObject())
+		if (getSelectedUnit() == null)
+			return "you haven't select any unit";
+		if (!(getSelectedUnit() instanceof Worker))
 			return "worker is not selected !";
-		return workerController.buildImprovement(args.get("name"));
+		if (isAnotherPlayerUnit())
+			return "you don't own this unit";
+		return workerController.buildImprovement((Worker) getSelectedUnit(), getImprovementType(args.get("name")));
+	}
+
+	@GameCommand(command = Commands.UNIT_REMOVE_FEATURE)
+	public String removeFeature(HashMap<String, String> args) {
+		if (getSelectedUnit() == null)
+			return "you haven't select any unit";
+		if (!(getSelectedUnit() instanceof Worker))
+			return "worker is not selected !";
+		if (isAnotherPlayerUnit())
+			return "you don't own this unit";
+		return workerController.removeFeature((Worker) getSelectedUnit());
+	}
+
+	@GameCommand(command = Commands.UNIT_REPAIR)
+	public String unitRepair(HashMap<String, String> args) {
+		if (getSelectedUnit() == null)
+			return "you haven't select any unit";
+		if (!(getSelectedUnit() instanceof Worker))
+			return "worker is not selected !";
+		if (isAnotherPlayerUnit())
+			return "you don't own this unit";
+		return workerController.repair((Worker) getSelectedUnit());
+	}
+
+	@GameCommand(command = Commands.UNIT_REMOVE)
+	public String unitRemove(HashMap<String, String> args) {
+		if (getSelectedUnit() == null)
+			return "you haven't select any unit";
+		if (!(getSelectedUnit() instanceof Worker))
+			return "worker is not selected !";
+		if (isAnotherPlayerUnit())
+			return "you don't own this unit";
+		return workerController.removeImprovement((Worker) getSelectedUnit());
 	}
 
 	private boolean isInteger(String input) {
@@ -492,54 +545,54 @@ public class GameMenuController {
 		return true;
 	}
 
-	public String teleport(HashMap<String, String> args){
+	public String teleport(HashMap<String, String> args) {
 		int position = Integer.parseInt(args.get("position"));
 		Tile tile = game.getMap().getTileByNumber(position);
-		if(tile == null)
+		if (tile == null)
 			return "invalid position";
 		//todo implement here
 		return "teleported";
 	}
 
-	public String makeTileVisible(HashMap<String, String> args){
+	public String makeTileVisible(HashMap<String, String> args) {
 		int position = Integer.parseInt(args.get("position"));
 		Tile tile = game.getMap().getTileByNumber(position);
-		if(tile == null)
+		if (tile == null)
 			return "invalid position";
 		//todo implement here
 		return "teleported";
 	}
 
-	public String addHappiness(HashMap<String, String> args){
+	public String addHappiness(HashMap<String, String> args) {
 		int amount = Integer.parseInt(args.get("amount"));
 		Civilization civilization = game.getCurrentPlayer().getCivilization();
-		civilization.setHappinessBase(civilization.getHappinessBase()+amount);
+		civilization.setHappinessBase(civilization.getHappinessBase() + amount);
 		return "done!";
 	}
 
-	public String createFeature(HashMap<String, String> args){
+	public String createFeature(HashMap<String, String> args) {
 		String type = args.get("type");
 		Tile tile = game.getMap().getTileByNumber(Integer.parseInt(args.get("position")));
-		if(tile == null)
+		if (tile == null)
 			return "invalid position!";
 
 		return "boro badan bia";
 	}
 
-	public String addScore(HashMap<String, String> args){
+	public String addScore(HashMap<String, String> args) {
 		int amount = Integer.parseInt(args.get("amount"));
 		game.getCurrentPlayer().getUser().increaseScore(amount);
 		return "done!";
 	}
 
-	public String nextTurn(HashMap<String, String> args){
+	public String nextTurn(HashMap<String, String> args) {
 		TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
 		return "time flies...";
 	}
 
-	public String multiNextTurn(HashMap<String, String> args){
+	public String multiNextTurn(HashMap<String, String> args) {
 		int count = Integer.parseInt(args.get("count"));
-		for(int i=0;i<count*4;i++){
+		for (int i = 0; i < count * 4; i++) {
 			nextTurn(null);
 		}
 		return "can you travel to past too?\nDone!";
@@ -551,7 +604,19 @@ public class GameMenuController {
 		return (Unit) game.getSelectedObject();
 	}
 
-	public String showPlayer(HashMap<String, String> args){
+	private boolean isAnotherPlayerUnit() {
+		if (getSelectedUnit() == null) return true;
+		return getSelectedUnit().getOwnerCivilization().getPlayer() != game.getCurrentPlayer();
+	}
+
+	private ImprovementType getImprovementType(String name){
+		for (ImprovementType improvement : ImprovementType.values()) {
+			if(improvement.name().toLowerCase().equals(name))
+				return improvement;
+		}
+		return null;
+	}
+	public String showPlayer(HashMap<String, String> args) {
 		return gameController.getPlayerInfo();
 	}
 }

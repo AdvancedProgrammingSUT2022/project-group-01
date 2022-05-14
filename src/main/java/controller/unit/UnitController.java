@@ -4,9 +4,12 @@ import lombok.AllArgsConstructor;
 import model.Game;
 import model.civilization.Currency;
 import model.resource.ResourceType;
+import model.tile.Tile;
 import model.unit.Unit;
 import model.unit.civilian.Civilian;
 import model.unit.civilian.Settler;
+
+import java.lang.management.ThreadInfo;
 
 
 @AllArgsConstructor
@@ -80,5 +83,14 @@ public class UnitController {
 	public String damage(Unit unit, int amount) {
 		unit.changeHealth(-amount);
 		return "damage applied successfully";
+	}
+
+	public String pillage(Unit unit) {
+		Tile tile = unit.getCurrentTile();
+		// maybe road ? todo
+		if(tile.getBuiltImprovement() == null)
+			return "there is nothing here to pillage";
+		unit.pillage();
+		return "your savage unit pillaged this tile !!";
 	}
 }

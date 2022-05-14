@@ -240,6 +240,14 @@ public class Unit{
 	}
 
 	/**
+	 * pillage unit current tile
+	 */
+	public void pillage() {
+		actionsQueue.resetQueue();
+		actionsQueue.addAction(new Action(this, Actions.PILLAGE_IMPROVEMENT));
+	}
+
+	/**
 	 * fortify unit for 1 turn
 	 */
 	public void fortify(){

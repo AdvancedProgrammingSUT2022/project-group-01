@@ -61,28 +61,42 @@ public enum Actions {
 	BUILD_IMPROVEMENT(null,
 			action -> action.getImprovementType().isEligibleToBuild(action.getUnit().getOwnerCivilization(), action.getUnit().getCurrentTile()),
 			action -> {
+				System.err.println("123 : " + action.getUnit().getCurrentTile().getImprovementTurnsLeft());
+
 				action.getUnit().getCurrentTile().buildImprovement(action.getImprovementType());
-				action.getUnit().getCurrentTile().buildImprovement(action.getImprovementType());
+//				action.getUnit().getCurrentTile().buildImprovement(action.getImprovementType());
 				System.err.println("123 : " + action.getUnit().getCurrentTile().getImprovementTurnsLeft());
 				action.decreaseTurn();
 			}
 	),
 	PILLAGE_IMPROVEMENT(1,
 			action -> action.getUnit().getCurrentTile().getBuiltImprovement() != null,
-			action -> action.getUnit().getCurrentTile().pillageImprovement()
+			action -> {
+				System.out.println("pillaging");
+				action.getUnit().getCurrentTile().pillageImprovement();
+				action.decreaseTurn();
+			}
 	),
-	REMOVE_IMPROVEMENT(null,
+	REMOVE_IMPROVEMENT(1,
 			PILLAGE_IMPROVEMENT.isPossibleFunc,
-			action -> action.getUnit().getCurrentTile().removeImprovement()
+			action -> {
+				if(action.isLastTurn())
+					action.getUnit().getCurrentTile().removeImprovement();
+				action.decreaseTurn();
+			}
 	),
-	// TODO : need repair method in Tile
-	REPAIR_IMPROVEMENT(null,
-			null,
-			null
+	REPAIR_IMPROVEMENT(3,
+			action -> action.getUnit().getCurrentTile().isDestroyed(),
+			action -> {
+				action.getUnit().getCurrentTile().repairImprovement();
+				action.decreaseTurn();
+			}
 	),
 	PAUSE_IMPROVEMENT(1,
 			action -> action.getUnit().getCurrentTile().getImprovementInventoryState().equals(ProgressState.IN_PROGRESS),
-			action -> {}
+			action -> {
+
+			}
 	),
 	BUILD_ROAD(1,
 			action -> !action.getUnit().getCurrentTile().doesHaveRoad(),
@@ -99,6 +113,15 @@ public enum Actions {
 	REMOVE_RAIL(1,
 			action -> action.getUnit().getCurrentTile().doesHaveRailRoad(),
 			action -> action.getUnit().getCurrentTile().removeRoads()
+	),
+	REMOVE_FEATURE(null,
+			action -> action.getUnit().getCurrentTile().getFeature().getRemoveTime() != -1,
+			action -> {
+				System.out.println("removing\n");
+				if(action.isLastTurn())
+					action.getTile().removeFeature();
+				action.decreaseTurn();
+			}
 	);
 
 	private final Integer requiredTurns;

@@ -1,0 +1,53 @@
+user login -u ali -p safari
+play game -p1 ali -p2 amnam
+add technology -n Agriculture
+add technology -n Animal_Husbandry
+add technology -n Archery
+add technology -n Mining
+get researchable techs
+spawn unit -p 123 -n Settler
+select unit civilian -p 123
+unit found city
+spawn unit -p 124 -n Worker
+select unit civilian -p 124
+unit action list
+unit info
+improvement build -n Pasture
+cheat next turn
+cheat next turn
+cheat next turn
+cheat next turn
+cheat next turn
+cheat next turn
+cheat next turn
+cheat next turn
+cheat next turn
+cheat next turn
+cheat next turn
+cheat next turn
+map show -p 123
+unit info
+cheat next turn
+cheat next turn
+map show -p 123
+unit info
+unit moveto -p 148
+cheat next turn
+cheat next turn
+map show -p 148
+unit feature remove
+cheat next turn
+cheat next turn
+map show -p 148
+cheat next turn
+cheat next turn
+map show -p 148
+cheat next turn
+cheat next turn
+map show -p 148
+cheat next turn
+cheat next turn
+map show -p 148
+cheat next turn
+cheat next turn
+map show -p 148

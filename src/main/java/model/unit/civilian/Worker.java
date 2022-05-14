@@ -41,7 +41,6 @@ public class Worker extends Civilian {
 		actionsQueue.addAction(new Action(this, Actions.PAUSE_IMPROVEMENT));
 	}
 	public void repairImprovement(){
-		// TODO : update with parham's code
 		actionsQueue.resetQueue();
 		actionsQueue.addAction(new Action(this, Actions.REPAIR_IMPROVEMENT));
 	}
@@ -55,7 +54,8 @@ public class Worker extends Civilian {
 		return feature == TerrainFeature.FOREST || feature == TerrainFeature.JUNGLE || feature == TerrainFeature.MARSH;
 	}
 	public void removeFeature(){
-
+		actionsQueue.resetQueue();
+		actionsQueue.addAction(new Action(this, Actions.REMOVE_FEATURE, currentTile.getFeature()));
 	}
 	public void removeRoad(){
 

@@ -86,9 +86,9 @@ public class GameMenu{
 			}, Commands.UNIT_DELETE);
 			put(new CommandAction() {
 				public String action(HashMap<String, String> args) {
-					return controller.unitBuild(args);
+					return controller.unitPillage(args);
 				}
-			}, Commands.UNIT_BUILD);
+			}, Commands.UNIT_PILLAGE);
 			put(new CommandAction() {
 				public String action(HashMap<String, String> args) {
 					return controller.unitRemove(args);
@@ -289,6 +289,11 @@ public class GameMenu{
 					return controller.showPlayer(args);
 				}
 			}, Commands.SHOW_PLAYER);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.removeFeature(args);
+				}
+			}, Commands.UNIT_REMOVE_FEATURE);
 		}};
 
 	}
