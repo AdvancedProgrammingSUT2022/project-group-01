@@ -1,6 +1,8 @@
 package controller;
 
 import com.raylabz.opensimplex.OpenSimplexNoise;
+import lombok.Getter;
+import lombok.Setter;
 import model.Game;
 
 import model.resource.ResourceType;
@@ -13,6 +15,10 @@ import java.util.Random;
 import java.util.Vector;
 
 public class MapGenerationController extends Controller {
+    @Getter @Setter
+    private int elevationSeed = 25;
+    @Getter @Setter
+    private int humiditySeed = 400;
     private final Game game;
     Random rand = new Random(58);
 
@@ -28,8 +34,8 @@ public class MapGenerationController extends Controller {
                 map.get(i).add(null);
             }
         }
-        OpenSimplexNoise elevationNoise = new OpenSimplexNoise(25);
-        OpenSimplexNoise humidityNoise = new OpenSimplexNoise(400);
+        OpenSimplexNoise elevationNoise = new OpenSimplexNoise(elevationSeed);
+        OpenSimplexNoise humidityNoise = new OpenSimplexNoise(humiditySeed);
         double[][] elevation;
         double[][] humidity;
         elevation = makeNoise(elevationNoise, mapSize);
@@ -130,9 +136,9 @@ public class MapGenerationController extends Controller {
         if (noise < 0.2) return Terrain.DESERT;
         if (noise < 0.4) return Terrain.PLAINS;
         if (noise < 0.5) return Terrain.GRASSLAND;
-        if (noise < 0.6) return Terrain.TUNDRA;
-        if (noise < 0.75) return Terrain.HILLS;
-        if (noise < 0.9) return Terrain.MOUNTAIN;
+        if (noise < 0.58) return Terrain.TUNDRA;
+        if (noise < 0.66) return Terrain.HILLS;
+        if (noise < 0.85) return Terrain.MOUNTAIN;
         return Terrain.SNOW;
     }
 

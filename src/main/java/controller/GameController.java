@@ -26,7 +26,7 @@ public class GameController {
         for (Player player : players) {
             Civilization civilization = player.getCivilization();
             for (City city : civilization.getCities()) {
-                if (city.getName().toLowerCase().equals(name)) {
+                if (city.getName().toLowerCase().equals(name.toLowerCase())) {
                     return city;
                 }
             }
