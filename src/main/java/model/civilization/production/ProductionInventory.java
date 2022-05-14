@@ -14,11 +14,11 @@ public class ProductionInventory {
 	public ProductionInventory(City city) {
 		this.city = city;
 		currentProduction = null;
-		this.productions = new HashMap<>();
 		initList();
 	}
 
-	private void initList(){
+	public void initList(){
+		productions = new HashMap<>();
 		for(Producible producible : Producible.productions){
 			productions.put(producible, (double) producible.getCost(city));
 		}
@@ -42,6 +42,7 @@ public class ProductionInventory {
 	}
 
 	public void setCurrentProduction(Producible producible){
+		initList();
 		this.currentProduction = producible;
 	}
 

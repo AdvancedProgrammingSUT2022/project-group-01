@@ -72,6 +72,21 @@ public class City {
 
 	}
 
+	public void captureCity(Civilization newCivilization){
+		civilization.getCities().remove(this);
+		productionInventory.initList();
+		this.health = cityMaxHealth;
+		remainedTurnToExpansion = turnToExpansion;
+		remainedTurnToGrowth = 8;
+		newCivilization.addNewCity(this);
+		this.civilization = newCivilization;
+		for(Tile tile : tiles){
+			tile.setCivilization(newCivilization);
+			if(tile.getCivilianUnit() != null)
+				tile.getCivilianUnit().setOwnerCivilization(newCivilization);
+		}
+	}
+
 	public Vector<Tile> getTiles() {
 		return tiles;
 	}
@@ -292,5 +307,6 @@ public class City {
 			put("population",String.valueOf(population.size()));
 		}};
 	}
+
 
 }
