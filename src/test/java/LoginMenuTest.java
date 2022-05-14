@@ -80,6 +80,7 @@ public class LoginMenuTest {
     @Test
     public void MenuEnterBeforeLogin(){
         HashMap args = Mockito.mock(HashMap.class);
+        ProgramController.setLoggedInUser(null);
         when(args.get("section")).thenReturn("main");
         String result = loginMenuController.menuEnter(args);
         Assertions.assertEquals(result, "login first!");
