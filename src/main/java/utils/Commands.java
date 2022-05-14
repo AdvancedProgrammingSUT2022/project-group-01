@@ -50,6 +50,7 @@ public enum Commands {
         LIST_OF_POPULATION("list of population",null,null,0,null),
         SET_TILE_FOR_POPULATION("set tile for population", new String[]{"index","position"},null,0,null),
         DELETE_POPULATION_FROM_TILE("delete population from tile", new String[]{"index"},null,0,null),
+        SHOW_TILE_INFO("show tile info", new String[]{"index"},null,0,null),
     //GLOBAL
         MENU_ENTER("menu enter", null, null, 1,null),
         MENU_EXIT("menu exit", null,null,0,null),
