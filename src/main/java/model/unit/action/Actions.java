@@ -61,8 +61,8 @@ public enum Actions {
 	BUILD_IMPROVEMENT(null,
 			action -> action.getImprovementType().isEligibleToBuild(action.getUnit().getOwnerCivilization(), action.getUnit().getCurrentTile()),
 			action -> {
-				System.err.println("123 : " + action.getUnit().getCurrentTile().getImprovementTurnsLeft());
 				action.getUnit().getCurrentTile().buildImprovement(action.getImprovementType());
+				System.err.println("123 : " + action.getUnit().getCurrentTile().getImprovementTurnsLeft());
 				action.decreaseTurn();
 			}
 	),

@@ -68,3 +68,18 @@ unit info
 cheat next turn
 unit info
 cheat next turn
+unit info
+cheat next turn
+unit info
+cheat next turn
+select unit civilian -p 76
+unit moveto -p 123
+cheat next turn
+cheat next turn
+cheat next turn
+cheat next turn
+cheat next turn
+cheat next turn
+map show -p 123
+unit info
+unit action list
