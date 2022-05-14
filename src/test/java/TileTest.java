@@ -385,12 +385,16 @@ public class TileTest {
         city.setAttackPower(100);
         city.getAttackPower();
         city.getHealth();
+
         city.setGarrisonedUnit(null);
         unit.moveTo(tile.getBoarder(5).getOtherTile(tile));
         mc.updateSavedMap(game.getCurrentPlayer(),game.getCurrentPlayer().getCivilization().visibleTiles(),game.getMap());
         mc.moveCenterTile(1,"right");
         mc.getConsoleMap(game.getCurrentPlayer().getMapCenterTile());
     }
+
+    
+
 
     @Test
     public void boarderRemainedTest(){

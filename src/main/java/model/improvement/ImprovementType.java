@@ -6,6 +6,7 @@ import model.technology.TechnologyType;
 import model.tile.Terrain;
 import model.tile.TerrainFeature;
 import model.tile.Tile;
+import utils.StringUtils;
 
 import java.util.List;
 import java.util.Vector;
@@ -217,10 +218,12 @@ public enum ImprovementType {
     }
 
     public boolean isEligibleToBuild(Civilization civilization, Tile tile) {
-        //  just for test todo
-//        if (!(this.canBuiltOnTerrains.contains(tile.getTerrain())
-//                || this.canBuiltOnTerrainFeatures.contains(tile.getFeature())))
-//            return false;
+
+        if (!(this.canBuiltOnTerrains.contains(tile.getTerrain())
+                || this.canBuiltOnTerrainFeatures.contains(tile.getFeature())))
+            return false;
+        if(tile.getCivilization() != civilization)
+            return false;
         return civilization.getResearchTree().isResearched(this.preRequisiteTech);
     }
 
@@ -229,5 +232,10 @@ public enum ImprovementType {
 
 
     public void initializeVectors() {
+    }
+
+    @Override
+    public String toString() {
+        return StringUtils.convertToPascalCase(this.name()).replaceAll("_", " ");
     }
 }

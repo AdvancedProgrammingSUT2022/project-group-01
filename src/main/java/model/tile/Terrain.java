@@ -2,8 +2,11 @@ package model.tile;
 import java.util.List;
 import java.util.Vector;
 
+import lombok.Getter;
 import model.resource.ResourceType;
 import model.resource.*;
+
+@Getter
 public enum Terrain {
 	DESERT(0,0,0,0,1,true,false,true){
 		@Override
@@ -80,5 +83,9 @@ public enum Terrain {
 	public void initializeVectors(){
 		this.possibleResources = new Vector<>();
 		this.possibleFeatures = new Vector<>();
+	}
+
+	public boolean isRough() {
+		return this.equals(HILLS);
 	}
 }

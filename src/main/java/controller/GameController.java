@@ -21,9 +21,11 @@ public class GameController {
         this.mapController = mapController;
     }
 
+
     private City findCityByName(String name) {
         Vector<Player> players = game.getPlayers();
         for (Player player : players) {
+
             Civilization civilization = player.getCivilization();
             for (City city : civilization.getCities()) {
                 if (city.getName().toLowerCase().equals(name.toLowerCase())) {
@@ -34,8 +36,10 @@ public class GameController {
         return null;
     }
 
+
     public String selectCity(String selectingType, String value) {
         if (selectingType.equals("position")) {
+
             Tile tile = game.getMap().getTileByNumber(Integer.parseInt(value));
             if (tile == null)
                 return "Invalid position";
@@ -58,8 +62,10 @@ public class GameController {
         if (selectingType.equals("position")) {
             int position = Integer.parseInt(value);
             mapController.setPosition(position);
+
             return "map is set";
         } else if (selectingType.equals("cityname")) {
+
             City city = findCityByName(value);
             if (city == null)
                 return "there is no city with this name";
@@ -70,12 +76,14 @@ public class GameController {
         }
     }
 
+
     public String mapShow() {
         mapController.updateCurrentPlayersMap();
         return mapController.getConsoleMap(game.getCurrentPlayer().getMapCenterTile());
     }
 
     public String showTileInfo(Tile tile) {
+
         StringBuilder s = new StringBuilder().append("Tile Number : ").append(tile.getMapNumber()).append("\n");
         s.append("Terrain : ").append(tile.getTerrain().name()).append("\n");
         s.append("Feature : ");

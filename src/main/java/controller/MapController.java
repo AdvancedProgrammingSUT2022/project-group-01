@@ -250,10 +250,20 @@ public class MapController extends Controller {
     }
 
     private void setImprovement(Tile tile, ConsoleMap showMap, int xCoordinate, int yCoordinate) {
-        if (tile.getBuiltImprovement() == null) return;
-        String name = ConsoleMap.getRepresentation(tile.getBuiltImprovement());
-        showMap.setScreenMapIndex(xCoordinate - 1, yCoordinate - 2, name);
-        showMap.setScreenMapIndex(xCoordinate, yCoordinate - 2, ConsoleMap.colorCharacter.RESET.color);
+//        if (tile.getBuiltImprovement() == null) return;
+//        String name = ConsoleMap.getRepresentation(tile.getBuiltImprovement());
+//        showMap.setScreenMapIndex(xCoordinate - 1, yCoordinate - 2, name);
+//        showMap.setScreenMapIndex(xCoordinate, yCoordinate - 2, ConsoleMap.colorCharacter.RESET.color);
+        if (tile.getBuiltImprovement() != null) {
+            String name = ConsoleMap.getRepresentation(tile.getBuiltImprovement());
+            showMap.setScreenMapIndex(xCoordinate - 1, yCoordinate - 2, name);
+            showMap.setScreenMapIndex(xCoordinate, yCoordinate - 2, ConsoleMap.colorCharacter.RESET.color);
+        }else if(tile.getImprovementInventoryState().equals(ProgressState.DAMAGED)){
+            if(tile.getImprovementInventory().getImprovement() != null){
+                String name = ConsoleMap.getRepresentation("_");
+                showMap.setScreenMapIndex(xCoordinate - 1, yCoordinate - 2, name);
+            }
+        }
     }
 
     private void setResource(String color, ConsoleMap showMap, int xCoordinate, int yCoordinate) {

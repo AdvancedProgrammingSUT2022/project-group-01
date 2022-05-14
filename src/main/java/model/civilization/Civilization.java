@@ -13,6 +13,7 @@ import model.technology.TechTree;
 import model.technology.TechnologyType;
 import model.tile.Tile;
 import model.unit.Unit;
+import model.unit.trait.UnitTraits;
 import utils.VectorUtils;
 
 import java.util.HashMap;
@@ -141,11 +142,12 @@ public class Civilization implements TurnBasedLogic {
 		for (City city : cities) {
 			ourCells.addAll(city.getTiles());
 		}
-		for (Unit unit : units) {
-//			System.err.println(unit.getCurrentTile().getMapNumber());
-			ourCells.add(unit.getCurrentTile());
-		}
 		Vector<Tile> out = new Vector<>();
+		for (Unit unit : units) {
+			out.addAll(unit.getCurrentTile().getSight(
+					unit.getTraitsList().contains(UnitTraits.LIMITED_VISIBILITY) ? 1 : 2
+			));
+		}
 		for (Tile tile : ourCells) {
 			out.addAll(tile.getSight(2));
 		}

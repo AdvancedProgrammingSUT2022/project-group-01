@@ -61,9 +61,14 @@ public class GameMenu{
 			}, Commands.UNIT_SETUP);
 			put(new CommandAction() {
 				public String action(HashMap<String, String> args) {
-					return controller.unitAttack(args);
+					return controller.unitMeleeAttack(args);
 				}
-			}, Commands.UNIT_ATTACK);
+			}, Commands.UNIT_MELEE_ATTACK);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.unitRangedAttack(args);
+				}
+			}, Commands.UNIT_RANGED_ATTACK);
 			put(new CommandAction() {
 				public String action(HashMap<String, String> args) {
 					return controller.unitFoundCity(args);
@@ -86,9 +91,9 @@ public class GameMenu{
 			}, Commands.UNIT_DELETE);
 			put(new CommandAction() {
 				public String action(HashMap<String, String> args) {
-					return controller.unitBuild(args);
+					return controller.unitPillage(args);
 				}
-			}, Commands.UNIT_BUILD);
+			}, Commands.UNIT_PILLAGE);
 			put(new CommandAction() {
 				public String action(HashMap<String, String> args) {
 					return controller.unitRemove(args);
@@ -271,6 +276,21 @@ public class GameMenu{
 			}, Commands.MULTI_NEXT_TURN);
 			put(new CommandAction() {
 				public String action(HashMap<String, String> args) {
+					return controller.buildImprovement(args);
+				}
+			}, Commands.UNIT_BUILD_IMPROVEMENT);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.unitInfo(args);
+				}
+			}, Commands.UNIT_INFO);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.damageUnit(args);
+				}
+			}, Commands.DAMAGE_UNIT);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
 					return controller.showPlayer(args);
 				}
 			}, Commands.SHOW_PLAYER);
@@ -299,6 +319,35 @@ public class GameMenu{
 					return controller.destroyCity(args);
 				}
 			}, Commands.DESTROY);
+					return controller.removeFeature(args);
+				}
+			}, Commands.UNIT_REMOVE_FEATURE);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.buildRoad(args);
+				}
+			}, Commands.UNIT_BUILD_ROAD);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.buildRail(args);
+				}
+			}, Commands.UNIT_BUILD_RAIL);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.removeRoute(args);
+				}
+			}, Commands.UNIT_REMOVE_ROUTE);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.tileInfo(args);
+				}
+			}, Commands.TILE_INFO);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.cityAttack(args);
+				}
+			}, Commands.CITY_ATTACK);
+
 		}};
 
 	}

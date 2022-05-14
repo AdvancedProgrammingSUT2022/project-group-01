@@ -36,13 +36,15 @@ public enum Actions {
 			action -> {
 				((Siege) action.getUnit()).completeSetup();
 				action.decreaseTurn();
+				action.getUnit().consumeMP(1);
 			}
 	),
-	ALERT(-1,
+	ALERT(1,
 			action -> true,
 			action -> {
-				if(action.getUnit().isEnemyNear())
+				if(action.getUnit().isEnemyNear()) {
 					action.completeAction();
+				}
 			}
 	),
 	MOVE(1,
@@ -50,12 +52,14 @@ public enum Actions {
 			action -> {
 				action.getUnit().moveTo(action.getTile());
 				action.decreaseTurn();
+				action.getUnit().consumeMP(action.getUnit().getRemainingMP());
 			}
 	),
 	SETTLE(1,
 			action -> ((Settler) action.getUnit()).canSettle(),
 			action -> {
 				((Settler) action.getUnit()).settle();
+				action.getUnit().consumeMP(action.getUnit().getRemainingMP());
 			}
 	),
 	BUILD_IMPROVEMENT(null,
@@ -64,40 +68,74 @@ public enum Actions {
 				action.getUnit().getCurrentTile().buildImprovement(action.getImprovementType());
 				System.err.println("123 : " + action.getUnit().getCurrentTile().getImprovementTurnsLeft());
 				action.decreaseTurn();
+				action.getUnit().consumeMP(action.getUnit().getRemainingMP());
 			}
 	),
 	PILLAGE_IMPROVEMENT(1,
 			action -> action.getUnit().getCurrentTile().getBuiltImprovement() != null,
-			action -> action.getUnit().getCurrentTile().pillageImprovement()
+			action -> {
+				action.getUnit().getCurrentTile().pillageImprovement();
+				action.decreaseTurn();
+				action.getUnit().consumeMP(1);
+			}
 	),
-	REMOVE_IMPROVEMENT(null,
+	REMOVE_IMPROVEMENT(1,
 			PILLAGE_IMPROVEMENT.isPossibleFunc,
-			action -> action.getUnit().getCurrentTile().removeImprovement()
+			action -> {
+				if(action.isLastTurn())
+					action.getUnit().getCurrentTile().removeImprovement();
+				action.decreaseTurn();
+				action.getUnit().consumeMP(action.getUnit().getRemainingMP());
+			}
 	),
-	// TODO : need repair method in Tile
-	REPAIR_IMPROVEMENT(null,
-			null,
-			null
+	REPAIR_IMPROVEMENT(3,
+			action -> action.getUnit().getCurrentTile().isDestroyed(),
+			action -> {
+				action.getUnit().getCurrentTile().repairImprovement();
+				action.decreaseTurn();
+				action.getUnit().consumeMP(action.getUnit().getRemainingMP());
+			}
 	),
 	PAUSE_IMPROVEMENT(1,
 			action -> action.getUnit().getCurrentTile().getImprovementInventoryState().equals(ProgressState.IN_PROGRESS),
 			action -> {}
 	),
-	BUILD_ROAD(1,
+	BUILD_ROAD(3,
 			action -> !action.getUnit().getCurrentTile().doesHaveRoad(),
-			action -> action.getUnit().getCurrentTile().buildRoad()
+			action -> {
+				if(action.isLastTurn())
+					action.getUnit().getCurrentTile().buildRoad();
+				action.decreaseTurn();
+				action.getUnit().consumeMP(action.getUnit().getRemainingMP());
+			}
 	),
-	BUILD_RAIL(null,
+	BUILD_RAIL(3,
 			action -> !action.getUnit().getCurrentTile().doesHaveRailRoad(),
-			action -> action.getUnit().getCurrentTile().buildRailRoad()
+			action -> {
+				if(action.isLastTurn())
+					action.getUnit().getCurrentTile().buildRailRoad();
+				action.decreaseTurn();
+				action.getUnit().consumeMP(action.getUnit().getRemainingMP());
+			}
 	),
-	REMOVE_ROAD(1,
-			action -> action.getUnit().getCurrentTile().doesHaveRoad(),
-			action -> action.getUnit().getCurrentTile().removeRoads()
+	REMOVE_ROUTE(3,
+			action -> action.getUnit().getCurrentTile().doesHaveRoad()
+					|| action.getUnit().getCurrentTile().doesHaveRailRoad(),
+			action -> {
+				if(action.isLastTurn())
+					action.getUnit().getCurrentTile().removeRoads();
+				action.decreaseTurn();
+				action.getUnit().consumeMP(action.getUnit().getRemainingMP());
+			}
 	),
-	REMOVE_RAIL(1,
-			action -> action.getUnit().getCurrentTile().doesHaveRailRoad(),
-			action -> action.getUnit().getCurrentTile().removeRoads()
+	REMOVE_FEATURE(null,
+			action -> action.getUnit().getCurrentTile().getFeature().getRemoveTime() != -1,
+			action -> {
+				if(action.isLastTurn())
+					action.getTile().removeFeature();
+				action.decreaseTurn();
+				action.getUnit().consumeMP(action.getUnit().getRemainingMP());
+			}
 	);
 
 	private final Integer requiredTurns;
