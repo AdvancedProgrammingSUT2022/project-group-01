@@ -31,12 +31,11 @@ public class Tile {
 	private Terrain terrain;
 	private TerrainFeature feature;
 	private Civilization civilization;
-	private Player player;
 	private City ownerCity;
 	private Armed armedUnit;
 	private Civilian civilianUnit;
 	private ImprovementInventory improvementInventory = new ImprovementInventory(this);
-	private MiscellaneousTileActionsInventory miscellaneousTileActionsInventory;
+	private MiscellaneousTileActionsInventory miscellaneousTileActionsInventory = new MiscellaneousTileActionsInventory(this);
 	private ResourceType availableResource;
 	private boolean hasRoad;
 	private boolean hasRailRoad;
@@ -139,7 +138,6 @@ public class Tile {
 		pCoordinate = p;
 		qCoordinate = q;
 		this.mapNumber = number;
-		this.miscellaneousTileActionsInventory = new MiscellaneousTileActionsInventory(this);
 	}
 
 	public void addPerson(Person person) {
@@ -176,7 +174,6 @@ public class Tile {
 	public void buildRoad() {
 		this.hasRoad = true;
 	}
-
 	public Boarder getBoarderInfo(int i){
 		return nearbyBoarders[i];
 	}
@@ -271,10 +268,6 @@ public class Tile {
 		this.feature = null;
 	}
 
-	/**
-	 * 
-	 * @param improvement
-	 */
 	public void removeBuiltImprovements(ImprovementType improvement) {
 		if(improvementInventory.getImprovement() == null) return;
 		if (this.improvementInventory.getImprovement().equals(improvement)){
@@ -283,17 +276,13 @@ public class Tile {
 			}
 	}
 
-	public void stopImprovementProgress(){
-		if(this.improvementInventory != null){
-			if(this.improvementInventory.getState().equals(ProgressState.IN_PROGRESS))
+	public void stopImprovementProgress() {
+		if (this.improvementInventory != null) {
+			if (this.improvementInventory.getState().equals(ProgressState.IN_PROGRESS))
 				this.improvementInventory.stop();
 		}
 	}
 
-	/**
-	 * 
-	 * @param unit
-	 */
 	public void removeUnit(Unit unit) {
 		if(this.civilianUnit != null && this.civilianUnit.equals(unit))
 			this.civilianUnit = null;

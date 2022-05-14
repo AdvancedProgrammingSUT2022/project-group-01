@@ -136,6 +136,7 @@ public class TileTest3 {
         tile.buildRoad();
         Assertions.assertTrue(tile.doesHaveRoad());
         tile.doesHaveRoad();
+        tile.doesHaveRailRoad();
         tile.buildRailRoad();
         tile.removeBuiltImprovements(ImprovementType.CAMP);
         Assertions.assertFalse(tile.isDestroyed());
@@ -152,6 +153,7 @@ public class TileTest3 {
         tile.removePerson(person);
         Assertions.assertTrue(tile.getPeopleInside().isEmpty());
     }
+
 
 
 
