@@ -1,16 +1,11 @@
-package model;
+package controller;
 
-import controller.GameInitializer;
-import controller.MapController;
-import controller.TileController;
-import model.civilization.Civilization;
-import model.civilization.Civilizations;
-import model.civilization.Currency;
-import model.civilization.Trade;
+import controller.civilization.city.CityController;
+import controller.unit.UnitController;
+import model.*;
 import model.civilization.city.City;
 import model.improvement.ImprovementType;
 import model.resource.ResourceType;
-import model.tile.Terrain;
 import model.tile.TerrainFeature;
 import model.tile.Tile;
 import model.unit.Unit;
@@ -25,17 +20,22 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class GameTest {
+class GameMenuControllerTest {
     private static Game game;
     private static MapController mc;
+    private static GameMenuController gameMenuController;
     @BeforeAll
     public static void beforechert(){
         User user1 = new User("a","b","c");
@@ -45,6 +45,9 @@ class GameTest {
         GameInitializer gi = new GameInitializer();
         game = gi.startGame(vec,17);
         mc = new MapController(game);
+        gameMenuController = new GameMenuController(game,new GameController(game,mc),new CityController(game),new UnitController(game));
+        game.getMap().getMap();
+        game.setMap(game.getMap());
         Tile tile = game.getCurrentPlayer().getMapCenterTile();
         tile.setCivilization(game.getCurrentPlayer().getCivilization());
         Armed armed = new Armed(UnitType.WARRIOR,tile,game.getCurrentPlayer().getCivilization());
@@ -53,7 +56,6 @@ class GameTest {
         tile.setCivilianUnit(civilian);
         tile.setAvailableResource(ResourceType.IRON);
         tile.buildRoad();
-        tile.buildImprovement(ImprovementType.LUMBER_MILL);
         tile.buildImprovement(ImprovementType.LUMBER_MILL);
         tile.buildImprovement(ImprovementType.LUMBER_MILL);
         tile.buildImprovement(ImprovementType.LUMBER_MILL);
@@ -78,55 +80,32 @@ class GameTest {
         game.getCurrentPlayer().getMapCenterTile().setOwnerCity(city);
     }
 
-    @Test
-    public void nextTurn(){
-        game.nextTurn();
-        game.nextTurn();
-    }
-
-    @Test
-    public void setCurrentPlayer(){
-        Player player = game.getCurrentPlayer();
-        game.nextTurn();
-        game.setCurrentPlayer(player);
-    }
-
-    @Test
-    public void selectObject(){
-        Unit unit = game.getCurrentPlayer().getMapCenterTile().getArmedUnit();
-        game.setSelectedObject(unit);
-        game.getSelectedObject();
-        Assertions.assertEquals(game.getSelectedObject(), unit);
-    }
-
-    @Test
-    public void civilizationTrade(){
-        game.getTradeForCivilization(game.getCurrentPlayer().getCivilization());
-        Assertions.assertNull(game.getTradeForCivilization(game.getCurrentPlayer().getCivilization()));
-    }
-
-    @Test
-    public void getters(){
-        game.getMap();
-        game.getCurrentPlayer();
-        game.getTurn();
-        game.getPlayers();
-        game.getInformationPanel();
-        game.getTrades();
-    }
-
-    @Test
-    public void increaseTurnTest(){
-        int a = game.getTurn();
-        game.increaseTurn(3);
-        int b = game.getTurn();
-        Assertions.assertEquals(a + 3, b);
-    }
     @Mock
-    Map map2;
+    Armed armed;
+    @Mock
+    Civilian civilian;
     @Test
-    public void setGameMap(){
-        Game game = new Game(new Vector<>(),21);
-        game.setMap(map2);
+    void selectUnitTest(){
+        HashMap<String,String> hashMap1 = new HashMap<>();
+        hashMap1.put("section","armed");
+        int a = game.getCurrentPlayer().getMapCenterTile().getMapNumber();
+        String number = Integer.toString(a);
+        hashMap1.put("position",number);
+       gameMenuController.selectUnit(hashMap1);
+       game.getCurrentPlayer().getMapCenterTile().setArmedUnit(armed);
+        gameMenuController.selectUnit(hashMap1);
+        HashMap<String,String> hashMap2 = new HashMap<>();
+        hashMap2.put("section","civilian");
+        hashMap2.put("position",number);
+        gameMenuController.selectUnit(hashMap2);
+        game.getCurrentPlayer().getMapCenterTile().setCivilianUnit(civilian);
+        gameMenuController.selectUnit(hashMap2);
+        hashMap2.replace("section","chert");
+        gameMenuController.selectUnit(hashMap2);
+    }
+
+    @Test
+    void moveUnitTest(){
+
     }
 }

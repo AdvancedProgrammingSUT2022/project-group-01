@@ -134,7 +134,7 @@ public class MapController extends Controller {
     private void addDiscovered(ConsoleMap showingMap, Tile tile, Player player, int xCoordinate, int yCoordinate) {
         String terrainColor = ConsoleMap.getRepresentation(player.getSavedMap().getTerrain(tile));
         String number = ConsoleMap.colorCharacter.WHITE_BOLD.setTextColor(String.format("%4d", tile.getMapNumber()));
-        // TODO Implement Cities in checkpoint2
+
         // resource
         if ((player.getSavedMap().getResourceTypes(tile) != null) && (tile.getAvailableResource().isVisible(game.getCurrentPlayer().getCivilization()))) {
             String resourceColor = ConsoleMap.getRepresentation(player.getSavedMap().getResourceTypes(tile));
@@ -142,6 +142,10 @@ public class MapController extends Controller {
         }
         // number
         setNumber(number, showingMap, xCoordinate, yCoordinate);
+        //coordinates
+        String x = ConsoleMap.colorCharacter.BLACK.setTextColor(String.format("%2d",2 * tile.getPCoordinate() + tile.getQCoordinate()));
+        String y = ConsoleMap.colorCharacter.BLACK.setTextColor(String.format("%2d", 2 * tile.getQCoordinate() + tile.getPCoordinate()));
+        setCoordinates(x,y,showingMap,xCoordinate,yCoordinate);
         // feature
         if (player.getSavedMap().getFeature(tile) != null) {
             String featureColor = ConsoleMap.getRepresentation(player.getSavedMap().getFeature(tile));

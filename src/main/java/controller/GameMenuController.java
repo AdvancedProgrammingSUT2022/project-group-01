@@ -12,6 +12,7 @@ import model.civilization.city.City;
 import model.improvement.ImprovementType;
 import model.technology.TechTree;
 import model.technology.TechnologyType;
+import model.tile.TerrainFeature;
 import model.tile.Tile;
 import model.unit.Unit;
 import model.unit.UnitType;
@@ -24,8 +25,12 @@ import model.unit.civilian.Worker;
 import utils.Commands;
 import utils.StringUtils;
 
-import java.sql.ParameterMetaData;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import java.util.HashMap;
+import java.util.Set;
 
 public class GameMenuController {
 
@@ -272,14 +277,12 @@ public class GameMenuController {
 	//MAP:
 
 	public String mapShow(HashMap<String, String> args) {
-//		System.err.println("???");
-//		System.err.println(game.getMap().getTileByNumber(70).getArmedUnit());
 		if (args.containsKey("position")) {
 			return gameController.mapShow("position", args.get("position"));
 		} else if (args.containsKey("cityname")) {
 			return gameController.mapShow("cityname", args.get("cityname"));
 		}
-		return "invalid command!";
+		return "invalid command";
 	}
 
 	public String mapMove(HashMap<String, String> args) {
@@ -294,6 +297,7 @@ public class GameMenuController {
 		String menuName = args.get("section");
 		if (menuName.equals("info")) {
 			ProgramController.setCurrentMenu(Menus.INFO_MENU);
+			return "done";
 		}
 		return "invalid navigation!";
 	}
@@ -420,6 +424,7 @@ public class GameMenuController {
 		int civilianIndex = Integer.parseInt(args.get("index"));
 		Tile dest = game.getMap().getTileByNumber(Integer.parseInt(args.get("position")));
 		if (dest == null) return "invalid destination!";
+		if((dest.getOwnerCity() == null) || (!dest.getOwnerCity().equals(city))) return "destination is outside of your city";
 		return cityController.setPopulation(city, civilianIndex, dest);
 	}
 
@@ -624,13 +629,13 @@ public class GameMenuController {
 		return unitController.teleport(getSelectedUnit(), tile);
 	}
 
-	public String makeTileVisible(HashMap<String, String> args) {
+	public String removeFogOfWar(HashMap<String, String> args){
 		int position = Integer.parseInt(args.get("position"));
 		Tile tile = game.getMap().getTileByNumber(position);
 		if (tile == null)
 			return "invalid position";
 		//todo implement here
-		return "teleported";
+		return gameController.cheatRemoveFogOfWar(tile);
 	}
 
 	public String addHappiness(HashMap<String, String> args) {
@@ -640,13 +645,16 @@ public class GameMenuController {
 		return "done!";
 	}
 
-	public String createFeature(HashMap<String, String> args) {
-		String type = args.get("type");
+	public String createFeature(HashMap<String, String> args){
+		String type = args.get("type").toLowerCase();
 		Tile tile = game.getMap().getTileByNumber(Integer.parseInt(args.get("position")));
-		if (tile == null)
-			return "invalid position!";
-
-		return "boro badan bia";
+		if(tile == null)
+			return "invalid position";
+		for(TerrainFeature terrainFeature : TerrainFeature.values()){
+			if(terrainFeature.name().toLowerCase().equals(type))
+				return gameController.cheatSetFeature(tile,terrainFeature);
+		}
+		return "invalid feature";
 	}
 
 	public String addScore(HashMap<String, String> args) {
@@ -662,7 +670,7 @@ public class GameMenuController {
 
 	public String multiNextTurn(HashMap<String, String> args) {
 		int count = Integer.parseInt(args.get("count"));
-		for (int i = 0; i < count * 4; i++) {
+		for(int i=0;i<count*game.getPlayers().size();i++){
 			nextTurn(null);
 		}
 		return "can you travel to past too?\nDone!";
@@ -752,5 +760,27 @@ public class GameMenuController {
 		target.changeHealth( -(int) (damage * (1 / target.getDefensePower())) );
 		city.setAttackedThisTurn(true);
 		return "Attacked to unit, say goodbye to that bastard";
+	}
+
+	public String showCurrentMap(){
+		String s = gameController.mapShow() + "\n";
+		s += "current player : " + game.getCurrentPlayer().getUser().getNickname() + " ";
+		s += "(" + game.getCurrentPlayer().getCivilization().getCivilization().name() + ")";
+		s += "\n" + "turn : " + game.getTurn() + "\n";
+		return s;
+	}
+
+	public String showTileInfo(HashMap<String,String> args){
+		int position = Integer.parseInt(args.get("index"));
+		if(game.getMap().getTileByNumber(position) == null) return "invalid position";
+		return gameController.showTileInfo(game.getMap().getTileByNumber(position));
+	}
+
+	public String destroyCity(HashMap<String, String> args){
+		if(!(game.getSelectedObject() instanceof City))
+			return "select city first";
+		City city = (City) game.getSelectedObject();
+		city.destroy();
+		return "boom!";
 	}
 }

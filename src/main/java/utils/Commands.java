@@ -38,7 +38,7 @@ public enum Commands {
         UNIT_REMOVE_ROUTE("unit route remove", null, null, 0, null),
 
     //MAP
-        MAP_SHOW("map show", null,new String[]{"position","cityname"},0,null),
+        MAP_SHOW("map show", null,new String[]{"position","cityname","current"},0,null),
         MAP_MOVE("map move", new String[]{"count"}, null, 1,null),
         SHOW_NEXT_TILES("show next tiles",null,null,0,null),
         TILE_INFO("tile info", new String[]{"position"}, null, 0, null),
@@ -59,6 +59,8 @@ public enum Commands {
         SET_TILE_FOR_POPULATION("set tile for population", new String[]{"index","position"},null,0,null),
         DELETE_POPULATION_FROM_TILE("delete population from tile", new String[]{"index"},null,0,null),
         CITY_ATTACK("city attack", new String[]{"target"}, null, 0, null),
+        SHOW_TILE_INFO("show tile info", new String[]{"index"},null,0,null),
+        DESTROY("destroy city",null,null,0,null),
     //GLOBAL
         MENU_ENTER("menu enter", null, null, 1,null),
         MENU_EXIT("menu exit", null,null,0,null),

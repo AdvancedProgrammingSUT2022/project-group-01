@@ -211,25 +211,31 @@ public class Tile {
 
 	public int getFoodYield() {
 		int yield = 0;
-		yield += terrain.food;
-		if(feature != null)
-			yield += feature.food;
+		if(!peopleInside.isEmpty()) {
+			yield += terrain.food;
+			if (feature != null)
+				yield += feature.food;
+		}
 		return yield;
 	}
 
 	public int getGoldYield() {
 		int yield = 0;
-		yield += terrain.gold;
-		if(feature != null)
-			yield += feature.gold;
+		if(!peopleInside.isEmpty()) {
+			yield += terrain.gold;
+			if (feature != null)
+				yield += feature.gold;
+		}
 		return yield;
 	}
 
 	public int getProductionYield() {
 		int yield = 0;
-		yield += terrain.production;
-		if(feature != null)
-			yield += feature.production;
+		if(!peopleInside.isEmpty()) {
+			yield += terrain.production;
+			if (feature != null)
+				yield += feature.production;
+		}
 		return yield;
 	}
 

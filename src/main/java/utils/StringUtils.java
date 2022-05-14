@@ -12,4 +12,13 @@ public class StringUtils {
 		}
 		return res.toString();
 	}
+
+	public static String makeNumberSigned(double input){
+		if(input > 0)
+			return "+"+input;
+		else if(input == 0)
+			return String.valueOf(input);
+		else
+			return "-"+input;
+	}
 }

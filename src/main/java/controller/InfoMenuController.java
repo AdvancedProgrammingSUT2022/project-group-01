@@ -36,8 +36,6 @@ public class InfoMenuController {
 
 	public String menuEnter(HashMap<String, String> args){
 		String subMenu = args.get("section");
-		if(currSubMenu != InfoSubMenu.HOME)
-			return "invalid command, if you are in a sub menu try 'exit' :(";
 		switch(subMenu){
 			case "research":{
 				currSubMenu = InfoSubMenu.RESEARCH;
@@ -58,7 +56,7 @@ public class InfoMenuController {
 				return game.getInformationPanel().demographicScreen();
 			}
 			default:{
-				return "invalid sub menu, options are: {research, unit, city, notification, demographic}";
+				return "invalid sub menu, options are: {research, unit, city, notification, demographic}\n or if you are in a sub menu run 'menu exit'";
 			}
 		}
 	}

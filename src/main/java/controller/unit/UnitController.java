@@ -10,6 +10,10 @@ import model.unit.armed.Armed;
 import model.unit.armed.RangedUnit;
 import model.unit.armed.Siege;
 import model.unit.civilian.Civilian;
+import model.civilization.Currency;
+import model.resource.ResourceType;
+import model.unit.Unit;
+import model.unit.civilian.Civilian;
 import model.unit.civilian.Settler;
 import model.unit.trait.UnitTraits;
 
