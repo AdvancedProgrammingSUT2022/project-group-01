@@ -61,9 +61,14 @@ public class GameMenu{
 			}, Commands.UNIT_SETUP);
 			put(new CommandAction() {
 				public String action(HashMap<String, String> args) {
-					return controller.unitAttack(args);
+					return controller.unitMeleeAttack(args);
 				}
-			}, Commands.UNIT_ATTACK);
+			}, Commands.UNIT_MELEE_ATTACK);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.unitRangedAttack(args);
+				}
+			}, Commands.UNIT_RANGED_ATTACK);
 			put(new CommandAction() {
 				public String action(HashMap<String, String> args) {
 					return controller.unitFoundCity(args);

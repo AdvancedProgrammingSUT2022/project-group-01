@@ -14,6 +14,7 @@ import model.unit.action.*;
 import model.unit.armed.Armed;
 import model.unit.civilian.Civilian;
 import model.unit.trait.TraitsList;
+import model.unit.trait.UnitTraits;
 import utils.OrderedPair;
 
 import java.util.Collections;
@@ -166,17 +167,27 @@ public class Unit{
 		return stopTiles;
 	}
 
+	private boolean ZOC(Tile destTile){
+		Vector<Tile> sight = destTile.getSight(1);
+		for (Tile tile : sight) {
+			if(tile.getArmedUnit() == null) continue;
+			if(tile.getArmedUnit().getOwnerCivilization() != ownerCivilization)
+				return true;
+		}
+		return false;
+	}
+
 	private class Distance implements Comparable<Distance> {
 		public static final int infinity = 10000000;
 		private int turn;
-		private int remainedMP;
+		private double remainedMP;
 
-		public Distance(int turn, int remainedMP) {
+		public Distance(int turn, double remainedMP) {
 			this.turn = turn;
 			this.remainedMP = remainedMP;
 		}
 
-		public int getRemainedMP() {
+		public double getRemainedMP() {
 			return remainedMP;
 		}
 
@@ -186,12 +197,12 @@ public class Unit{
 
 		public Distance getDistanceAfter(Tile currentTile, Boarder boarder) {
 			int resultTurn = turn;
-			int resultRemainedMP = remainedMP;
+			double resultRemainedMP = remainedMP;
 			Tile nextTile = boarder.getOtherTile(currentTile);
 			if(!nextTile.isPassable()) {
 				return new Distance(infinity, -1);
 			}
-			if (remainedMP == 0) {
+			if (remainedMP <= 0.01f) {
 				if (turn != 0 && (Unit.this instanceof Armed) && currentTile.getArmedUnit() != null)
 					return new Distance(infinity, -1);
 				if (turn != 0 && (Unit.this instanceof Civilian) && currentTile.getCivilianUnit() != null)
@@ -200,8 +211,15 @@ public class Unit{
 				resultRemainedMP = (int) movementPoint;
 //				System.err.printf("MP is %d\n", movementPoint);
 			}
-//			System.err.println(nextTile.getMovementCost());
-			resultRemainedMP = Math.max(0, resultRemainedMP - (boarder.isRiver() ? resultRemainedMP : nextTile.getMovementCost()));
+			double roadModifier = 1f;
+			if(currentTile.doesHaveRailRoad() && nextTile.doesHaveRailRoad())
+				roadModifier = 2f/3f;
+			if(currentTile.doesHaveRoad() && nextTile.doesHaveRoad())
+				roadModifier = 1f/3f;
+
+			double movementCost = roadModifier * nextTile.getMovementCost(type.getUnitTraits().contains(UnitTraits.NO_TERRAIN_COST));
+			resultRemainedMP = Math.max(0, resultRemainedMP - (boarder.isRiver() || ZOC(nextTile) ?
+					resultRemainedMP : roadModifier * movementCost));
 			return new Distance(resultTurn, resultRemainedMP);
 		}
 
@@ -209,7 +227,7 @@ public class Unit{
 		public int compareTo(Distance o) {
 			if (turn != o.getTurn())
 				return Integer.compare(turn, o.getTurn());
-			return -Integer.compare(remainedMP, o.getRemainedMP());
+			return -Double.compare(remainedMP, o.getRemainedMP());
 		}
 	}
 
@@ -221,6 +239,7 @@ public class Unit{
 	public boolean isEnemyNear(){
 		Vector<Tile> sight = currentTile.getSight(2);
 		for (Tile tile : sight) {
+			if(tile.getArmedUnit() == null) continue;
 			if(tile.getArmedUnit().getOwnerCivilization() != ownerCivilization)
 				return true;
 		}
@@ -287,13 +306,18 @@ public class Unit{
 		actionsQueue.resetQueue();
 	}
 
+	public boolean canGoTo(Tile destination){
+		if(!destination.isPassable())
+			return false;
+		return dijkstra(destination) != null;
+	}
+
 	/**
 	 * move this unit to destination
 	 * @param destTile is destination of this unit
 	 */
 	public void goTo(Tile destTile){
 		Vector<Tile> stopPoints = dijkstra(destTile);
-		// TODO : handle no path condition
 		assert stopPoints != null;
 		System.err.printf("????????????? %d\n", stopPoints.size());
 		actionsQueue.resetQueue();
@@ -305,7 +329,7 @@ public class Unit{
 	}
 
 	public boolean isSleeping(){
-		return getJob() == Actions.SLEEP;
+		return getJob() == Actions.SLEEP || getJob() == Actions.ALERT;
 	}
 
 	public Actions getJob(){

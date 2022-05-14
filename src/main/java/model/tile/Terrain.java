@@ -81,4 +81,8 @@ public enum Terrain {
 		this.possibleResources = new Vector<>();
 		this.possibleFeatures = new Vector<>();
 	}
+
+	public boolean isRough() {
+		return this.equals(HILLS);
+	}
 }

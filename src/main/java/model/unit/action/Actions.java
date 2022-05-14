@@ -38,11 +38,12 @@ public enum Actions {
 				action.decreaseTurn();
 			}
 	),
-	ALERT(-1,
+	ALERT(1,
 			action -> true,
 			action -> {
-				if(action.getUnit().isEnemyNear())
+				if(action.getUnit().isEnemyNear()) {
 					action.completeAction();
+				}
 			}
 	),
 	MOVE(1,

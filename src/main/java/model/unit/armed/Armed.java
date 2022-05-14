@@ -36,7 +36,6 @@ public class Armed extends Unit {
 				return ;
 		}
 		// TODO handle attack
-
 	}
 	public boolean isInAttackRange(Tile targetTile){ return false; }
 	public void addXP(int XP){

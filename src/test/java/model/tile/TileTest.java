@@ -174,7 +174,7 @@ public class TileTest {
 
     @Test
     void testGetMovementCost() throws Exception {
-        assertEquals(0, tileUnderTest.getMovementCost());
+        assertEquals(0, tileUnderTest.getMovementCost(false));
     }
 
     @Test

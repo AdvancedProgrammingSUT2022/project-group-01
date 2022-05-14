@@ -3,13 +3,14 @@ package controller.unit;
 import lombok.AllArgsConstructor;
 import model.Game;
 import model.civilization.Currency;
-import model.resource.ResourceType;
 import model.tile.Tile;
 import model.unit.Unit;
+import model.unit.armed.Armed;
+import model.unit.armed.RangedUnit;
+import model.unit.armed.Siege;
 import model.unit.civilian.Civilian;
 import model.unit.civilian.Settler;
-
-import java.lang.management.ThreadInfo;
+import model.unit.trait.UnitTraits;
 
 
 @AllArgsConstructor
@@ -101,5 +102,64 @@ public class UnitController {
 			return "this tile is not passable";
 		unit.moveTo(tile);
 		return "teleported";
+	}
+
+	public String alert(Unit unit) {
+		if (unit instanceof Civilian)
+			return "this is not an armed unit";
+		unit.alert();
+		return "alert\n";
+	}
+
+	public String meleeAttack(Armed armed, Tile tile) {
+		if(armed.getTraitsList().contains(UnitTraits.NO_MELEE))
+			return "this unit can't melee attack";
+		if(!armed.getCurrentTile().getSight(1).contains(tile))
+			return "this unit is not nearby";
+		// combat unit, phase 2 TODO
+		if(tile.getInnerCity() == null)
+			return "no city in destination tile";
+		if(tile.getInnerCity().getCivilization() == armed.getOwnerCivilization())
+			return "why you want to betray your people ??";
+		// combat with city todo
+
+		double cityAttackModifier = 1;
+		if(armed.getTraitsList().contains(UnitTraits.BONUS_VS_CITY))
+			cityAttackModifier *= 1.25f;
+		if(armed.getTraitsList().contains(UnitTraits.PENALTY_VS_CITIES))
+			cityAttackModifier *= 0.5f;
+		if(armed.getTraitsList().contains(UnitTraits.ROUGH_TERRAIN_PENALTY)
+				&& (armed.getCurrentTile().getTerrain().isRough()
+				|| (armed.getCurrentTile().getFeature() != null && armed.getCurrentTile().getFeature().isRough())))
+			cityAttackModifier *= 0.5f;
+		return "knives out";
+	}
+
+	public String rangedAttack(RangedUnit ranged, Tile tile) {
+		if(ranged.getTraitsList().contains(UnitTraits.NEED_SETUP)
+				&& !(((Siege) ranged).readyToAttack()))
+			return "this unit need setup before attack";
+
+		if(ranged.getTraitsList().contains(UnitTraits.NO_MELEE))
+			return "this unit can't melee attack";
+		boolean haveIndirectFire = ranged.getTraitsList().contains(UnitTraits.INDIRECT_FIRE);
+		if(!ranged.getCurrentTile().getAttackingArea(ranged.getType().getRange(), haveIndirectFire).contains(tile))
+			return "this unit is not in attack range";
+		// combat unit, phase 2 TODO
+		if(tile.getInnerCity() == null)
+			return "no city in destination tile";
+		if(tile.getInnerCity().getCivilization() == ranged.getOwnerCivilization())
+			return "why you want to betray your people ??";
+		// combat with city todo
+		double cityAttackModifier = 1;
+		if(ranged.getTraitsList().contains(UnitTraits.BONUS_VS_CITY))
+			cityAttackModifier *= 1.25f;
+		if(ranged.getTraitsList().contains(UnitTraits.PENALTY_VS_CITIES))
+			cityAttackModifier *= 0.5f;
+		if(ranged.getTraitsList().contains(UnitTraits.ROUGH_TERRAIN_PENALTY)
+				&& (ranged.getCurrentTile().getTerrain().isRough()
+				|| (ranged.getCurrentTile().getFeature() != null && ranged.getCurrentTile().getFeature().isRough())))
+			cityAttackModifier *= 0.5f;
+		return "bows out";
 	}
 }

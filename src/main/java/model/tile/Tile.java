@@ -241,11 +241,10 @@ public class Tile {
 		return cMRate;
 	}
 
-	public int getMovementCost() {
+	public int getMovementCost(boolean noTerrainCost) {
 		int MP = 0;
 		MP += this.terrain.movementCost;
-		if(this.feature != null) MP += this.feature.movementCost;
-		if(doesHaveRoad() || doesHaveRailRoad()) MP /= 4;
+		if(this.feature != null && !noTerrainCost) MP += this.feature.movementCost;
 		return MP;
 	}
 
@@ -313,6 +312,18 @@ public class Tile {
 				out.addAll(adjacentTile.getAdjacentTiles());
 		}
 		return out;
+	}
+	public Vector<Tile> getAttackingArea(int range, boolean indirectFire){
+		Vector<Tile> vis = new Vector<>();
+		vis.add(this);
+		for(int layer = 1; layer <= range; layer ++){
+			int n = vis.size();
+			for (int i = 0; i < n; i++) {
+				if((layer == 1) || indirectFire || (!vis.get(0).terrain.isHighland || this.terrain.isHighland))
+					vis.addAll(vis.get(0).getAdjacentTiles());
+			}
+		}
+		return VectorUtils.unique(vis);
 	}
 
 	public Unit getSameTypeUnit(Unit unit) {
@@ -382,4 +393,10 @@ public class Tile {
 		if(doesHaveRailRoad()) cost += 3;
 		return cost;
 	}
+
+	public City getInnerCity(){
+		if(this.ownerCity == null) return null;
+		return this.ownerCity.getCenter() == this ? this.ownerCity : null;
+	}
+
 }

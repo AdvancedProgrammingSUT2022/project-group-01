@@ -16,6 +16,7 @@ import model.tile.Tile;
 import model.unit.Unit;
 import model.unit.UnitType;
 import model.unit.armed.Armed;
+import model.unit.armed.RangedUnit;
 import model.unit.civilian.Civilian;
 import model.unit.civilian.Settler;
 import model.unit.civilian.Worker;
@@ -74,16 +75,19 @@ public class GameMenuController {
 	//UNIT:
 	// todo
 	public String unitMove(HashMap<String, String> args) {
-		//TODO handle for armed unit in next checkpoint
 		int position = Integer.parseInt(args.get("position"));
 		Tile tile = game.getMap().getTileByNumber(position);
 		if (tile == null) return "invalid position";
-		//todo safar: move game.selectedObject -> tile
 		if (!(game.getSelectedObject() instanceof Unit))
 			return "Selected \"Object\" is not Unit";
 		if (isAnotherPlayerUnit())
 			return "you don't own this unit";
 		Unit unit = (Unit) game.getSelectedObject();
+		if(!unit.canGoTo(tile))
+			return "Can't reach there\n";
+//		if(tile.)
+		// todo fog of war
+
 		unit.goTo(tile);
 		return "Done!";
 	}
@@ -131,9 +135,14 @@ public class GameMenuController {
 		return unitController.damage(unit, amount);
 	}
 
+	@GameCommand(command = Commands.UNIT_ALERT)
 	public String unitAlert(HashMap<String, String> args) {
-		//todo safar : alert game.selectedObject
-		return null;//todo return ro dorost kon
+		Unit unit = getSelectedUnit();
+		if (unit == null)
+			return "you haven't select any unit";
+		if (isAnotherPlayerUnit())
+			return "you don't own this unit";
+		return unitController.alert(unit);
 	}
 
 	@GameCommand(command = Commands.UNIT_FORTIFY)
@@ -166,12 +175,24 @@ public class GameMenuController {
 		return null;//todo return ro dorost kon
 	}
 
-	public String unitAttack(HashMap<String, String> args) {
+	@GameCommand(command = Commands.UNIT_MELEE_ATTACK)
+	public String unitMeleeAttack(HashMap<String, String> args) {
 		int position = Integer.parseInt(args.get("position"));
 		Tile tile = game.getMap().getTileByNumber(position);
 		if (tile == null) return "invalid position!";
-		//todo safar : call your function here
-		return null;// return ro ham dorost kon =)
+		if(getSelectedUnit() == null || !(getSelectedUnit() instanceof Armed))
+			return "you haven't select any armed unit";
+		return unitController.meleeAttack((Armed) getSelectedUnit(), tile);
+	}
+
+	@GameCommand(command = Commands.UNIT_RANGED_ATTACK)
+	public String unitRangedAttack(HashMap<String, String> args) {
+		int position = Integer.parseInt(args.get("position"));
+		Tile tile = game.getMap().getTileByNumber(position);
+		if (tile == null) return "invalid position!";
+		if(getSelectedUnit() == null || !(getSelectedUnit() instanceof RangedUnit))
+			return "you haven't select any ranged unit";
+		return unitController.rangedAttack((RangedUnit) getSelectedUnit(), tile);
 	}
 
 	@GameCommand(command = Commands.UNIT_INFO)

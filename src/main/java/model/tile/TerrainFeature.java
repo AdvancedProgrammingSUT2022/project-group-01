@@ -60,4 +60,8 @@ public enum TerrainFeature {
 	public void initializeVectors(){
 		this.possibleResources = new Vector<>();
 	}
+
+	public boolean isRough() {
+		return this.equals(JUNGLE) || this.equals(FOREST);
+	}
 }

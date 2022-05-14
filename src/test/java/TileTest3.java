@@ -131,7 +131,7 @@ public class TileTest3 {
         Tile tile = new Tile(Terrain.DESERT,TerrainFeature.FOREST,null,ResourceType.IRON,10,101,0);
         tile.removeResource();
         tile.getCombatModifierRate();
-        tile.getMovementCost();
+        tile.getMovementCost(false);
         Assertions.assertTrue(tile.isPassable());
         tile.buildRoad();
         Assertions.assertTrue(tile.doesHaveRoad());

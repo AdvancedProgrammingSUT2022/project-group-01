@@ -17,7 +17,8 @@ public enum Commands {
         UNIT_FORTIFY_UNTIL_HEAL("unit fortify heal",null,null,0,null),
         UNIT_GARRISON("unit garrison",null,null,0,null),
         UNIT_SETUP("unit setup ranged",null,null,0,null),
-        UNIT_ATTACK("unit attack", new String[]{"position"}, null,0,null),
+        UNIT_MELEE_ATTACK("unit melee attack", new String[]{"position"}, null,0,null),
+        UNIT_RANGED_ATTACK("unit ranged attack", new String[]{"position"}, null,0,null),
         UNIT_FOUND_CITY("unit found city",null,null,0,null),
         UNIT_CANCEL_MISSION("unit cancel mission", null,null,0,null),
         UNIT_WAKE("unit wake", null,null,0,null),
@@ -33,6 +34,7 @@ public enum Commands {
         UNIT_BUILD_ROAD("unit road build", null, null, 0, null),
         UNIT_BUILD_RAIL("unit rail build", null, null, 0, null),
         UNIT_REMOVE_ROUTE("unit route remove", null, null, 0, null),
+
     //MAP
         MAP_SHOW("map show", null,new String[]{"position","cityname"},0,null),
         MAP_MOVE("map move", new String[]{"count"}, null, 1,null),
