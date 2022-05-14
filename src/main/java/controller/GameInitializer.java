@@ -45,7 +45,7 @@ public class GameInitializer extends Controller{
     private void civilizationInitializer(){
         int i = 0;
         for(Player player : game.getPlayers()){
-            Civilization civ = new Civilization(Civilizations.values()[i],null);
+            Civilization civ = new Civilization(Civilizations.values()[i],null, player);
             i++;
             player.setCivilization(civ);
         }

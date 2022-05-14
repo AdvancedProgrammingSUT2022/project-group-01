@@ -45,7 +45,7 @@ public class CityController {
         if(tileIndex >= pairs.size()){
             return "invalid index!";
         }
-        Currency currency = city.getCurrency();
+        Currency currency = city.getCivilization().getCurrency();
         Pair<Tile, Integer> pair = pairs.get(tileIndex);
         if(currency.getGold() < pair.getSecond())
             return "you don't have enough gold!";
@@ -132,7 +132,7 @@ public class CityController {
             return "invalid production!";
         if(!producible.isProducible(city))
             return "you don't have necessary technology!";
-        city.getProductionInventory().setCurrentProduction(producible);
+        city.setNewProduction(producible);
         return "done!";
     }
 
@@ -147,11 +147,11 @@ public class CityController {
         if(purchasing == null)
             return "invalid production!";
         int cost = purchasing.getCost(city);
-        if(cost > city.getCurrency().getGold())
+        Currency currency = city.getCivilization().getCurrency();
+        if(cost > currency.getGold())
             return "you don't have enough gold!";
-        city.payCurrency(cost, 0,0);
+        currency.increase(-1*cost, 0,0);
         purchasing.produce(city);
-        System.out.printf("%s purchased\n", purchasing.toString());//todo remove here
         return "done";
     }
 
@@ -164,15 +164,15 @@ public class CityController {
     }
 
     public String increaseResource(City city, String resourceName, int amount){
-        Currency currency = new Currency(0,0,0);
         switch (resourceName){
-            case "gold":{currency.increase(amount,0,0);}break;
-            case "food":{currency.increase(0,0,amount);}break;
-            case "product":{currency.increase(0,amount,0);}break;
+            case "gold":{
+                city.getCivilization().increaseCurrency(new Currency(amount,0,0));
+            }break;
+            case "food":{city.increaseCurrency(0,0, amount);}break;
+            case "product":{city.increaseCurrency(0,amount,0);}break;
             default:{return "invalid resource";}
         }
-        city.getCurrency().add(currency);
-        city.getChangesOfCurrency().add(currency);
+
         return "hey cheater, "+resourceName+" increased!";
     }
 }

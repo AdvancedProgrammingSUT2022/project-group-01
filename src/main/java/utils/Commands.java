@@ -3,6 +3,7 @@ package utils;
 
 public enum Commands {
     //GAME
+        SHOW_PLAYER("show player", null,null,0,null),
         NEXT_TURN("next turn", null,null,0,null),
         //select
         SELECT_UNIT("select unit", new String[]{"position"}, null,1,null),
@@ -61,7 +62,7 @@ public enum Commands {
         TELEPORT("teleport", new String[]{"position"}, null,0,null),
         MAKE_TILE_VISIBLE("make tile visible",  new String[]{"position"}, null, 0,null),
         ADD_HAPPINESS("add happiness", new String[]{"amount"}, null, 0,null),
-        CREATE_FEATURE("create feature", new String[]{"type"}, null, 0,null),
+        CREATE_FEATURE("create feature", new String[]{"type","position"}, null, 0,null),
         ADD_SCORE("add score", new String[]{"amount"}, null,0,null),
         DAMAGE_UNIT("damage unit", new String[]{"amount"}, null, 0, null),
     //PROFILE

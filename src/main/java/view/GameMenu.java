@@ -284,6 +284,11 @@ public class GameMenu{
 					return controller.damageUnit(args);
 				}
 			}, Commands.DAMAGE_UNIT);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.showPlayer(args);
+				}
+			}, Commands.SHOW_PLAYER);
 		}};
 
 	}

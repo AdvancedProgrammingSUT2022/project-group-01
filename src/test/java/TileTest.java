@@ -375,7 +375,7 @@ public class TileTest {
         city.getPurchasableTiles();
         city.addNewTiles(new Vector<Tile>(List.of(tile)));
         city.increaseDefencePower(23);
-        city.payCurrency(0,0,0);
+        city.increaseCurrency(0,0,0);
         Assertions.assertEquals(city.getScreen().get("name"), game.getCurrentPlayer().getCivilization().getCivilization().getCityNames()[1]);
         city.setName("Hi");
         Assertions.assertEquals("Hi", city.getName());

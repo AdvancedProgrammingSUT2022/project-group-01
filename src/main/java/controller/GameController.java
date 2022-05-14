@@ -132,4 +132,8 @@ public class GameController {
         tile.setFeature(feature);
         return "God's grace has brought you the feature you desired.";
     }
+
+    public String getPlayerInfo(){
+        return "current player: "+game.getCurrentPlayer().getUser().getNickname();
+    }
 }
