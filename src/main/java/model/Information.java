@@ -52,6 +52,7 @@ public class Information {
         s.append("City Panel :").append("\n");
         s.append("Name : ").append(city.getName()).append("\n");
         s.append("Population : ").append(city.getPopulation().size()).append("\n");
+        s.append("Health : ").append(city.getHealth()).append("\n");
         s.append("Defence Power : ").append(city.getDefencePower()).append("\n");
         s.append("Attack Power : ").append(city.getAttackPower()).append("\n");
         s.append("Number Of Tiles : ").append(city.getTiles().size()).append("\n");

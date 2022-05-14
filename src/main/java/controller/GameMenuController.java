@@ -571,4 +571,12 @@ public class GameMenuController {
 		if(game.getMap().getTileByNumber(position) == null) return "invalid position";
 		return gameController.showTileInfo(game.getMap().getTileByNumber(position));
 	}
+
+	public String destroyCity(HashMap<String, String> args){
+		if(!(game.getSelectedObject() instanceof City))
+			return "select city first";
+		City city = (City) game.getSelectedObject();
+		city.destroy();
+		return "boom!";
+	}
 }

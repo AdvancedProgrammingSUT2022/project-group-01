@@ -238,7 +238,7 @@ public class CityControllerTest {
         list.add(UnitType.WORKER);
         when(productionInventory.getAvailableProductions()).thenReturn(list);
         when(city.getProductionInventory()).thenReturn(productionInventory);
-        String answer = "1- WARRIOR : 1 turn\n2- WORKER : 2 turns\n";
+        String answer = "1- Warrior : 1 turn\n2- Worker : 2 turns\n";
         Assertions.assertEquals(answer, cityController.getProductionsListToProduce(city));
     }
 
@@ -253,7 +253,7 @@ public class CityControllerTest {
         list.add(UnitType.WORKER);
         when(productionInventory.getAllProductions()).thenReturn(list);
         when(city.getProductionInventory()).thenReturn(productionInventory);
-        String answer = "1- WARRIOR : 40 gold\n2- WORKER : 70 gold\n";
+        String answer = "1- Warrior : 40 gold\n2- Worker : 70 gold\n";
         Assertions.assertEquals(answer, cityController.getProductionsListToPurchase(city));
     }
 

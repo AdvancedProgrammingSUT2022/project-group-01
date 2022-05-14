@@ -289,6 +289,16 @@ public class GameMenu{
 					return controller.damageUnit(args);
 				}
 			}, Commands.DAMAGE_UNIT);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.showTileInfo(args);
+				}
+			}, Commands.SHOW_TILE_INFO);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.destroyCity(args);
+				}
+			}, Commands.DESTROY);
 		}};
 
 	}

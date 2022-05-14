@@ -97,6 +97,8 @@ public class City {
 		for(Tile tile : tiles){
 			currency.add(tile.getCurrency());
 			changesOfCurrency.add(tile.getCurrency());
+			Currency cur = tile.getCurrency();
+			System.out.printf("f: %d, g: %d, p: %d\n",(int)cur.getFood(),(int)cur.getGold(),(int) cur.getProduct());
 		}
 		currency.increase(-currency.getGold(),0,0);
 		if((productionInventory.getCurrentProduction() != null) &&(productionInventory.getCurrentProduction().equals(UnitType.SETTLER))){
@@ -223,6 +225,7 @@ public class City {
 	public void addNewTiles(Vector<Tile> tiles){
 		for(Tile tile: tiles){
 			tile.setCivilization(this.civilization);
+			tile.setOwnerCity(this);
 			this.tiles.add(tile);
 			nextTiles.remove(tile);
 		}
