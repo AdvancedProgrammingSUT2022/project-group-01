@@ -17,6 +17,7 @@ import model.unit.Unit;
 import model.unit.UnitType;
 import model.unit.armed.Armed;
 import model.unit.armed.RangedUnit;
+import model.unit.armed.Siege;
 import model.unit.civilian.Civilian;
 import model.unit.civilian.Settler;
 import model.unit.civilian.Worker;
@@ -83,7 +84,7 @@ public class GameMenuController {
 		if (isAnotherPlayerUnit())
 			return "you don't own this unit";
 		Unit unit = (Unit) game.getSelectedObject();
-		if(!unit.canGoTo(tile))
+		if (!unit.canGoTo(tile))
 			return "Can't reach there\n";
 //		if(tile.)
 		// todo fog of war
@@ -170,9 +171,15 @@ public class GameMenuController {
 		return null;//todo return ro dorost kon
 	}
 
+	@GameCommand(command = Commands.UNIT_SETUP)
 	public String unitSetup(HashMap<String, String> args) {
-		//todo safar : setup game.selectedObject
-		return null;//todo return ro dorost kon
+		if (getSelectedUnit() == null)
+			return "you haven't select any unit";
+		if (isAnotherPlayerUnit())
+			return "you don't own this unit";
+		if (!(getSelectedUnit() instanceof Siege))
+			return "selected unit is not Siege";
+		return unitController.setup((Siege) getSelectedUnit());
 	}
 
 	@GameCommand(command = Commands.UNIT_MELEE_ATTACK)
@@ -180,7 +187,7 @@ public class GameMenuController {
 		int position = Integer.parseInt(args.get("position"));
 		Tile tile = game.getMap().getTileByNumber(position);
 		if (tile == null) return "invalid position!";
-		if(getSelectedUnit() == null || !(getSelectedUnit() instanceof Armed))
+		if (getSelectedUnit() == null || !(getSelectedUnit() instanceof Armed))
 			return "you haven't select any armed unit";
 		return unitController.meleeAttack((Armed) getSelectedUnit(), tile);
 	}
@@ -190,7 +197,7 @@ public class GameMenuController {
 		int position = Integer.parseInt(args.get("position"));
 		Tile tile = game.getMap().getTileByNumber(position);
 		if (tile == null) return "invalid position!";
-		if(getSelectedUnit() == null || !(getSelectedUnit() instanceof RangedUnit))
+		if (getSelectedUnit() == null || !(getSelectedUnit() instanceof RangedUnit))
 			return "you haven't select any ranged unit";
 		return unitController.rangedAttack((RangedUnit) getSelectedUnit(), tile);
 	}
@@ -247,7 +254,7 @@ public class GameMenuController {
 	}
 
 	@GameCommand(command = Commands.UNIT_PILLAGE)
-	public String unitPillage(HashMap<String, String> args){
+	public String unitPillage(HashMap<String, String> args) {
 		Unit unit = getSelectedUnit();
 		if (unit == null)
 			return "you haven't select any unit";
@@ -269,6 +276,7 @@ public class GameMenuController {
 		}
 		return "invalid command!";
 	}
+
 	public String mapMove(HashMap<String, String> args) {
 		String section = args.get("section");
 		int count = Integer.parseInt(args.get("count"));
@@ -284,6 +292,7 @@ public class GameMenuController {
 		}
 		return "invalid navigation!";
 	}
+
 	public String menuExit(HashMap<String, String> args) {
 		ProgramController.setCurrentMenu(Menus.MAIN_MENU);
 		return "Done!";
@@ -292,6 +301,7 @@ public class GameMenuController {
 	public String currentMenu(HashMap<String, String> args) {
 		return "Game Menu";
 	}
+
 	public String increaseResource(HashMap<String, String> args) {
 		String resourceName = args.get("section");
 		int amount = Integer.parseInt(args.get("amount"));
@@ -662,9 +672,10 @@ public class GameMenuController {
 		if (getSelectedUnit() == null) return true;
 		return getSelectedUnit().getOwnerCivilization().getPlayer() != game.getCurrentPlayer();
 	}
-	private ImprovementType getImprovementType(String name){
+
+	private ImprovementType getImprovementType(String name) {
 		for (ImprovementType improvement : ImprovementType.values()) {
-			if(improvement.name().toLowerCase().equals(name))
+			if (improvement.name().toLowerCase().equals(name))
 				return improvement;
 		}
 		return null;
@@ -685,27 +696,27 @@ public class GameMenuController {
 			return "invalid position";
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append(String.format("tile id : %d\n", tile.getMapNumber()));
-		if(tile.getImprovementInventoryState().equals(ProgressState.DAMAGED))
+		if (tile.getImprovementInventoryState().equals(ProgressState.DAMAGED))
 			stringBuilder.append("this tile is pillaged\n");
-		if(tile.getCivilianUnit() != null)
+		if (tile.getCivilianUnit() != null)
 			stringBuilder.append(String.format("civilian unit in this tile is %s\n",
 					tile.getCivilianUnit().getType().toString()
 			));
 		else stringBuilder.append("there isn't any civilian unit here\n");
 
-		if(tile.getArmedUnit() != null)
+		if (tile.getArmedUnit() != null)
 			stringBuilder.append(String.format("armed unit in this tile is %s\n",
 					tile.getArmedUnit().getType().toString()
 			));
 		else stringBuilder.append("there isn't any armed unit here\n");
 
-		if(tile.getBuiltImprovement() != null)
-			stringBuilder.append(String.format("Improvement in this tile is %s\n", tile.getBuiltImprovement().toString()) );
+		if (tile.getBuiltImprovement() != null)
+			stringBuilder.append(String.format("Improvement in this tile is %s\n", tile.getBuiltImprovement().toString()));
 		else
 			stringBuilder.append("there isn't any improvement here\n");
-		if(tile.doesHaveRailRoad())
+		if (tile.doesHaveRailRoad())
 			stringBuilder.append("this tile has rail road\n");
-		if(tile.doesHaveRoad())
+		if (tile.doesHaveRoad())
 			stringBuilder.append("this tile has road\n");
 		return stringBuilder.toString();
 	}

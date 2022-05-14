@@ -162,4 +162,13 @@ public class UnitController {
 			cityAttackModifier *= 0.5f;
 		return "bows out";
 	}
+
+	public String setup(Siege siege) {
+		if(!siege.getTraitsList().contains(UnitTraits.NEED_SETUP))
+			return "this type of siege doesn't need setup";
+		if(siege.readyToAttack())
+			return "this unit is  already ready to attack";
+		siege.setup();
+		return "setup unit done";
+	}
 }
