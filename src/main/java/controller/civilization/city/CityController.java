@@ -75,6 +75,8 @@ public class CityController {
             return "invalid index";
         Vector<Person> peopleInside = newTile.getPeopleInside();
         Person person = city.getPopulation().get(civilianIndex);
+        if(newTile.getCivilization() != city.getCivilization())
+            return "this isn't your tile!";
         if(!peopleInside.contains(person) && peopleInside.size() != 0)
             return "not empty!";
         if(peopleInside.contains(person))
