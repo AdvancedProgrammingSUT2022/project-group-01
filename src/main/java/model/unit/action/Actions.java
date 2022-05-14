@@ -81,7 +81,7 @@ public enum Actions {
 	),
 	PAUSE_IMPROVEMENT(1,
 			action -> action.getUnit().getCurrentTile().getImprovementInventoryState().equals(ProgressState.IN_PROGRESS),
-			action -> action.getUnit().getCurrentTile().stopImprovementProgress()
+			action -> {}
 	),
 	BUILD_ROAD(1,
 			action -> !action.getUnit().getCurrentTile().doesHaveRoad(),

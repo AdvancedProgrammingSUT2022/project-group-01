@@ -79,38 +79,38 @@ public class TestForTerrains {
         Assertions.assertTrue(b >= a);
     }
 
-    @Test
-    public void roadAndPassing(){
-        game.getMap().getTileByNumber(30).isPassable();
-        game.getMap().getTileByNumber(30).buildRoute();
-        game.getMap().getTileByNumber(30).removeFeature();
+//    @Test
+//    public void roadAndPassing(){
+//        game.getMap().getTileByNumber(30).isPassable();
+//        game.getMap().getTileByNumber(30).buildRoute();
+//        game.getMap().getTileByNumber(30).removeFeature();
+//
+//    }
 
-    }
-
-    @Test
-    public void improvementActions(){
-        Tile tile = game.getCurrentPlayer().getMapCenterTile();
-        tile.buildImprovement(ImprovementType.LUMBER_MILL);
-        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
-        tile.stopImprovementProgress();
-        tile.buildImprovement(ImprovementType.LUMBER_MILL);
-        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
-        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
-        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
-        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
-        Assertions.assertEquals(tile.getImprovementInventoryState(),ProgressState.COMPLETE);
-        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
-        Assertions.assertEquals(tile.getImprovementInAction(),ImprovementType.LUMBER_MILL);
-        tile.pillageImprovement();
-        Assertions.assertEquals(tile.getImprovementInventoryState(), ProgressState.DAMAGED);
-        tile.repairImprovement();
-        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
-        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
-        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
-        Assertions.assertEquals(tile.getImprovementTurnsLeft(),0);
-        tile.removeBuiltImprovements(ImprovementType.LUMBER_MILL);
-        Assertions.assertNull(tile.getImprovementInventory().getImprovement());
-    }
+//    @Test
+//    public void improvementActions(){
+//        Tile tile = game.getCurrentPlayer().getMapCenterTile();
+//        tile.buildImprovement(ImprovementType.LUMBER_MILL);
+//        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
+//        tile.stopImprovementProgress();
+//        tile.buildImprovement(ImprovementType.LUMBER_MILL);
+//        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
+//        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
+//        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
+//        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
+//        Assertions.assertEquals(tile.getImprovementInventoryState(),ProgressState.COMPLETE);
+//        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
+//        Assertions.assertEquals(tile.getImprovementInAction(),ImprovementType.LUMBER_MILL);
+//        tile.pillageImprovement();
+//        Assertions.assertEquals(tile.getImprovementInventoryState(), ProgressState.DAMAGED);
+//        tile.repairImprovement();
+//        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
+//        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
+//        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
+//        Assertions.assertEquals(tile.getImprovementTurnsLeft(),0);
+//        tile.removeBuiltImprovements(ImprovementType.LUMBER_MILL);
+//        Assertions.assertNull(tile.getImprovementInventory().getImprovement());
+//    }
 
     @Test
     public void removeUnit(){
