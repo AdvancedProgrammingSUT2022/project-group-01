@@ -1,6 +1,7 @@
 package controller;
 
 import controller.civilization.city.CityController;
+import controller.unit.UnitController;
 import lombok.Getter;
 import lombok.Setter;
 import model.Database;
@@ -63,7 +64,8 @@ public class ProgramController {
                     MapController mapController = new MapController(game);
                     GameController gameController = new GameController(game, mapController);
                     CityController cityController = new CityController(game);
-                    GameMenuController gameMenuController = new GameMenuController(game,gameController,cityController);
+                    UnitController unitController = new UnitController(game);
+                    GameMenuController gameMenuController = new GameMenuController(game,gameController,cityController, unitController);
                     GameMenu gameMenu = new GameMenu(gameMenuController);
                     gameMenu.run();
                 }break;

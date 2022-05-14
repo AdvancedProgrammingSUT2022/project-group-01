@@ -23,6 +23,7 @@ public class Game {
         map = new Map(mapSize);
     }
     public void nextTurn(){
+        System.out.println("#################\n".repeat(3));
         if(currentPlayer == players.get(players.size()-1))
             turn++;
         TurnBasedLogic.callNextTurns(currentPlayer.getCivilization());

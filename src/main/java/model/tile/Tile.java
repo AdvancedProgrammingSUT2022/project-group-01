@@ -2,6 +2,7 @@ package model.tile;
 import java.util.Vector;
 
 import lombok.Getter;
+import lombok.Setter;
 import model.Player;
 import model.ProgressState;
 import model.civilization.Civilization;
@@ -22,7 +23,7 @@ import utils.VectorUtils;
 import javax.swing.plaf.ColorUIResource;
 
 // TODO added get available resource
-@Getter
+@Getter @Setter
 public class Tile {
 	private int pCoordinate;
 	private int qCoordinate;
@@ -34,7 +35,7 @@ public class Tile {
 	private City ownerCity;
 	private Armed armedUnit;
 	private Civilian civilianUnit;
-	private ImprovementInventory improvementInventory;
+	private ImprovementInventory improvementInventory = new ImprovementInventory(this);
 	private MiscellaneousTileActionsInventory miscellaneousTileActionsInventory;
 	private ResourceType availableResource;
 	private boolean hasRoad;
@@ -75,8 +76,8 @@ public class Tile {
 		this.civilization = civilization;
 	}
 	public Currency getCurrency(){
-		 Currency output = new Currency(getGoldYield() - getMaintenance(), getProductionYield(), getFoodYield());
-		 // Adding Improvement Currency
+		Currency output = new Currency(getGoldYield() - getMaintenance(), getProductionYield(), getFoodYield());
+		// Adding Improvement Currency
 		output.add(this.improvementInventory.getCurrency());
 		// Adding Resource Currency
 		if(availableResource != null)
@@ -104,9 +105,6 @@ public class Tile {
 		this.feature = feature;
 	}
 
-	public void setPCoordinate(int pCoordinate) {
-		this.pCoordinate = pCoordinate;
-	}
 
 	public void setBoarder(Boarder boarder, int i){
 		this.nearbyBoarders[i] = boarder;
@@ -126,10 +124,6 @@ public class Tile {
 		return qCoordinate;
 	}
 
-	public void setQCoordinate(int qCoordinate) {
-		this.qCoordinate = qCoordinate;
-	}
-
 	public Vector<Person> getPeopleInside() {
 		return peopleInside;
 	}
@@ -141,10 +135,10 @@ public class Tile {
 		this.civilization = civilization;
 		this.availableResource = availableResources;
 		this.isDestroyed = false;
+		this.peopleInside = new Vector<>();
 		pCoordinate = p;
 		qCoordinate = q;
 		this.mapNumber = number;
-		this.improvementInventory = new ImprovementInventory(this);
 		this.miscellaneousTileActionsInventory = new MiscellaneousTileActionsInventory(this);
 	}
 
@@ -154,20 +148,25 @@ public class Tile {
 	public void removePerson(Person person){
 		peopleInside.remove(person);
 	}
+
 	public void buildImprovement(ImprovementType improvement){
 		if(this.improvementInventory != null){
-			if(this.improvementInventory.getImprovement().equals(improvement)) {
-				if (this.improvementInventory.getState().equals(ProgressState.STOPPED))
-					this.improvementInventory.progress();
+			System.out.println("improvement " + improvement);
+			System.out.println("fuck " + getImprovementTurnsLeft());
+			if(this.improvementInventory.getImprovement() != null) {
+				if (this.improvementInventory.getImprovement().equals(improvement)) {
+					if (this.improvementInventory.getState().equals(ProgressState.STOPPED))
+						this.improvementInventory.progress();
+				}
+
 			}
 			else this.improvementInventory.reset(improvement);
 		}
-
 	}
 	public void removeImprovement(){
 		if(this.improvementInventory == null) return;
-		this.improvementInventory.removeFromList();
-		this.improvementInventory = null;
+		this.improvementInventory.remove();
+
 	}
 	public void removeResource(){
 		availableResource = null;
@@ -175,10 +174,11 @@ public class Tile {
 	public boolean doesHaveRoad() {
 		return hasRoad;
 	}
-	public void addRiver(Tile tile){}
+
 	public void buildRoad() {
 		this.hasRoad = true;
 	}
+
 	public Boarder getBoarderInfo(int i){return nearbyBoarders[i];}
 	public boolean doesHaveRailRoad() {
 		return hasRailRoad;
@@ -195,7 +195,7 @@ public class Tile {
 		this.hasRoad = false;
 		this.hasRailRoad = false;
 	}
-	public boolean checkRiverByTile(Tile tile){return false;}
+
 	public boolean isDestroyed() {
 		return isDestroyed;
 	}
@@ -208,7 +208,7 @@ public class Tile {
 		pCoordinate = p;
 		qCoordinate = q;
 		nearbyBoarders = new Boarder[6];
-        this.mapNumber = number;
+		this.mapNumber = number;
 	}
 
 	public int getFoodYield() {
@@ -247,12 +247,12 @@ public class Tile {
 		int MP = 0;
 		MP += this.terrain.movementCost;
 		if(this.feature != null) MP += this.feature.movementCost;
-		if(hasRoad || hasRoad) MP = 0;
+		if(hasRoad || hasRoad) MP /= 4;
 		return MP;
 	}
 
 	public boolean isPassable() {
-		return this.terrain.passable && (this.feature == null || this.feature.passable);
+		return this.terrain.passable;
 	}
 
 	public void buildRoute() {
@@ -268,14 +268,15 @@ public class Tile {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param improvement
 	 */
 	public void removeBuiltImprovements(ImprovementType improvement) {
+		if(improvementInventory.getImprovement() == null) return;
 		if (this.improvementInventory.getImprovement().equals(improvement)){
 			if(this.improvementInventory.getState().equals(ProgressState.COMPLETE))
 				this.improvementInventory = null;
-			}
+		}
 	}
 
 	public void stopImprovementProgress(){
@@ -286,26 +287,24 @@ public class Tile {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param unit
 	 */
 	public void removeUnit(Unit unit) {
 		if(this.civilianUnit != null && this.civilianUnit.equals(unit))
 			this.civilianUnit = null;
 		else if(this.armedUnit != null && this.armedUnit.equals(unit))
+
 			this.armedUnit = null;
 	}
 
-	public boolean getIsDestroyed() {
-		return isDestroyed;
-	}
 
 	public void destroy() {
 		this.isDestroyed = true;
 	}
 
 	public ImprovementType getBuiltImprovement() {
-		if(this.improvementInventory != null){
+		if(this.improvementInventory != null && this.improvementInventory.getState() != null){
 			if(this.improvementInventory.getState().equals(ProgressState.COMPLETE))
 				return this.improvementInventory.getImprovement();
 		}
@@ -393,7 +392,6 @@ public class Tile {
 	}
 
 	public int getImprovementTurnsLeft(){
-		if(this.improvementInventory == null) return -1;
 		return this.improvementInventory.getTurnsLeft();
 	}
 

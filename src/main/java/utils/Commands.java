@@ -7,6 +7,7 @@ public enum Commands {
         SELECT_UNIT("select unit", new String[]{"position"}, null,1,null),
         SELECT_CITY("select city", null, new String[]{"name", "position"},0,null),
         //unit
+        UNIT_INFO("unit info", null, null, 0, null),
         UNIT_MOVE("unit moveto", new String[]{"position"}, null,0,null),
         UNIT_SLEEP("unit sleep", null, null, 0,null),
         UNIT_ALERT("unit alert", null,null,0,null),
@@ -60,6 +61,7 @@ public enum Commands {
         ADD_HAPPINESS("add happiness", new String[]{"amount"}, null, 0,null),
         CREATE_FEATURE("create feature", new String[]{"type"}, null, 0,null),
         ADD_SCORE("add score", new String[]{"amount"}, null,0,null),
+        DAMAGE_UNIT("damage unit", new String[]{"amount"}, null, 0, null),
     //PROFILE
         PROFILE_CHANGE("profile change",null, new String[]{"new","current"},1,null),
     // TECHNOLOGY

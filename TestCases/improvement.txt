@@ -27,24 +27,19 @@ get current research
 spawn unit -p 70 -n Tank
 spawn unit -p 95 -n panzer
 spawn unit -p 98 -n infantry
-map show -p 70
 select unit armed -p 70
-map show -p 95
-map show -p 75
 unit moveto -p 75
 cheat next turn
-map show -p 74
-cheat next turn
-map show -p 74
 cheat next turn
 cheat next turn
-map show -p 75
+cheat next turn
 spawn unit -p 76 -n Worker
-map show -p 75
 select unit civilian -p 76
 unit action list
-unit build improvement -n Miner
-unit build improvement -n Mine
+improvement build -n Miner
+improvement build -n Mine
+cheat next turn
+unit info
 cheat next turn
 cheat next turn
 cheat next turn
@@ -57,5 +52,19 @@ cheat next turn
 cheat next turn
 cheat next turn
 cheat next turn
-cheat next turn
+unit info
 map show -p 75
+spawn unit -p 123 -n Settler
+select unit civilian -p 123
+map show -p 123
+unit found city
+map show -p 75
+select unit armed -p 98
+unit info
+unit fortify heal
+damage unit -a 4
+unit fortify heal
+unit info
+cheat next turn
+unit info
+cheat next turn

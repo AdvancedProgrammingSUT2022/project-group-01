@@ -59,8 +59,8 @@ public class GameInitializer extends Controller{
             occupyTile.setArmedUnit(firstWarrior);
             occupyTile.setCivilianUnit(firstSettler);
             freeLandList.remove(occupyTile);
-            player.getCivilization().addUnit(firstWarrior);
-            player.getCivilization().addUnit(firstSettler);
+//            player.getCivilization().addUnit(firstWarrior);
+//            player.getCivilization().addUnit(firstSettler);
         }
     }
 }

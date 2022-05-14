@@ -25,7 +25,7 @@ public class Unit{
 	public final static int maxHealth = 10;
 	protected Civilization ownerCivilization;
 	private int health;
-	private int movementPoint;
+	private double movementPoint;
 	private TechnologyList requiredTechnologies;
 	private int cost;
 	protected Tile currentTile;
@@ -62,7 +62,6 @@ public class Unit{
 
 	public void nextTurn() {
 		actionsQueue.doAction();
-
 	}
 
 	public void defendAgainstMelee(Unit enemy) {
@@ -85,7 +84,9 @@ public class Unit{
 	public void suicide() {
 		ownerCivilization.removeUnit(this);
 		currentTile.removeUnit(this);
-		changeHealth(-getHealth());
+		if(ProgramController.getGame().getSelectedObject() == this){
+			ProgramController.getGame().setSelectedObject(null);
+		}
 	}
 
 	/**
@@ -96,6 +97,9 @@ public class Unit{
 	 */
 	public void changeHealth(int deltaHealth){
 		health += deltaHealth;
+		health = Math.min(maxHealth, health);
+		if(health <= 0)
+			suicide();
 	}
 
 	private Vector<Tile> dijkstra(Tile destination) {
@@ -191,7 +195,7 @@ public class Unit{
 				if (turn != 0 && (Unit.this instanceof Civilian) && currentTile.getCivilianUnit() != null)
 					return new Distance(infinity, -1);
 				resultTurn ++;
-				resultRemainedMP = movementPoint;
+				resultRemainedMP = (int) movementPoint;
 //				System.err.printf("MP is %d\n", movementPoint);
 			}
 //			System.err.println(nextTile.getMovementCost());
@@ -290,4 +294,17 @@ public class Unit{
 		System.err.println("##############");
 	}
 
+	public boolean isSleeping(){
+		return getJob() == Actions.SLEEP;
+	}
+
+	public Actions getJob(){
+		if(actionsQueue.getCurrentAction() == null)
+			return null;
+		return actionsQueue.getCurrentAction().getActionType();
+	}
+
+	public boolean hasJob(){
+		return !actionsQueue.isEmpty();
+	}
 }

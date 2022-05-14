@@ -24,9 +24,11 @@ public class ImprovementInventory implements TurnBasedLogic {
 		addToList();
 	}
 	public void nextTurn(Civilization civilization){
+		if(tile.getCivilization() == null) return; // TODO
 		if(!tile.getCivilization().equals(civilization)) return;
 		if(this.state.equals(ProgressState.IN_PROGRESS) | this.state.equals(ProgressState.DAMAGED)) {
 			this.turnsLeft -= 1;
+			System.out.println("d3432\n".repeat(3) + Integer.toString(this.turnsLeft));
 			if (this.turnsLeft == 0) {
 				if(this.state.equals(ProgressState.IN_PROGRESS)) {
 					if ((this.tile != null) && (this.tile.getCivilization() != null) && (this.tile.getAvailableResource() != null)){

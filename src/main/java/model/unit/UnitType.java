@@ -8,6 +8,7 @@ import model.technology.TechnologyList;
 import model.technology.TechnologyType;
 import model.unit.trait.TraitsList;
 import model.unit.trait.UnitTraits;
+import utils.StringUtils;
 
 public enum UnitType implements Producible {
 	// Ancient Era
@@ -121,11 +122,15 @@ public enum UnitType implements Producible {
 
 	@Override
 	public boolean isProducible(City city) {
-		return false;
+		return city.getCivilization().getResearchTree().isResearched(requiredTechs);
 	}
 
 	@Override
 	public String toString(){
-		return this.name();
+		return StringUtils.convertToPascalCase(this.name()).replaceAll("_", " ");
+	}
+
+	public int getRawCost() {
+		return this.cost;
 	}
 }
