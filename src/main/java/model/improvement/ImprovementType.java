@@ -6,6 +6,7 @@ import model.technology.TechnologyType;
 import model.tile.Terrain;
 import model.tile.TerrainFeature;
 import model.tile.Tile;
+import utils.StringUtils;
 
 import java.util.List;
 import java.util.Vector;
@@ -230,5 +231,10 @@ public enum ImprovementType {
 
 
     public void initializeVectors() {
+    }
+
+    @Override
+    public String toString() {
+        return StringUtils.convertToPascalCase(this.name()).replaceAll("_", " ");
     }
 }

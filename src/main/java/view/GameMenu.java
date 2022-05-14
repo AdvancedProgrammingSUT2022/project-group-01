@@ -294,6 +294,26 @@ public class GameMenu{
 					return controller.removeFeature(args);
 				}
 			}, Commands.UNIT_REMOVE_FEATURE);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.buildRoad(args);
+				}
+			}, Commands.UNIT_BUILD_ROAD);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.buildRail(args);
+				}
+			}, Commands.UNIT_BUILD_RAIL);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.removeRoute(args);
+				}
+			}, Commands.UNIT_REMOVE_ROUTE);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.tileInfo(args);
+				}
+			}, Commands.TILE_INFO);
 		}};
 
 	}

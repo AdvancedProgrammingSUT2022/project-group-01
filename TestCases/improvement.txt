@@ -104,3 +104,33 @@ unit info
 cheat next turn
 cheat next turn
 map show -p 76
+unit road build
+cheat next turn
+cheat next turn
+tile info -p 76
+unit info
+cheat next turn
+cheat next turn
+tile info -p 76
+unit info
+cheat next turn
+cheat next turn
+tile info -p 76
+unit info
+unit route remove
+cheat next turn
+cheat next turn
+tile info -p 76
+unit info
+cheat next turn
+cheat next turn
+tile info -p 76
+unit info
+cheat next turn
+cheat next turn
+tile info -p 76
+unit info
+cheat next turn
+cheat next turn
+tile info -p 76
+unit info

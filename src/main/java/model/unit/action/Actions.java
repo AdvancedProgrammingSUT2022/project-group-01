@@ -98,21 +98,30 @@ public enum Actions {
 
 			}
 	),
-	BUILD_ROAD(1,
+	BUILD_ROAD(3,
 			action -> !action.getUnit().getCurrentTile().doesHaveRoad(),
-			action -> action.getUnit().getCurrentTile().buildRoad()
+			action -> {
+				if(action.isLastTurn())
+					action.getUnit().getCurrentTile().buildRoad();
+				action.decreaseTurn();
+			}
 	),
-	BUILD_RAIL(null,
+	BUILD_RAIL(3,
 			action -> !action.getUnit().getCurrentTile().doesHaveRailRoad(),
-			action -> action.getUnit().getCurrentTile().buildRailRoad()
+			action -> {
+				if(action.isLastTurn())
+					action.getUnit().getCurrentTile().buildRailRoad();
+				action.decreaseTurn();
+			}
 	),
-	REMOVE_ROAD(1,
-			action -> action.getUnit().getCurrentTile().doesHaveRoad(),
-			action -> action.getUnit().getCurrentTile().removeRoads()
-	),
-	REMOVE_RAIL(1,
-			action -> action.getUnit().getCurrentTile().doesHaveRailRoad(),
-			action -> action.getUnit().getCurrentTile().removeRoads()
+	REMOVE_ROUTE(3,
+			action -> action.getUnit().getCurrentTile().doesHaveRoad()
+					|| action.getUnit().getCurrentTile().doesHaveRailRoad(),
+			action -> {
+				if(action.isLastTurn())
+					action.getUnit().getCurrentTile().removeRoads();
+				action.decreaseTurn();
+			}
 	),
 	REMOVE_FEATURE(null,
 			action -> action.getUnit().getCurrentTile().getFeature().getRemoveTime() != -1,

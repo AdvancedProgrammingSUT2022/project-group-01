@@ -57,14 +57,9 @@ public class Worker extends Civilian {
 		actionsQueue.resetQueue();
 		actionsQueue.addAction(new Action(this, Actions.REMOVE_FEATURE, currentTile.getFeature()));
 	}
-	public void removeRoad(){
-
+	public void removeRoute(){
 		actionsQueue.resetQueue();
-		actionsQueue.addAction(new Action(this, Actions.REMOVE_ROAD));
-	}
-	public void removeRail(){
-		actionsQueue.resetQueue();
-		actionsQueue.addAction(new Action(this, Actions.REMOVE_RAIL));
+		actionsQueue.addAction(new Action(this, Actions.REMOVE_ROUTE));
 	}
 
 	public boolean canRemoveRoad() {

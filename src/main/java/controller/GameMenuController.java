@@ -5,6 +5,7 @@ import controller.unit.UnitController;
 import controller.unit.WorkerController;
 import model.Game;
 import model.Player;
+import model.ProgressState;
 import model.TurnBasedLogic;
 import model.civilization.Civilization;
 import model.civilization.city.City;
@@ -486,7 +487,7 @@ public class GameMenuController {
 	public String cheatNextTurn(HashMap<String, String> args) {
 		for (Unit unit : game.getCurrentPlayer().getCivilization().getUnits()) {
 //			unit.nextTurn();
-			System.out.println("unit type " + unit.toString());
+//			System.out.println("unit type " + unit.toString());
 		}
 		game.nextTurn();
 		return "time fast forwarded !";
@@ -536,6 +537,39 @@ public class GameMenuController {
 		return workerController.removeImprovement((Worker) getSelectedUnit());
 	}
 
+	@GameCommand(command = Commands.UNIT_BUILD_ROAD)
+	public String buildRoad(HashMap<String, String> args) {
+		if (getSelectedUnit() == null)
+			return "you haven't select any unit";
+		if (!(getSelectedUnit() instanceof Worker))
+			return "worker is not selected !";
+		if (isAnotherPlayerUnit())
+			return "you don't own this unit";
+		return workerController.buildRoad((Worker) getSelectedUnit());
+	}
+
+	@GameCommand(command = Commands.UNIT_BUILD_RAIL)
+	public String buildRail(HashMap<String, String> args) {
+		if (getSelectedUnit() == null)
+			return "you haven't select any unit";
+		if (!(getSelectedUnit() instanceof Worker))
+			return "worker is not selected !";
+		if (isAnotherPlayerUnit())
+			return "you don't own this unit";
+		return workerController.buildRail((Worker) getSelectedUnit());
+	}
+
+	@GameCommand(command = Commands.UNIT_BUILD_RAIL)
+	public String removeRoute(HashMap<String, String> args) {
+		if (getSelectedUnit() == null)
+			return "you haven't select any unit";
+		if (!(getSelectedUnit() instanceof Worker))
+			return "worker is not selected !";
+		if (isAnotherPlayerUnit())
+			return "you don't own this unit";
+		return workerController.removeRoute((Worker) getSelectedUnit());
+	}
+
 	private boolean isInteger(String input) {
 		try {
 			Integer.parseInt(input);
@@ -550,8 +584,7 @@ public class GameMenuController {
 		Tile tile = game.getMap().getTileByNumber(position);
 		if (tile == null)
 			return "invalid position";
-		//todo implement here
-		return "teleported";
+		return unitController.teleport(getSelectedUnit(), tile);
 	}
 
 	public String makeTileVisible(HashMap<String, String> args) {
@@ -608,7 +641,6 @@ public class GameMenuController {
 		if (getSelectedUnit() == null) return true;
 		return getSelectedUnit().getOwnerCivilization().getPlayer() != game.getCurrentPlayer();
 	}
-
 	private ImprovementType getImprovementType(String name){
 		for (ImprovementType improvement : ImprovementType.values()) {
 			if(improvement.name().toLowerCase().equals(name))
@@ -616,7 +648,44 @@ public class GameMenuController {
 		}
 		return null;
 	}
+
 	public String showPlayer(HashMap<String, String> args) {
 		return gameController.getPlayerInfo();
+	}
+
+	@GameCommand(command = Commands.TILE_INFO)
+	public String tileInfo(HashMap<String, String> args) {
+		if (!isInteger(args.get("position")))
+			return "position is not integer";
+
+		int position = Integer.parseInt(args.get("position"));
+		Tile tile = game.getMap().getTileByNumber(position);
+		if (tile == null)
+			return "invalid position";
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append(String.format("tile id : %d\n", tile.getMapNumber()));
+		if(tile.getImprovementInventoryState().equals(ProgressState.DAMAGED))
+			stringBuilder.append("this tile is pillaged\n");
+		if(tile.getCivilianUnit() != null)
+			stringBuilder.append(String.format("civilian unit in this tile is %s\n",
+					tile.getCivilianUnit().getType().toString()
+			));
+		else stringBuilder.append("there isn't any civilian unit here\n");
+
+		if(tile.getArmedUnit() != null)
+			stringBuilder.append(String.format("armed unit in this tile is %s\n",
+					tile.getArmedUnit().getType().toString()
+			));
+		else stringBuilder.append("there isn't any armed unit here\n");
+
+		if(tile.getBuiltImprovement() != null)
+			stringBuilder.append(String.format("Improvement in this tile is %s\n", tile.getBuiltImprovement().toString()) );
+		else
+			stringBuilder.append("there isn't any improvement here\n");
+		if(tile.doesHaveRailRoad())
+			stringBuilder.append("this tile has rail road\n");
+		if(tile.doesHaveRoad())
+			stringBuilder.append("this tile has road\n");
+		return stringBuilder.toString();
 	}
 }

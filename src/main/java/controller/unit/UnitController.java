@@ -93,4 +93,13 @@ public class UnitController {
 		unit.pillage();
 		return "your savage unit pillaged this tile !!";
 	}
+
+	public String teleport(Unit unit, Tile tile) {
+		if(tile.getSameTypeUnit(unit) != null)
+			return "you can't have 2 unit of same type in one tile";
+		if(!tile.isPassable())
+			return "this tile is not passable";
+		unit.moveTo(tile);
+		return "teleported";
+	}
 }

@@ -72,7 +72,9 @@ public class Unit{
 		// TODO implement this
 	}
 
-	public void moveTo(Tile tile) {}
+	public void moveTo(Tile tile) {
+		currentTile = tile;
+	}
 
 	public TraitsList getTraitsList(){
 		return type.getUnitTraits();

@@ -30,10 +30,14 @@ public enum Commands {
     //WORKER
         UNIT_BUILD_IMPROVEMENT("improvement build", new String[]{"name"}, null, 0, null),
         UNIT_REMOVE_FEATURE("unit feature remove", null, null, 0, null),
+        UNIT_BUILD_ROAD("unit road build", null, null, 0, null),
+        UNIT_BUILD_RAIL("unit rail build", null, null, 0, null),
+        UNIT_REMOVE_ROUTE("unit route remove", null, null, 0, null),
     //MAP
         MAP_SHOW("map show", null,new String[]{"position","cityname"},0,null),
         MAP_MOVE("map move", new String[]{"count"}, null, 1,null),
         SHOW_NEXT_TILES("show next tiles",null,null,0,null),
+        TILE_INFO("tile info", new String[]{"position"}, null, 0, null),
     //LOGIN
         REGISTER("user create", new String[]{"username","password","nickname"}, null,0,null),
         LOGIN("user login", new String[]{"username", "password"}, null,0,null),

@@ -51,4 +51,25 @@ public class WorkerController {
 		worker.removeImprovement();
 		return "this tile is being remove";
 	}
+
+	public String buildRoad(Worker worker) {
+		if(worker.getCurrentTile().doesHaveRoad() || worker.getCurrentTile().doesHaveRailRoad())
+			return "you can't build road here";
+		worker.buildRoad();
+		return "road is under construction";
+	}
+
+	public String buildRail(Worker worker) {
+		if(worker.getCurrentTile().doesHaveRoad() || worker.getCurrentTile().doesHaveRailRoad())
+			return "you can't build rail road here";
+		worker.buildRail();
+		return "rail road is under construction";
+	}
+
+	public String removeRoute(Worker worker) {
+		if(!(worker.getCurrentTile().doesHaveRoad() || worker.getCurrentTile().doesHaveRailRoad()))
+			return "this tile doesn't have any route";
+		worker.removeRoute();
+		return "route is being removed now";
+	}
 }
