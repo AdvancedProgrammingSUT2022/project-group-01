@@ -38,14 +38,13 @@ public class GameMenuController {
 	private final UnitController unitController;
 	private final WorkerController workerController;
 	private CityController cityController;
-	private final UnitController unitController;
 
 	/**
 	 * @param
 	 */
-<
+
 	public GameMenuController(Game game, GameController gameController, CityController cityController, UnitController unitController, WorkerController workerController) {
->
+
 		this.game = game;
 		mapController = new MapController(game);
 		this.gameController = gameController;
@@ -221,13 +220,6 @@ public class GameMenuController {
 		return unitController.rangedAttack((RangedUnit) getSelectedUnit(), tile);
 	}
 
-	@GameCommand(command = Commands.UNIT_INFO)
-	public String unitInfo(HashMap<String, String> args) {
-		Unit unit = getSelectedUnit();
-		if (unit == null)
-			return "you haven't select any unit";
-		return unitController.info(unit);
-	}
 
 	@GameCommand(command = Commands.UNIT_INFO)
 	public String unitInfo(HashMap<String, String> args){

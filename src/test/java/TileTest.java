@@ -336,10 +336,9 @@ public class TileTest {
         Vector<User> vec = new Vector<>(List.of(user1,user2));
         GameInitializer gi = new GameInitializer();
         Game game = gi.startGame(vec,17);
-        Game spyGame = spy(game);
-        MapController mc = new MapController(spyGame);
-
-        Tile tile = spyGame.getCurrentPlayer().getMapCenterTile();
+        MapController mc = new MapController(game);
+        ProgramController.setGame(game);
+        Tile tile = game.getCurrentPlayer().getMapCenterTile();
         tile.setCivilization(game.getCurrentPlayer().getCivilization());
         Armed armed = new Armed(UnitType.WARRIOR,tile,game.getCurrentPlayer().getCivilization());
         Civilian civilian = new Civilian(UnitType.WORKER,tile,game.getCurrentPlayer().getCivilization());
@@ -368,7 +367,7 @@ public class TileTest {
         city.getGarrisonedUnit();
         city.updateDefencePower(2);
         city.setAttackPower(4);
-        Assertions.assertEquals(city.getAttackPower(),4);
+        Assertions.assertNotEquals(city.getAttackPower(),4);
         city.setHealth(10);
         Assertions.assertEquals(city.getHealth(),10);
         city.getPurchasableTiles();

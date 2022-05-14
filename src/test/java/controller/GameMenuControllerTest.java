@@ -2,6 +2,7 @@ package controller;
 
 import controller.civilization.city.CityController;
 import controller.unit.UnitController;
+import controller.unit.WorkerController;
 import model.*;
 import model.civilization.city.City;
 import model.improvement.ImprovementType;
@@ -53,7 +54,8 @@ class GameMenuControllerTest {
         GameInitializer gi = new GameInitializer();
         game = gi.startGame(vec,17);
         mc = new MapController(game);
-        gameMenuController = new GameMenuController(game,new GameController(game,mc),new CityController(game),new UnitController(game));
+        WorkerController workerController = new WorkerController(game);
+        gameMenuController = new GameMenuController(game,new GameController(game,mc),new CityController(game),new UnitController(game), workerController);
         game.getMap().getMap();
         game.setMap(game.getMap());
         Tile tile = game.getCurrentPlayer().getMapCenterTile();
@@ -134,7 +136,7 @@ class GameMenuControllerTest {
         final String result = gameMenuController.buildImprovement(args);
 
         // Verify the results
-        assertEquals("worker is not selected !", result);
+        assertEquals("you haven't select any unit", result);
     }
 
 

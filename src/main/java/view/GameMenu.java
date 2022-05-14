@@ -319,9 +319,6 @@ public class GameMenu{
 					return controller.destroyCity(args);
 				}
 			}, Commands.DESTROY);
-					return controller.removeFeature(args);
-				}
-			}, Commands.UNIT_REMOVE_FEATURE);
 			put(new CommandAction() {
 				public String action(HashMap<String, String> args) {
 					return controller.buildRoad(args);

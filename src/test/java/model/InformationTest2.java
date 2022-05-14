@@ -2,6 +2,7 @@ package model;
 
 import controller.GameInitializer;
 import controller.MapController;
+import controller.ProgramController;
 import controller.TileController;
 import model.civilization.city.City;
 import model.improvement.ImprovementType;
@@ -34,6 +35,7 @@ class InformationTest2 {
         game = gi.startGame(vec,17);
         mc = new MapController(game);
         Tile tile = game.getCurrentPlayer().getMapCenterTile();
+        ProgramController.setGame(game);
         tile.setCivilization(game.getCurrentPlayer().getCivilization());
         Armed armed = new Armed(UnitType.WARRIOR,tile,game.getCurrentPlayer().getCivilization());
         Civilian civilian = new Civilian(UnitType.WORKER,tile,game.getCurrentPlayer().getCivilization());
