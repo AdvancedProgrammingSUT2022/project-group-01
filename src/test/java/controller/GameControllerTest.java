@@ -37,6 +37,7 @@ public class GameControllerTest {
         game = gi.startGame(vec,17);
         mc = new MapController(game);
         game.getMap().getMap();
+        game.setMap(game.getMap());
         Tile tile = game.getCurrentPlayer().getMapCenterTile();
         tile.setCivilization(game.getCurrentPlayer().getCivilization());
         Armed armed = new Armed(UnitType.WARRIOR,tile,game.getCurrentPlayer().getCivilization());
@@ -46,13 +47,12 @@ public class GameControllerTest {
         tile.setAvailableResource(ResourceType.IRON);
         tile.buildRoad();
         tile.buildImprovement(ImprovementType.LUMBER_MILL);
-        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
-        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
-        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
-        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
-        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
-        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
-        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
+        tile.buildImprovement(ImprovementType.LUMBER_MILL);
+        tile.buildImprovement(ImprovementType.LUMBER_MILL);
+        tile.buildImprovement(ImprovementType.LUMBER_MILL);
+        tile.buildImprovement(ImprovementType.LUMBER_MILL);
+        tile.buildImprovement(ImprovementType.LUMBER_MILL);
+        tile.buildImprovement(ImprovementType.LUMBER_MILL);
         Assertions.assertEquals(tile.getImprovementInventoryState(), ProgressState.COMPLETE);
         mc.updateSavedMap(game.getCurrentPlayer(),new Vector<>(List.of(tile)),game.getMap());
         mc.moveCenterTile(1,"right");
@@ -60,6 +60,7 @@ public class GameControllerTest {
         TileController.initializeEnums();
         City city = new City(game.getCurrentPlayer().getCivilization().getCivilization().getCityNames()[1],game.getCurrentPlayer().getCivilization(),tile);
         game.getCurrentPlayer().getCivilization().addNewCity(city);
+
         tile.setOwnerCity(city);
         city.updateBeaker();
         Unit unit = new Armed(UnitType.WARRIOR,city.getCenter(),game.getCurrentPlayer().getCivilization());
@@ -102,6 +103,8 @@ public class GameControllerTest {
         game.nextTurn();
         game.nextTurn();
         game.nextTurn();
+        game.nextTurn();
+        game.getCurrentPlayer().getMapCenterTile().setOwnerCity(game.getCurrentPlayer().getCivilization().getCities().get(0));
         GameController gc = new GameController(game,mc);
         gc.selectCity("position","51");
         gc.selectCity("pos","100");

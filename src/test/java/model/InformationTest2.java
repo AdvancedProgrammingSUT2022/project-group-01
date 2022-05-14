@@ -42,13 +42,13 @@ class InformationTest2 {
         tile.setAvailableResource(ResourceType.IRON);
         tile.buildRoad();
         tile.buildImprovement(ImprovementType.LUMBER_MILL);
-        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
-        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
-        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
-        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
-        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
-        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
-        TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
+        tile.buildImprovement(ImprovementType.LUMBER_MILL);
+        tile.buildImprovement(ImprovementType.LUMBER_MILL);
+        tile.buildImprovement(ImprovementType.LUMBER_MILL);
+        tile.buildImprovement(ImprovementType.LUMBER_MILL);
+        tile.buildImprovement(ImprovementType.LUMBER_MILL);
+        tile.buildImprovement(ImprovementType.LUMBER_MILL);
+        tile.buildImprovement(ImprovementType.LUMBER_MILL);
         Assertions.assertEquals(tile.getImprovementInventoryState(), ProgressState.COMPLETE);
         mc.updateSavedMap(game.getCurrentPlayer(),new Vector<>(List.of(tile)),game.getMap());
         mc.moveCenterTile(1,"right");
@@ -80,6 +80,13 @@ class InformationTest2 {
         game.getInformationPanel().demographicScreen();
         Assertions.assertTrue(game.getInformationPanel().researchInfo().startsWith("Research"));
 
+    }
+
+    @Test
+    void productionTest(){
+        City city = game.getCurrentPlayer().getCivilization().getCities().get(0);
+        city.setNewProduction(UnitType.WARRIOR);
+        game.getInformationPanel().cityPanel(city);
     }
 
 

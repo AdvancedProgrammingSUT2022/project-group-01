@@ -35,12 +35,12 @@ class ImprovementInventoryTest {
     public void turnsLeft(){
         improvementInventoryUnderTest.getTurnsLeft();
     }
-    @Test
-    public void setStateTest(){
-        improvementInventoryUnderTest.setState(ProgressState.DAMAGED);
-        Assertions.assertEquals(improvementInventoryUnderTest.getState(),ProgressState.DAMAGED);
-        improvementInventoryUnderTest.stop();
-    }
+//    @Test
+//    public void setStateTest(){
+//        improvementInventoryUnderTest.setState(ProgressState.DAMAGED);
+//        Assertions.assertEquals(improvementInventoryUnderTest.getState(),ProgressState.DAMAGED);
+////        improvementInventoryUnderTest.stop();
+//    }
 
     @Test
     public void setImprovementTest(){

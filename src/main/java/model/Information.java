@@ -1,11 +1,13 @@
 package model;
 
 import model.civilization.Civilization;
+import model.civilization.Currency;
 import model.civilization.city.City;
 import model.civilization.production.Producible;
 import model.tile.Tile;
 import model.unit.Unit;
 import model.unit.action.Actions;
+import utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -27,7 +29,7 @@ public class Information {
             s.append(i).append(". ");
             s.append("Name : ");
             s.append(city.getName()).append("\n");
-            s.append("Population : ").append(city.getPopulation()).append("\n");
+            s.append("Population : ").append(city.getPopulation().size()).append("\n");
             s.append("Defence Power : ").append(city.getDefencePower()).append("\n");
             s.append("Attack Power : ").append(city.getAttackPower()).append("\n");
             i++;
@@ -38,9 +40,8 @@ public class Information {
     public String getCityPanelByName(String name) {
         Civilization civilization = game.getCurrentPlayer().getCivilization();
         for (City city : civilization.getCities()) {
-            if (city.getName().equals(name)) {
-                return cityPanel(city);
-            }
+            if (city.getName().toLowerCase().equals(name)) {
+                return cityPanel(city);}
         }
         return "It is not a valid city";
     }
@@ -50,13 +51,16 @@ public class Information {
         StringBuilder s = new StringBuilder();
         s.append("City Panel :").append("\n");
         s.append("Name : ").append(city.getName()).append("\n");
-        s.append("Population : ").append(city.getPopulation()).append("\n");
+        s.append("Population : ").append(city.getPopulation().size()).append("\n");
         s.append("Defence Power : ").append(city.getDefencePower()).append("\n");
         s.append("Attack Power : ").append(city.getAttackPower()).append("\n");
         s.append("Number Of Tiles : ").append(city.getTiles().size()).append("\n");
         s.append("Beaker : ").append(city.getBeaker()).append("\n");
-        s.append("Currency : ").append(city.getCurrency().getGold()).append("G, ");
-        s.append(city.getCurrency().getFood()).append("F, ").append(city.getCurrency().getProduct()).append("P").append("\n");
+        Currency currency = city.getCurrency();
+        Currency changesOfCurrency = city.getChangesOfCurrency();
+        s.append("Currency : \n").append("Gold: ").append(StringUtils.makeNumberSigned(changesOfCurrency.getGold()));
+        s.append(" Food: ").append(currency.getFood()+" ("+StringUtils.makeNumberSigned(changesOfCurrency.getFood())+") Production :");
+        s.append(currency.getProduct()+" ("+StringUtils.makeNumberSigned(changesOfCurrency.getProduct())+")\n");
         s.append("Current Production : ");
         if (city.getProductionInventory().getCurrentProduction() != null)
             s.append(city.getProductionInventory().getCurrentProduction());
@@ -75,13 +79,13 @@ public class Information {
     public String cityEconomicOverview(City city) {
         StringBuilder s = new StringBuilder();
         s.append("City name : ").append(city.getName()).append("\n");
-        s.append("City population : ").append(city.getPopulation()).append("\n");
+        s.append("City population : ").append(city.getPopulation().size()).append("\n");
         s.append("City attack power : ").append(city.getAttackPower()).append("\n");
         s.append("City defense power : ").append(city.getDefencePower()).append("\n");
         s.append("City beaker : ").append(city.getBeaker()).append("\n");
-        s.append("City Currency : ").append("Gold : ").append(city.getCurrency().getGold())
-                .append(" Food : ").append(city.getCurrency().getFood()).append(" Production : ")
-                .append(city.getCurrency().getProduct()).append("\n");
+        s.append("Currency : \n").append("Gold: (").append(StringUtils.makeNumberSigned(city.getChangesOfCurrency().getGold())).append(")");
+        s.append(" Food: ").append(city.getCurrency().getFood()).append(" (").append(StringUtils.makeNumberSigned(city.getChangesOfCurrency().getFood())).append(") Production :");
+        s.append(city.getCurrency().getProduct()).append(" (").append(StringUtils.makeNumberSigned(city.getChangesOfCurrency().getProduct())).append(")\n");
         s.append("City buildings : ").append(" ").append("\n");
         // Improvements
         s.append("City Improvements : ");
@@ -214,12 +218,7 @@ public class Information {
             sum += player.getCivilization().getPopulationSize();
         }
         civilizations.sort(Comparator.comparingInt(Civilization::getPopulationSize));
-        return "Population : " + "\n" +
-                "size : " + civ.getPopulationSize() + "\n" +
-                "max : " + civilizations.get(0).getPopulationSize() + "\n" +
-                "min : " + civilizations.get(civilizations.size() - 1).getPopulationSize() + "\n" +
-                "average : " + sum / civilizations.size() + "\n" +
-                "rank : " + civilizations.indexOf(civ) + "\n";
+        return "Population : " + "\n" + "size : " + civ.getPopulationSize() + "\n" + "max : " + civilizations.get(0).getPopulationSize() + "\n" + "min : " + civilizations.get(civilizations.size() - 1).getPopulationSize() + "\n" + "average : " + sum / civilizations.size() + "\n" + "rank : " + civilizations.indexOf(civ) + "\n";
     }
 
     private String getGoldData(Civilization civ) {
@@ -238,12 +237,7 @@ public class Information {
                 return 0;
             }
         });
-        return "Gold : " + "\n" +
-                "size : " + civ.getCurrency().getGold() + "\n" +
-                "max : " + civilizations.get(0).getCurrency().getGold() + "\n" +
-                "min : " + civilizations.get(civilizations.size() - 1).getCurrency().getGold() + "\n" +
-                "average : " + sum / civilizations.size() + "\n" +
-                "rank : " + civilizations.indexOf(civ) + "\n";
+        return "Gold : " + "\n" + "size : " + civ.getCurrency().getGold() + "\n" + "max : " + civilizations.get(0).getCurrency().getGold() + "\n" + "min : " + civilizations.get(civilizations.size() - 1).getCurrency().getGold() + "\n" + "average : " + sum / civilizations.size() + "\n" + "rank : " + civilizations.indexOf(civ) + "\n";
     }
 
     private String getFoodData(Civilization civ) {
@@ -262,12 +256,7 @@ public class Information {
                 return 0;
             }
         });
-        return "Food : " + "\n" +
-                "size : " + civ.getCurrency().getFood() + "\n" +
-                "max : " + civilizations.get(0).getCurrency().getFood() + "\n" +
-                "min : " + civilizations.get(civilizations.size() - 1).getCurrency().getFood() + "\n" +
-                "average : " + sum / civilizations.size() + "\n" +
-                "rank : " + civilizations.indexOf(civ) + "\n";
+        return "Food : " + "\n" + "size : " + civ.getCurrency().getFood() + "\n" + "max : " + civilizations.get(0).getCurrency().getFood() + "\n" + "min : " + civilizations.get(civilizations.size() - 1).getCurrency().getFood() + "\n" + "average : " + sum / civilizations.size() + "\n" + "rank : " + civilizations.indexOf(civ) + "\n";
     }
 
     private String getProductionData(Civilization civ) {
@@ -286,12 +275,7 @@ public class Information {
                 return 0;
             }
         });
-        return "Production : " + "\n" +
-                "size : " + civ.getCurrency().getProduct() + "\n" +
-                "max : " + civilizations.get(0).getCurrency().getProduct() + "\n" +
-                "min : " + civilizations.get(civilizations.size() - 1).getCurrency().getProduct() + "\n" +
-                "average : " + sum / civilizations.size() + "\n" +
-                "rank : " + civilizations.indexOf(civ) + "\n";
+        return "Production : " + "\n" + "size : " + civ.getCurrency().getProduct() + "\n" + "max : " + civilizations.get(0).getCurrency().getProduct() + "\n" + "min : " + civilizations.get(civilizations.size() - 1).getCurrency().getProduct() + "\n" + "average : " + sum / civilizations.size() + "\n" + "rank : " + civilizations.indexOf(civ) + "\n";
     }
 
     private String getHappinessData(Civilization civ) {
@@ -310,12 +294,7 @@ public class Information {
                 return 0;
             }
         });
-        return "Happiness : " + "\n" +
-                "size : " + civ.getHappiness() + "\n" +
-                "max : " + civilizations.get(0).getHappiness() + "\n" +
-                "min : " + civilizations.get(civilizations.size() - 1).getHappiness() + "\n" +
-                "average : " + sum / civilizations.size() + "\n" +
-                "rank : " + civilizations.indexOf(civ) + "\n";
+        return "Happiness : " + "\n" + "size : " + civ.getHappiness() + "\n" + "max : " + civilizations.get(0).getHappiness() + "\n" + "min : " + civilizations.get(civilizations.size() - 1).getHappiness() + "\n" + "average : " + sum / civilizations.size() + "\n" + "rank : " + civilizations.indexOf(civ) + "\n";
     }
 
     private String getSizeByCitiesData(Civilization civ) {
@@ -334,12 +313,7 @@ public class Information {
                 return 0;
             }
         });
-        return "Number of cities: " + "\n" +
-                "size : " + civ.getCities().size() + "\n" +
-                "max : " + civilizations.get(0).getCities().size() + "\n" +
-                "min : " + civilizations.get(civilizations.size() - 1).getCities().size() + "\n" +
-                "average : " + sum / civilizations.size() + "\n" +
-                "rank : " + civilizations.indexOf(civ) + "\n";
+        return "Number of cities: " + "\n" + "size : " + civ.getCities().size() + "\n" + "max : " + civilizations.get(0).getCities().size() + "\n" + "min : " + civilizations.get(civilizations.size() - 1).getCities().size() + "\n" + "average : " + sum / civilizations.size() + "\n" + "rank : " + civilizations.indexOf(civ) + "\n";
     }
 
     private String getNumberOfTilesData(Civilization civ) {
@@ -354,16 +328,11 @@ public class Information {
             public int compare(Civilization o1, Civilization o2) {
                 double difference = getNumberOfCivilizationTiles(o1) - getNumberOfCivilizationTiles(o2);
                 if (difference > 0) return 1;
-                if (difference < 0) return -1;
-                return 0;
+                return -1;
             }
-        });
-        return "number of tiles : " + "\n" +
-                "size : " + getNumberOfCivilizationTiles(civ) + "\n" +
-                "max : " + getNumberOfCivilizationTiles(civilizations.get(0)) + "\n" +
-                "min : " + getNumberOfCivilizationTiles(civilizations.get(civilizations.size() - 1)) + "\n" +
-                "average : " + sum / civilizations.size() + "\n" +
-                "rank : " + civilizations.indexOf(civ) + "\n";
+        }
+        );
+        return "number of tiles : " + "\n" + "size : " + getNumberOfCivilizationTiles(civ) + "\n" + "max : " + getNumberOfCivilizationTiles(civilizations.get(0)) + "\n" + "min : " + getNumberOfCivilizationTiles(civilizations.get(civilizations.size() - 1)) + "\n" + "average : " + sum / civilizations.size() + "\n" + "rank : " + civilizations.indexOf(civ) + "\n";
     }
 
     private int getNumberOfCivilizationTiles(Civilization civ) {
@@ -387,12 +356,7 @@ public class Information {
                 return o1.getUnits().size() - o2.getUnits().size();
             }
         });
-        return "number of units : " + "\n" +
-                "size : " + civ.getUnits().size() + "\n" +
-                "max : " + civilizations.get(0).getUnits().size() + "\n" +
-                "min : " + civilizations.get(civilizations.size() - 1).getUnits().size() + "\n" +
-                "average : " + sum / civilizations.size() + "\n" +
-                "rank : " + civilizations.indexOf(civ) + "\n";
+        return "number of units : " + "\n" + "size : " + civ.getUnits().size() + "\n" + "max : " + civilizations.get(0).getUnits().size() + "\n" + "min : " + civilizations.get(civilizations.size() - 1).getUnits().size() + "\n" + "average : " + sum / civilizations.size() + "\n" + "rank : " + civilizations.indexOf(civ) + "\n";
     }
 
     private String getResourceData(Civilization civ) {
@@ -407,16 +371,11 @@ public class Information {
             public int compare(Civilization o1, Civilization o2) {
                 double difference = getNumberOfResourceReposit(o1) - getNumberOfResourceReposit(o2);
                 if (difference > 0) return 1;
-                if (difference < 0) return -1;
-                return 0;
+                return -1;
+
             }
         });
-        return "Number of resources in repository : " + "\n" +
-                "size : " + getNumberOfResourceReposit(civ) + "\n" +
-                "max : " + getNumberOfResourceReposit(civilizations.get(0)) + "\n" +
-                "min : " + getNumberOfResourceReposit(civilizations.get(civilizations.size() - 1)) + "\n" +
-                "average : " + sum / civilizations.size() + "\n" +
-                "rank : " + civilizations.indexOf(civ) + "\n";
+        return "Number of resources in repository : " + "\n" + "size : " + getNumberOfResourceReposit(civ) + "\n" + "max : " + getNumberOfResourceReposit(civilizations.get(0)) + "\n" + "min : " + getNumberOfResourceReposit(civilizations.get(civilizations.size() - 1)) + "\n" + "average : " + sum / civilizations.size() + "\n" + "rank : " + civilizations.indexOf(civ) + "\n";
     }
 
     private int getNumberOfResourceReposit(Civilization civ) {
@@ -429,10 +388,7 @@ public class Information {
     // Panel Kavosh ha
     public String researchInfo() {
         Civilization civilization = game.getCurrentPlayer().getCivilization();
-        return "Research Info" + "\n" +
-                "Current Research :" +
-                civilization.getResearchTree().getCurrentResearch() + "\n" +
-                "Remaining Science : " + civilization.getResearchTree().getRemainingScience() + "\n";
+        return "Research Info" + "\n" + "Current Research :" + civilization.getResearchTree().getCurrentResearch() + "\n" + "Remaining Science : " + civilization.getResearchTree().getRemainingScience() + "\n";
     }
 
     // TODO Diplomacy Panel

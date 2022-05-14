@@ -14,6 +14,7 @@ import model.civilization.production.ProductionInventory;
 import model.tile.Terrain;
 import model.tile.Tile;
 import model.unit.Unit;
+import model.unit.UnitType;
 import utils.Pair;
 
 @Getter
@@ -39,7 +40,6 @@ public class City {
 	private Unit garrisonedUnit;
 	private int beaker = 5;//todo check correct value
 	private int remainedTurnToGrowth = 8;
-	private final int happiness = 0; // TODO : important
 
 	public City(String name, Civilization civilization, Tile center) {
 		this.civilization =  civilization;
@@ -51,15 +51,16 @@ public class City {
 		tiles.add(center);
 		tiles.addAll(center.getAdjacentTiles());
 		nextTiles = new Vector<>();
-		this.currency = new Currency(5,5,5);//TODO: check this value
+		this.currency = new Currency(0,5,5);
 		this.changesOfCurrency = new Currency(5,5,5);
 		if(center.getTerrain().equals(Terrain.HILLS))
 			defencePower += 5;
-		this.state = CityState.NORMAL;
 		for(Tile tile : tiles) {
 			tile.setCivilization(civilization);
 			tile.setOwnerCity(this);
 		}
+		this.productionInventory = new ProductionInventory(this);
+		this.state = CityState.NORMAL;
 	}
 
 	public Vector<Tile> getTiles() {
@@ -91,26 +92,21 @@ public class City {
 		productionInventory.setCurrentProduction(producible);
 	}
 
-	/**
-	 * 
-	 * @param civilization
-	 * @param state
-	 */
-	public void setNewState(Civilization civilization, CityState state) {
-		// TODO - implement model.civilization.city.City.setNewState
-		throw new UnsupportedOperationException();
-	}
-
 	private void updateCurrency() {
+		changesOfCurrency.setValue(0,0,0);
 		for(Tile tile : tiles){
 			currency.add(tile.getCurrency());
 			changesOfCurrency.add(tile.getCurrency());
 		}
+		currency.increase(-currency.getGold(),0,0);
+		if((productionInventory.getCurrentProduction() != null) &&(productionInventory.getCurrentProduction().equals(UnitType.SETTLER))){
+			if(currency.getFood() > 0)
+				currency.increase(0,0,-currency.getFood());
+			if(changesOfCurrency.getFood() > 0)
+				changesOfCurrency.increase(0,0,-changesOfCurrency.getFood());
+		}
 	}
 
-	public void resetChangesOfCurrency(){
-		changesOfCurrency.setValue(0,0,0);
-	}
 
 	private void handlePopulationIncrease(){
 		if(remainedTurnToExpansion == 0 && currency.getFood() > 15){
@@ -122,11 +118,12 @@ public class City {
 	}
 
 	public void destroy() {
-		population.clear();
 		civilization.getCities().remove(this);
 		for(Tile tile : tiles){
 			tile.setOwnerCity(null);
 			tile.setCivilization(null);
+			tile.removeImprovement();
+			tile.getPeopleInside().clear();
 		}
 	}
 
@@ -140,7 +137,6 @@ public class City {
 		handlePopulationIncrease();
 		updateBeaker();
 		//todo create notification here
-
 	}
 
 	public Unit getGarrisonedUnit() {
@@ -180,6 +176,10 @@ public class City {
 
 	public Vector<Person> getPopulation() {
 		return population;
+	}
+
+	public Tile getCenterTile() {
+		return center;
 	}
 
 	private void handleNextTiles(){

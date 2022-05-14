@@ -5,6 +5,7 @@ import model.ProgressState;
 import model.unit.armed.Siege;
 import model.unit.Unit;
 import model.unit.civilian.Settler;
+import utils.StringUtils;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -17,9 +18,10 @@ public enum Actions {
 				action.decreaseTurn();
 			}
 	),
-	FORTIFY_UNTIL_HEAL(-1,
+	FORTIFY_UNTIL_HEAL(10,
 			FORTIFY.isPossibleFunc,
 			action -> {
+				System.out.println("!!!!!!!!!!!!!!!!!!!".repeat(1));
 				action.getUnit().changeHealth(+1);
 				if(action.getUnit().getHealth() == Unit.maxHealth)
 					action.completeAction();
@@ -59,8 +61,8 @@ public enum Actions {
 	BUILD_IMPROVEMENT(null,
 			action -> action.getImprovementType().isEligibleToBuild(action.getUnit().getOwnerCivilization(), action.getUnit().getCurrentTile()),
 			action -> {
-				System.err.println("123 : " + action.getUnit().getCurrentTile().getImprovementTurnsLeft());
 				action.getUnit().getCurrentTile().buildImprovement(action.getImprovementType());
+				System.err.println("123 : " + action.getUnit().getCurrentTile().getImprovementTurnsLeft());
 				action.decreaseTurn();
 			}
 	),
@@ -79,7 +81,7 @@ public enum Actions {
 	),
 	PAUSE_IMPROVEMENT(1,
 			action -> action.getUnit().getCurrentTile().getImprovementInventoryState().equals(ProgressState.IN_PROGRESS),
-			action -> action.getUnit().getCurrentTile().stopImprovementProgress()
+			action -> {}
 	),
 	BUILD_ROAD(1,
 			action -> !action.getUnit().getCurrentTile().doesHaveRoad(),
@@ -118,5 +120,10 @@ public enum Actions {
 
 	public Consumer<Action> getDoActionFunc() {
 		return doActionFunc;
+	}
+
+	@Override
+	public String toString() {
+		return StringUtils.convertToPascalCase(this.name()).replaceAll("_", " ");
 	}
 }

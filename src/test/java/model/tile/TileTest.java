@@ -80,7 +80,7 @@ public class TileTest {
     void testBuildRoute() throws Exception {
         // Setup
         // Run the test
-        tileUnderTest.buildRoute();
+//        tileUnderTest.buildRoute();
 
         // Verify the results
     }
@@ -264,15 +264,15 @@ public class TileTest {
 
         // Verify the results
     }
-
-    @Test
-    void testStopImprovementProgress() throws Exception {
-        // Setup
-        // Run the test
-        tileUnderTest.stopImprovementProgress();
-
-        // Verify the results
-    }
+//
+//    @Test
+//    void testStopImprovementProgress() throws Exception {
+//        // Setup
+//        // Run the test
+////        tileUnderTest.stopImprovementProgress();
+//
+//        // Verify the results
+//    }
 
 
     @Test
@@ -284,16 +284,16 @@ public class TileTest {
         Assertions.assertEquals(tile.getNearbyBoarders(),boarder);
     }
 
-    @Test
-    void roadAndRailGetterSetter(){
-        Tile tile = new Tile(Terrain.DESERT,TerrainFeature.OASIS,null,ResourceType.MARBLE,10,10,10);
-        tile.setHasRoad(true);
-        tile.setHasRailRoad(true);
-        tile.isHasRoad();
-        tile.isHasRailRoad();
-        Assertions.assertTrue(tile.isHasRoad());
-        Assertions.assertTrue(tile.isHasRailRoad());
-    }
+//    @Test
+//    void roadAndRailGetterSetter(){
+//        Tile tile = new Tile(Terrain.DESERT,TerrainFeature.OASIS,null,ResourceType.MARBLE,10,10,10);
+//        tile.setHasRoad(true);
+//        tile.setHasRailRoad(true);
+//        tile.isHasRoad();
+//        tile.isHasRailRoad();
+//        Assertions.assertTrue(tile.isHasRoad());
+//        Assertions.assertTrue(tile.isHasRailRoad());
+//    }
 
     @Test
     void destroyLombokTest(){

@@ -75,17 +75,7 @@ public class Civilization implements TurnBasedLogic {
 
 	private void updateCurrency() {
 		for(City city: cities) {
-			if(city == null) {
-				System.out.println("salam2");
-				return;
-			}
-			if(city.getChangesOfCurrency() == null){
-				System.out.println("malam2");
-				return;
-			}
-
 			currency.add(city.getChangesOfCurrency());
-			city.resetChangesOfCurrency();
 		}
 	}
 

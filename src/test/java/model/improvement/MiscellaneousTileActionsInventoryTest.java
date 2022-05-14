@@ -23,16 +23,6 @@ public class MiscellaneousTileActionsInventoryTest {
     @Test
     public void nextTurnTest(){
        // Civilization civilization = new Civilization(Civilizations.ASSYRIAN,new City("hi",null,tile));
-        when(tile.getTerrain()).thenReturn(Terrain.DESERT);
-        when(tile.getFeature()).thenReturn(TerrainFeature.FOREST);
-        MiscellaneousTileActionsInventory miscellaneousTileActionsInventory = new MiscellaneousTileActionsInventory(tile);
-        miscellaneousTileActionsInventory.setAction(UnitActions.BUILD_ROAD);
 
-        when(tile.getCivilization()).thenReturn(civ1);
-        miscellaneousTileActionsInventory.nextTurn(civ1);
-        miscellaneousTileActionsInventory.nextTurn(civ1);
-        miscellaneousTileActionsInventory.nextTurn(civ1);
-        miscellaneousTileActionsInventory.nextTurn(civ1);
-        miscellaneousTileActionsInventory.nextTurn(civ1);
     }
 }

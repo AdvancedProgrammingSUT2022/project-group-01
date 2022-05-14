@@ -25,12 +25,12 @@ public class TileTest3 {
         Tile tile = new Tile(Terrain.PLAINS, TerrainFeature.FOREST,null, ResourceType.IRON, 10,10,10);
         Assertions.assertEquals(tile.getFeature(), TerrainFeature.FOREST);
     }
-    @Test
-    public void repairTest(){
-        Tile tile = new Tile(Terrain.PLAINS,TerrainFeature.FOREST,null,ResourceType.IRON,10,10,10);
-        tile.buildRoad();
-        Assertions.assertTrue(tile.getHasRoute());
-    }
+//    @Test
+//    public void repairTest(){
+//        Tile tile = new Tile(Terrain.PLAINS,TerrainFeature.FOREST,null,ResourceType.IRON,10,10,10);
+//        tile.buildRoad();
+//        Assertions.assertTrue(tile.getHasRoute());
+//    }
     @Test
     public void boarderTest(){
         Tile tile = new Tile(Terrain.DESERT,TerrainFeature.JUNGLE, null, ResourceType.GEMS,15,50,50);

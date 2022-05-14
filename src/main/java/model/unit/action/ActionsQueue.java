@@ -44,10 +44,6 @@ public class ActionsQueue {
 		}
 	}
 
-	public void nextTurn() {
-		//TODO next ture
-	}
-
 	/**
 	 * do the first action in queue
 	 */
@@ -100,7 +96,8 @@ public class ActionsQueue {
 
 	//TODO ADDED BY PARHAM
 	public Action getCurrentAction(){
-		if(queue.isEmpty()) return null;
+		if(queue.isEmpty())
+			return null;
 		return queue.get(0);
 	}
 }

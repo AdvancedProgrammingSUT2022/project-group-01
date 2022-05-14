@@ -46,4 +46,5 @@ class ProfileMenuControllerTest {
                 Map.ofEntries(Map.entry("value", "value")))));
     }
 
+
 }
