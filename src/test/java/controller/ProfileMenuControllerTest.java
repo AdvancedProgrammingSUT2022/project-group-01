@@ -30,13 +30,13 @@ class ProfileMenuControllerTest {
 
     @Test
     void testMenuEnter() {
-        assertEquals("menu navigation is not possible", profileMenuControllerUnderTest.menuEnter(new HashMap<>(
+        assertEquals("menu navigation is not possible!", profileMenuControllerUnderTest.menuEnter(new HashMap<>(
                 Map.ofEntries(Map.entry("value", "value")))));
     }
 
     @Test
     void testCurrentMenu() {
-        assertEquals("Profile Menu", profileMenuControllerUnderTest.currentMenu(new HashMap<>(
+        assertEquals("profile menu", profileMenuControllerUnderTest.currentMenu(new HashMap<>(
                 Map.ofEntries(Map.entry("value", "value")))));
     }
 

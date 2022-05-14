@@ -356,4 +356,17 @@ class GameMenuControllerTest {
         gameMenuController.unitFortifyUntilHeal(null);
         Assertions.assertTrue(gameMenuController.unitFortifyUntilHeal(null).contains("haven't select"));
     }
+
+//    @Test
+//    void unitPillageTest(){
+//        game.setSelectedObject(game.getCurrentPlayer().getCivilization().getUnits().get(0));
+//        gameMenuController.unitPillage(null);
+//        game.setSelectedObject(null);
+//        gameMenuController.unitPillage(null);
+//        game.nextTurn();
+//        game.setSelectedObject(game.getPlayers().get(0).getCivilization().getUnits().get(0));
+//        gameMenuController.unitPillage(null);
+//        game.nextTurn();
+//    }
+
 }
