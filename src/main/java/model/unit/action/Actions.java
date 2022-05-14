@@ -58,7 +58,11 @@ public enum Actions {
 	),
 	BUILD_IMPROVEMENT(null,
 			action -> action.getImprovementType().isEligibleToBuild(action.getUnit().getOwnerCivilization(), action.getUnit().getCurrentTile()),
-			action -> action.getUnit().getCurrentTile().buildImprovement(action.getImprovementType())
+			action -> {
+				System.err.println("123 : " + action.getUnit().getCurrentTile().getImprovementTurnsLeft());
+				action.getUnit().getCurrentTile().buildImprovement(action.getImprovementType());
+				action.decreaseTurn();
+			}
 	),
 	PILLAGE_IMPROVEMENT(1,
 			action -> action.getUnit().getCurrentTile().getBuiltImprovement() != null,
@@ -104,7 +108,7 @@ public enum Actions {
 		this.doActionFunc = doActionFunc;
 	}
 
-	public int getRequiredTurns() {
+	public Integer getRequiredTurns() {
 		return requiredTurns;
 	}
 

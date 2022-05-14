@@ -9,6 +9,7 @@ import model.building.BuildingInventory;
 import model.civilization.Civilization;
 import model.civilization.Currency;
 import model.civilization.Person;
+import model.civilization.production.Producible;
 import model.civilization.production.ProductionInventory;
 import model.tile.Terrain;
 import model.tile.Tile;
@@ -38,6 +39,7 @@ public class City {
 	private Unit garrisonedUnit;
 	private int beaker = 5;//todo check correct value
 	private int remainedTurnToGrowth = 8;
+	private final int happiness = 0; // TODO : important
 
 	public City(String name, Civilization civilization, Tile center) {
 		this.civilization =  civilization;
@@ -50,9 +52,14 @@ public class City {
 		tiles.addAll(center.getAdjacentTiles());
 		nextTiles = new Vector<>();
 		this.currency = new Currency(5,5,5);//TODO: check this value
+		this.changesOfCurrency = new Currency(5,5,5);
 		if(center.getTerrain().equals(Terrain.HILLS))
 			defencePower += 5;
 		this.state = CityState.NORMAL;
+		for(Tile tile : tiles) {
+			tile.setCivilization(civilization);
+			tile.setOwnerCity(this);
+		}
 	}
 
 	public Vector<Tile> getTiles() {
@@ -80,9 +87,8 @@ public class City {
 		return this.productionInventory;
 	}
 
-	public void setNewProduction() {
-		// TODO - implement model.civilization.city.City.setNewProduction
-		throw new UnsupportedOperationException();
+	public void setNewProduction(Producible producible) {
+		productionInventory.setCurrentProduction(producible);
 	}
 
 	/**
@@ -96,14 +102,16 @@ public class City {
 	}
 
 	private void updateCurrency() {
-		Currency changes = new Currency(0,0,0);
 		//don't forget to update changes for unit and ...
 		for(Tile tile : tiles){
 			currency.add(tile.getCurrency());
-			changes.add(tile.getCurrency());
+			changesOfCurrency.add(tile.getCurrency());
 		}
-		changesOfCurrency = changes;
-		//you can show changes like food: +2 and ...
+	}
+
+	public void resetChangesOfCurrency(){
+		changesOfCurrency.setValue(0,0,0);
+		currency.increase(0,-1*currency.getProduct(),0);
 	}
 
 	private void handlePopulationIncrease(){
@@ -173,10 +181,6 @@ public class City {
 		return population;
 	}
 
-	public Tile getCenterTile() {
-		return center;
-	}
-
 	private void handleNextTiles(){
 		if(nextTiles.size() < maxNextTiles){
 			int requiredTileCount = maxNextTiles - nextTiles.size();
@@ -186,7 +190,7 @@ public class City {
 		}
 		if(remainedTurnToExpansion == 0){
 			remainedTurnToExpansion = turnToExpansion;
-			int i = new Random().nextInt(nextTiles.size());
+			int i = new Random(58).nextInt(nextTiles.size());
 			addNewTiles(new Vector<>(Arrays.asList(nextTiles.get(i))));
 		}
 		remainedTurnToExpansion--;

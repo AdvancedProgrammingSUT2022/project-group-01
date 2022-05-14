@@ -18,6 +18,12 @@ public class Currency {
         this.food += currency.getFood();
     }
 
+    public void setValue(double gold, double product, double food){
+        this.gold = gold;
+        this.product = product;
+        this.food = food;
+    }
+
     public void increase(double gold, double product, double food){
         this.gold += gold;
         this.product += product;

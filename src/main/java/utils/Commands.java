@@ -3,6 +3,7 @@ package utils;
 
 public enum Commands {
     //GAME
+        NEXT_TURN("next turn", null,null,0,null),
         //select
         SELECT_UNIT("select unit", new String[]{"position"}, null,1,null),
         SELECT_CITY("select city", null, new String[]{"name", "position"},0,null),
@@ -22,6 +23,9 @@ public enum Commands {
         UNIT_BUILD("unit build",null,null,1,null),
         UNIT_REMOVE("unit remove", null,null,1,null),
         UNIT_REPAIR("unit repair", null,null,0,null),
+        UNIT_ACTION_LIST("unit action list", null, null, 0, null),
+    //WORKER
+        UNIT_BUILD_IMPROVEMENT("improvement build", new String[]{"name"}, null, 0, null),
     //MAP
         MAP_SHOW("map show", null,new String[]{"position","cityname"},0,null),
         MAP_MOVE("map move", new String[]{"count"}, null, 1,null),
@@ -37,7 +41,6 @@ public enum Commands {
         SET_PRODUCTION("set production", new String[]{"type"}, null, 0,null),
         LIST_OF_ALL_OF_PRODUCTIONS("list of productions", null,null,1,null),
         LIST_OF_PRODUCTIONS("list of productions", null, null,0,null),
-        CHANGE_PRODUCTION("change production", new String[]{"type"}, null,0,null),
         GET_PURCHASABLE_TILES("get purchasable tiles",null,null,0,null),
         PURCHASE_TILE("purchase tile", new String[]{"index"},null,0,null),
         LIST_OF_POPULATION("list of population",null,null,0,null),
@@ -53,11 +56,13 @@ public enum Commands {
         ADD_TECHNOLOGY("add technology", new String[]{"name"}, null, 0, null),
         ADD_BEAKER("add beaker", new String[]{"amount"}, null, 0, null),
         CHEAT_NEXT_TURN("cheat next turn", null, null, 0, null),
+        MULTI_NEXT_TURN("next turn",new String[]{"count"},null,0,null),
         TELEPORT("teleport", new String[]{"position"}, null,0,null),
         MAKE_TILE_VISIBLE("make tile visible",  new String[]{"position"}, null, 0,null),
         ADD_HAPPINESS("add happiness", new String[]{"amount"}, null, 0,null),
         CREATE_FEATURE("create feature", new String[]{"type"}, null, 0,null),
         ADD_SCORE("add score", new String[]{"amount"}, null,0,null),
+
     //PROFILE
         PROFILE_CHANGE("profile change",null, new String[]{"new","current"},1,null),
     // TECHNOLOGY

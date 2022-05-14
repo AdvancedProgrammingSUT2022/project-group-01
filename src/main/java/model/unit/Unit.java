@@ -47,8 +47,13 @@ public class Unit{
 	}
 
 	public static void produceUnit(UnitType type, City city){
-//		this(type, City., ProgramController.getGame());
+		Unit unit = spawnUnit(type, city.getCenter(), city.getCivilization());
+		if(unit instanceof Armed)
+			city.getCenter().setArmedUnit((Armed)unit);
+		else
+			city.getCenter().setCivilianUnit((Civilian)unit);
 	}
+
 	public static Unit spawnUnit(UnitType type, Tile tile, Civilization ownerCivilization){
 		if(type.getCombatType() == CombatType.CIVILIAN)
 			return Civilian.spawnCivilian(type, tile, ownerCivilization);
@@ -154,10 +159,6 @@ public class Unit{
 		return stopTiles;
 	}
 
-	public Civilization getOwnerCivilization() {
-		return ownerCivilization;
-	}
-
 	private class Distance implements Comparable<Distance> {
 		public static final int infinity = 10000000;
 		private int turn;
@@ -180,6 +181,9 @@ public class Unit{
 			int resultTurn = turn;
 			int resultRemainedMP = remainedMP;
 			Tile nextTile = boarder.getOtherTile(currentTile);
+			if(!nextTile.isPassable()) {
+				return new Distance(infinity, -1);
+			}
 			if (remainedMP == 0) {
 				if (turn != 0 && (Unit.this instanceof Armed) && currentTile.getArmedUnit() != null)
 					return new Distance(infinity, -1);

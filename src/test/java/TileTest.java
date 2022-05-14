@@ -364,7 +364,7 @@ public class TileTest {
         City city = new City(game.getCurrentPlayer().getCivilization().getCivilization().getCityNames()[1],game.getCurrentPlayer().getCivilization(),tile);
         game.getCurrentPlayer().getCivilization().addNewCity(city);
         city.updateBeaker();
-        Unit unit = new Armed(UnitType.WARRIOR,city.getCenterTile(),game.getCurrentPlayer().getCivilization());
+        Unit unit = new Armed(UnitType.WARRIOR,city.getCenter(),game.getCurrentPlayer().getCivilization());
         city.setGarrisonedUnit(unit);
         city.getGarrisonedUnit();
         city.updateDefencePower(2);

@@ -28,6 +28,7 @@ public enum Terrain {
 	},
 	MOUNTAIN(0,0,0,25,9999,false,true,false),
 	OCEAN(1,0,1,0,Integer.MAX_VALUE,false,false,false){
+
 		@Override
 		public void initializeVectors(){
 			this.possibleFeatures = new Vector<>(List.of(TerrainFeature.ICE));
