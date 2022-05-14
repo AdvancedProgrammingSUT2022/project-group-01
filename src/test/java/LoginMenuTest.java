@@ -3,6 +3,7 @@ import controller.MainMenuController;
 import controller.ProgramController;
 import model.Database;
 import model.User;
+import model.civilization.production.Producible;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -5,10 +5,12 @@ import model.civilization.Currency;
 import model.civilization.Person;
 import model.civilization.city.City;
 import model.civilization.production.Producible;
+import model.civilization.production.ProductionInventory;
 import model.tile.Tile;
 import utils.Pair;
 
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.Vector;
 
 public class CityController {
@@ -35,13 +37,14 @@ public class CityController {
         Vector<Pair<Tile, Integer>> pairs = city.getPurchasableTiles();
         for (int i=0;i<pairs.size();i++) {
             Pair<Tile, Integer> pair = pairs.get(i);
-            items.append(pair.getFirst().getMapNumber()).append(" : ").append(pair.getSecond()).append("$\n");
+            items.append(i+1).append("- ").append(pair.getFirst().getMapNumber()).append(" : ").append(pair.getSecond()).append("$\n");
         }
         return items.toString();
     }
 
     public String purchaseTile(City city, int tileIndex){
         Vector<Pair<Tile, Integer>> pairs = city.getPurchasableTiles();
+        tileIndex--;
         if(tileIndex >= pairs.size()){
             return "invalid index!";
         }
@@ -71,6 +74,7 @@ public class CityController {
 
     public String setPopulation(City city, int civilianIndex, Tile newTile){
         Vector<Person> population = city.getPopulation();
+        civilianIndex--;
         if(population.size() <= civilianIndex)
             return "invalid index";
         Vector<Person> peopleInside = newTile.getPeopleInside();
@@ -86,6 +90,7 @@ public class CityController {
     }
 
     public String deletePopulation(City city, int civilianIndex){
+        civilianIndex--;
         Vector<Person> population = city.getPopulation();
         if(population.size() <= civilianIndex)
             return "invalid index";
@@ -107,10 +112,10 @@ public class CityController {
         StringBuilder out = new StringBuilder();
         int i = 1;
         for(Producible producible : productions){
-            Double turns = Math.ceil(producible.getCost(city)/city.getCurrency().getProduct());
+            double turns = Math.ceil(producible.getCost(city)/city.getCurrency().getProduct());
             out.append(i).append("- ").append(producible.toString()).append(" : ");
             if(toProduct) {
-                out.append(turns);
+                out.append((int)turns);
                 if (turns > 1)
                     out.append(" turns\n");
                 else
@@ -139,29 +144,29 @@ public class CityController {
     }
 
     public String getProductionsListToPurchase(City city){
-        System.out.println("salam");
-        Vector<Producible> productions = Producible.productions;
+        Vector<Producible> productions = city.getProductionInventory().getAllProductions();
         return listProductions(productions, city, false);
     }
 
     public String purchaseProduction(City city, String type){
-        Producible purchasing = stringToProducible(type);
-        if(purchasing == null)
+        Producible producible = stringToProducible(type);
+        if(producible == null)
             return "invalid production!";
-        int cost = purchasing.getCost(city);
+        int cost = producible.getCost(city);
         Currency currency = city.getCivilization().getCurrency();
         if(cost > currency.getGold())
             return "you don't have enough gold!";
         currency.increase(-1*cost, 0,0);
-        purchasing.produce(city);
-        return "done";
+        producible.produce(city);
+        return "done!";
     }
 
     private Producible stringToProducible(String type){
         Producible out = null;
-        for (Producible producible : Producible.productions)
-            if(producible.toString().toLowerCase().equals(type))
+        for (Producible producible : Producible.productions) {
+            if (producible.toString().toLowerCase().equals(type))
                 out = producible;
+        }
         return out;
     }
 
@@ -172,7 +177,7 @@ public class CityController {
             }break;
             case "food":{city.increaseCurrency(0,0, amount);}break;
             case "product":{city.increaseCurrency(0,amount,0);}break;
-            default:{return "invalid resource";}
+            default:{return "invalid resource!";}
         }
 
         return "hey cheater, "+resourceName+" increased!";

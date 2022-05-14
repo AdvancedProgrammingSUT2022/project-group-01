@@ -28,7 +28,8 @@ public class CommandProcessorTest {
             put("position", "2");
             put("section","civilian");
         }};
-        String input = "select unit civilian --position 2";
+        String input = "select unit civilian -p 2";
+
         HashMap<String, String> result = CommandProcessor.extractCommand(input, Commands.SELECT_UNIT);
         Assertions.assertEquals(answer,result);
     }
@@ -40,7 +41,7 @@ public class CommandProcessorTest {
             put("position", "2");
             put("section","civilian");
         }};
-        String input = "select unit civilian --position 2";
+        String input = "select unit civilian -p 2";
         HashMap<String, String> result = CommandProcessor.extractCommand(input, Commands.SELECT_UNIT);
         Assertions.assertEquals(answer,result);
     }
