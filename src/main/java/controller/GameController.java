@@ -20,17 +20,44 @@ public class GameController {
         this.mapController = mapController;
     }
 
-    private City findCityByName(String name){Vector<Player> players = game.getPlayers();
+    public String selectUnit(String type, Integer position){
+        Tile tile = game.getMap().getTileByNumber(position);
+        if(tile == null)
+            return "Invalid tile!";
+        Tile.VisibilityState visibilityState = game.getCurrentPlayer().getSavedMap().getVisibilityState(tile);
+        if(visibilityState == Tile.VisibilityState.FOG_OF_WAR || visibilityState == Tile.VisibilityState.DISCOVERED)
+            return "you can't select any unit here!";
+        if(type.equals("civilian")){
+            Civilian civilian = tile.getCivilianUnit();
+            if(civilian == null)
+                return "there is no civilian here!";
+            game.setSelectedObject(civilian);
+        }else if(type.equals("armed")){
+            Armed armed = tile.getArmedUnit();
+            if(armed == null)
+                return "there is no armed here!";
+            game.setSelectedObject(armed);
+        }else{
+            return "invalid unit type, types are [armed, civilian]";
+        }
+        return "unit selected";
+    }
+
+    private City findCityByName(String name){
+        Vector<Player> players = game.getPlayers();
         for(Player player : players){
             Civilization civilization = player.getCivilization();
             for(City city : civilization.getCities()){
                 if(city.getName().toLowerCase().equals(name)){
                     return city;
-                }}
+                }
+            }
         }
-        return null;}
+        return null;
+    }
 
-    public String selectCity(String selectingType, String value){if(selectingType.equals("position")){
+    public String selectCity(String selectingType, String value){
+        if(selectingType.equals("position")){
             Tile tile = game.getMap().getTileByNumber(Integer.parseInt(value));
             if(tile == null)
                 return "Invalid position";
@@ -54,12 +81,10 @@ public class GameController {
             int position = Integer.parseInt(value);
             mapController.setPosition(position);
             return mapController.getConsoleMap(game.getCurrentPlayer().getMapCenterTile());
-        }
-        else if(selectingType.equals("cityname")){
+        }else if(selectingType.equals("cityname")){
             City city = findCityByName(value);
             if(city == null)
                 return "there is no city with this name";
-
             mapController.setPosition(city.getCenter().getMapNumber());
             return mapController.getConsoleMap(game.getCurrentPlayer().getMapCenterTile());
         }else{
@@ -67,7 +92,13 @@ public class GameController {
         }
     }
 
-    public String showTileInfo(Tile tile){StringBuilder s = new StringBuilder().append("Tile Number : ").append(tile.getMapNumber()).append("\n");
+    public String mapShow(){
+        mapController.updateCurrentPlayersMap();
+        return mapController.getConsoleMap(game.getCurrentPlayer().getMapCenterTile());
+    }
+
+    public String showTileInfo(Tile tile){
+        StringBuilder s = new StringBuilder().append("Tile Number : ").append(tile.getMapNumber()).append("\n");
         s.append("Terrain : ").append(tile.getTerrain().name()).append("\n");
         s.append("Feature : ");
         if(tile.getFeature() != null) s.append(tile.getFeature().name());
@@ -100,14 +131,17 @@ public class GameController {
     }
 
     public String cheatSetFeature(Tile tile, TerrainFeature feature){
-        if(tile.getImprovementInAction() != null) return "you can't use cheat on this tile";
-        if(tile.getAvailableResource() != null) return "you can't use cheat on this tile";
-        if(!tile.getTerrain().possibleFeatures.contains(feature)) return "you can't use cheat on this tile";
+        if(tile.getImprovementInAction() != null) return "you can't use this cheat on a tile containing improvement";
+        if(tile.getAvailableResource() != null) return "you can't use cheat on a tile containing a resource";
+        if(!tile.getTerrain().possibleFeatures.contains(feature)) return "you can't use this feature on this tile's terrain";
         tile.setFeature(feature);
         return "God's grace has brought you the feature you desired.";
     }
 
     public String getPlayerInfo(){
         return "current player: "+game.getCurrentPlayer().getUser().getNickname();
+    public String cheatRemoveFogOfWar(Tile tile){
+        game.getCurrentPlayer().getSavedMap().updateData(tile, Tile.VisibilityState.VISIBLE,tile.getTerrain(),tile.getFeature(),tile.getAvailableResource(),tile.getOwnerCity());
+        return "see more... like it's gonna help you not be a newbie.";
     }
 }

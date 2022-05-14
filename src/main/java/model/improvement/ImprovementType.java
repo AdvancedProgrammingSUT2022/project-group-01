@@ -121,6 +121,8 @@ public enum ImprovementType {
 
         @Override
         public int getProductionTime(Tile tile) {
+            if(tile.getFeature() == null)
+                return 6;
             if (tile.getFeature().equals(TerrainFeature.FOREST))
                 return 10;
             if (tile.getFeature().equals(TerrainFeature.JUNGLE))
@@ -215,9 +217,10 @@ public enum ImprovementType {
     }
 
     public boolean isEligibleToBuild(Civilization civilization, Tile tile) {
-        if (!(this.canBuiltOnTerrains.contains(tile.getTerrain())
-                || this.canBuiltOnTerrainFeatures.contains(tile.getFeature())))
-            return false;
+        //  just for test todo
+//        if (!(this.canBuiltOnTerrains.contains(tile.getTerrain())
+//                || this.canBuiltOnTerrainFeatures.contains(tile.getFeature())))
+//            return false;
         return civilization.getResearchTree().isResearched(this.preRequisiteTech);
     }
 

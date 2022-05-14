@@ -9,7 +9,7 @@ import java.util.*;
 public class ProductionInventory {
 
 	City city;
-	HashMap<Producible, Double> productions;
+	HashMap<Producible, Double> productions = new HashMap<>();
 	Producible currentProduction;
 	public ProductionInventory(City city) {
 		this.city = city;

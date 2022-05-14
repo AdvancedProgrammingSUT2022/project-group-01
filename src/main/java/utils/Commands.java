@@ -11,6 +11,7 @@ public enum Commands {
         SELECT_UNIT("select unit", new String[]{"position"}, null,1,null),
         SELECT_CITY("select city", null, new String[]{"name", "position"},0,null),
         //unit
+        UNIT_INFO("unit info", null, null, 0, null),
         UNIT_MOVE("unit moveto", new String[]{"position"}, null,0,null),
         UNIT_SLEEP("unit sleep", null, null, 0,null),
         UNIT_ALERT("unit alert", null,null,0,null),
@@ -30,7 +31,7 @@ public enum Commands {
     //WORKER
         UNIT_BUILD_IMPROVEMENT("improvement build", new String[]{"name"}, null, 0, null),
     //MAP
-        MAP_SHOW("map show", null,new String[]{"position","cityname"},0,null),
+        MAP_SHOW("map show", null,new String[]{"position","cityname","current"},0,null),
         MAP_MOVE("map move", new String[]{"count"}, null, 1,null),
         SHOW_NEXT_TILES("show next tiles",null,null,0,null),
     //LOGIN
@@ -65,6 +66,7 @@ public enum Commands {
         ADD_HAPPINESS("add happiness", new String[]{"amount"}, null, 0,null),
         CREATE_FEATURE("create feature", new String[]{"type","position"}, null, 0,null),
         ADD_SCORE("add score", new String[]{"amount"}, null,0,null),
+        DAMAGE_UNIT("damage unit", new String[]{"amount"}, null, 0, null),
     //INFO
         INFO("info", null,null,1,null),
         ACTIVE_UNIT("active unit",null,null,1,null),

@@ -37,8 +37,6 @@ public class Tile {
 	private ImprovementInventory improvementInventory = new ImprovementInventory(this);
 	private MiscellaneousTileActionsInventory miscellaneousTileActionsInventory = new MiscellaneousTileActionsInventory(this);
 	private ResourceType availableResource;
-	private boolean hasRoad;
-	private boolean hasRailRoad;
 	private Boarder[] nearbyBoarders;
 	private boolean isDestroyed;
 	private Vector<Person> peopleInside = new Vector<>();
@@ -151,7 +149,7 @@ public class Tile {
 		if(this.improvementInventory != null){
 			if(this.improvementInventory.getImprovement() != null) {
 				if (this.improvementInventory.getImprovement().equals(improvement)) {
-					if (this.improvementInventory.getState().equals(ProgressState.STOPPED))
+					if (this.improvementInventory.getState().equals(ProgressState.IN_PROGRESS))
 						this.improvementInventory.progress();
 				}
 
@@ -159,30 +157,29 @@ public class Tile {
 			else this.improvementInventory.reset(improvement);
 		}
 	}
-	public void removeImprovement(){
-		if(this.improvementInventory == null) return;
+	public void removeImprovement() {
+		if (this.improvementInventory == null) return;
 		this.improvementInventory.remove();
-
 	}
 	public void removeResource(){
 		availableResource = null;
 	}
 	public boolean doesHaveRoad() {
-		return hasRoad;
+		return this.miscellaneousTileActionsInventory.hasRoad();
 	}
 
 	public void buildRoad() {
-		this.hasRoad = true;
+		this.miscellaneousTileActionsInventory.forceBuildRoad();
 	}
 	public Boarder getBoarderInfo(int i){
 		return nearbyBoarders[i];
 	}
 	public boolean doesHaveRailRoad() {
-		return hasRailRoad;
+		return this.miscellaneousTileActionsInventory.hasRailRoad();
 	}
 
 	public void buildRailRoad() {
-		this.hasRailRoad = true;
+		this.miscellaneousTileActionsInventory.forceBuildRailRoad();
 	}
 
 	public boolean hasRiverNearby() {
@@ -193,8 +190,8 @@ public class Tile {
 		return false;
 	}
 	public void removeRoads(){
-		this.hasRoad = false;
-		this.hasRailRoad = false;
+		this.miscellaneousTileActionsInventory.forceRemoveRoad();
+		this.miscellaneousTileActionsInventory.forceRemoveRailRoad();
 	}
 
 	public boolean isDestroyed() {
@@ -248,21 +245,14 @@ public class Tile {
 		int MP = 0;
 		MP += this.terrain.movementCost;
 		if(this.feature != null) MP += this.feature.movementCost;
-		if(hasRoad || hasRoad) MP /= 4;
+		if(doesHaveRoad() || doesHaveRailRoad()) MP /= 4;
 		return MP;
 	}
 
 	public boolean isPassable() {
-		return this.terrain.passable && (this.feature == null || this.feature.passable);
+		return this.terrain.passable;
 	}
 
-	public void buildRoute() {
-		this.hasRoad = true;
-	}
-
-	public boolean getHasRoute() {
-		return this.hasRoad;
-	}
 
 	public void removeFeature() {
 		this.feature = null;
@@ -276,12 +266,6 @@ public class Tile {
 			}
 	}
 
-	public void stopImprovementProgress() {
-		if (this.improvementInventory != null) {
-			if (this.improvementInventory.getState().equals(ProgressState.IN_PROGRESS))
-				this.improvementInventory.stop();
-		}
-	}
 
 	public void removeUnit(Unit unit) {
 		if(this.civilianUnit != null && this.civilianUnit.equals(unit))
@@ -385,18 +369,17 @@ public class Tile {
 	}
 
 	public int getImprovementTurnsLeft(){
-		if(this.improvementInventory == null) return -1;
 		return this.improvementInventory.getTurnsLeft();
 	}
 
 	public void orderWorkerAction(UnitActions action){
-		this.miscellaneousTileActionsInventory.setAction(action);
+		this.miscellaneousTileActionsInventory.doAction(action);
 	}
 
 	public int getMaintenance(){
 		int cost = 0;
-		if(hasRoad) cost += 3;
-		if(hasRailRoad) cost += 3;
+		if(doesHaveRoad()) cost += 3;
+		if(doesHaveRailRoad()) cost += 3;
 		return cost;
 	}
 }
