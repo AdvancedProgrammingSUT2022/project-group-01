@@ -223,6 +223,7 @@ public class City {
 	public void addNewTiles(Vector<Tile> tiles){
 		for(Tile tile: tiles){
 			tile.setCivilization(this.civilization);
+			tile.setOwnerCity(this);
 			this.tiles.add(tile);
 			nextTiles.remove(tile);
 		}
