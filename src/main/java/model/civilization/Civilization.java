@@ -1,5 +1,6 @@
 package model.civilization;
 
+import lombok.Setter;
 import model.TurnBasedLogic;
 import lombok.Getter;
 import model.civilization.city.City;
@@ -15,6 +16,7 @@ import utils.VectorUtils;
 import java.util.HashMap;
 import java.util.Vector;
 
+@Getter @Setter
 public class Civilization implements TurnBasedLogic {
 
 	private Civilizations civilization;//enum
@@ -23,6 +25,7 @@ public class Civilization implements TurnBasedLogic {
 	private Currency currency;
 	private Currency citiesCurrency;
 	private int happiness = 15;
+	private int happinessBase = 0;
 	private SavedMap map;
 	@Getter
 	private HashMap<ResourceType, Integer> resourceRepository;
@@ -39,6 +42,8 @@ public class Civilization implements TurnBasedLogic {
 		cities = new Vector<>(); // ADDED BY PRCR
 		resourceRepository = new HashMap<>(); //ADDED BY PRCR
 		techTree = new TechTree(); // TODO ADDED TEMPORARILY BY PRCR
+		addToList();
+		this.currency = new Currency(0,0,0);
 	}
 
 	public TechTree getResearchTree() {
@@ -64,6 +69,15 @@ public class Civilization implements TurnBasedLogic {
 
 	private void updateCurrency() {
 		for(City city: cities) {
+			if(city == null) {
+				System.out.println("salam2");
+				return;
+			}
+			if(city.getChangesOfCurrency() == null){
+				System.out.println("malam2");
+				return;
+			}
+
 			currency.add(city.getChangesOfCurrency());
 			city.resetChangesOfCurrency();
 		}
@@ -94,6 +108,7 @@ public class Civilization implements TurnBasedLogic {
 		for(City city : cities)
 			happiness -= city.getPopulation().size()/5;
 		doResourceHappiness();
+		happiness += happinessBase;
 	}
 
 	public int getHappiness() {

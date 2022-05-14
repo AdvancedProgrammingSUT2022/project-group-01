@@ -68,8 +68,7 @@ public enum UnitType implements Producible {
 		this.requiredResources = requiredResources;
 		this.requiredTechs = requiredTechs;
 		this.traits = traits;
-
-		Producible.productions.add(this);
+		addToProductions();
 	}
 
 	public boolean canCreate(City city) {
@@ -121,7 +120,7 @@ public enum UnitType implements Producible {
 
 	@Override
 	public boolean isProducible(City city) {
-		return false;
+		return city.getCivilization().getResearchTree().isResearched(this.requiredTechs);
 	}
 
 	@Override

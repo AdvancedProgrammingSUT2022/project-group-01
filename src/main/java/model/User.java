@@ -5,7 +5,7 @@ public class User {
     private String username;
     //private undefinedType[] savedGames;//TODO handle here
     private String password;
-    private String score;
+    private int score;
     private String nickname;
 
     /**
@@ -38,14 +38,14 @@ public class User {
         this.password = password;
     }
 
-    public String getScore() {
+    public int getScore() {
         return this.score;
     }
 
     /**
      * @param score
      */
-    public void setScore(String score) {
+    public void increaseScore(int score) {
         this.score = score;
     }
 

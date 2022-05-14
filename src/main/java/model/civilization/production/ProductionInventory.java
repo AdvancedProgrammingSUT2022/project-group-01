@@ -13,6 +13,7 @@ public class ProductionInventory {
 	public ProductionInventory(City city) {
 		this.city = city;
 		currentProduction = null;
+		productions = new HashMap<>();
 		initList();
 	}
 

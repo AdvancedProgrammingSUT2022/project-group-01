@@ -84,7 +84,7 @@ public class GameController {
             City city = findCityByName(value);
             if(city == null)
                 return "there is no city with this name";
-            mapController.setPosition(city.getCenterTile().getMapNumber());
+            mapController.setPosition(city.getCenter().getMapNumber());
             return mapController.getConsoleMap(game.getCurrentPlayer().getMapCenterTile());
         }else{
             return "invalid command!";

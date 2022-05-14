@@ -34,14 +34,14 @@ public class Tile {
 	private City ownerCity;
 	private Armed armedUnit;
 	private Civilian civilianUnit;
-	private ImprovementInventory improvementInventory;
-	private MiscellaneousTileActionsInventory miscellaneousTileActionsInventory;
+	private ImprovementInventory improvementInventory = new ImprovementInventory(this);
+	private MiscellaneousTileActionsInventory miscellaneousTileActionsInventory = new MiscellaneousTileActionsInventory(this);
 	private ResourceType availableResource;
 	private boolean hasRoad;
 	private boolean hasRailRoad;
 	private Boarder[] nearbyBoarders;
 	private boolean isDestroyed;
-	private Vector<Person> peopleInside;
+	private Vector<Person> peopleInside = new Vector<>();
 	private Currency currency;
 	public Civilization getCivilization() {
 		return civilization;
