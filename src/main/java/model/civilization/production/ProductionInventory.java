@@ -53,6 +53,10 @@ public class ProductionInventory {
 		return out;
 	}
 
+	public Vector<Producible> getAllProductions(){
+		return Producible.productions;
+	}
+
 	public void cancelCurrentProduction(){
 		currentProduction = null;
 	}
