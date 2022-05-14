@@ -102,7 +102,6 @@ public class City {
 	}
 
 	private void updateCurrency() {
-		//don't forget to update changes for unit and ...
 		for(Tile tile : tiles){
 			currency.add(tile.getCurrency());
 			changesOfCurrency.add(tile.getCurrency());
@@ -111,7 +110,6 @@ public class City {
 
 	public void resetChangesOfCurrency(){
 		changesOfCurrency.setValue(0,0,0);
-		currency.increase(0,-1*currency.getProduct(),0);
 	}
 
 	private void handlePopulationIncrease(){
@@ -134,7 +132,10 @@ public class City {
 
 	public void nextTurn() {
 		updateCurrency();
-		productionInventory.payProduction(currency.getProduct());
+		if(productionInventory.getCurrentProduction() != null) {
+			productionInventory.payProduction(currency.getProduct());
+			currency.increase(0,-currency.getProduct(),0);
+		}
 		handleNextTiles();
 		handlePopulationIncrease();
 		updateBeaker();
@@ -239,10 +240,6 @@ public class City {
 		if(this.civilization.getCapital() == this)
 			this.beaker = 3;
 		this.beaker += population.size();
-		if(this.currency.getGold() < 0) {
-			this.beaker -= this.currency.getGold();
-			//todo add warning notification
-		}
 	}
 
 	public int getBeaker(){
@@ -253,8 +250,8 @@ public class City {
 		this.defencePower += amount;
 	}
 
-	public void payCurrency(double gold, double production, double food){
-		this.currency.increase(-gold, -production, -food);
+	public void increaseCurrency(double gold, double production, double food){
+		this.currency.increase(gold, production, food);
 	}
 
 	public HashMap<String, String> getScreen(){

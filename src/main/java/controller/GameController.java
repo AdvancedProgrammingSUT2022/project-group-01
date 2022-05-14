@@ -138,6 +138,8 @@ public class GameController {
         return "God's grace has brought you the feature you desired.";
     }
 
+    public String getPlayerInfo(){
+        return "current player: "+game.getCurrentPlayer().getUser().getNickname();
     public String cheatRemoveFogOfWar(Tile tile){
         game.getCurrentPlayer().getSavedMap().updateData(tile, Tile.VisibilityState.VISIBLE,tile.getTerrain(),tile.getFeature(),tile.getAvailableResource(),tile.getOwnerCity());
         return "see more... like it's gonna help you not be a newbie.";

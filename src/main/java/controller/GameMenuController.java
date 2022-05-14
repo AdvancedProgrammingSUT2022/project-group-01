@@ -531,7 +531,6 @@ public class GameMenuController {
 				return gameController.cheatSetFeature(tile,terrainFeature);
 		}
 		return "invalid feature";
-
 	}
 
 	public String addScore(HashMap<String, String> args){
@@ -542,7 +541,7 @@ public class GameMenuController {
 
 	public String nextTurn(HashMap<String, String> args){
 		TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
-		return "time flies...";
+		return "time flies...\n"+game.getCurrentPlayer().getUser().getNickname()+"'s turn:";
 	}
 
 	public String multiNextTurn(HashMap<String, String> args){
@@ -553,6 +552,9 @@ public class GameMenuController {
 		return "can you travel to past too?\nDone!";
 	}
 
+	public String showPlayer(HashMap<String, String> args){
+		return gameController.getPlayerInfo();
+  }
 	private Unit getSelectedUnit() {
 		if (game.getSelectedObject() == null || !(game.getSelectedObject() instanceof Unit))
 			return null;

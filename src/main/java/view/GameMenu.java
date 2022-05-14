@@ -271,6 +271,9 @@ public class GameMenu{
 			}, Commands.MULTI_NEXT_TURN);
 			put(new CommandAction() {
 				public String action(HashMap<String, String> args) {
+					return controller.showPlayer(args);
+				}
+			}, Commands.SHOW_PLAYER);
 					return controller.buildImprovement(args);
 				}
 			}, Commands.UNIT_BUILD_IMPROVEMENT);

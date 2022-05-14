@@ -3,6 +3,9 @@ package utils;
 
 public enum Commands {
     //GAME
+
+        //global
+        SHOW_PLAYER("show player", null,null,0,null),
         NEXT_TURN("next turn", null,null,0,null),
         //select
         SELECT_UNIT("select unit", new String[]{"position"}, null,1,null),
@@ -64,6 +67,12 @@ public enum Commands {
         CREATE_FEATURE("create feature", new String[]{"type","position"}, null, 0,null),
         ADD_SCORE("add score", new String[]{"amount"}, null,0,null),
         DAMAGE_UNIT("damage unit", new String[]{"amount"}, null, 0, null),
+    //INFO
+        INFO("info", null,null,1,null),
+        ACTIVE_UNIT("active unit",null,null,1,null),
+        SHOW_MILITARY_OVERVIEW("show military overview", null,null,0,null),
+        SHOW_CITY_SCREEN("show city screen", new String[]{"name"}, null,0,null),
+        SHOW_ECONOMIC_OVERVIEW("show economic overview",null,null,0,null),
     //PROFILE
         PROFILE_CHANGE("profile change",null, new String[]{"new","current"},1,null),
     // TECHNOLOGY
