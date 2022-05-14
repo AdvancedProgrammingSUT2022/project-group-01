@@ -1,6 +1,7 @@
 package model.civilization;
 
 import lombok.Setter;
+import model.Player;
 import model.TurnBasedLogic;
 import lombok.Getter;
 import model.civilization.city.City;
@@ -20,6 +21,7 @@ import java.util.Vector;
 @Getter @Setter
 public class Civilization implements TurnBasedLogic {
 
+	Player player;
 	private Civilizations civilization;//enum
 	private Vector<City> cities;
 	private City capital;
@@ -38,7 +40,7 @@ public class Civilization implements TurnBasedLogic {
 	private TechTree techTree;//TODO merge with safar
 	private Vector<Civilization> knownCivilizations;
 
-	public Civilization(Civilizations civilization, City capital) {
+	public Civilization(Civilizations civilization, City capital,Player player) {
 		this.civilization = civilization;
 		this.capital = capital;
 		units = new Vector<>(); //ADDED BY PRCR
@@ -47,6 +49,7 @@ public class Civilization implements TurnBasedLogic {
 		techTree = new TechTree(); // TODO ADDED TEMPORARILY BY PRCR
 		addToList();
 		this.currency = new Currency(0,0,0);
+		this.player = player;
 	}
 
 	public TechTree getResearchTree() {

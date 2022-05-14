@@ -57,10 +57,6 @@ public class ProductionInventory {
 		currentProduction = null;
 	}
 
-	public void purchaseProduction(Producible producible){
-		city.payCurrency(producible.getCost(city),0,0);
-		producible.produce(city);
-	}
 
 
 

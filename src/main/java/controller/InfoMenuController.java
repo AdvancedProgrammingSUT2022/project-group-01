@@ -28,4 +28,16 @@ public class InfoMenuController {
 		information.updateInformation();
 		return information;
 	}
+
+}
+
+
+
+enum InfoSubMenu{
+	HOME,
+	RESEARCH,
+	UNIT,
+	CITY,
+	NOTIFICATION,
+	DEMOGRAPHIC
 }

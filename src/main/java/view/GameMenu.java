@@ -269,6 +269,11 @@ public class GameMenu{
 					return controller.multiNextTurn(args);
 				}
 			}, Commands.MULTI_NEXT_TURN);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.showPlayer(args);
+				}
+			}, Commands.SHOW_PLAYER);
 		}};
 
 	}

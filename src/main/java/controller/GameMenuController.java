@@ -483,7 +483,10 @@ public class GameMenuController {
 
 	public String createFeature(HashMap<String, String> args){
 		String type = args.get("type");
-		//todo implement here
+		Tile tile = game.getMap().getTileByNumber(Integer.parseInt(args.get("position")));
+		if(tile == null)
+			return "invalid position!";
+
 		return "boro badan bia";
 	}
 
@@ -504,5 +507,9 @@ public class GameMenuController {
 			nextTurn(null);
 		}
 		return "can you travel to past too?\nDone!";
+	}
+
+	public String showPlayer(HashMap<String, String> args){
+		return gameController.getPlayerInfo();
 	}
 }
