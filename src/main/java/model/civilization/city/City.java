@@ -99,7 +99,7 @@ public class City {
 			changesOfCurrency.add(tile.getCurrency());
 		}
 		currency.increase(-currency.getGold(),0,0);
-		if(productionInventory.getCurrentProduction().equals(UnitType.SETTLER)){
+		if((productionInventory.getCurrentProduction() != null) &&(productionInventory.getCurrentProduction().equals(UnitType.SETTLER))){
 			if(currency.getFood() > 0)
 				currency.increase(0,0,-currency.getFood());
 			if(changesOfCurrency.getFood() > 0)

@@ -82,5 +82,12 @@ class InformationTest2 {
 
     }
 
+    @Test
+    void productionTest(){
+        City city = game.getCurrentPlayer().getCivilization().getCities().get(0);
+        city.setNewProduction(UnitType.WARRIOR);
+        game.getInformationPanel().cityPanel(city);
+    }
+
 
 }

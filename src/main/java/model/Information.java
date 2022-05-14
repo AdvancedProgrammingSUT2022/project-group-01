@@ -41,8 +41,7 @@ public class Information {
         Civilization civilization = game.getCurrentPlayer().getCivilization();
         for (City city : civilization.getCities()) {
             if (city.getName().toLowerCase().equals(name)) {
-                return cityPanel(city);
-            }
+                return cityPanel(city);}
         }
         return "It is not a valid city";
     }
@@ -329,10 +328,10 @@ public class Information {
             public int compare(Civilization o1, Civilization o2) {
                 double difference = getNumberOfCivilizationTiles(o1) - getNumberOfCivilizationTiles(o2);
                 if (difference > 0) return 1;
-                if (difference < 0) return -1;
-                return 0;
+                return -1;
             }
-        });
+        }
+        );
         return "number of tiles : " + "\n" + "size : " + getNumberOfCivilizationTiles(civ) + "\n" + "max : " + getNumberOfCivilizationTiles(civilizations.get(0)) + "\n" + "min : " + getNumberOfCivilizationTiles(civilizations.get(civilizations.size() - 1)) + "\n" + "average : " + sum / civilizations.size() + "\n" + "rank : " + civilizations.indexOf(civ) + "\n";
     }
 
@@ -372,8 +371,8 @@ public class Information {
             public int compare(Civilization o1, Civilization o2) {
                 double difference = getNumberOfResourceReposit(o1) - getNumberOfResourceReposit(o2);
                 if (difference > 0) return 1;
-                if (difference < 0) return -1;
-                return 0;
+                return -1;
+
             }
         });
         return "Number of resources in repository : " + "\n" + "size : " + getNumberOfResourceReposit(civ) + "\n" + "max : " + getNumberOfResourceReposit(civilizations.get(0)) + "\n" + "min : " + getNumberOfResourceReposit(civilizations.get(civilizations.size() - 1)) + "\n" + "average : " + sum / civilizations.size() + "\n" + "rank : " + civilizations.indexOf(civ) + "\n";
