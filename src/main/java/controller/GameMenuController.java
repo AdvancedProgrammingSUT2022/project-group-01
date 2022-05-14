@@ -651,7 +651,7 @@ public class GameMenuController {
 
 	public String nextTurn(HashMap<String, String> args) {
 		TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
-		return "time flies...";
+		return "time flies...\n"+game.getCurrentPlayer().getUser().getNickname()+"'s turn:";
 	}
 
 	public String multiNextTurn(HashMap<String, String> args) {

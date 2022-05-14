@@ -35,13 +35,14 @@ public class CityController {
         Vector<Pair<Tile, Integer>> pairs = city.getPurchasableTiles();
         for (int i=0;i<pairs.size();i++) {
             Pair<Tile, Integer> pair = pairs.get(i);
-            items.append(pair.getFirst().getMapNumber()).append(" : ").append(pair.getSecond()).append("$\n");
+            items.append(i+1).append("- ").append(pair.getFirst().getMapNumber()).append(" : ").append(pair.getSecond()).append("$\n");
         }
         return items.toString();
     }
 
     public String purchaseTile(City city, int tileIndex){
         Vector<Pair<Tile, Integer>> pairs = city.getPurchasableTiles();
+        tileIndex--;
         if(tileIndex >= pairs.size()){
             return "invalid index!";
         }
@@ -75,6 +76,8 @@ public class CityController {
             return "invalid index";
         Vector<Person> peopleInside = newTile.getPeopleInside();
         Person person = city.getPopulation().get(civilianIndex);
+        if(newTile.getCivilization() != city.getCivilization())
+            return "this isn't your tile!";
         if(!peopleInside.contains(person) && peopleInside.size() != 0)
             return "not empty!";
         if(peopleInside.contains(person))
