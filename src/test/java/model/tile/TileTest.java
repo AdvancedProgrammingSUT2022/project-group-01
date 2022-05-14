@@ -11,6 +11,7 @@ import model.unit.Unit;
 import model.unit.UnitType;
 import model.unit.action.UnitActions;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,6 +22,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
 
+import javax.swing.event.TreeWillExpandListener;
 import java.util.List;
 import java.util.Vector;
 import java.util.concurrent.Callable;
@@ -28,6 +30,8 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class TileTest {
@@ -268,5 +272,34 @@ public class TileTest {
         tileUnderTest.stopImprovementProgress();
 
         // Verify the results
+    }
+
+
+    @Test
+    void boarderTest(){
+        Tile tile = new Tile(Terrain.DESERT,TerrainFeature.OASIS,null,ResourceType.MARBLE,10,10,10);
+        Boarder[] boarder = new Boarder[6];
+        tile.setNearbyBoarders(boarder);
+        tile.getNearbyBoarders();
+        Assertions.assertEquals(tile.getNearbyBoarders(),boarder);
+    }
+
+    @Test
+    void roadAndRailGetterSetter(){
+        Tile tile = new Tile(Terrain.DESERT,TerrainFeature.OASIS,null,ResourceType.MARBLE,10,10,10);
+        tile.setHasRoad(true);
+        tile.setHasRailRoad(true);
+        tile.isHasRoad();
+        tile.isHasRailRoad();
+        Assertions.assertTrue(tile.isHasRoad());
+        Assertions.assertTrue(tile.isHasRailRoad());
+    }
+
+    @Test
+    void destroyLombokTest(){
+        Tile tile = new Tile(Terrain.DESERT,TerrainFeature.OASIS,null,ResourceType.MARBLE,10,10,10);
+        tile.setAvailableResource(ResourceType.IRON);
+        tile.getAvailableResource();
+        Assertions.assertEquals(tile.getAvailableResource(),ResourceType.IRON);
     }
 }

@@ -137,6 +137,7 @@ public class CityController {
     }
 
     public String getProductionsListToPurchase(City city){
+        System.out.println("salam");
         Vector<Producible> productions = Producible.productions;
         return listProductions(productions, city, false);
     }

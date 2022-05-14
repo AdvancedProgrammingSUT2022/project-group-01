@@ -5,6 +5,8 @@ import controller.unit.UnitController;
 import controller.unit.WorkerController;
 import model.Game;
 import model.Player;
+import model.TurnBasedLogic;
+import model.civilization.Civilization;
 import model.civilization.city.City;
 import model.improvement.ImprovementType;
 import model.technology.TechTree;
@@ -488,6 +490,56 @@ public class GameMenuController {
 			return false;
 		}
 		return true;
+	}
+
+	public String teleport(HashMap<String, String> args){
+		int position = Integer.parseInt(args.get("position"));
+		Tile tile = game.getMap().getTileByNumber(position);
+		if(tile == null)
+			return "invalid position";
+		//todo implement here
+		return "teleported";
+	}
+
+	public String makeTileVisible(HashMap<String, String> args){
+		int position = Integer.parseInt(args.get("position"));
+		Tile tile = game.getMap().getTileByNumber(position);
+		if(tile == null)
+			return "invalid position";
+		//todo implement here
+		return "teleported";
+	}
+
+	public String addHappiness(HashMap<String, String> args){
+		int amount = Integer.parseInt(args.get("amount"));
+		Civilization civilization = game.getCurrentPlayer().getCivilization();
+		civilization.setHappinessBase(civilization.getHappinessBase()+amount);
+		return "done!";
+	}
+
+	public String createFeature(HashMap<String, String> args){
+		String type = args.get("type");
+		//todo implement here
+		return "boro badan bia";
+	}
+
+	public String addScore(HashMap<String, String> args){
+		int amount = Integer.parseInt(args.get("amount"));
+		game.getCurrentPlayer().getUser().increaseScore(amount);
+		return "done!";
+	}
+
+	public String nextTurn(HashMap<String, String> args){
+		TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
+		return "time flies...";
+	}
+
+	public String multiNextTurn(HashMap<String, String> args){
+		int count = Integer.parseInt(args.get("count"));
+		for(int i=0;i<count*4;i++){
+			nextTurn(null);
+		}
+		return "can you travel to past too?\nDone!";
 	}
 
 	private Unit getSelectedUnit() {

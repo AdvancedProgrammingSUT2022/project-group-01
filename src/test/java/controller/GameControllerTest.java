@@ -62,7 +62,7 @@ public class GameControllerTest {
         game.getCurrentPlayer().getCivilization().addNewCity(city);
         tile.setOwnerCity(city);
         city.updateBeaker();
-        Unit unit = new Armed(UnitType.WARRIOR,city.getCenterTile(),game.getCurrentPlayer().getCivilization());
+        Unit unit = new Armed(UnitType.WARRIOR,city.getCenter(),game.getCurrentPlayer().getCivilization());
         city.setGarrisonedUnit(unit);
         city.getGarrisonedUnit();
         city.updateDefencePower(2);

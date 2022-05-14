@@ -3,6 +3,7 @@ package utils;
 
 public enum Commands {
     //GAME
+        NEXT_TURN("next turn", null,null,0,null),
         //select
         SELECT_UNIT("select unit", new String[]{"position"}, null,1,null),
         SELECT_CITY("select city", null, new String[]{"name", "position"},0,null),
@@ -56,6 +57,7 @@ public enum Commands {
         ADD_TECHNOLOGY("add technology", new String[]{"name"}, null, 0, null),
         ADD_BEAKER("add beaker", new String[]{"amount"}, null, 0, null),
         CHEAT_NEXT_TURN("cheat next turn", null, null, 0, null),
+        MULTI_NEXT_TURN("next turn",new String[]{"count"},null,0,null),
         TELEPORT("teleport", new String[]{"position"}, null,0,null),
         MAKE_TILE_VISIBLE("make tile visible",  new String[]{"position"}, null, 0,null),
         ADD_HAPPINESS("add happiness", new String[]{"amount"}, null, 0,null),

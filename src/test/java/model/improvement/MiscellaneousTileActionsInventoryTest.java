@@ -26,13 +26,13 @@ public class MiscellaneousTileActionsInventoryTest {
         when(tile.getTerrain()).thenReturn(Terrain.DESERT);
         when(tile.getFeature()).thenReturn(TerrainFeature.FOREST);
         MiscellaneousTileActionsInventory miscellaneousTileActionsInventory = new MiscellaneousTileActionsInventory(tile);
-        miscellaneousTileActionsInventory.setAction(UnitActions.BUILD_ROAD);
+        miscellaneousTileActionsInventory.doAction(UnitActions.BUILD_ROAD);
 
         when(tile.getCivilization()).thenReturn(civ1);
-        miscellaneousTileActionsInventory.nextTurn(civ1);
-        miscellaneousTileActionsInventory.nextTurn(civ1);
-        miscellaneousTileActionsInventory.nextTurn(civ1);
-        miscellaneousTileActionsInventory.nextTurn(civ1);
-        miscellaneousTileActionsInventory.nextTurn(civ1);
+        miscellaneousTileActionsInventory.nextTurn();
+        miscellaneousTileActionsInventory.nextTurn();
+        miscellaneousTileActionsInventory.nextTurn();
+        miscellaneousTileActionsInventory.nextTurn();
+        miscellaneousTileActionsInventory.nextTurn();
     }
 }

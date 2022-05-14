@@ -1,12 +1,14 @@
 package model;
 // TODO initialize savedmap & savedmap & getSAvedMap
 // TODO : ADDED map Center Tile
+import lombok.Getter;
 import model.civilization.Civilization;
 import model.map.SavedMap;
 import model.tile.Tile;
 
 import java.util.HashMap;
 
+@Getter
 public class Player {
 
 	private User user;
