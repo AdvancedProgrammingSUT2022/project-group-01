@@ -274,6 +274,8 @@ public class GameMenu{
 					return controller.showPlayer(args);
 				}
 			}, Commands.SHOW_PLAYER);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
 					return controller.buildImprovement(args);
 				}
 			}, Commands.UNIT_BUILD_IMPROVEMENT);
@@ -302,6 +304,7 @@ public class GameMenu{
 	public void run() {
 		while (ProgramController.getCurrentMenu() == Menus.GAME_MENU) {
 			Menu.handleCommand(commands, Menu.getInput());
+			System.out.println(controller.showCurrentMap());
 		}
 	}
 }

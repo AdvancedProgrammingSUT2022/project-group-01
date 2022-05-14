@@ -219,17 +219,12 @@ public class GameMenuController {
 
 	//MAP:
 	public String mapShow(HashMap<String, String> args) {
-//		System.err.println("???");
-//		System.err.println(game.getMap().getTileByNumber(70).getArmedUnit());
-		if(args.containsKey("current")){
-			return gameController.mapShow();
-		}
 		if (args.containsKey("position")) {
 			return gameController.mapShow("position", args.get("position"));
 		} else if (args.containsKey("cityname")) {
 			return gameController.mapShow("cityname", args.get("cityname"));
 		}
-		return "invalid command!";
+		return "invalid command";
 	}
 
 	public String mapMove(HashMap<String, String> args) {
@@ -241,8 +236,10 @@ public class GameMenuController {
 	//GLOBAL:
 	public String menuEnter(HashMap<String, String> args) {
 		String menuName = args.get("section");
+		System.out.println(menuName);
 		if (menuName.equals("info")) {
 			ProgramController.setCurrentMenu(Menus.INFO_MENU);
+			return "done";
 		}
 		return "invalid navigation!";
 	}
@@ -540,13 +537,13 @@ public class GameMenuController {
 	}
 
 	public String nextTurn(HashMap<String, String> args){
-		TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
+		game.nextTurn();
 		return "time flies...\n"+game.getCurrentPlayer().getUser().getNickname()+"'s turn:";
 	}
 
 	public String multiNextTurn(HashMap<String, String> args){
 		int count = Integer.parseInt(args.get("count"));
-		for(int i=0;i<count*4;i++){
+		for(int i=0;i<count*game.getPlayers().size();i++){
 			nextTurn(null);
 		}
 		return "can you travel to past too?\nDone!";
@@ -559,5 +556,13 @@ public class GameMenuController {
 		if (game.getSelectedObject() == null || !(game.getSelectedObject() instanceof Unit))
 			return null;
 		return (Unit) game.getSelectedObject();
+	}
+
+	public String showCurrentMap(){
+		String s = gameController.mapShow() + "\n";
+		s += "current player : " + game.getCurrentPlayer().getUser().getNickname() + " ";
+		s += "(" + game.getCurrentPlayer().getCivilization().getCivilization().name() + ")";
+		s += "\n" + game.getTurn() + "\n";
+		return s;
 	}
 }

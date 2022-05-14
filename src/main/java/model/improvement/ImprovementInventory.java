@@ -38,7 +38,8 @@ public class ImprovementInventory {
 				}
 				this.state = ProgressState.COMPLETE;
 				Notification notification = new Notification(tile, Notification.NotificationTexts.IMPROVEMENT_BUILT);
-				tile.getCivilization().getNotificationInbox().addNotification(notification);
+				if(tile.getCivilization() != null)
+					tile.getCivilization().getNotificationInbox().addNotification(notification);
 			}
 		}
 	}

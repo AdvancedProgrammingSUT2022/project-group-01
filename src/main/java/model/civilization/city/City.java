@@ -14,6 +14,7 @@ import model.civilization.production.ProductionInventory;
 import model.tile.Terrain;
 import model.tile.Tile;
 import model.unit.Unit;
+import model.unit.UnitType;
 import utils.Pair;
 
 @Getter
@@ -50,7 +51,7 @@ public class City {
 		tiles.add(center);
 		tiles.addAll(center.getAdjacentTiles());
 		nextTiles = new Vector<>();
-		this.currency = new Currency(5,5,5);//TODO: check this value
+		this.currency = new Currency(0,5,5);
 		this.changesOfCurrency = new Currency(5,5,5);
 		if(center.getTerrain().equals(Terrain.HILLS))
 			defencePower += 5;
@@ -91,26 +92,21 @@ public class City {
 		productionInventory.setCurrentProduction(producible);
 	}
 
-	/**
-	 * 
-	 * @param civilization
-	 * @param state
-	 */
-	public void setNewState(Civilization civilization, CityState state) {
-		// TODO - implement model.civilization.city.City.setNewState
-		throw new UnsupportedOperationException();
-	}
-
 	private void updateCurrency() {
+		changesOfCurrency.setValue(0,0,0);
 		for(Tile tile : tiles){
 			currency.add(tile.getCurrency());
 			changesOfCurrency.add(tile.getCurrency());
 		}
+		currency.increase(-currency.getGold(),0,0);
+		if(productionInventory.getCurrentProduction().equals(UnitType.SETTLER)){
+			if(currency.getFood() > 0)
+				currency.increase(0,0,-currency.getFood());
+			if(changesOfCurrency.getFood() > 0)
+				changesOfCurrency.increase(0,0,-changesOfCurrency.getFood());
+		}
 	}
 
-	public void resetChangesOfCurrency(){
-		changesOfCurrency.setValue(0,0,0);
-	}
 
 	private void handlePopulationIncrease(){
 		if(remainedTurnToExpansion == 0 && currency.getFood() > 15){
@@ -122,11 +118,12 @@ public class City {
 	}
 
 	public void destroy() {
-		population.clear();
 		civilization.getCities().remove(this);
 		for(Tile tile : tiles){
 			tile.setOwnerCity(null);
 			tile.setCivilization(null);
+			tile.removeImprovement();
+			tile.getPeopleInside().clear();
 		}
 	}
 
