@@ -74,7 +74,7 @@ public class ImprovementInventory {
 	}
 
 	public void progress(){
-		if(this.state != ProgressState.IN_PROGRESS)
+		if(this.state == ProgressState.IN_PROGRESS)
 			nextTurn();
 	}
 	public void repair(){

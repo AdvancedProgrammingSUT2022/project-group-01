@@ -52,6 +52,8 @@ public class UnitController {
 	public String info(Unit unit) {
 		// more info maybe ? TODO
 		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append(String.format("Owner is %s\n", unit.getOwnerCivilization().getCivilization().getName()));
+		stringBuilder.append(String.format("Unit is at %d\n", unit.getCurrentTile().getMapNumber()));
 		stringBuilder.append(String.format("Current Health is %d / 10\n", unit.getHealth()));
 		stringBuilder.append(String.format("Unit Type : %s\n", unit.getType().toString()));
 		stringBuilder.append(String.format("remaining Movement Point is %f\n", unit.getMovementPoint()));

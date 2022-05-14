@@ -1,8 +1,10 @@
 package model.civilization;
 
+import lombok.Getter;
 import model.map.ConsoleMap;
 
 //TODO added COlOR and its getter
+@Getter
 public enum Civilizations {
 	MONGOLIAN("Mongolian", "ICON.jpg", "Genghis Khan", ConsoleMap.colorCharacter.PURPLE, new String[]{"Karakorum", "Beshbalik","Turfan","Hsia","Old Sarai"}),
 	MAYAN("Mayan","ICON2.jpg", "Pacal",ConsoleMap.colorCharacter.RED,new String[]{"Palenque","Tikal","Chichen Itza","Uxmal","Tulum"}),

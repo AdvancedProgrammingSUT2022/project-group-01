@@ -33,6 +33,10 @@ cheat next turn
 cheat next turn
 cheat next turn
 cheat next turn
+spawn unit -p 77 -n Settler
+select unit civilian -p 77
+unit info
+unit found city
 spawn unit -p 76 -n Worker
 select unit civilian -p 76
 unit action list
@@ -57,6 +61,7 @@ map show -p 75
 spawn unit -p 123 -n Settler
 select unit civilian -p 123
 map show -p 123
+unit info
 unit found city
 map show -p 75
 select unit armed -p 98
@@ -73,13 +78,15 @@ cheat next turn
 unit info
 cheat next turn
 select unit civilian -p 76
-unit moveto -p 123
+unit moveto -p 124
 cheat next turn
 cheat next turn
 cheat next turn
 cheat next turn
 cheat next turn
 cheat next turn
-map show -p 123
+cheat next turn
+map show -p 124
 unit info
 unit action list
+improvement build -n Pasture

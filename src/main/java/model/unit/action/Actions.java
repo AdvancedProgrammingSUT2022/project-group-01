@@ -62,6 +62,7 @@ public enum Actions {
 			action -> action.getImprovementType().isEligibleToBuild(action.getUnit().getOwnerCivilization(), action.getUnit().getCurrentTile()),
 			action -> {
 				action.getUnit().getCurrentTile().buildImprovement(action.getImprovementType());
+				action.getUnit().getCurrentTile().buildImprovement(action.getImprovementType());
 				System.err.println("123 : " + action.getUnit().getCurrentTile().getImprovementTurnsLeft());
 				action.decreaseTurn();
 			}
