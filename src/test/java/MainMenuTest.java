@@ -34,6 +34,7 @@ public class MainMenuTest {
     public void init(){
         database = new Database();
         mainMenuController = new controller.MainMenuController(database);
+        ProgramController.setGame(null);
     }
 
     @Mock
@@ -99,24 +100,25 @@ public class MainMenuTest {
         Assertions.assertEquals(answer, result);
     }
 
-    @Test
+    /*@Test
     public void validPlayGame(){
-        /*Database mockedDatabase =mock(Database.class);
+        Database mockedDatabase =mock(Database.class);
         when(mockedDatabase.findUserByUsername("player1")).thenReturn(new User("player1","password1", "nickname1"));
         when(mockedDatabase.findUserByUsername("player2")).thenReturn(new User("player2","password2", "nickname2"));
         when(mockedDatabase.findUserByUsername("player3")).thenReturn(new User("player3","password3", "nickname3"));
         MainMenuController mainMenuController = new MainMenuController(mockedDatabase);
         String input = "play game -p1 player1 -p2 player2 -player3 player3";
         mainMenuController.playGame(CommandProcessor.extractCommand(input, Commands.PLAY_GAME));
-        Assertions.assertNotNull(ProgramController.getGame());*/
+        Assertions.assertNotNull(ProgramController.getGame());
         Assertions.assertEquals(1,1);
-    }
+    }*/
 
     @Test
     public void invalidPlayGame(){
         Database mockedDatabase =mock(Database.class);
         when(mockedDatabase.findUserByUsername("player2")).thenReturn(new User("player2","password2", "nickname2"));
         when(mockedDatabase.findUserByUsername("player3")).thenReturn(new User("player3","password3", "nickname3"));
+        when(mockedDatabase.findUserByUsername("player1")).thenReturn(null);
         controller.MainMenuController mainMenuController = new controller.MainMenuController(mockedDatabase);
         String input = "play game -p1 player1 -p2 player2 -player3 player3";
         mainMenuController.playGame(CommandProcessor.extractCommand(input, Commands.PLAY_GAME));

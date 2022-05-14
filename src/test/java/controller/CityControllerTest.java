@@ -1,12 +1,16 @@
 package controller;
 
 import controller.civilization.city.CityController;
+import model.Game;
+import model.Map;
+import model.Player;
 import model.civilization.Civilization;
 import model.civilization.Currency;
 import model.civilization.Person;
 import model.civilization.city.City;
 import model.civilization.production.Producible;
 import model.civilization.production.ProductionInventory;
+import model.map.SavedMap;
 import model.technology.TechTree;
 import model.tile.Tile;
 import model.unit.UnitType;
@@ -313,6 +317,21 @@ public class CityControllerTest {
     public void purchaseProductionTestThree(){
         City city = mock(City.class);
         Tile tile = mock(Tile.class);
+        Game game = mock(Game.class);
+        ProgramController.setGame(game);
+        Player player = mock(Player.class);
+        Civilization civ = mock(Civilization.class);
+        when(game.getCurrentPlayer()).thenReturn(player);
+        when(player.getCivilization()).thenReturn(civ);
+        Map map = mock(Map.class);
+        when(game.getMap()).thenReturn(map);
+        Vector<Tile> tiles = new Vector<>();
+        Vector<Tile> tiles2 = new Vector<>();
+        when(map.getTiles()).thenReturn(tiles2);
+        when(civ.visibleTiles()).thenReturn(tiles);
+        SavedMap savedMap = mock(SavedMap.class);
+        when(player.getSavedMap()).thenReturn(savedMap);
+
         when(city.getCenter()).thenReturn(tile);
         TechTree techTree = mock(TechTree.class);
         Civilization civ1 = mock(Civilization.class);
@@ -320,6 +339,7 @@ public class CityControllerTest {
         when(city.getCivilization()).thenReturn(civ1);
         when(civ1.getResearchTree()).thenReturn(techTree);
         when(civ1.getCurrency()).thenReturn(currency);
+
         when(techTree.isResearched(UnitType.WARRIOR.getRequiredTechs())).thenReturn(true);
         String answer = "done!";
         Assertions.assertEquals(answer, cityController.purchaseProduction(city, "warrior"));

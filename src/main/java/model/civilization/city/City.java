@@ -65,7 +65,24 @@ public class City {
 		}
 		this.productionInventory = new ProductionInventory(this);
 		this.state = CityState.NORMAL;
+
 		this.health = cityMaxHealth;
+
+	}
+
+	public void captureCity(Civilization newCivilization){
+		civilization.getCities().remove(this);
+		productionInventory.initList();
+		this.health = cityMaxHealth;
+		remainedTurnToExpansion = turnToExpansion;
+		remainedTurnToGrowth = 8;
+		newCivilization.addNewCity(this);
+		this.civilization = newCivilization;
+		for(Tile tile : tiles){
+			tile.setCivilization(newCivilization);
+			if(tile.getCivilianUnit() != null)
+				tile.getCivilianUnit().setOwnerCivilization(newCivilization);
+		}
 	}
 
 	public Vector<Tile> getTiles() {
@@ -282,5 +299,6 @@ public class City {
 			put("population",String.valueOf(population.size()));
 		}};
 	}
+
 
 }

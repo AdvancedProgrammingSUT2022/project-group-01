@@ -13,18 +13,26 @@ import model.unit.Unit;
 import model.unit.UnitType;
 import model.unit.armed.Armed;
 import model.unit.civilian.Civilian;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.stubbing.Answer;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
+import java.util.concurrent.Callable;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Future;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -46,7 +54,8 @@ class GameMenuControllerTest {
         GameInitializer gi = new GameInitializer();
         game = gi.startGame(vec,17);
         mc = new MapController(game);
-        gameMenuController = new GameMenuController(game,new GameController(game,mc),new CityController(game),new UnitController(game), new WorkerController(game));
+        WorkerController workerController = new WorkerController(game);
+        gameMenuController = new GameMenuController(game,new GameController(game,mc),new CityController(game),new UnitController(game), workerController);
         game.getMap().getMap();
         game.setMap(game.getMap());
         Tile tile = game.getCurrentPlayer().getMapCenterTile();
@@ -92,8 +101,8 @@ class GameMenuControllerTest {
         int a = game.getCurrentPlayer().getMapCenterTile().getMapNumber();
         String number = Integer.toString(a);
         hashMap1.put("position",number);
-       gameMenuController.selectUnit(hashMap1);
-       game.getCurrentPlayer().getMapCenterTile().setArmedUnit(armed);
+        gameMenuController.selectUnit(hashMap1);
+        game.getCurrentPlayer().getMapCenterTile().setArmedUnit(armed);
         gameMenuController.selectUnit(hashMap1);
         HashMap<String,String> hashMap2 = new HashMap<>();
         hashMap2.put("section","civilian");
@@ -106,7 +115,258 @@ class GameMenuControllerTest {
     }
 
     @Test
-    void moveUnitTest(){
+    void testAddBeaker() throws Exception {
+        // Setup
+        final HashMap<String, String> args = new HashMap<>(Map.ofEntries(Map.entry("value", "value")));
 
+        // Run the test
+        final String result = gameMenuController.addBeaker(args);
+
+        // Verify the results
+        assertEquals("invalid amount", result);
     }
+
+
+    @Test
+    void testBuildImprovement() throws Exception {
+        // Setup
+        final HashMap<String, String> args = new HashMap<>(Map.ofEntries(Map.entry("value", "value")));
+
+        // Run the test
+        final String result = gameMenuController.buildImprovement(args);
+
+        // Verify the results
+        assertEquals("you haven't select any unit", result);
+    }
+
+
+    @Test
+    void testCheatNextTurn() throws Exception {
+        // Setup
+        final HashMap<String, String> args = new HashMap<>(Map.ofEntries(Map.entry("value", "value")));
+
+        // Run the test
+        final String result = gameMenuController.cheatNextTurn(args);
+
+        // Verify the results
+        assertEquals("time fast forwarded !", result);
+    }
+
+
+
+    @Test
+    void testCurrentMenu() throws Exception {
+        assertEquals("Game Menu",
+                gameMenuController.currentMenu(new HashMap<>(Map.ofEntries(Map.entry("value", "value")))));
+    }
+
+    @Test
+    void testDamageUnit() throws Exception {
+        // Setup
+        final HashMap<String, String> args = new HashMap<>(Map.ofEntries(Map.entry("value", "value")));
+
+        // Run the test
+        final String result = gameMenuController.damageUnit(args);
+
+        // Verify the results
+        assertEquals("invalid amount", result);
+    }
+
+    @Test
+    void testDeletePopulation() throws Exception {
+        // Setup
+        final HashMap<String, String> args = new HashMap<>(Map.ofEntries(Map.entry("value", "value")));
+
+        // Run the test
+        final String result = gameMenuController.deletePopulation(args);
+
+        // Verify the results
+        assertEquals("select city first!", result);
+    }
+
+
+
+    @Test
+    void testGetCurrentResearch() throws Exception {
+        // Setup
+        final HashMap<String, String> args = new HashMap<>(Map.ofEntries(Map.entry("value", "value")));
+
+        // Run the test
+        final String result = gameMenuController.getCurrentResearch(args);
+
+        // Verify the results
+        assertEquals("no research at this time", result);
+    }
+
+    @Test
+    void testGetPurchasableTiles() throws Exception {
+        // Setup
+        final HashMap<String, String> args = new HashMap<>(Map.ofEntries(Map.entry("value", "value")));
+
+        // Run the test
+        final String result = gameMenuController.getPurchasableTiles(args);
+
+        // Verify the results
+        assertEquals("select city first!", result);
+    }
+
+
+
+    @Test
+    void testListOfPopulation() throws Exception {
+        // Setup
+        final HashMap<String, String> args = new HashMap<>(Map.ofEntries(Map.entry("value", "value")));
+
+        // Run the test
+        final String result = gameMenuController.listOfPopulation(args);
+
+        // Verify the results
+        assertEquals("select city first!", result);
+    }
+
+    @Test
+    void testListOfProductions() throws Exception {
+        // Setup
+        final HashMap<String, String> args = new HashMap<>(Map.ofEntries(Map.entry("value", "value")));
+
+        // Run the test
+        final String result = gameMenuController.listOfProductions(args);
+
+        // Verify the results
+        assertEquals("select city first!", result);
+    }
+
+
+    @Test
+    void testMapShow() throws Exception {
+        // Setup
+        final HashMap<String, String> args = new HashMap<>(Map.ofEntries(Map.entry("value", "value")));
+
+        // Run the test
+        final String result = gameMenuController.mapShow(args);
+
+        // Verify the results
+        assertEquals("invalid command", result);
+    }
+
+
+    @Test
+    void testMenuExit() throws Exception {
+        assertEquals("Done!", gameMenuController.menuExit(new HashMap<>(Map.ofEntries(Map.entry("value", "value")))));
+    }
+
+    @Test
+    void testPurchaseProduction() throws Exception {
+        // Setup
+        final HashMap<String, String> args = new HashMap<>(Map.ofEntries(Map.entry("value", "value")));
+
+        // Run the test
+        final String result = gameMenuController.purchaseProduction(args);
+
+        // Verify the results
+        assertEquals("select city first", result);
+    }
+
+    @Test
+    void testPurchaseTile() throws Exception {
+        // Setup
+        final HashMap<String, String> args = new HashMap<>(Map.ofEntries(Map.entry("value", "value")));
+
+        // Run the test
+        final String result = gameMenuController.purchaseTile(args);
+
+        // Verify the results
+        assertEquals("select city first!", result);
+    }
+
+
+    @Test
+    void testSelectCity() throws Exception {
+        // Setup
+        final HashMap<String, String> args = new HashMap<>(Map.ofEntries(Map.entry("value", "value")));
+
+        // Run the test
+        final String result = gameMenuController.selectCity(args);
+
+        // Verify the results
+        assertEquals("invalid command!", result);
+    }
+
+
+    @Test
+    void testSetProduction() throws Exception {
+
+        final HashMap<String, String> args = new HashMap<>(Map.ofEntries(Map.entry("value", "value")));
+
+        final String result = gameMenuController.setProduction(args);
+
+        assertEquals("select city first!", result);
+    }
+
+
+
+    @Test
+    void testShowNextTiles() throws Exception {
+        // Setup
+        final HashMap<String, String> args = new HashMap<>(Map.ofEntries(Map.entry("value", "value")));
+
+        // Run the test
+        final String result = gameMenuController.showNextTiles(args);
+
+        // Verify the results
+        assertEquals("select city first!", result);
+    }
+
+
+    @Test
+    void moveUnitTest(){
+        ProgramController.setGame(game);
+        game.setSelectedObject(game.getCurrentPlayer().getCivilization().getUnits().get(0));
+        HashMap<String,String> hashMap = new HashMap<>();
+        hashMap.put("position",String.valueOf(game.getCurrentPlayer().getMapCenterTile().getMapNumber()));
+        gameMenuController.unitMove(hashMap);
+    }
+    @Test
+    void unitSleepTest(){
+        game.setSelectedObject(game.getCurrentPlayer().getCivilization().getUnits().get(0));
+        gameMenuController.unitSleep(null);
+        game.setSelectedObject(null);
+        gameMenuController.unitSleep(null);
+    }
+
+    @Test
+    void unitAlert(){
+        //TODO COMPLETE HERE AFTER MERGE WITH AMUSFR
+        gameMenuController.unitAlert(null);
+    }
+
+    @Test
+    void unitFortify(){
+        game.setSelectedObject(game.getCurrentPlayer().getCivilization().getUnits().get(0));
+        gameMenuController.unitFortify(null);
+        game.setSelectedObject(null);
+        gameMenuController.unitFortify(null);
+    }
+
+    @Test
+    void unitFortifyUntilHeal(){
+        game.setSelectedObject(game.getCurrentPlayer().getCivilization().getUnits().get(0));
+        gameMenuController.unitFortifyUntilHeal(null);
+        game.setSelectedObject(null);
+        gameMenuController.unitFortifyUntilHeal(null);
+        Assertions.assertTrue(gameMenuController.unitFortifyUntilHeal(null).contains("haven't select"));
+    }
+
+//    @Test
+//    void unitPillageTest(){
+//        game.setSelectedObject(game.getCurrentPlayer().getCivilization().getUnits().get(0));
+//        gameMenuController.unitPillage(null);
+//        game.setSelectedObject(null);
+//        gameMenuController.unitPillage(null);
+//        game.nextTurn();
+//        game.setSelectedObject(game.getPlayers().get(0).getCivilization().getUnits().get(0));
+//        gameMenuController.unitPillage(null);
+//        game.nextTurn();
+//    }
+
 }

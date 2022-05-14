@@ -82,7 +82,6 @@ public class GameController {
         if (selectingType.equals("position")) {
             int position = Integer.parseInt(value);
             mapController.setPosition(position);
-//            return mapShow();
             return "map is set";
         }else if(selectingType.equals("cityname")){
             City city = findCityByName(value);

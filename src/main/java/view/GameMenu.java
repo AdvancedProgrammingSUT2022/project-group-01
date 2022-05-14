@@ -293,7 +293,12 @@ public class GameMenu{
 				public String action(HashMap<String, String> args) {
 					return controller.removeFeature(args);
 				}
-			}, Commands.UNIT_REMOVE_FEATURE);
+			}, Commands.SHOW_TILE_INFO);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.destroyCity(args);
+				}
+			}, Commands.DESTROY);
 			put(new CommandAction() {
 				public String action(HashMap<String, String> args) {
 					return controller.buildRoad(args);
@@ -319,6 +324,7 @@ public class GameMenu{
 					return controller.cityAttack(args);
 				}
 			}, Commands.CITY_ATTACK);
+
 		}};
 
 	}

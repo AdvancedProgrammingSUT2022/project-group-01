@@ -2,6 +2,7 @@ package model;
 
 import controller.GameInitializer;
 import controller.MapController;
+import controller.ProgramController;
 import controller.TileController;
 import model.civilization.Civilization;
 import model.civilization.Civilizations;
@@ -38,6 +39,7 @@ class NotificationTest {
         GameInitializer gi = new GameInitializer();
         game = gi.startGame(vec,17);
         mc = new MapController(game);
+        ProgramController.setGame(game);
         Tile tile = game.getCurrentPlayer().getMapCenterTile();
         tile.setCivilization(game.getCurrentPlayer().getCivilization());
         Armed armed = new Armed(UnitType.WARRIOR,tile,game.getCurrentPlayer().getCivilization());

@@ -117,4 +117,44 @@ public class GameControllerTest {
         gc.cheatSetFeature(game.getMap().getTileByNumber(30),TerrainFeature.ICE );
         gc.cheatSetFeature(game.getMap().getTileByNumber(40),TerrainFeature.OASIS );
     }
+
+    @Test
+    public void getPlayerInfoTest(){
+        GameController gc = new GameController(game,mc);
+        String s = gc.getPlayerInfo();
+        Assertions.assertTrue(s.startsWith("current"));
+    }
+
+    @Test
+    public void cheatRemoveFogOfWarTest(){
+        GameController gameController = new GameController(game,mc);
+        gameController.cheatRemoveFogOfWar(game.getMap().getTileByNumber(70));
+        Assertions.assertFalse(game.getCurrentPlayer().getSavedMap().getVisibilityState(game.getMap().getTileByNumber(70)).equals(Tile.VisibilityState.FOG_OF_WAR));
+    }
+
+    @Test
+    public void tileInfoImprovementTest(){
+        game.getCurrentPlayer().getMapCenterTile().buildImprovement(ImprovementType.LUMBER_MILL);
+        GameController gc = new GameController(game,mc);
+        gc.showTileInfo(game.getCurrentPlayer().getMapCenterTile());
+    }
+
+    @Test
+    public void mapShowingTest(){
+        GameController gc = new GameController(game,mc);
+        gc.mapShow();
+        Assertions.assertNotNull(gc.mapShow());
+    }
+
+    @Test
+    public void findCityByNameTest(){
+        GameController gc = new GameController(game,mc);
+        gc.selectCity("name",game.getCurrentPlayer().getCivilization().getCities().get(0).getName());
+    }
+
+    @Test
+    public void mapShowIsSet(){
+        GameController gc = new GameController(game,mc);
+        gc.mapShow("cityname",game.getCurrentPlayer().getCivilization().getCities().get(0).getName());
+    }
 }

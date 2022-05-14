@@ -98,31 +98,16 @@ class WorkerTest {
     }
 
 
+
     @Test
-    void testRemoveFeature() {
+    void testRemoveRoad() {
         // Setup
         // Run the test
-        workerUnderTest.removeFeature();
+        workerUnderTest.removeRoute();
 
         // Verify the results
     }
 
-//    @Test
-//    void testRemoveRoad() {
-//        // Setup
-//        // Run the test
-//        workerUnderTest.removeRoad();
-//
-//        // Verify the results
-//    }
 
-//    @Test
-//    void testRemoveRail() {
-//        // Setup
-//        // Run the test
-//        workerUnderTest.removeRail();
-//
-//        // Verify the results
-//    }
 
 }
