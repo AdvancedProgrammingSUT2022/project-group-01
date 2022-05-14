@@ -10,7 +10,7 @@ import org.mockito.internal.matchers.Not;
 
 import javax.swing.plaf.ColorUIResource;
 
-public class ImprovementInventory implements TurnBasedLogic {
+public class ImprovementInventory {
 	private ImprovementType improvement;
 	private int turnsLeft;
 	private ProgressState state;
@@ -25,10 +25,8 @@ public class ImprovementInventory implements TurnBasedLogic {
 		this.improvement = improvement;
 		this.turnsLeft = improvement.getProductionTime(this.tile);
 		state = ProgressState.IN_PROGRESS;
-		addToList();
 	}
-	public void nextTurn(Civilization civilization){
-		if(!tile.getCivilization().equals(civilization)) return;
+	public void nextTurn(){
 		if(this.state.equals(ProgressState.IN_PROGRESS) | this.state.equals(ProgressState.DAMAGED)) {
 			this.turnsLeft -= 1;
 			if (this.turnsLeft == 0) {
@@ -38,28 +36,18 @@ public class ImprovementInventory implements TurnBasedLogic {
 					}
 				}
 				this.state = ProgressState.COMPLETE;
-				removeFromList();
 				Notification notification = new Notification(tile, Notification.NotificationTexts.IMPROVEMENT_BUILT);
-				civilization.getNotificationInbox().addNotification(notification);
+				tile.getCivilization().getNotificationInbox().addNotification(notification);
 			}
 		}
 	}
 
 	public void remove(){
-		this.state = ProgressState.STOPPED;
+		this.state = ProgressState.COMPLETE;
 		this.improvement = null;
 		this.turnsLeft = 0;
-		removeFromList();
 	}
-	public void stop(){
-		if(this.state.equals(ProgressState.IN_PROGRESS)) {
-			this.state = ProgressState.STOPPED;
-			removeFromList();
-		}
-		if(this.state.equals(ProgressState.DAMAGED)){
-			removeFromList();
-		}
-	}
+
 
 	public ImprovementType getImprovement() {
 		return improvement;
@@ -86,15 +74,16 @@ public class ImprovementInventory implements TurnBasedLogic {
 	}
 
 	public void progress(){
-		if(this.state.equals(ProgressState.STOPPED)){
-			this.state = ProgressState.IN_PROGRESS;
-			addToList();}}
+		if(this.state != ProgressState.IN_PROGRESS)
+			nextTurn();
+	}
 	public void repair(){
 		if(this.state.equals(ProgressState.DAMAGED)) {
-			this.turnsLeft = 3;
-			addToList();}
+			nextTurn();
+			}
 	}
-	public void damage(){this.state = ProgressState.DAMAGED;}
+	public void damage(){this.state = ProgressState.DAMAGED;
+	this.turnsLeft = 3;}
 
 	public Currency getCurrency(){
 		Currency currency = new Currency(0,0,0);

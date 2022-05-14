@@ -73,7 +73,31 @@ public enum UnitActions {
             return tile.getFeature().equals(TerrainFeature.MARSH);
         }
     },
-    REPAIR(3,null),
+    REPAIR_ROAD(3,null){
+        @Override
+        public void doAction(Tile tile){tile.buildRoad();}
+        @Override
+        public boolean checkIfActionIsDoable(Tile tile){
+            return tile.getMiscellaneousTileActionsInventory().isRoadPillaged();
+        }
+    },
+    REPAIR_RAILROAD(3,null){
+        @Override
+        public void doAction(Tile tile){tile.buildRailRoad();}
+
+        @Override
+        public boolean checkIfActionIsDoable(Tile tile){
+            return tile.getMiscellaneousTileActionsInventory().isRailRoadPillaged();
+        }
+    },
+    PILLAGE_ROADS(3,null){
+        @Override
+        public void doAction(Tile tile){tile.getMiscellaneousTileActionsInventory().pillage();}
+        @Override
+        public boolean checkIfActionIsDoable(Tile tile){
+            return tile.doesHaveRoad() || tile.doesHaveRailRoad();
+        }
+    },
     BUILD_CAMP(-1, ImprovementType.CAMP),
     BUILD_FARM(-1,ImprovementType.FARM),
     BUILD_MINE(-1,ImprovementType.MINE),
