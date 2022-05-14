@@ -562,7 +562,13 @@ public class GameMenuController {
 		String s = gameController.mapShow() + "\n";
 		s += "current player : " + game.getCurrentPlayer().getUser().getNickname() + " ";
 		s += "(" + game.getCurrentPlayer().getCivilization().getCivilization().name() + ")";
-		s += "\n" + game.getTurn() + "\n";
+		s += "\n" + "turn : " + game.getTurn() + "\n";
 		return s;
+	}
+
+	public String showTileInfo(HashMap<String,String> args){
+		int position = Integer.parseInt(args.get("index"));
+		if(game.getMap().getTileByNumber(position) == null) return "invalid position";
+		return gameController.showTileInfo(game.getMap().getTileByNumber(position));
 	}
 }
