@@ -1,5 +1,7 @@
 package model.unit;
 
+import controller.GameController;
+import controller.MapController;
 import controller.ProgramController;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,10 +31,9 @@ public class Unit {
 	protected Civilization ownerCivilization;
 	protected Tile currentTile;
 	protected ActionsQueue actionsQueue;
-	private int health;
+	private double health;
 	private TechnologyList requiredTechnologies;
 	private int cost;
-	private boolean isHealing;
 	private UnitType type;
 	private double movementPoint;
 
@@ -43,7 +44,6 @@ public class Unit {
 		this.movementPoint = type.getMovement();
 		this.requiredTechnologies = type.getRequiredTechs();
 		this.currentTile = tile;
-		this.isHealing = false;
 		this.ownerCivilization = civilization;
 		actionsQueue = new ActionsQueue();
 		this.type = type;
@@ -57,6 +57,7 @@ public class Unit {
 			city.getCenter().setArmedUnit((Armed) unit);
 		else
 			city.getCenter().setCivilianUnit((Civilian) unit);
+		updateMapAfterMove();
 	}
 
 	public static Unit spawnUnit(UnitType type, Tile tile, Civilization ownerCivilization) {
@@ -79,6 +80,7 @@ public class Unit {
 	}
 
 	public void moveTo(Tile tile) {
+		updateMapAfterMove();
 		currentTile = tile;
 	}
 
@@ -95,6 +97,8 @@ public class Unit {
 		if (ProgramController.getGame().getSelectedObject() == this) {
 			ProgramController.getGame().setSelectedObject(null);
 		}
+
+		updateMapAfterMove();
 	}
 
 	/**
@@ -103,7 +107,7 @@ public class Unit {
 	 * @param deltaHealth change amount of health,
 	 *                    positive for increase and negative for decrease
 	 */
-	public void changeHealth(int deltaHealth) {
+	public void changeHealth(double deltaHealth) {
 		health += deltaHealth;
 		health = Math.min(maxHealth, health);
 		if (health <= 0)
@@ -347,6 +351,9 @@ public class Unit {
 			int resultTurn = turn;
 			double resultRemainedMP = remainedMP;
 			Tile nextTile = boarder.getOtherTile(currentTile);
+			if(ProgramController.getGame().getCurrentPlayer().getSavedMap().getVisibilityState(nextTile).equals(Tile.VisibilityState.FOG_OF_WAR))
+				return new Distance(infinity, -1);
+
 			if (!nextTile.isPassable()) {
 				return new Distance(infinity, -1);
 			}
@@ -376,5 +383,11 @@ public class Unit {
 				return Integer.compare(turn, o.getTurn());
 			return -Double.compare(remainedMP, o.getRemainedMP());
 		}
+
+	}
+
+	protected static void updateMapAfterMove(){
+		MapController mapController = new MapController(ProgramController.getGame());
+		mapController.updateCurrentPlayersMap();
 	}
 }

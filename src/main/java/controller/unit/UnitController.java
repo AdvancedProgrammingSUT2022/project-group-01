@@ -3,6 +3,7 @@ package controller.unit;
 import lombok.AllArgsConstructor;
 import model.Game;
 import model.civilization.Currency;
+import model.civilization.city.City;
 import model.tile.Tile;
 import model.unit.Unit;
 import model.unit.armed.Armed;
@@ -59,7 +60,7 @@ public class UnitController {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append(String.format("Owner is %s\n", unit.getOwnerCivilization().getCivilization().getName()));
 		stringBuilder.append(String.format("Unit is at %d\n", unit.getCurrentTile().getMapNumber()));
-		stringBuilder.append(String.format("Current Health is %d / 10\n", unit.getHealth()));
+		stringBuilder.append(String.format("Current Health is %f / 10\n", unit.getHealth()));
 		stringBuilder.append(String.format("Unit Type : %s\n", unit.getType().toString()));
 		stringBuilder.append(String.format("remaining Movement Point is %f\n", unit.getRemainingMP()));
 		stringBuilder.append(String.format("current action is %s\n", unit.getJob() == null ? "null" : unit.getJob().toString()));
@@ -123,11 +124,11 @@ public class UnitController {
 		// combat unit, phase 2 TODO
 		if(tile.getInnerCity() == null)
 			return "no city in destination tile";
+		City city = tile.getInnerCity();
 		if(tile.getInnerCity().getCivilization() == armed.getOwnerCivilization())
 			return "why you want to betray your people ??";
 		// combat with city todo
-
-		double cityAttackModifier = 1;
+		double cityAttackModifier = 1 + (armed.getCurrentTile().getTerrain().combatModifier / 100f);
 		if(armed.getTraitsList().contains(UnitTraits.BONUS_VS_CITY))
 			cityAttackModifier *= 1.25f;
 		if(armed.getTraitsList().contains(UnitTraits.PENALTY_VS_CITIES))
@@ -138,7 +139,7 @@ public class UnitController {
 			cityAttackModifier *= 0.5f;
 
 		armed.consumeMP(armed.getTraitsList().contains(UnitTraits.MOVE_AFTER_ATTACK) ? 1 : armed.getRemainingMP());
-
+		city.changeHealth(-cityAttackModifier * armed.getType().getCombatStrength());
 		return "knives out";
 	}
 
@@ -149,18 +150,16 @@ public class UnitController {
 				&& !(((Siege) ranged).readyToAttack()))
 			return "this unit need setup before attack";
 
-		if(ranged.getTraitsList().contains(UnitTraits.NO_MELEE))
-			return "this unit can't melee attack";
 		boolean haveIndirectFire = ranged.getTraitsList().contains(UnitTraits.INDIRECT_FIRE);
 		if(!ranged.getCurrentTile().getAttackingArea(ranged.getType().getRange(), haveIndirectFire).contains(tile))
 			return "this unit is not in attack range";
 		// combat unit, phase 2 TODO
 		if(tile.getInnerCity() == null)
 			return "no city in destination tile";
+		City city = tile.getInnerCity();
 		if(tile.getInnerCity().getCivilization() == ranged.getOwnerCivilization())
 			return "why you want to betray your people ??";
-		// combat with city todo
-		double cityAttackModifier = 1;
+		double cityAttackModifier = 1 + (ranged.getCurrentTile().getTerrain().combatModifier / 100f);
 		if(ranged.getTraitsList().contains(UnitTraits.BONUS_VS_CITY))
 			cityAttackModifier *= 1.25f;
 		if(ranged.getTraitsList().contains(UnitTraits.PENALTY_VS_CITIES))
@@ -171,7 +170,7 @@ public class UnitController {
 			cityAttackModifier *= 0.5f;
 
 		ranged.consumeMP(ranged.getTraitsList().contains(UnitTraits.MOVE_AFTER_ATTACK) ? 1 : ranged.getRemainingMP());
-
+		city.changeHealth(-cityAttackModifier * ranged.getType().getRangedCombatStrength());
 		return "bows out";
 	}
 

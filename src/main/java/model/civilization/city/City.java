@@ -3,6 +3,7 @@ package model.civilization.city;
 import java.util.*;
 
 import lombok.Getter;
+import lombok.Setter;
 import model.Notification;
 import model.TurnBasedLogic;
 import model.building.BuildingInventory;
@@ -18,6 +19,7 @@ import utils.Pair;
 
 @Getter
 public class City {
+	private final int cityMaxHealth = 10;
 
 	private Civilization civilization;
 	private final Vector<Person> population;
@@ -31,7 +33,7 @@ public class City {
 	private final Vector<Tile> tiles;
 	private int defencePower;
 	private int attackPower;
-	private int health;
+	private double health;
 	private Vector<Tile> nextTiles;
 	private final int maxNextTiles = 3;
 	private final int turnToExpansion = 5;
@@ -39,6 +41,8 @@ public class City {
 	private Unit garrisonedUnit;
 	private int beaker = 5;//todo check correct value
 	private int remainedTurnToGrowth = 8;
+	@Setter @Getter
+	private boolean attackedThisTurn = false;
 
 	public City(String name, Civilization civilization, Tile center) {
 		this.civilization =  civilization;
@@ -60,6 +64,7 @@ public class City {
 		}
 		this.productionInventory = new ProductionInventory(this);
 		this.state = CityState.NORMAL;
+		this.health = cityMaxHealth;
 	}
 
 	public Vector<Tile> getTiles() {
@@ -108,6 +113,19 @@ public class City {
 		}
 	}
 
+	public void changeHealth(double deltaHealth) {
+		System.out.println("###\n".repeat(3));
+		System.out.println(this.name);
+		System.out.println(deltaHealth);
+		System.out.println("###\n".repeat(3));
+		health += deltaHealth;
+		health = Math.min(cityMaxHealth, health);
+		if (health <= 0) {
+			// Annex the city todo
+			health = 0.1f;
+		}
+	}
+
 	public void resetChangesOfCurrency(){
 		changesOfCurrency.setValue(0,0,0);
 	}
@@ -139,6 +157,8 @@ public class City {
 		handleNextTiles();
 		handlePopulationIncrease();
 		updateBeaker();
+		attackedThisTurn = false;
+		changeHealth(+1);
 		//todo create notification here
 	}
 
@@ -158,16 +178,12 @@ public class City {
 
 	}
 
-	public int getAttackPower() {
-		return attackPower;
+	public double getAttackPower() {
+		return ((getPopulation().size() + 40) / 10f) * (getCenter().getTerrain().equals(Terrain.HILLS) ? 1.3 : 1);
 	}
 
 	public void setAttackPower(int attackPower) {
 		this.attackPower = attackPower;
-	}
-
-	public int getHealth() {
-		return health;
 	}
 
 	public void setHealth(int health) {

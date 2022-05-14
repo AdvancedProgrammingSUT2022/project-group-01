@@ -24,6 +24,7 @@ import model.unit.civilian.Worker;
 import utils.Commands;
 import utils.StringUtils;
 
+import java.sql.ParameterMetaData;
 import java.util.HashMap;
 
 public class GameMenuController {
@@ -48,10 +49,11 @@ public class GameMenuController {
 	}
 
 	//SELECT:
-	public String selectUnit(HashMap<String, String> args) {//todo: safar implement here
+	public String selectUnit(HashMap<String, String> args) {
+		if(!isInteger(args.get("position")))
+			return "invalid position";
 		String selectingType = args.get("section");//armed or civilian or garbage
 		Tile destTile = game.getMap().getTileByNumber(Integer.parseInt(args.get("position")));
-		//man inja ye chizayi neveshtam vali bebar too controllere khodet inja khalvat she
 		if (destTile == null) return "invalid position";
 		if (selectingType.equals("armed")) {
 			Armed armed = destTile.getArmedUnit();
@@ -74,8 +76,9 @@ public class GameMenuController {
 	}
 
 	//UNIT:
-	// todo
 	public String unitMove(HashMap<String, String> args) {
+		if(!isInteger(args.get("position")))
+			return "invalid number";
 		int position = Integer.parseInt(args.get("position"));
 		Tile tile = game.getMap().getTileByNumber(position);
 		if (tile == null) return "invalid position";
@@ -86,8 +89,10 @@ public class GameMenuController {
 		Unit unit = (Unit) game.getSelectedObject();
 		if (!unit.canGoTo(tile))
 			return "Can't reach there\n";
-//		if(tile.)
-		// todo fog of war
+		if(unit.outOfMP())
+			return "selected unit is out of movement point";
+		if(game.getCurrentPlayer().getSavedMap().getVisibilityState(tile).equals(Tile.VisibilityState.FOG_OF_WAR))
+			return "you don't see there";
 
 		unit.goTo(tile);
 		return "Done!";
@@ -336,6 +341,7 @@ public class GameMenuController {
 //		game.getCurrentPlayer().getCivilization().addUnit(unit);
 		if (unit instanceof Civilian) tile.setCivilianUnit((Civilian) unit);
 		if (unit instanceof Armed) tile.setArmedUnit((Armed) unit);
+		mapController.updateCurrentPlayersMap();
 		return "god sent you some units !";
 	}
 
@@ -719,5 +725,32 @@ public class GameMenuController {
 		if (tile.doesHaveRoad())
 			stringBuilder.append("this tile has road\n");
 		return stringBuilder.toString();
+	}
+
+	@GameCommand(command = Commands.CITY_ATTACK)
+	public String cityAttack(HashMap<String, String> args) {
+		if(!isInteger(args.get("target")))
+			return "invalid Tile";
+		if(!(game.getSelectedObject() instanceof City))
+			return "you haven't Selected any city";
+		City city = (City) game.getSelectedObject();
+		if(game.getCurrentPlayer().getCivilization() != city.getCivilization())
+			return "you don't own this city";
+		Tile tile = game.getMap().getTileByNumber(Integer.parseInt(args.get("target")));
+		if(tile == null)
+			return "invalid tile";
+		if(tile.getArmedUnit() == null)
+			return "there isn't any armed unit there";
+		Armed target = tile.getArmedUnit();
+		if(target.getOwnerCivilization() == city.getCivilization())
+			return "why do you want to attack your units, are you idiot ?";
+		if(!city.getCenter().getAttackingArea(2, false).contains(tile))
+			return "this unit is not in attack range";
+		if(city.isAttackedThisTurn())
+			return "you already attacked this turn";
+		double damage = city.getAttackPower();
+		target.changeHealth( -(int) (damage * (1 / target.getDefensePower())) );
+		city.setAttackedThisTurn(true);
+		return "Attacked to unit, say goodbye to that bastard";
 	}
 }

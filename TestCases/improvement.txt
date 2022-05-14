@@ -28,6 +28,16 @@ spawn unit -p 70 -n Tank
 spawn unit -p 95 -n panzer
 spawn unit -p 98 -n infantry
 select unit armed -p 70
+unit moveto -p 93
+unit moveto -p 117
+cheat next turn
+cheat next turn
+cheat next turn
+cheat next turn
+cheat next turn
+cheat next turn
+cheat next turn
+cheat next turn
 unit moveto -p 75
 cheat next turn
 cheat next turn
@@ -146,4 +156,8 @@ cheat next turn
 cheat next turn
 unit info
 unit moveto -p 98
+unit info
+select city --name Karakorum
+city attack --target 76
+select unit armed -p 76
 unit info

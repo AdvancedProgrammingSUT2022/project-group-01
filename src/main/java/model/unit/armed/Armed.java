@@ -6,6 +6,7 @@ import model.civilization.city.City;
 import model.tile.Tile;
 import model.unit.Unit;
 import model.unit.UnitType;
+import model.unit.trait.UnitTraits;
 
 public class Armed extends Unit {
 	private int XP = 0;
@@ -22,7 +23,7 @@ public class Armed extends Unit {
 
 	@Override
 	public void moveTo(Tile tile) {
-		//todo implement here for armed
+		updateMapAfterMove();
 		currentTile.removeUnit(this);
 		tile.setArmedUnit(this);
 
@@ -41,7 +42,14 @@ public class Armed extends Unit {
 	public void addXP(int XP){
 		this.XP += XP;
 	}
-	public int getDefensePower(){ return 0; }
+	public double getDefensePower(){
+		double power = 1 + (getCurrentTile().getTerrain().combatModifier / 100f);
+		if(getTraitsList().contains(UnitTraits.ROUGH_TERRAIN_PENALTY)
+				&& (getCurrentTile().getTerrain().isRough()
+				|| (getCurrentTile().getFeature() != null && getCurrentTile().getFeature().isRough())))
+			power *= 0.5f;
+		return power;
+	}
 	public int getAttackPower(){ return 0; }
 
 	public void upgradeUnit(){}

@@ -319,6 +319,11 @@ public class GameMenu{
 					return controller.tileInfo(args);
 				}
 			}, Commands.TILE_INFO);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.cityAttack(args);
+				}
+			}, Commands.CITY_ATTACK);
 		}};
 
 	}

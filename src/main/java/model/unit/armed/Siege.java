@@ -28,6 +28,7 @@ public class Siege extends RangedUnit {
 
 	@Override
 	public void moveTo(Tile tile) {
+		updateMapAfterMove();
 		currentTile.removeUnit(this);
 		canAttack = false;
 
