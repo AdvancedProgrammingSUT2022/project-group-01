@@ -100,7 +100,7 @@ public class MainMenuTest {
         Assertions.assertEquals(answer, result);
     }
 
-    @Test
+    /*@Test
     public void validPlayGame(){
         Database mockedDatabase =mock(Database.class);
         when(mockedDatabase.findUserByUsername("player1")).thenReturn(new User("player1","password1", "nickname1"));
@@ -111,7 +111,7 @@ public class MainMenuTest {
         mainMenuController.playGame(CommandProcessor.extractCommand(input, Commands.PLAY_GAME));
         Assertions.assertNotNull(ProgramController.getGame());
         Assertions.assertEquals(1,1);
-    }
+    }*/
 
     @Test
     public void invalidPlayGame(){

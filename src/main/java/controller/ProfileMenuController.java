@@ -58,7 +58,7 @@ public class ProfileMenuController {
 
     public String menuExit(HashMap<String, String> args){
         ProgramController.setCurrentMenu(Menus.MAIN_MENU);
-        return "Done!";
+        return "done!";
     }
 }
 
