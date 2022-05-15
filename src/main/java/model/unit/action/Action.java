@@ -42,9 +42,6 @@ public class Action {
 		this(unit, actionType);
 		// major additional one turn bug TODO
 		this.remainedTurns = improvementType.getProductionTime(unit.getCurrentTile());
-		System.err.println("?!?@?@");
-		System.err.println(this.remainedTurns);
-		System.err.println(improvementType);
 		this.improvementType = improvementType;
 	}
 
@@ -67,8 +64,6 @@ public class Action {
 		return remainedTurns;
 	}
 	public void doAction(){
-		if(this.improvementType != null)
-			System.err.println(remainedTurns);
 		doActionFunc.accept(this);
 	}
 	public boolean isPossible(){

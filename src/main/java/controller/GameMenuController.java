@@ -106,7 +106,6 @@ public class GameMenuController {
 
 	@GameCommand(command = Commands.UNIT_ACTION_LIST)
 	public String unitActionList(HashMap<String, String> args) {
-		System.err.println("We are Here !");
 		if (game.getSelectedObject() == null || !(game.getSelectedObject() instanceof Worker))
 			return "worker is not selected !";
 		if (isAnotherPlayerUnit())

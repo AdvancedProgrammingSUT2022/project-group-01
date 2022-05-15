@@ -172,7 +172,6 @@ public class Unit {
 		Vector<Tile> path = new Vector<>();
 		while (currentTile.getMapNumber() != destination.getMapNumber()) {
 			path.add(destination);
-			System.err.printf("*** %d\n", destination.getMapNumber());
 			destination = gameMap.getTileByNumber(par.get(destination.getMapNumber()));
 		}
 		path.add(destination);
@@ -292,13 +291,10 @@ public class Unit {
 			remainingMP = lastDijkstraRemMP;
 
 		moveTo(stopPoints.get(0));
-		System.err.printf("????????????? %d\n", stopPoints.size());
 		actionsQueue.resetQueue();
 		for (Tile stopPoint : stopPoints) {
-			System.err.println(stopPoint.getMapNumber());
 			actionsQueue.addAction(new Action(this, Actions.MOVE, stopPoint));
 		}
-		System.err.println("##############");
 	}
 
 	public boolean isSleeping() {
