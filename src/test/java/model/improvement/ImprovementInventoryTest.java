@@ -35,16 +35,23 @@ class ImprovementInventoryTest {
     public void turnsLeft(){
         improvementInventoryUnderTest.getTurnsLeft();
     }
-//    @Test
-//    public void setStateTest(){
-//        improvementInventoryUnderTest.setState(ProgressState.DAMAGED);
-//        Assertions.assertEquals(improvementInventoryUnderTest.getState(),ProgressState.DAMAGED);
-////        improvementInventoryUnderTest.stop();
-//    }
+    @Test
+    public void setStateTest(){
+        improvementInventoryUnderTest.setState(ProgressState.DAMAGED);
+        improvementInventoryUnderTest.setTurnsLeft(10);
+        Assertions.assertEquals(improvementInventoryUnderTest.getState(),ProgressState.DAMAGED);
+    }
 
     @Test
     public void setImprovementTest(){
         improvementInventoryUnderTest.setImprovement(ImprovementType.FARM);
         Assertions.assertEquals(improvementInventoryUnderTest.getImprovement(),ImprovementType.FARM);
+    }
+    @Test
+    public void repairImprovement(){
+        improvementInventoryUnderTest.setImprovement(ImprovementType.FARM);
+        improvementInventoryUnderTest.setState(ProgressState.DAMAGED);
+        improvementInventoryUnderTest.setTurnsLeft(3);
+        improvementInventoryUnderTest.repair();
     }
 }

@@ -362,11 +362,13 @@ public class TileTest {
         City city = new City(game.getCurrentPlayer().getCivilization().getCivilization().getCityNames()[1],game.getCurrentPlayer().getCivilization(),tile);
         game.getCurrentPlayer().getCivilization().addNewCity(city);
         city.updateBeaker();
+        tile.getInnerCity();
         Unit unit = new Armed(UnitType.WARRIOR,city.getCenter(),game.getCurrentPlayer().getCivilization());
         city.setGarrisonedUnit(unit);
         city.getGarrisonedUnit();
         city.updateDefencePower(2);
         city.setAttackPower(4);
+        Tile.getAdjacentForArea(new Vector<>(List.of(tile)),3);
         Assertions.assertNotEquals(city.getAttackPower(),4);
         city.setHealth(10);
         Assertions.assertEquals(city.getHealth(),10);
@@ -384,7 +386,6 @@ public class TileTest {
         city.setAttackPower(100);
         city.getAttackPower();
         city.getHealth();
-
         city.setGarrisonedUnit(null);
         unit.moveTo(tile.getBoarder(5).getOtherTile(tile));
         mc.updateSavedMap(game.getCurrentPlayer(),game.getCurrentPlayer().getCivilization().visibleTiles(),game.getMap());

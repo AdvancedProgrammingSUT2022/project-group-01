@@ -302,4 +302,43 @@ public class TileTest {
         tile.getAvailableResource();
         Assertions.assertEquals(tile.getAvailableResource(),ResourceType.IRON);
     }
+
+    @Test
+    void getYields(){
+        Vector<Person> dolls = mock(Vector.class);
+        when(dolls.isEmpty()).thenReturn(false);
+        Tile tile2 = new Tile(Terrain.DESERT,TerrainFeature.FOREST,null,null,10,10,10);
+        tile2.setPeopleInside(dolls);
+        tile2.getCurrency();
+    }
+
+    @Test
+    void improvementLeftTest(){
+        Tile tile = new Tile(Terrain.GRASSLAND,TerrainFeature.FOREST,null,null,10,101,0);
+        tile.repairImprovement();
+        tile.getImprovementTurnsLeft();
+        tile.orderWorkerAction(UnitActions.BUILD_CAMP);
+        tile.buildImprovement(ImprovementType.LUMBER_MILL);
+    tile.buildImprovement(ImprovementType.LUMBER_MILL);
+    tile.buildImprovement(ImprovementType.LUMBER_MILL);
+    tile.buildImprovement(ImprovementType.LUMBER_MILL);
+    tile.buildImprovement(ImprovementType.LUMBER_MILL);
+    tile.buildImprovement(ImprovementType.LUMBER_MILL);
+    tile.buildImprovement(ImprovementType.LUMBER_MILL);
+    tile.buildImprovement(ImprovementType.LUMBER_MILL);
+    tile.removeBuiltImprovements(ImprovementType.LUMBER_MILL);
+    }
+    @Test
+    void setDestroyedTest(){
+        Tile tile = new Tile(Terrain.GRASSLAND,TerrainFeature.FOREST,null,null,10,10,10);
+        tile.setDestroyed(false);
+        tile.setDestroyed(true);
+    }
+    @Test
+    void boarderMinusOneTest(){
+        Tile tile = new Tile(Terrain.GRASSLAND,TerrainFeature.JUNGLE,null,null,10,10,10);
+        tile.getBoarderDirection(new Boarder(null,null,false,22));
+    }
+
+
 }

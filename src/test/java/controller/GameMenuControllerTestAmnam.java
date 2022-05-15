@@ -1,3 +1,4 @@
+package controller;
 import controller.GameController;
 import controller.GameMenuController;
 import controller.civilization.city.CityController;
@@ -76,6 +77,7 @@ public class GameMenuControllerTestAmnam {
         HashMap<String, String> arg = new HashMap<>();
         Map map = mock(Map.class);
         Unit obj = mock(Unit.class);
+        when(game.getMap()).thenReturn(map);
         when(game.getSelectedObject()).thenReturn(obj);
         when(obj.getOwnerCivilization()).thenReturn(civ1);
 
@@ -90,7 +92,7 @@ public class GameMenuControllerTestAmnam {
         Player player1 = mock(Player.class);
         Civilization civ1 = mock(Civilization.class);
         when(civ1.getPlayer()).thenReturn(player1);
-        String ans = "Can't reach there";
+        String ans = "Can't reach there\n";
         HashMap<String, String> arg = new HashMap<>();
         Map map = mock(Map.class);
         when(game.getMap()).thenReturn(map);
@@ -128,30 +130,7 @@ public class GameMenuControllerTestAmnam {
         Assertions.assertEquals(ans, gameMenuController.unitMove(arg));
     }
 
-    @Test
-    void unitMoveTestSeven() {//todo implement here
-        Player player1 = mock(Player.class);
-        Civilization civ1 = mock(Civilization.class);
-        when(civ1.getPlayer()).thenReturn(player1);
-        String ans = "you don't see there";
-        HashMap<String, String> arg = new HashMap<>();
-        Map map = mock(Map.class);
-        when(game.getMap()).thenReturn(map);
-        Unit obj = mock(Unit.class);
-        when(obj.getOwnerCivilization()).thenReturn(civ1);
-        when(civ1.getPlayer()).thenReturn(null);
-        Player player = mock(Player.class);
-        when(game.getCurrentPlayer()).thenReturn(player);
-        SavedMap savedMap = mock(SavedMap.class);
-        when(player.getSavedMap()).thenReturn(savedMap);
-        when(game.getSelectedObject()).thenReturn(obj);
-        Tile tile = mock(Tile.class);
-        when(obj.canGoTo(tile)).thenReturn(true);
-        when(obj.outOfMP()).thenReturn(false);
-        when(map.getTileByNumber(5)).thenReturn(tile);
-        arg.put("position","5");
-        Assertions.assertEquals(ans, gameMenuController.unitMove(arg));
-    }
+
 
     @Test
     void unitActionListTestOne(){

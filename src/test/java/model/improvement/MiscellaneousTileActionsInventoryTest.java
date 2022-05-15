@@ -12,6 +12,7 @@ import model.resource.ResourceType;
 import model.tile.Tile;
 import model.unit.Unit;
 import model.unit.UnitType;
+import model.unit.action.UnitActions;
 import model.unit.armed.Armed;
 import model.unit.civilian.Civilian;
 import org.junit.jupiter.api.Assertions;
@@ -73,16 +74,24 @@ public class MiscellaneousTileActionsInventoryTest {
     }
 
     @Test
-    public void nextTurnTest(){
-       // Civilization civilization = new Civilization(Civilizations.ASSYRIAN,new City("hi",null,tile));
-
+    public void pillageTest(){
+        game.getCurrentPlayer().getMapCenterTile().buildRoad();
+        game.getCurrentPlayer().getMapCenterTile().buildRoad();
+        game.getCurrentPlayer().getMapCenterTile().buildRoad();
+        game.getCurrentPlayer().getMapCenterTile().buildRoad();
+        game.getCurrentPlayer().getMapCenterTile().buildRailRoad();
+        game.getCurrentPlayer().getMapCenterTile().buildRailRoad();
+        game.getCurrentPlayer().getMapCenterTile().buildRailRoad();
+        game.getCurrentPlayer().getMapCenterTile().getMiscellaneousTileActionsInventory().pillage();
+        game.getCurrentPlayer().getMapCenterTile().getMiscellaneousTileActionsInventory().isRoadPillaged();
+        game.getCurrentPlayer().getMapCenterTile().getMiscellaneousTileActionsInventory().isRailRoadPillaged();
+        System.out.println(game.getCurrentPlayer().getMapCenterTile().getMiscellaneousTileActionsInventory().requiredTime);
     }
 
-//    @Test
-//    public void isPillage(){
-//        game.getCurrentPlayer().getMapCenterTile().getMiscellaneousTileActionsInventory().pillage();
-//        game.getCurrentPlayer().getMapCenterTile().getMiscellaneousTileActionsInventory().isRoadPillaged();
-//        game.getCurrentPlayer().getMapCenterTile().getMiscellaneousTileActionsInventory().isRailRoadPillaged();
-//        game.getCurrentPlayer().getMapCenterTile().getMiscellaneousTileActionsInventory().progress();
-//    }
+    @Test
+    public void nextTurnTest(){
+        game.getCurrentPlayer().getMapCenterTile().getMiscellaneousTileActionsInventory().doAction(UnitActions.BUILD_ROAD);
+        game.getCurrentPlayer().getMapCenterTile().getMiscellaneousTileActionsInventory().doAction(UnitActions.BUILD_ROAD);
+        game.getCurrentPlayer().getMapCenterTile().getMiscellaneousTileActionsInventory().doAction(UnitActions.BUILD_ROAD);
+    }
 }

@@ -8,10 +8,7 @@ import model.tile.Tile;
 import model.unit.UnitType;
 import model.unit.armed.Armed;
 import model.unit.civilian.Civilian;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.mockito.Mock;
 
 import java.io.ByteArrayInputStream;
@@ -29,8 +26,8 @@ class ProgramControllerTest {
     void setUp() {
         programControllerUnderTest = new ProgramController();
     }
-    private static Game game;
-    private static MapController mc;
+    private  Game game;
+    private  MapController mc;
     @BeforeEach
     public void beforechert() {
         User user1 = new User("a", "b", "c");

@@ -12,8 +12,12 @@ import model.tile.Tile;
 import model.unit.Unit;
 import model.unit.UnitType;
 import model.unit.armed.Armed;
+import model.unit.armed.RangedUnit;
+import model.unit.armed.Siege;
 import model.unit.civilian.Civilian;
+import model.unit.civilian.Settler;
 import model.unit.civilian.Worker;
+import model.unit.trait.TraitsList;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -28,10 +32,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
 import org.w3c.dom.html.HTMLOptGroupElement;
 
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.Map;
-import java.util.Vector;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
@@ -39,8 +41,7 @@ import java.util.concurrent.Future;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class GameMenuControllerTest {
@@ -616,13 +617,12 @@ class GameMenuControllerTest {
 
     @Test
     void testUnitActionList() throws Exception {
-        // Setup
+
         final HashMap<String, String> args = new HashMap<>(Map.ofEntries(Map.entry("value", "value")));
 
-        // Run the test
+
         final String result = gameMenuController.unitActionList(args);
 
-        // Verify the results
         assertEquals("worker is not selected !", result);
     }
 
@@ -630,13 +630,11 @@ class GameMenuControllerTest {
 
     @Test
     void testUnitInfo() throws Exception {
-        // Setup
+
         final HashMap<String, String> args = new HashMap<>(Map.ofEntries(Map.entry("value", "value")));
 
-        // Run the test
         final String result = gameMenuController.unitInfo(args);
 
-        // Verify the results
         assertEquals("you haven't select any unit", result);
     }
 
@@ -666,4 +664,127 @@ class GameMenuControllerTest {
     }
 
 
+    @Test
+    void unitFoundCity(){
+        Settler settler = mock(Settler.class);
+        game.getCurrentPlayer().getMapCenterTile().setCivilianUnit(settler);
+        when(settler.getOwnerCivilization()).thenReturn(game.getCurrentPlayer().getCivilization());
+        game.setSelectedObject(game.getCurrentPlayer().getMapCenterTile().getArmedUnit());
+        gameMenuController.unitFoundCity(null);
+        game.setSelectedObject(game.getCurrentPlayer().getMapCenterTile().getCivilianUnit());
+        gameMenuController.unitFoundCity(null);
+        game.setSelectedObject(game.getCurrentPlayer().getCivilization().getUnits().get(0));
+        gameMenuController.unitFoundCity(null);
+        when(settler.getOwnerCivilization()).thenReturn(game.getPlayers().get(1).getCivilization());
+        game.setSelectedObject(settler);
+        gameMenuController.unitFoundCity(null);
+
+    }
+    @Test
+    void unitCanselMission(){
+        Settler settler = mock(Settler.class);
+        game.getCurrentPlayer().getMapCenterTile().setCivilianUnit(settler);
+        when(settler.getOwnerCivilization()).thenReturn(game.getCurrentPlayer().getCivilization());
+        game.setSelectedObject(game.getCurrentPlayer().getMapCenterTile().getCivilianUnit());
+        gameMenuController.unitCancelMission(null);
+        when(settler.getOwnerCivilization()).thenReturn(game.getPlayers().get(1).getCivilization());
+        gameMenuController.unitCancelMission(null);
+        game.setSelectedObject(null);
+        gameMenuController.unitCancelMission(null);
+    }
+
+    @Test
+    void unitWake(){
+        Settler settler = mock(Settler.class);
+        game.getCurrentPlayer().getMapCenterTile().setCivilianUnit(settler);
+        when(settler.getOwnerCivilization()).thenReturn(game.getCurrentPlayer().getCivilization());
+        game.setSelectedObject(game.getCurrentPlayer().getMapCenterTile().getCivilianUnit());
+        gameMenuController.unitWake(null);
+        when(settler.getOwnerCivilization()).thenReturn(game.getPlayers().get(1).getCivilization());
+        gameMenuController.unitWake(null);
+        game.setSelectedObject(null);
+        gameMenuController.unitWake(null);
+    }
+
+    @Test
+    void unitDeleteTest(){
+        Settler settler = mock(Settler.class);
+        when(settler.getType()).thenReturn(UnitType.SETTLER);
+        game.setSelectedObject(null);
+        gameMenuController.unitDelete(null);
+        game.setSelectedObject(settler);
+        when(settler.getOwnerCivilization()).thenReturn(game.getPlayers().get(1).getCivilization());
+        gameMenuController.unitDelete(null);
+        game.getCurrentPlayer().getMapCenterTile().setCivilianUnit(settler);
+        when(settler.getOwnerCivilization()).thenReturn(game.getCurrentPlayer().getCivilization());
+        game.setSelectedObject(game.getCurrentPlayer().getMapCenterTile().getCivilianUnit());
+        gameMenuController.unitDelete(null);
+    }
+
+    @Test
+    void mapshowTest3(){
+      HashMap<String,String> hashMap = new HashMap<>();
+      hashMap.put("position","100");
+      gameMenuController.mapShow(hashMap);
+      hashMap.remove("position");
+      hashMap.put("cityname",game.getCurrentPlayer().getCivilization().getCities().get(0).getName());
+      gameMenuController.mapShow(hashMap);
+    }
+    @Test
+    void unitSetupTest(){
+        TraitsList traitsList = mock(TraitsList.class);
+        Settler settler = mock(Settler.class);
+        game.getCurrentPlayer().getMapCenterTile().setCivilianUnit(settler);
+        when(settler.getOwnerCivilization()).thenReturn(game.getCurrentPlayer().getCivilization());
+        game.setSelectedObject(game.getCurrentPlayer().getMapCenterTile().getCivilianUnit());
+        gameMenuController.unitSetup(null);
+        when(settler.getOwnerCivilization()).thenReturn(game.getPlayers().get(1).getCivilization());
+        gameMenuController.unitSetup(null);
+        game.setSelectedObject(null);
+        gameMenuController.unitSetup(null);
+        Siege siege = mock(Siege.class);
+        game.getCurrentPlayer().getMapCenterTile().setArmedUnit(siege);
+        when(siege.getOwnerCivilization()).thenReturn(game.getCurrentPlayer().getCivilization());
+        game.setSelectedObject(siege);
+        when(siege.getTraitsList()).thenReturn(traitsList);
+        gameMenuController.unitSetup(null);
+
+    }
+    @Test
+    void unitMeleeAttackTest(){
+        HashMap<String,String> hashMap = new HashMap<>();
+        hashMap.put("position","100");
+        gameMenuController.unitMeleeAttack(hashMap);
+        hashMap.replace("position",String.valueOf(game.getCurrentPlayer().getCivilization().getUnits().get(0).getCurrentTile().getMapNumber()));
+        game.setSelectedObject(game.getCurrentPlayer().getCivilization().getUnits().get(0));
+        gameMenuController.unitMeleeAttack(hashMap);
+    }
+
+    @Test
+    void unitRangedAttack(){
+        HashMap<String,String> hashMap = new HashMap<>();
+        hashMap.put("position","100");
+        gameMenuController.unitRangedAttack(hashMap);
+        RangedUnit rangedUnit = new RangedUnit(UnitType.LONG_SWORDSMAN,game.getMap().getTileByNumber(100),game.getCurrentPlayer().getCivilization() );
+        game.getMap().getTileByNumber(100).setArmedUnit(rangedUnit);
+        gameMenuController.unitRangedAttack(hashMap);
+        game.setSelectedObject(rangedUnit);
+        gameMenuController.unitRangedAttack(hashMap);
+    }
+    @Test
+    void unitInfoTest(){
+        game.setSelectedObject(game.getCurrentPlayer().getCivilization().getUnits().get(0));
+        gameMenuController.unitInfo(null);
+    }
+
+    @Test
+    void getterSetterCalls(){
+        gameMenuController.getGame();
+        gameMenuController.getMapController();
+        gameMenuController.getUnitController();
+        gameMenuController.getWorkerController();
+        gameMenuController.getCityController();
+        gameMenuController.getGameController();
+        gameMenuController.setCityController(gameMenuController.getCityController());
+    }
 }

@@ -17,7 +17,7 @@ import java.util.HashMap;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class GameMenuControllerTestAmnam {
+public class GameMenuControllerTestAmnam2 {
     GameMenuController gameMenuController;
     Game game;
     @BeforeEach
@@ -76,7 +76,7 @@ public class GameMenuControllerTestAmnam {
         Unit obj = mock(Unit.class);
         when(game.getSelectedObject()).thenReturn(obj);
         when(obj.getOwnerCivilization()).thenReturn(civ1);
-
+        when(game.getMap()).thenReturn(map);
         Tile tile = mock(Tile.class);
         when(map.getTileByNumber(5)).thenReturn(tile);
         arg.put("position","5");
@@ -88,7 +88,7 @@ public class GameMenuControllerTestAmnam {
         Player player1 = mock(Player.class);
         Civilization civ1 = mock(Civilization.class);
         when(civ1.getPlayer()).thenReturn(player1);
-        String ans = "Can't reach there";
+        String ans = "Can't reach there\n";
         HashMap<String, String> arg = new HashMap<>();
         Map map = mock(Map.class);
         when(game.getMap()).thenReturn(map);

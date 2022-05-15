@@ -111,7 +111,7 @@ public class Tile {
 	}
 	public int getBoarderDirection(Boarder boarder){
 		for(int i = 0; i < 6; i++){
-			if(this.nearbyBoarders[i].equals(boarder))
+			if((this.nearbyBoarders[i]!=null) &&(this.nearbyBoarders[i].equals(boarder)))
 				return i;
 		}
 		return -1;
@@ -350,10 +350,13 @@ public class Tile {
 				for(Tile tile : area){
 					out.addAll(tile.getAdjacentTiles());
 				}
-			else
-				for(Tile tile : out){
-					out.addAll(tile.getAdjacentTiles());
+			else {
+				Vector<Tile> temp = new Vector<>();
+				for (Tile tile : out) {
+					temp.addAll(tile.getAdjacentTiles());
 				}
+				out.addAll(temp);
+			}
 			out.removeIf(area::contains);
 		}
 		out = VectorUtils.unique(out);
