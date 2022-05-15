@@ -65,15 +65,15 @@ class ProgramControllerTest {
         TileController.initializeEnums();
     }
 
-//    @Test
-//    void testLoginRun() {
-//        InputStream sysInBackup = System.in; // backup System.in to restore it later
-//        ByteArrayInputStream in = new ByteArrayInputStream("menu exit\nmenu exit\nmenu exit".getBytes());
-//        System.setIn(in);
-//        ProgramController.setCurrentMenu(Menus.LOGIN_MENU);
-//        programControllerUnderTest.run();
-//        System.setIn(sysInBackup);
-//    }
+    @Test
+    void testLoginRun() {
+        InputStream sysInBackup = System.in; // backup System.in to restore it later
+        ByteArrayInputStream in = new ByteArrayInputStream("menu exit\nmenu exit\nmenu exit".getBytes());
+        System.setIn(in);
+        ProgramController.setCurrentMenu(Menus.LOGIN_MENU);
+        programControllerUnderTest.run();
+        System.setIn(sysInBackup);
+    }
     @Test
     void testProfileRun() {
         InputStream sysInBackup = System.in; // backup System.in to restore it later
@@ -83,16 +83,16 @@ class ProgramControllerTest {
         programControllerUnderTest.run();
         System.setIn(sysInBackup);
     }
-//    @Test
-//    void testINFORun() {
-//        ProgramController.setGame(game);
-//        InputStream sysInBackup = System.in; // backup System.in to restore it later
-//        ByteArrayInputStream in = new ByteArrayInputStream("menu exit\nmenu exit\nmenu exit\nmenu exit".getBytes());
-//        System.setIn(in);
-//        ProgramController.setCurrentMenu(Menus.INFO_MENU);
-//        programControllerUnderTest.run();
-//        System.setIn(sysInBackup);
-//    }
+    @Test
+    void testINFORun() {
+        ProgramController.setGame(game);
+        InputStream sysInBackup = System.in; // backup System.in to restore it later
+        ByteArrayInputStream in = new ByteArrayInputStream("menu exit\nmenu exit\nmenu exit\nmenu exit".getBytes());
+        System.setIn(in);
+        ProgramController.setCurrentMenu(Menus.INFO_MENU);
+        programControllerUnderTest.run();
+        System.setIn(sysInBackup);
+    }
 
 
     @Test

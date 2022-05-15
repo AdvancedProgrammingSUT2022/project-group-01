@@ -84,7 +84,7 @@ public class ImprovementInventory {
 			}
 	}
 	public void damage(){this.state = ProgressState.DAMAGED;
-	this.turnsLeft = 0;}
+	this.turnsLeft = 3;}
 
 	public Currency getCurrency(){
 		Currency currency = new Currency(0,0,0);

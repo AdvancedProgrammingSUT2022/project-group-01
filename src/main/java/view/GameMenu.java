@@ -51,11 +51,6 @@ public class GameMenu{
 			}, Commands.UNIT_FORTIFY_UNTIL_HEAL);
 			put(new CommandAction() {
 				public String action(HashMap<String, String> args) {
-					return controller.unitGarrison(args);
-				}
-			}, Commands.UNIT_GARRISON);
-			put(new CommandAction() {
-				public String action(HashMap<String, String> args) {
 					return controller.unitSetup(args);
 				}
 			}, Commands.UNIT_SETUP);
@@ -248,7 +243,7 @@ public class GameMenu{
 				public String action(HashMap<String, String> args) {
 					return controller.removeFogOfWar(args);
 				}
-			}, Commands.MAKE_TILE_VISIBLE);
+			}, Commands.FOG_OF_WAR);
 			put(new CommandAction() {
 				public String action(HashMap<String, String> args) {
 					return controller.createFeature(args);
@@ -296,24 +291,14 @@ public class GameMenu{
 			}, Commands.SHOW_PLAYER);
 			put(new CommandAction() {
 				public String action(HashMap<String, String> args) {
-					return controller.buildImprovement(args);
+					return controller.showTileInfo(args);
 				}
-			}, Commands.UNIT_BUILD_IMPROVEMENT);
-			put(new CommandAction() {
-				public String action(HashMap<String, String> args) {
-					return controller.unitInfo(args);
-				}
-			}, Commands.UNIT_INFO);
-			put(new CommandAction() {
-				public String action(HashMap<String, String> args) {
-					return controller.damageUnit(args);
-				}
-			}, Commands.DAMAGE_UNIT);
+			}, Commands.SHOW_TILE_INFO);
 			put(new CommandAction() {
 				public String action(HashMap<String, String> args) {
 					return controller.showTileInfo(args);
 				}
-			}, Commands.SHOW_TILE_INFO);
+			}, Commands.UNIT_REMOVE_FEATURE);
 			put(new CommandAction() {
 				public String action(HashMap<String, String> args) {
 					return controller.destroyCity(args);
@@ -344,6 +329,11 @@ public class GameMenu{
 					return controller.cityAttack(args);
 				}
 			}, Commands.CITY_ATTACK);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.teleport(args);
+				}
+			}, Commands.TELEPORT);
 
 		}};
 

@@ -29,11 +29,9 @@ import java.util.Vector;
 public class Unit {
 	public final static int maxHealth = 10;
 	protected Civilization ownerCivilization;
-
 	protected Tile currentTile;
 	protected ActionsQueue actionsQueue;
 	private double health;
-
 	private TechnologyList requiredTechnologies;
 	private int cost;
 	private UnitType type;
@@ -83,7 +81,11 @@ public class Unit {
 
 	public void moveTo(Tile tile) {
 		updateMapAfterMove();
+		if(currentTile.getOwnerCity() != null && currentTile != tile)
+			currentTile.getOwnerCity().setGarrisonedUnit(null);
 		currentTile = tile;
+		if(currentTile.getOwnerCity() != null)
+			currentTile.getOwnerCity().setGarrisonedUnit(this);
 	}
 
 	public TraitsList getTraitsList() {
@@ -96,13 +98,11 @@ public class Unit {
 	public void suicide() {
 		ownerCivilization.removeUnit(this);
 		currentTile.removeUnit(this);
-
 		if (ProgramController.getGame().getSelectedObject() == this) {
 			ProgramController.getGame().setSelectedObject(null);
 		}
 
 		updateMapAfterMove();
-
 	}
 
 	/**
@@ -114,7 +114,6 @@ public class Unit {
 	public void changeHealth(double deltaHealth) {
 		health += deltaHealth;
 		health = Math.min(maxHealth, health);
-
 		if (health <= 0)
 			suicide();
 	}
@@ -173,7 +172,6 @@ public class Unit {
 		Vector<Tile> path = new Vector<>();
 		while (currentTile.getMapNumber() != destination.getMapNumber()) {
 			path.add(destination);
-			System.err.printf("*** %d\n", destination.getMapNumber());
 			destination = gameMap.getTileByNumber(par.get(destination.getMapNumber()));
 		}
 		path.add(destination);
@@ -186,7 +184,6 @@ public class Unit {
 		lastDijkstraRemMP = dis.get(stopTiles.get(0).getMapNumber()).remainedMP;
 		return stopTiles;
 	}
-
 
 	private boolean ZOC(Tile destTile) {
 		Vector<Tile> sight = destTile.getSight(1);
@@ -294,15 +291,11 @@ public class Unit {
 			remainingMP = lastDijkstraRemMP;
 
 		moveTo(stopPoints.get(0));
-		System.err.printf("????????????? %d\n", stopPoints.size());
 		actionsQueue.resetQueue();
 		for (Tile stopPoint : stopPoints) {
-			System.err.println(stopPoint.getMapNumber());
 			actionsQueue.addAction(new Action(this, Actions.MOVE, stopPoint));
 		}
-		System.err.println("##############");
 	}
-
 
 	public boolean isSleeping() {
 		return getJob() == Actions.SLEEP || getJob() == Actions.ALERT;
@@ -313,7 +306,6 @@ public class Unit {
 			return null;
 		return actionsQueue.getCurrentAction().getActionType();
 	}
-
 
 	public boolean hasJob() {
 		return !actionsQueue.isEmpty();

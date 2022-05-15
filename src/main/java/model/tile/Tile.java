@@ -250,18 +250,7 @@ public class Tile {
 	public int getMovementCost(boolean noTerrainCost) {
 		int MP = 0;
 		MP += this.terrain.movementCost;
-
-		if(this.feature != null) MP += this.feature.movementCost;
-		if(doesHaveRoad()){
-			MP *= 2;
-			MP /= 3;
-		}
-		if(doesHaveRailRoad()){
-			MP /= 3;
-		}
-
 		if(this.feature != null && !noTerrainCost) MP += this.feature.movementCost;
-
 		return MP;
 	}
 

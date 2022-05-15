@@ -1,5 +1,6 @@
 package controller.unit;
 
+import controller.civilization.city.CityController;
 import lombok.AllArgsConstructor;
 import model.Game;
 import model.civilization.Currency;
@@ -30,7 +31,6 @@ public class UnitController {
 	}
 
 	public String delete(Unit unit) {
-		// gold refund TODO
 		unit.getOwnerCivilization().increaseCurrency(new Currency(unit.getType().getRawCost() / 10f, 0, 0));
 		unit.suicide();
 		return "ma ro dor nandaz, ma inghadram be dard nakhor nistim";
@@ -60,13 +60,11 @@ public class UnitController {
 	public String info(Unit unit) {
 		// more info maybe ? TODO
 		StringBuilder stringBuilder = new StringBuilder();
-
 		stringBuilder.append(String.format("Owner is %s\n", unit.getOwnerCivilization().getCivilization().getName()));
 		stringBuilder.append(String.format("Unit is at %d\n", unit.getCurrentTile().getMapNumber()));
 		stringBuilder.append(String.format("Current Health is %f / 10\n", unit.getHealth()));
 		stringBuilder.append(String.format("Unit Type : %s\n", unit.getType().toString()));
 		stringBuilder.append(String.format("remaining Movement Point is %f\n", unit.getRemainingMP()));
-
 		stringBuilder.append(String.format("current action is %s\n", unit.getJob() == null ? "null" : unit.getJob().toString()));
 		return stringBuilder.toString();
 	}
@@ -91,7 +89,6 @@ public class UnitController {
 		unit.changeHealth(-amount);
 		return "damage applied successfully";
 	}
-
 
 	public String pillage(Unit unit) {
 		Tile tile = unit.getCurrentTile();
@@ -145,6 +142,7 @@ public class UnitController {
 
 		armed.consumeMP(armed.getTraitsList().contains(UnitTraits.MOVE_AFTER_ATTACK) ? 1 : armed.getRemainingMP());
 		city.changeHealth(-cityAttackModifier * armed.getType().getCombatStrength());
+		(new CityController(game)).cityAttack(city, armed, armed.getCurrentTile());
 		return "knives out";
 	}
 
@@ -176,6 +174,7 @@ public class UnitController {
 
 		ranged.consumeMP(ranged.getTraitsList().contains(UnitTraits.MOVE_AFTER_ATTACK) ? 1 : ranged.getRemainingMP());
 		city.changeHealth(-cityAttackModifier * ranged.getType().getRangedCombatStrength());
+		(new CityController(game)).cityAttack(city, ranged, ranged.getCurrentTile());
 		return "bows out";
 	}
 
@@ -189,5 +188,4 @@ public class UnitController {
 		siege.setup();
 		return "setup unit done";
 	}
-
 }

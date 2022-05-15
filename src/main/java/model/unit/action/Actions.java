@@ -21,7 +21,6 @@ public enum Actions {
 	FORTIFY_UNTIL_HEAL(10,
 			FORTIFY.isPossibleFunc,
 			action -> {
-				System.out.println("!!!!!!!!!!!!!!!!!!!".repeat(1));
 				action.getUnit().changeHealth(+1);
 				if(action.getUnit().getHealth() == Unit.maxHealth)
 					action.completeAction();
@@ -66,7 +65,6 @@ public enum Actions {
 			action -> action.getImprovementType().isEligibleToBuild(action.getUnit().getOwnerCivilization(), action.getUnit().getCurrentTile()),
 			action -> {
 				action.getUnit().getCurrentTile().buildImprovement(action.getImprovementType());
-				System.err.println("123 : " + action.getUnit().getCurrentTile().getImprovementTurnsLeft());
 				action.decreaseTurn();
 				action.getUnit().consumeMP(action.getUnit().getRemainingMP());
 			}

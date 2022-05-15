@@ -218,7 +218,6 @@ public enum ImprovementType {
     }
 
     public boolean isEligibleToBuild(Civilization civilization, Tile tile) {
-
         if (!(this.canBuiltOnTerrains.contains(tile.getTerrain())
                 || this.canBuiltOnTerrainFeatures.contains(tile.getFeature())))
             return false;
