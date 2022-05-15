@@ -72,7 +72,7 @@ public enum Commands {
         CHEAT_NEXT_TURN("cheat next turn", null, null, 0, null),
         MULTI_NEXT_TURN("next turn",new String[]{"count"},null,0,null),
         TELEPORT("teleport", new String[]{"position"}, null,0,null),
-        MAKE_TILE_VISIBLE("make tile visible",  new String[]{"position"}, null, 0,null),
+        FOG_OF_WAR("fog of war",  new String[]{"position"}, null, 0,null),
         ADD_HAPPINESS("add happiness", new String[]{"amount"}, null, 0,null),
         CREATE_FEATURE("create feature", new String[]{"type","position"}, null, 0,null),
         ADD_SCORE("add score", new String[]{"amount"}, null,0,null),

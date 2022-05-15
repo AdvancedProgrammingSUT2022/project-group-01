@@ -618,6 +618,8 @@ public class GameMenuController {
 	}
 
 	public String teleport(HashMap<String, String> args) {
+		if(!isInteger(args.get("position")))
+			return "position is not integer";
 		int position = Integer.parseInt(args.get("position"));
 		Tile tile = game.getMap().getTileByNumber(position);
 		if (tile == null)
@@ -626,11 +628,12 @@ public class GameMenuController {
 	}
 
 	public String removeFogOfWar(HashMap<String, String> args){
+		if(!isInteger(args.get("position")))
+			return "position is not integer";
 		int position = Integer.parseInt(args.get("position"));
 		Tile tile = game.getMap().getTileByNumber(position);
 		if (tile == null)
 			return "invalid position";
-		//todo implement here
 		return gameController.cheatRemoveFogOfWar(tile);
 	}
 

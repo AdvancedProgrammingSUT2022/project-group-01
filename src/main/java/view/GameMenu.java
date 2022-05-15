@@ -243,7 +243,7 @@ public class GameMenu{
 				public String action(HashMap<String, String> args) {
 					return controller.removeFogOfWar(args);
 				}
-			}, Commands.MAKE_TILE_VISIBLE);
+			}, Commands.FOG_OF_WAR);
 			put(new CommandAction() {
 				public String action(HashMap<String, String> args) {
 					return controller.createFeature(args);
@@ -291,9 +291,14 @@ public class GameMenu{
 			}, Commands.SHOW_PLAYER);
 			put(new CommandAction() {
 				public String action(HashMap<String, String> args) {
-					return controller.removeFeature(args);
+					return controller.showTileInfo(args);
 				}
 			}, Commands.SHOW_TILE_INFO);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.showTileInfo(args);
+				}
+			}, Commands.UNIT_REMOVE_FEATURE);
 			put(new CommandAction() {
 				public String action(HashMap<String, String> args) {
 					return controller.destroyCity(args);
@@ -324,6 +329,11 @@ public class GameMenu{
 					return controller.cityAttack(args);
 				}
 			}, Commands.CITY_ATTACK);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.teleport(args);
+				}
+			}, Commands.TELEPORT);
 
 		}};
 

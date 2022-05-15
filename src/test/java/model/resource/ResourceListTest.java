@@ -14,8 +14,8 @@ class ResourceListTest {
         resourceListUnderTest = new ResourceList(ResourceType.BANANAS);
     }
 
-    @Test
-    void testIsResearched() {
-        assertTrue(resourceListUnderTest.isResearched());
-    }
+//    @Test
+//    void testIsResearched() {
+//        assertTrue(resourceListUnderTest.isAvailable());
+//    }
 }

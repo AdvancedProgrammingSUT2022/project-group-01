@@ -219,7 +219,7 @@ public class Information {
             sum += player.getCivilization().getPopulationSize();
         }
         civilizations.sort(Comparator.comparingInt(Civilization::getPopulationSize));
-        return "Population : " + "\n" + "size : " + civ.getPopulationSize() + "\n" + "max : " + civilizations.get(0).getPopulationSize() + "\n" + "min : " + civilizations.get(civilizations.size() - 1).getPopulationSize() + "\n" + "average : " + sum / civilizations.size() + "\n" + "rank : " + civilizations.indexOf(civ) + "\n";
+        return "Population : " + "\n" + "size : " + civ.getPopulationSize() + "\n" + "min : " + civilizations.get(0).getPopulationSize() + "\n" + "max : " + civilizations.get(civilizations.size() - 1).getPopulationSize() + "\n" + "average : " + sum / civilizations.size() + "\n" + "rank : " + civilizations.indexOf(civ) + "\n";
     }
 
     private String getGoldData(Civilization civ) {
@@ -238,7 +238,7 @@ public class Information {
                 return 0;
             }
         });
-        return "Gold : " + "\n" + "size : " + civ.getCurrency().getGold() + "\n" + "max : " + civilizations.get(0).getCurrency().getGold() + "\n" + "min : " + civilizations.get(civilizations.size() - 1).getCurrency().getGold() + "\n" + "average : " + sum / civilizations.size() + "\n" + "rank : " + civilizations.indexOf(civ) + "\n";
+        return "Gold : " + "\n" + "size : " + civ.getCurrency().getGold() + "\n" + "min : " + civilizations.get(0).getCurrency().getGold() + "\n" + "max : " + civilizations.get(civilizations.size() - 1).getCurrency().getGold() + "\n" + "average : " + sum / civilizations.size() + "\n" + "rank : " + civilizations.indexOf(civ) + "\n";
     }
 
     private String getFoodData(Civilization civ) {
@@ -257,7 +257,7 @@ public class Information {
                 return 0;
             }
         });
-        return "Food : " + "\n" + "size : " + civ.getCurrency().getFood() + "\n" + "max : " + civilizations.get(0).getCurrency().getFood() + "\n" + "min : " + civilizations.get(civilizations.size() - 1).getCurrency().getFood() + "\n" + "average : " + sum / civilizations.size() + "\n" + "rank : " + civilizations.indexOf(civ) + "\n";
+        return "Food : " + "\n" + "size : " + civ.getCurrency().getFood() + "\n" + "min : " + civilizations.get(0).getCurrency().getFood() + "\n" + "max : " + civilizations.get(civilizations.size() - 1).getCurrency().getFood() + "\n" + "average : " + sum / civilizations.size() + "\n" + "rank : " + civilizations.indexOf(civ) + "\n";
     }
 
     private String getProductionData(Civilization civ) {
@@ -276,7 +276,7 @@ public class Information {
                 return 0;
             }
         });
-        return "Production : " + "\n" + "size : " + civ.getCurrency().getProduct() + "\n" + "max : " + civilizations.get(0).getCurrency().getProduct() + "\n" + "min : " + civilizations.get(civilizations.size() - 1).getCurrency().getProduct() + "\n" + "average : " + sum / civilizations.size() + "\n" + "rank : " + civilizations.indexOf(civ) + "\n";
+        return "Production : " + "\n" + "size : " + civ.getCurrency().getProduct() + "\n" + "min : " + civilizations.get(0).getCurrency().getProduct() + "\n" + "max : " + civilizations.get(civilizations.size() - 1).getCurrency().getProduct() + "\n" + "average : " + sum / civilizations.size() + "\n" + "rank : " + civilizations.indexOf(civ) + "\n";
     }
 
     private String getHappinessData(Civilization civ) {
@@ -295,7 +295,7 @@ public class Information {
                 return 0;
             }
         });
-        return "Happiness : " + "\n" + "size : " + civ.getHappiness() + "\n" + "max : " + civilizations.get(0).getHappiness() + "\n" + "min : " + civilizations.get(civilizations.size() - 1).getHappiness() + "\n" + "average : " + sum / civilizations.size() + "\n" + "rank : " + civilizations.indexOf(civ) + "\n";
+        return "Happiness : " + "\n" + "size : " + civ.getHappiness() + "\n" + "min : " + civilizations.get(0).getHappiness() + "\n" + "max : " + civilizations.get(civilizations.size() - 1).getHappiness() + "\n" + "average : " + sum / civilizations.size() + "\n" + "rank : " + civilizations.indexOf(civ) + "\n";
     }
 
     private String getSizeByCitiesData(Civilization civ) {
@@ -314,7 +314,7 @@ public class Information {
                 return 0;
             }
         });
-        return "Number of cities: " + "\n" + "size : " + civ.getCities().size() + "\n" + "max : " + civilizations.get(0).getCities().size() + "\n" + "min : " + civilizations.get(civilizations.size() - 1).getCities().size() + "\n" + "average : " + sum / civilizations.size() + "\n" + "rank : " + civilizations.indexOf(civ) + "\n";
+        return "Number of cities: " + "\n" + "size : " + civ.getCities().size() + "\n" + "min : " + civilizations.get(0).getCities().size() + "\n" + "max : " + civilizations.get(civilizations.size() - 1).getCities().size() + "\n" + "average : " + sum / civilizations.size() + "\n" + "rank : " + civilizations.indexOf(civ) + "\n";
     }
 
     private String getNumberOfTilesData(Civilization civ) {
@@ -333,7 +333,7 @@ public class Information {
             }
         }
         );
-        return "number of tiles : " + "\n" + "size : " + getNumberOfCivilizationTiles(civ) + "\n" + "max : " + getNumberOfCivilizationTiles(civilizations.get(0)) + "\n" + "min : " + getNumberOfCivilizationTiles(civilizations.get(civilizations.size() - 1)) + "\n" + "average : " + sum / civilizations.size() + "\n" + "rank : " + civilizations.indexOf(civ) + "\n";
+        return "number of tiles : " + "\n" + "size : " + getNumberOfCivilizationTiles(civ) + "\n" + "min : " + getNumberOfCivilizationTiles(civilizations.get(0)) + "\n" + "max : " + getNumberOfCivilizationTiles(civilizations.get(civilizations.size() - 1)) + "\n" + "average : " + sum / civilizations.size() + "\n" + "rank : " + civilizations.indexOf(civ) + "\n";
     }
 
     private int getNumberOfCivilizationTiles(Civilization civ) {
@@ -357,7 +357,7 @@ public class Information {
                 return o1.getUnits().size() - o2.getUnits().size();
             }
         });
-        return "number of units : " + "\n" + "size : " + civ.getUnits().size() + "\n" + "max : " + civilizations.get(0).getUnits().size() + "\n" + "min : " + civilizations.get(civilizations.size() - 1).getUnits().size() + "\n" + "average : " + sum / civilizations.size() + "\n" + "rank : " + civilizations.indexOf(civ) + "\n";
+        return "number of units : " + "\n" + "size : " + civ.getUnits().size() + "\n" + "min : " + civilizations.get(0).getUnits().size() + "\n" + "max : " + civilizations.get(civilizations.size() - 1).getUnits().size() + "\n" + "average : " + sum / civilizations.size() + "\n" + "rank : " + civilizations.indexOf(civ) + "\n";
     }
 
     private String getResourceData(Civilization civ) {
@@ -376,7 +376,7 @@ public class Information {
 
             }
         });
-        return "Number of resources in repository : " + "\n" + "size : " + getNumberOfResourceReposit(civ) + "\n" + "max : " + getNumberOfResourceReposit(civilizations.get(0)) + "\n" + "min : " + getNumberOfResourceReposit(civilizations.get(civilizations.size() - 1)) + "\n" + "average : " + sum / civilizations.size() + "\n" + "rank : " + civilizations.indexOf(civ) + "\n";
+        return "Number of resources in repository : " + "\n" + "size : " + getNumberOfResourceReposit(civ) + "\n" + "min : " + getNumberOfResourceReposit(civilizations.get(0)) + "\n" + "max : " + getNumberOfResourceReposit(civilizations.get(civilizations.size() - 1)) + "\n" + "average : " + sum / civilizations.size() + "\n" + "rank : " + civilizations.indexOf(civ) + "\n";
     }
 
     private int getNumberOfResourceReposit(Civilization civ) {
