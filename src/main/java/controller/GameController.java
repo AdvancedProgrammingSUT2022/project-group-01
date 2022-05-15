@@ -21,28 +21,6 @@ public class GameController {
         this.mapController = mapController;
     }
 
-    public String selectUnit(String type, Integer position){
-        Tile tile = game.getMap().getTileByNumber(position);
-        if(tile == null)
-            return "Invalid tile!";
-        Tile.VisibilityState visibilityState = game.getCurrentPlayer().getSavedMap().getVisibilityState(tile);
-        if(visibilityState == Tile.VisibilityState.FOG_OF_WAR || visibilityState == Tile.VisibilityState.DISCOVERED)
-            return "you can't select any unit here!";
-        if(type.equals("civilian")){
-            Civilian civilian = tile.getCivilianUnit();
-            if(civilian == null)
-                return "there is no civilian here!";
-            game.setSelectedObject(civilian);
-        }else if(type.equals("armed")){
-            Armed armed = tile.getArmedUnit();
-            if(armed == null)
-                return "there is no armed here!";
-            game.setSelectedObject(armed);
-        }else{
-            return "invalid unit type, types are [armed, civilian]";
-        }
-        return "unit selected";
-    }
 
     private City findCityByName(String name) {
         Vector<Player> players = game.getPlayers();
