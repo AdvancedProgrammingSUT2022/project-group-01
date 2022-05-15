@@ -6,6 +6,7 @@ import model.technology.TechnologyType;
 import model.tile.Terrain;
 import model.tile.TerrainFeature;
 import model.tile.Tile;
+import utils.StringUtils;
 
 import java.util.List;
 import java.util.Vector;
@@ -19,6 +20,12 @@ public enum ImprovementType {
             this.affectingResources = new Vector<>(List.of(ResourceType.IVORY, ResourceType.FURS, ResourceType.DEER));
             this.preRequisiteTech = TechnologyType.TRAPPING;
         }
+        @Override
+        public int getProductionTime(Tile tile) {
+            return 6;
+        }
+
+
     },
     FARM(1, 0, 0) {
         @Override
@@ -48,6 +55,7 @@ public enum ImprovementType {
 
         @Override
         public void improvementSpecialAction(Tile tile) {
+            if(tile.getFeature() == null) return;
             if (tile.getFeature().equals(TerrainFeature.JUNGLE)
                     || tile.getFeature().equals(TerrainFeature.FOREST)
                     || tile.getFeature().equals(TerrainFeature.MARSH))
@@ -90,6 +98,7 @@ public enum ImprovementType {
 
         @Override
         public void improvementSpecialAction(Tile tile) {
+            if(tile.getFeature() == null) return;
             if (tile.getFeature().equals(TerrainFeature.JUNGLE)
                     || tile.getFeature().equals(TerrainFeature.FOREST)
                     || tile.getFeature().equals(TerrainFeature.MARSH))
@@ -113,6 +122,8 @@ public enum ImprovementType {
 
         @Override
         public int getProductionTime(Tile tile) {
+            if(tile.getFeature() == null)
+                return 6;
             if (tile.getFeature().equals(TerrainFeature.FOREST))
                 return 10;
             if (tile.getFeature().equals(TerrainFeature.JUNGLE))
@@ -203,12 +214,14 @@ public enum ImprovementType {
     }
 
     public int getProductionTime(Tile tile) {
-        return 0;
+        return 3;
     }
 
     public boolean isEligibleToBuild(Civilization civilization, Tile tile) {
         if (!(this.canBuiltOnTerrains.contains(tile.getTerrain())
                 || this.canBuiltOnTerrainFeatures.contains(tile.getFeature())))
+            return false;
+        if(tile.getCivilization() != civilization)
             return false;
         return civilization.getResearchTree().isResearched(this.preRequisiteTech);
     }
@@ -218,9 +231,10 @@ public enum ImprovementType {
 
 
     public void initializeVectors() {
-        this.preRequisiteTech = null;
-        this.affectingResources = new Vector<>();
-        this.canBuiltOnTerrainFeatures = new Vector<>();
-        this.canBuiltOnTerrains = new Vector<>();
+    }
+
+    @Override
+    public String toString() {
+        return StringUtils.convertToPascalCase(this.name()).replaceAll("_", " ");
     }
 }

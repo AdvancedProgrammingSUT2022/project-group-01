@@ -22,6 +22,7 @@ public class GameInitializer extends Controller{
         return game;
     }
     private void initializeGame(int mapSize){
+        TileController.initializeEnums();
         this.game = new Game(new Vector<>(),mapSize);
         MapGenerationController mapGenerationController = new MapGenerationController(game);
         mapGenerationController.generateMap(mapSize);
@@ -31,6 +32,7 @@ public class GameInitializer extends Controller{
         civilizationInitializer();
         unitInitializer();
         game.setCurrentPlayer(game.getPlayers().get(0));
+        game.getCurrentPlayer().setMapCenterTile(game.getCurrentPlayer().getCivilization().getUnits().get(0).getCurrentTile());
     }
 
     private void playerInitializer(Vector<User> users){
@@ -44,23 +46,23 @@ public class GameInitializer extends Controller{
     private void civilizationInitializer(){
         int i = 0;
         for(Player player : game.getPlayers()){
-            Civilization civ = new Civilization(Civilizations.values()[i],null);
+            Civilization civ = new Civilization(Civilizations.values()[i],null, player);
             i++;
             player.setCivilization(civ);
         }
     }
     private void unitInitializer(){
-        Random random = new Random();
+        Random random = new Random(58);
         Vector<Tile> freeLandList = new Vector<>(game.getMap().getReachableTiles());
         for(Player player : game.getPlayers()){
             Tile occupyTile = freeLandList.get(random.nextInt(freeLandList.size()));
             Armed firstWarrior = new Armed(UnitType.WARRIOR, occupyTile,player.getCivilization());
             Settler firstSettler = new Settler(UnitType.SETTLER, occupyTile, player.getCivilization());
+
             occupyTile.setArmedUnit(firstWarrior);
             occupyTile.setCivilianUnit(firstSettler);
             freeLandList.remove(occupyTile);
-            player.getCivilization().addUnit(firstWarrior);
-            player.getCivilization().addUnit(firstSettler);
+            player.setMapCenterTile(occupyTile);
         }
     }
 }

@@ -1,6 +1,8 @@
 package model.tile;
 import java.util.Vector;
 
+import lombok.Getter;
+import lombok.Setter;
 import model.Player;
 import model.ProgressState;
 import model.civilization.Civilization;
@@ -21,6 +23,7 @@ import utils.VectorUtils;
 import javax.swing.plaf.ColorUIResource;
 
 // TODO added get available resource
+@Getter @Setter
 public class Tile {
 	private int pCoordinate;
 	private int qCoordinate;
@@ -28,18 +31,15 @@ public class Tile {
 	private Terrain terrain;
 	private TerrainFeature feature;
 	private Civilization civilization;
-	private Player player;
 	private City ownerCity;
 	private Armed armedUnit;
 	private Civilian civilianUnit;
-	private ImprovementInventory improvementInventory;
-	private MiscellaneousTileActionsInventory miscellaneousTileActionsInventory;
+	private ImprovementInventory improvementInventory = new ImprovementInventory(this);
+	private MiscellaneousTileActionsInventory miscellaneousTileActionsInventory = new MiscellaneousTileActionsInventory(this);
 	private ResourceType availableResource;
-	private boolean hasRoad;
-	private boolean hasRailRoad;
 	private Boarder[] nearbyBoarders;
 	private boolean isDestroyed;
-	private Vector<Person> peopleInside;
+	private Vector<Person> peopleInside = new Vector<>();
 	private Currency currency;
 	public Civilization getCivilization() {
 		return civilization;
@@ -102,9 +102,6 @@ public class Tile {
 		this.feature = feature;
 	}
 
-	public void setPCoordinate(int pCoordinate) {
-		this.pCoordinate = pCoordinate;
-	}
 
 	public void setBoarder(Boarder boarder, int i){
 		this.nearbyBoarders[i] = boarder;
@@ -114,7 +111,7 @@ public class Tile {
 	}
 	public int getBoarderDirection(Boarder boarder){
 		for(int i = 0; i < 6; i++){
-			if(this.nearbyBoarders[i].equals(boarder))
+			if((this.nearbyBoarders[i]!=null) &&(this.nearbyBoarders[i].equals(boarder)))
 				return i;
 		}
 		return -1;
@@ -122,10 +119,6 @@ public class Tile {
 
 	public int getQCoordinate() {
 		return qCoordinate;
-	}
-
-	public void setQCoordinate(int qCoordinate) {
-		this.qCoordinate = qCoordinate;
 	}
 
 	public Vector<Person> getPeopleInside() {
@@ -139,11 +132,10 @@ public class Tile {
 		this.civilization = civilization;
 		this.availableResource = availableResources;
 		this.isDestroyed = false;
+		this.peopleInside = new Vector<>();
 		pCoordinate = p;
 		qCoordinate = q;
 		this.mapNumber = number;
-		this.improvementInventory = new ImprovementInventory(this);
-		this.miscellaneousTileActionsInventory = new MiscellaneousTileActionsInventory(this);
 	}
 
 	public void addPerson(Person person) {
@@ -152,48 +144,56 @@ public class Tile {
 	public void removePerson(Person person){
 		peopleInside.remove(person);
 	}
+
 	public void buildImprovement(ImprovementType improvement){
 		if(this.improvementInventory != null){
-			if(this.improvementInventory.getImprovement().equals(improvement)) {
-				if (this.improvementInventory.getState().equals(ProgressState.STOPPED))
-					this.improvementInventory.progress();
+			if(this.improvementInventory.getImprovement() != null) {
+				if (this.improvementInventory.getImprovement().equals(improvement)) {
+					if (this.improvementInventory.getState().equals(ProgressState.IN_PROGRESS))
+						this.improvementInventory.progress();
+				}
+
 			}
 			else this.improvementInventory.reset(improvement);
 		}
-
 	}
-	public void removeImprovement(){
-		if(this.improvementInventory == null) return;
-		this.improvementInventory.removeFromList();
-		this.improvementInventory = null;
+	public void removeImprovement() {
+		if (this.improvementInventory == null) return;
+		this.improvementInventory.remove();
 	}
 	public void removeResource(){
 		availableResource = null;
 	}
 	public boolean doesHaveRoad() {
-		return hasRoad;
+		return this.miscellaneousTileActionsInventory.hasRoad();
 	}
-	public void addRiver(Tile tile){}
+
 	public void buildRoad() {
-		this.hasRoad = true;
+		this.miscellaneousTileActionsInventory.forceBuildRoad();
 	}
-	public Boarder getBoarderInfo(int i){return nearbyBoarders[i];}
+	public Boarder getBoarderInfo(int i){
+		return nearbyBoarders[i];
+	}
 	public boolean doesHaveRailRoad() {
-		return hasRailRoad;
+		return this.miscellaneousTileActionsInventory.hasRailRoad();
 	}
 
 	public void buildRailRoad() {
-		this.hasRailRoad = true;
+		this.miscellaneousTileActionsInventory.forceBuildRailRoad();
 	}
 
 	public boolean hasRiverNearby() {
+		for(Boarder boarder : this.nearbyBoarders) {
+			if(boarder != null)
+				if (boarder.isRiver()) return true;
+		}
 		return false;
 	}
 	public void removeRoads(){
-		this.hasRoad = false;
-		this.hasRailRoad = false;
+		this.miscellaneousTileActionsInventory.forceRemoveRoad();
+		this.miscellaneousTileActionsInventory.forceRemoveRailRoad();
 	}
-	public boolean checkRiverByTile(Tile tile){return false;}
+
 	public boolean isDestroyed() {
 		return isDestroyed;
 	}
@@ -211,25 +211,31 @@ public class Tile {
 
 	public int getFoodYield() {
 		int yield = 0;
-		yield += terrain.food;
-		if(feature != null)
-			yield += feature.food;
+		if(!peopleInside.isEmpty()) {
+			yield += terrain.food;
+			if (feature != null)
+				yield += feature.food;
+		}
 		return yield;
 	}
 
 	public int getGoldYield() {
 		int yield = 0;
-		yield += terrain.gold;
-		if(feature != null)
-			yield += feature.gold;
+		if(!peopleInside.isEmpty()) {
+			yield += terrain.gold;
+			if (feature != null)
+				yield += feature.gold;
+		}
 		return yield;
 	}
 
 	public int getProductionYield() {
 		int yield = 0;
-		yield += terrain.production;
-		if(feature != null)
-			yield += feature.production;
+		if(!peopleInside.isEmpty()) {
+			yield += terrain.production;
+			if (feature != null)
+				yield += feature.production;
+		}
 		return yield;
 	}
 
@@ -241,11 +247,10 @@ public class Tile {
 		return cMRate;
 	}
 
-	public int getMovementCost() {
+	public int getMovementCost(boolean noTerrainCost) {
 		int MP = 0;
 		MP += this.terrain.movementCost;
-		if(this.feature != null) MP += this.feature.movementCost;
-		if(hasRoad || hasRoad) MP = 0;
+		if(this.feature != null && !noTerrainCost) MP += this.feature.movementCost;
 		return MP;
 	}
 
@@ -253,50 +258,28 @@ public class Tile {
 		return this.terrain.passable;
 	}
 
-	public void buildRoute() {
-		this.hasRoad = true;
-	}
-
-	public boolean getHasRoute() {
-		return this.hasRoad;
-	}
 
 	public void removeFeature() {
 		this.feature = null;
 	}
 
-	/**
-	 * 
-	 * @param improvement
-	 */
 	public void removeBuiltImprovements(ImprovementType improvement) {
+		if(improvementInventory.getImprovement() == null) return;
 		if (this.improvementInventory.getImprovement().equals(improvement)){
 			if(this.improvementInventory.getState().equals(ProgressState.COMPLETE))
-				this.improvementInventory = null;
+				this.improvementInventory.remove();
 			}
 	}
 
-	public void stopImprovementProgress(){
-		if(this.improvementInventory != null){
-			if(this.improvementInventory.getState().equals(ProgressState.IN_PROGRESS))
-				this.improvementInventory.stop();
-		}
-	}
 
-	/**
-	 * 
-	 * @param unit
-	 */
 	public void removeUnit(Unit unit) {
 		if(this.civilianUnit != null && this.civilianUnit.equals(unit))
 			this.civilianUnit = null;
 		else if(this.armedUnit != null && this.armedUnit.equals(unit))
+
 			this.armedUnit = null;
 	}
 
-	public boolean getIsDestroyed() {
-		return isDestroyed;
-	}
 
 	public void destroy() {
 		this.isDestroyed = true;
@@ -336,6 +319,18 @@ public class Tile {
 		}
 		return out;
 	}
+	public Vector<Tile> getAttackingArea(int range, boolean indirectFire){
+		Vector<Tile> vis = new Vector<>();
+		vis.add(this);
+		for(int layer = 1; layer <= range; layer ++){
+			int n = vis.size();
+			for (int i = 0; i < n; i++) {
+				if((layer == 1) || indirectFire || (!vis.get(0).terrain.isHighland || this.terrain.isHighland))
+					vis.addAll(vis.get(0).getAdjacentTiles());
+			}
+		}
+		return VectorUtils.unique(vis);
+	}
 
 	public Unit getSameTypeUnit(Unit unit) {
 		if(unit instanceof Civilian) return getCivilianUnit();
@@ -355,10 +350,13 @@ public class Tile {
 				for(Tile tile : area){
 					out.addAll(tile.getAdjacentTiles());
 				}
-			else
-				for(Tile tile : out){
-					out.addAll(tile.getAdjacentTiles());
+			else {
+				Vector<Tile> temp = new Vector<>();
+				for (Tile tile : out) {
+					temp.addAll(tile.getAdjacentTiles());
 				}
+				out.addAll(temp);
+			}
 			out.removeIf(area::contains);
 		}
 		out = VectorUtils.unique(out);
@@ -395,13 +393,19 @@ public class Tile {
 	}
 
 	public void orderWorkerAction(UnitActions action){
-		this.miscellaneousTileActionsInventory.setAction(action);
+		this.miscellaneousTileActionsInventory.doAction(action);
 	}
 
 	public int getMaintenance(){
 		int cost = 0;
-		if(hasRoad) cost += 3;
-		if(hasRailRoad) cost += 3;
+		if(doesHaveRoad()) cost += 3;
+		if(doesHaveRailRoad()) cost += 3;
 		return cost;
 	}
+
+	public City getInnerCity(){
+		if(this.ownerCity == null) return null;
+		return this.ownerCity.getCenter() == this ? this.ownerCity : null;
+	}
+
 }

@@ -192,8 +192,8 @@ public enum ResourceType {
     public final int gold;
     public final boolean tradable;
     public final KindsOfResource resourceKind;
-    public Vector<Terrain> possibleTerrains;
-    public Vector<TerrainFeature> possibleLandFeatures;
+    public Vector<Terrain> possibleTerrains = new Vector<>();
+    public Vector<TerrainFeature> possibleLandFeatures = new Vector<>();
     public ImprovementType necessaryImprovement;
     public TechnologyType visibilityTechnology;
     public final int outputNumberToCivilization = 4;
@@ -207,18 +207,12 @@ public enum ResourceType {
     }
     public boolean isVisible(Civilization civilization){
         if(this.visibilityTechnology != null){
-            if(civilization.getResearchTree().isResearched(this.visibilityTechnology))
-                return true;
-            return false;
+            return civilization.getResearchTree().isResearched(this.visibilityTechnology);
         }
         return true;
     }
 
     public void initializeVectors() {
-        this.possibleLandFeatures = new Vector<>();
-        this.possibleTerrains = new Vector<>();
-        this.necessaryImprovement = null;
-        this.visibilityTechnology = null;
     }
 
     public Currency getCurrency(Tile tile){

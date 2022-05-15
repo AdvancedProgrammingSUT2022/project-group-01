@@ -3,6 +3,7 @@ package controller;
 import model.Game;
 import model.Map;
 import model.Player;
+import model.ProgressState;
 import model.map.ConsoleMap;
 import model.map.SavedMap;
 import model.tile.Tile;
@@ -133,7 +134,7 @@ public class MapController extends Controller {
     private void addDiscovered(ConsoleMap showingMap, Tile tile, Player player, int xCoordinate, int yCoordinate) {
         String terrainColor = ConsoleMap.getRepresentation(player.getSavedMap().getTerrain(tile));
         String number = ConsoleMap.colorCharacter.WHITE_BOLD.setTextColor(String.format("%4d", tile.getMapNumber()));
-        // TODO Implement Cities in checkpoint2
+
         // resource
         if ((player.getSavedMap().getResourceTypes(tile) != null) && (tile.getAvailableResource().isVisible(game.getCurrentPlayer().getCivilization()))) {
             String resourceColor = ConsoleMap.getRepresentation(player.getSavedMap().getResourceTypes(tile));
@@ -141,6 +142,10 @@ public class MapController extends Controller {
         }
         // number
         setNumber(number, showingMap, xCoordinate, yCoordinate);
+        //coordinates
+        String x = ConsoleMap.colorCharacter.BLACK.setTextColor(String.format("%2d",2 * tile.getPCoordinate() + tile.getQCoordinate()));
+        String y = ConsoleMap.colorCharacter.BLACK.setTextColor(String.format("%2d", 2 * tile.getQCoordinate() + tile.getPCoordinate()));
+        setCoordinates(x,y,showingMap,xCoordinate,yCoordinate);
         // feature
         if (player.getSavedMap().getFeature(tile) != null) {
             String featureColor = ConsoleMap.getRepresentation(player.getSavedMap().getFeature(tile));
@@ -169,7 +174,11 @@ public class MapController extends Controller {
             setResource(resourceColor, showingMap, xCoordinate, yCoordinate);
         }
         // number
-        String number = ConsoleMap.colorCharacter.WHITE_BOLD.setTextColor(String.format("%4d", tile.getMapNumber()));
+        String number;
+        if((tile.getOwnerCity()!=null) && tile.getOwnerCity().getCenterTile().equals(tile))
+            number = tile.getOwnerCity().getCivilization().getCivilization().getColor().setTextColor(String.format("%4d", tile.getMapNumber()));
+        else
+            number = ConsoleMap.colorCharacter.WHITE_BOLD.setTextColor(String.format("%4d", tile.getMapNumber()));
         setNumber(number, showingMap, xCoordinate, yCoordinate);
         //coordinates
         String x = ConsoleMap.colorCharacter.BLACK.setTextColor(String.format("%2d",2 * tile.getPCoordinate() + tile.getQCoordinate()));
@@ -245,10 +254,20 @@ public class MapController extends Controller {
     }
 
     private void setImprovement(Tile tile, ConsoleMap showMap, int xCoordinate, int yCoordinate) {
-        if (tile.getBuiltImprovement() == null) return;
-        String name = ConsoleMap.getRepresentation(tile.getBuiltImprovement());
-        showMap.setScreenMapIndex(xCoordinate - 1, yCoordinate - 2, name);
-        showMap.setScreenMapIndex(xCoordinate, yCoordinate - 2, ConsoleMap.colorCharacter.RESET.color);
+//        if (tile.getBuiltImprovement() == null) return;
+//        String name = ConsoleMap.getRepresentation(tile.getBuiltImprovement());
+//        showMap.setScreenMapIndex(xCoordinate - 1, yCoordinate - 2, name);
+//        showMap.setScreenMapIndex(xCoordinate, yCoordinate - 2, ConsoleMap.colorCharacter.RESET.color);
+        if (tile.getBuiltImprovement() != null) {
+            String name = ConsoleMap.getRepresentation(tile.getBuiltImprovement());
+            showMap.setScreenMapIndex(xCoordinate - 1, yCoordinate - 2, name);
+            showMap.setScreenMapIndex(xCoordinate, yCoordinate - 2, ConsoleMap.colorCharacter.RESET.color);
+        }else if(tile.getImprovementInventoryState().equals(ProgressState.DAMAGED)){
+            if(tile.getImprovementInventory().getImprovement() != null){
+                String name = ConsoleMap.getRepresentation("_");
+                showMap.setScreenMapIndex(xCoordinate - 1, yCoordinate - 2, name);
+            }
+        }
     }
 
     private void setResource(String color, ConsoleMap showMap, int xCoordinate, int yCoordinate) {

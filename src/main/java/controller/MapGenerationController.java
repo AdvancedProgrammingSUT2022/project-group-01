@@ -1,7 +1,10 @@
 package controller;
 
+import com.raylabz.opensimplex.OpenSimplexNoise;
+import lombok.Getter;
+import lombok.Setter;
 import model.Game;
-import model.map.OpenSimplexNoise;
+
 import model.resource.ResourceType;
 import model.tile.Boarder;
 import model.tile.Terrain;
@@ -12,8 +15,12 @@ import java.util.Random;
 import java.util.Vector;
 
 public class MapGenerationController extends Controller {
+    @Getter @Setter
+    private int elevationSeed = 25;
+    @Getter @Setter
+    private int humiditySeed = 400;
     private final Game game;
-    Random rand = new Random();
+    Random rand = new Random(58);
 
     public MapGenerationController(Game game) {
         this.game = game;
@@ -27,8 +34,8 @@ public class MapGenerationController extends Controller {
                 map.get(i).add(null);
             }
         }
-        OpenSimplexNoise elevationNoise = new OpenSimplexNoise();
-        OpenSimplexNoise humidityNoise = new OpenSimplexNoise(2);
+        OpenSimplexNoise elevationNoise = new OpenSimplexNoise(elevationSeed);
+        OpenSimplexNoise humidityNoise = new OpenSimplexNoise(humiditySeed);
         double[][] elevation;
         double[][] humidity;
         elevation = makeNoise(elevationNoise, mapSize);
@@ -74,14 +81,15 @@ public class MapGenerationController extends Controller {
     }
 
     private double[][] makeNoise(OpenSimplexNoise noise, int mapSize) {
-        Random rand = new Random();
+        Random rand = new Random(58);
         double[][] array = new double[mapSize][mapSize];
         for (int y = 0; y < mapSize; y++) {
             for (int x = 0; x < mapSize; x++) {
                 double nx = (double) x / mapSize - 0.5;
                 double ny = (double) y / mapSize - 0.5;
-                array[y][x] = 1 * noise.eval(1 * nx, 1 * ny) + 0.5 * noise.eval(2 * nx, 2 * ny) + 0.25 * noise.eval(4 * nx, 4 * ny);
-                array[y][x] = (array[y][x] + 1.75) / 3.5;
+//                array[y][x] = 1 * noise.getNoise2D(1 * nx, 1 * ny).getValue() + 0.5 * noise.getNoise2D(2 * nx, 2 * ny).getValue() + 0.25 * noise.getNoise2D(4 * nx, 4 * ny).getValue();
+//                array[y][x] = (array[y][x] + 1.75) / 3.5;
+                array[y][x] = (1+ noise.getNoise2D(y,x).getValue()) /2;
             }
         }
         for (int x = (mapSize - 1) / 2; x < mapSize; x++) {
@@ -128,9 +136,9 @@ public class MapGenerationController extends Controller {
         if (noise < 0.2) return Terrain.DESERT;
         if (noise < 0.4) return Terrain.PLAINS;
         if (noise < 0.5) return Terrain.GRASSLAND;
-        if (noise < 0.6) return Terrain.TUNDRA;
-        if (noise < 0.75) return Terrain.HILLS;
-        if (noise < 0.9) return Terrain.MOUNTAIN;
+        if (noise < 0.58) return Terrain.TUNDRA;
+        if (noise < 0.66) return Terrain.HILLS;
+        if (noise < 0.85) return Terrain.MOUNTAIN;
         return Terrain.SNOW;
     }
 

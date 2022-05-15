@@ -1,5 +1,6 @@
 package model.civilization.production;
 
+import model.Notification;
 import model.civilization.Civilization;
 import model.civilization.city.City;
 
@@ -8,7 +9,7 @@ import java.util.*;
 public class ProductionInventory {
 
 	City city;
-	HashMap<Producible, Double> productions;
+	HashMap<Producible, Double> productions = new HashMap<>();
 	Producible currentProduction;
 	public ProductionInventory(City city) {
 		this.city = city;
@@ -16,7 +17,8 @@ public class ProductionInventory {
 		initList();
 	}
 
-	private void initList(){
+	public void initList(){
+		productions = new HashMap<>();
 		for(Producible producible : Producible.productions){
 			productions.put(producible, (double) producible.getCost(city));
 		}
@@ -30,6 +32,8 @@ public class ProductionInventory {
 			currentProduction.produce(city);
 			productions.put(currentProduction,(double) currentProduction.getCost(city));
 			currentProduction = null;
+			Notification notification = new Notification(this.city, Notification.NotificationTexts.PRODUCTION_BUILT);
+			this.city.getCivilization().getNotificationInbox().addNotification(notification);
 		}
 	}
 
@@ -38,6 +42,7 @@ public class ProductionInventory {
 	}
 
 	public void setCurrentProduction(Producible producible){
+		initList();
 		this.currentProduction = producible;
 	}
 
@@ -49,14 +54,14 @@ public class ProductionInventory {
 		return out;
 	}
 
+	public Vector<Producible> getAllProductions(){
+		return Producible.productions;
+	}
+
 	public void cancelCurrentProduction(){
 		currentProduction = null;
 	}
 
-	public void purchaseProduction(Producible producible){
-		city.payCurrency(producible.getCost(city),0,0);
-		producible.produce(city);
-	}
 
 
 

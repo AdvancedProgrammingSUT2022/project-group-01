@@ -6,6 +6,7 @@ import model.civilization.Person;
 import model.civilization.city.City;
 import model.civilization.production.Producible;
 import model.tile.Tile;
+import model.unit.armed.Armed;
 import utils.Pair;
 
 import java.util.Arrays;
@@ -35,17 +36,18 @@ public class CityController {
         Vector<Pair<Tile, Integer>> pairs = city.getPurchasableTiles();
         for (int i=0;i<pairs.size();i++) {
             Pair<Tile, Integer> pair = pairs.get(i);
-            items.append(pair.getFirst().getMapNumber()).append(" : ").append(pair.getSecond()).append("$\n");
+            items.append(i+1).append("- ").append(pair.getFirst().getMapNumber()).append(" : ").append(pair.getSecond()).append("$\n");
         }
         return items.toString();
     }
 
     public String purchaseTile(City city, int tileIndex){
         Vector<Pair<Tile, Integer>> pairs = city.getPurchasableTiles();
+        tileIndex--;
         if(tileIndex >= pairs.size()){
             return "invalid index!";
         }
-        Currency currency = city.getCurrency();
+        Currency currency = city.getCivilization().getCurrency();
         Pair<Tile, Integer> pair = pairs.get(tileIndex);
         if(currency.getGold() < pair.getSecond())
             return "you don't have enough gold!";
@@ -71,10 +73,13 @@ public class CityController {
 
     public String setPopulation(City city, int civilianIndex, Tile newTile){
         Vector<Person> population = city.getPopulation();
+        civilianIndex--;
         if(population.size() <= civilianIndex)
             return "invalid index";
         Vector<Person> peopleInside = newTile.getPeopleInside();
         Person person = city.getPopulation().get(civilianIndex);
+        if(newTile.getCivilization() != city.getCivilization())
+            return "this isn't your tile!";
         if(!peopleInside.contains(person) && peopleInside.size() != 0)
             return "not empty!";
         if(peopleInside.contains(person))
@@ -84,6 +89,7 @@ public class CityController {
     }
 
     public String deletePopulation(City city, int civilianIndex){
+        civilianIndex--;
         Vector<Person> population = city.getPopulation();
         if(population.size() <= civilianIndex)
             return "invalid index";
@@ -98,18 +104,24 @@ public class CityController {
      *
      * @param productions list of productions want to be printed
      * @param city city
-     * @return a string that contains (producible : turns) form for each producible
+     * @param toProduct true if you want turns and false if you want cost as gold
+     * @return a string that contains (producible : turns) or (producible : gold) form for each producible
      */
-    private String listProductionsAndTurns(Vector<Producible> productions, City city){
+    private String listProductions(Vector<Producible> productions, City city,boolean toProduct){
         StringBuilder out = new StringBuilder();
         int i = 1;
         for(Producible producible : productions){
-            Double turns = Math.ceil(producible.getCost(city)/city.getCurrency().getProduct());
-            out.append(i).append(" ").append(producible.toString()).append(" : ").append(turns);
-            if(turns > 1)
-                out.append(" turns\n");
-            else
-                out.append(" turn\n");
+            double turns = Math.ceil(producible.getCost(city)/city.getCurrency().getProduct());
+            out.append(i).append("- ").append(producible.toString()).append(" : ");
+            if(toProduct) {
+                out.append((int)turns);
+                if (turns > 1)
+                    out.append(" turns\n");
+                else
+                    out.append(" turn\n");
+            }else{
+                out.append(producible.getCost(city)).append(" gold\n");
+            }
             i++;
         }
         return out.toString();
@@ -117,31 +129,71 @@ public class CityController {
 
     public String getProductionsListToProduce(City city){
         Vector<Producible> productions = city.getProductionInventory().getAvailableProductions();
-        return listProductionsAndTurns(productions, city);
+        return listProductions(productions, city, true);
     }
 
-    public String setProductionToBeProduces(City city, int productionIndex){
-        Vector<Producible> productions = city.getProductionInventory().getAvailableProductions();
-        if(productions.size() <= productionIndex)
+    public String setProductionToProduce(City city, String type){
+        Producible producible = stringToProducible(type);
+        if(producible == null)
             return "invalid production!";
-        city.getProductionInventory().setCurrentProduction(productions.get(productionIndex));
+        if(!producible.isProducible(city))
+            return "you don't have necessary technology!";
+        city.setNewProduction(producible);
         return "done!";
     }
 
     public String getProductionsListToPurchase(City city){
-        Vector<Producible> productions = Producible.productions;
-        return listProductionsAndTurns(productions, city);
+        Vector<Producible> productions = city.getProductionInventory().getAllProductions();
+        return listProductions(productions, city, false);
     }
 
-    public String purchaseProduction(City city, int productionIndex){
-        Vector<Producible> productions = Producible.productions;
-        if(productions.size() <= productionIndex)
+    public String purchaseProduction(City city, String type){
+        Producible producible = stringToProducible(type);
+        if(producible == null)
             return "invalid production!";
-        double cost = productions.get(productionIndex).getCost(city);
-        if(cost > city.getCurrency().getGold())
+        int cost = producible.getCost(city);
+        Currency currency = city.getCivilization().getCurrency();
+        if(cost > currency.getGold())
             return "you don't have enough gold!";
-        city.payCurrency(cost, 0,0);
-        productions.get(productionIndex).produce(city);
-        return "done";
+        currency.increase(-1*cost, 0,0);
+        producible.produce(city);
+        return "done!";
     }
+
+    private Producible stringToProducible(String type){
+        Producible out = null;
+        for (Producible producible : Producible.productions) {
+            if (producible.toString().toLowerCase().equals(type))
+                out = producible;
+        }
+        return out;
+    }
+
+    public String increaseResource(City city, String resourceName, int amount){
+        switch (resourceName){
+            case "gold":{
+                city.getCivilization().increaseCurrency(new Currency(amount,0,0));
+            }break;
+            case "food":{city.increaseCurrency(0,0, amount);}break;
+            case "product":{city.increaseCurrency(0,amount,0);}break;
+            default:{return "invalid resource!";}
+        }
+
+        return "hey cheater, "+resourceName+" increased!";
+    }
+
+	public String cityAttack(City city, Armed target, Tile tile) {
+        if(target.getOwnerCivilization() == city.getCivilization())
+            return "why do you want to attack your units, are you idiot ?";
+        if(!city.getCenter().getAttackingArea(2, false).contains(tile))
+            return "this unit is not in attack range";
+        if(city.isAttackedThisTurn())
+            return "you already attacked this turn";
+        double damage = city.getAttackPower();
+        if(city.getGarrisonedUnit() != null)
+            damage += city.getGarrisonedUnit().getType().getCombatStrength();
+        target.changeHealth( -(int) (damage * (1 / target.getDefensePower())) );
+        city.setAttackedThisTurn(true);
+        return "Attacked to unit, say goodbye to that bastard";
+	}
 }

@@ -7,7 +7,7 @@ import utils.Commands;
 
 import java.util.HashMap;
 
-public class MainMenu extends Menu{
+public class MainMenu {
 
     private MainMenuController controller;
     protected HashMap<CommandAction, Commands> commands;

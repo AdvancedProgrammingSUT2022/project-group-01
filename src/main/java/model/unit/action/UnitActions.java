@@ -1,5 +1,6 @@
 package model.unit.action;
 import model.improvement.ImprovementType;
+import model.tile.Terrain;
 import model.tile.TerrainFeature;
 import model.tile.Tile;
 
@@ -12,7 +13,9 @@ public enum UnitActions {
         }
         @Override
         public boolean checkIfActionIsDoable(Tile tile){
-            return tile.doesHaveRoad();
+            if(tile.getTerrain().equals(Terrain.MOUNTAIN) || tile.getTerrain().equals(Terrain.OCEAN))
+                return false;
+            return (tile.getFeature() == null) || (!tile.getFeature().equals(TerrainFeature.ICE));
         }
     },
     BUILD_RAILROAD(3,null){
@@ -22,7 +25,9 @@ public enum UnitActions {
         }
         @Override
         public boolean checkIfActionIsDoable(Tile tile){
-            return tile.doesHaveRoad();
+            if(tile.getTerrain().equals(Terrain.MOUNTAIN) || tile.getTerrain().equals(Terrain.OCEAN))
+                return false;
+            return (tile.getFeature() == null) || (!tile.getFeature().equals(TerrainFeature.ICE));
         }
     },
     REMOVE_ROADS(3,null){
@@ -68,7 +73,31 @@ public enum UnitActions {
             return tile.getFeature().equals(TerrainFeature.MARSH);
         }
     },
-    REPAIR(3,null),
+    REPAIR_ROAD(3,null){
+        @Override
+        public void doAction(Tile tile){tile.buildRoad();}
+        @Override
+        public boolean checkIfActionIsDoable(Tile tile){
+            return tile.getMiscellaneousTileActionsInventory().isRoadPillaged();
+        }
+    },
+    REPAIR_RAILROAD(3,null){
+        @Override
+        public void doAction(Tile tile){tile.buildRailRoad();}
+
+        @Override
+        public boolean checkIfActionIsDoable(Tile tile){
+            return tile.getMiscellaneousTileActionsInventory().isRailRoadPillaged();
+        }
+    },
+    PILLAGE_ROADS(3,null){
+        @Override
+        public void doAction(Tile tile){tile.getMiscellaneousTileActionsInventory().pillage();}
+        @Override
+        public boolean checkIfActionIsDoable(Tile tile){
+            return tile.doesHaveRoad() || tile.doesHaveRailRoad();
+        }
+    },
     BUILD_CAMP(-1, ImprovementType.CAMP),
     BUILD_FARM(-1,ImprovementType.FARM),
     BUILD_MINE(-1,ImprovementType.MINE),

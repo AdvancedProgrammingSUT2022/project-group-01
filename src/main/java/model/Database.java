@@ -2,13 +2,14 @@ package model;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import lombok.Getter;
 
 import java.io.*;
 import java.lang.reflect.Type;
 import java.util.Vector;
 
 public class Database {
-
+    @Getter
     private Vector<User> users;
 
     public Database() {
@@ -45,23 +46,6 @@ public class Database {
         save();
     }
 
-    /**
-     * @param user
-     * @param newPassword
-     */
-    public void changePassword(User user, String newPassword) {
-        // TODO - implement model.Database.changePassword
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * @param user
-     * @param newNickname
-     */
-    public void changeNickname(User user, String newNickname) {
-        // TODO - implement model.Database.changeNickname
-        throw new UnsupportedOperationException();
-    }
 
     public User findUserByUsername(String username) {
         for (User user : users)

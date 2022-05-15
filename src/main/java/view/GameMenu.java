@@ -51,19 +51,19 @@ public class GameMenu{
 			}, Commands.UNIT_FORTIFY_UNTIL_HEAL);
 			put(new CommandAction() {
 				public String action(HashMap<String, String> args) {
-					return controller.unitGarrison(args);
-				}
-			}, Commands.UNIT_GARRISON);
-			put(new CommandAction() {
-				public String action(HashMap<String, String> args) {
 					return controller.unitSetup(args);
 				}
 			}, Commands.UNIT_SETUP);
 			put(new CommandAction() {
 				public String action(HashMap<String, String> args) {
-					return controller.unitAttack(args);
+					return controller.unitMeleeAttack(args);
 				}
-			}, Commands.UNIT_ATTACK);
+			}, Commands.UNIT_MELEE_ATTACK);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.unitRangedAttack(args);
+				}
+			}, Commands.UNIT_RANGED_ATTACK);
 			put(new CommandAction() {
 				public String action(HashMap<String, String> args) {
 					return controller.unitFoundCity(args);
@@ -86,9 +86,9 @@ public class GameMenu{
 			}, Commands.UNIT_DELETE);
 			put(new CommandAction() {
 				public String action(HashMap<String, String> args) {
-					return controller.unitBuild(args);
+					return controller.unitPillage(args);
 				}
-			}, Commands.UNIT_BUILD);
+			}, Commands.UNIT_PILLAGE);
 			put(new CommandAction() {
 				public String action(HashMap<String, String> args) {
 					return controller.unitRemove(args);
@@ -173,10 +173,168 @@ public class GameMenu{
 				public String action(HashMap<String, String> args) {
 					return controller.cheatNextTurn(args);
 				}
-			}, Commands.CHEAT_NEXT_TURN),
+			}, Commands.CHEAT_NEXT_TURN);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
 					return controller.showNextTiles(args);
 				}
 			}, Commands.SHOW_NEXT_TILES);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.purchaseProduction(args);
+				}
+			}, Commands.PURCHASE_PRODUCTION);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.unitActionList(args);
+				}
+			}, Commands.UNIT_ACTION_LIST);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.listOfProductions(args);
+				}
+			}, Commands.LIST_OF_PRODUCTIONS);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.listOfAllProductions(args);
+				}
+			}, Commands.LIST_OF_ALL_OF_PRODUCTIONS);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.setProduction(args);
+				}
+			}, Commands.SET_PRODUCTION);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.getPurchasableTiles(args);
+				}
+			}, Commands.GET_PURCHASABLE_TILES);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.purchaseTile(args);
+				}
+			}, Commands.PURCHASE_TILE);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.purchaseTile(args);
+				}
+			}, Commands.PURCHASE_TILE);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.listOfPopulation(args);
+				}
+			}, Commands.LIST_OF_POPULATION);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.setTileForPopulation(args);
+				}
+			}, Commands.SET_TILE_FOR_POPULATION);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.deletePopulation(args);
+				}
+			}, Commands.DELETE_POPULATION_FROM_TILE);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.buildImprovement(args);
+				}
+			}, Commands.UNIT_BUILD_IMPROVEMENT);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.removeFogOfWar(args);
+				}
+			}, Commands.FOG_OF_WAR);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.createFeature(args);
+				}
+			}, Commands.CREATE_FEATURE);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.addHappiness(args);
+				}
+			}, Commands.ADD_HAPPINESS);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.addScore(args);
+				}
+			}, Commands.ADD_SCORE);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.nextTurn(args);
+				}
+			}, Commands.NEXT_TURN);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.multiNextTurn(args);
+				}
+			}, Commands.MULTI_NEXT_TURN);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.buildImprovement(args);
+				}
+			}, Commands.UNIT_BUILD_IMPROVEMENT);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.unitInfo(args);
+				}
+			}, Commands.UNIT_INFO);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.damageUnit(args);
+				}
+			}, Commands.DAMAGE_UNIT);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.showPlayer(args);
+				}
+			}, Commands.SHOW_PLAYER);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.showTileInfo(args);
+				}
+			}, Commands.SHOW_TILE_INFO);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.showTileInfo(args);
+				}
+			}, Commands.UNIT_REMOVE_FEATURE);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.destroyCity(args);
+				}
+			}, Commands.DESTROY);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.buildRoad(args);
+				}
+			}, Commands.UNIT_BUILD_ROAD);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.buildRail(args);
+				}
+			}, Commands.UNIT_BUILD_RAIL);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.removeRoute(args);
+				}
+			}, Commands.UNIT_REMOVE_ROUTE);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.tileInfo(args);
+				}
+			}, Commands.TILE_INFO);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.cityAttack(args);
+				}
+			}, Commands.CITY_ATTACK);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.teleport(args);
+				}
+			}, Commands.TELEPORT);
+
 		}};
 
 	}
@@ -192,6 +350,7 @@ public class GameMenu{
 	public void run() {
 		while (ProgramController.getCurrentMenu() == Menus.GAME_MENU) {
 			Menu.handleCommand(commands, Menu.getInput());
+			System.out.println(controller.showCurrentMap());
 		}
 	}
 }

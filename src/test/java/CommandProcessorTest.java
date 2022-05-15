@@ -13,10 +13,10 @@ public class CommandProcessorTest {
     //test without key value and with single arg
     public void testOne(){
         HashMap<String, String> answer = new HashMap<String, String>() {{
-            put("section", "city");
+            put("section", "tank");
         }};
-        String input = "INFO CITY";
-        HashMap<String, String> result = CommandProcessor.extractCommand(input, Commands.INFO);
+        String input = "unit build tank";
+        HashMap<String, String> result = CommandProcessor.extractCommand(input, Commands.UNIT_BUILD);
         System.out.println(result);
         Assertions.assertEquals(answer, result);
     }
@@ -26,8 +26,10 @@ public class CommandProcessorTest {
     public void testTwo(){
         HashMap<String, String> answer = new HashMap<String, String>() {{
             put("position", "2");
+            put("section","civilian");
         }};
-        String input = "select unit --position 2";
+        String input = "select unit civilian -p 2";
+
         HashMap<String, String> result = CommandProcessor.extractCommand(input, Commands.SELECT_UNIT);
         Assertions.assertEquals(answer,result);
     }
@@ -37,8 +39,9 @@ public class CommandProcessorTest {
     public void testThree(){
         HashMap<String, String> answer = new HashMap<String, String>() {{
             put("position", "2");
+            put("section","civilian");
         }};
-        String input = "select unit -p 2";
+        String input = "select unit civilian -p 2";
         HashMap<String, String> result = CommandProcessor.extractCommand(input, Commands.SELECT_UNIT);
         Assertions.assertEquals(answer,result);
     }

@@ -3,6 +3,7 @@ package model.unit.action;
 import lombok.Getter;
 import lombok.Setter;
 import model.improvement.ImprovementType;
+import model.tile.TerrainFeature;
 import model.tile.Tile;
 import model.unit.Unit;
 import model.unit.civilian.Worker;
@@ -13,10 +14,11 @@ import java.util.function.Function;
 @Getter @Setter
 public class Action {
 	private final Unit unit;
-	private int remainedTurns;
+	private Integer remainedTurns;
 
 	private Tile tile; // Move
 	private ImprovementType improvementType; // Worker
+	private TerrainFeature feature;
 	@Getter
 	private Actions actionType;
 
@@ -38,7 +40,16 @@ public class Action {
 
 	public Action(Worker unit, Actions actionType, ImprovementType improvementType){
 		this(unit, actionType);
+		// major additional one turn bug TODO
+		this.remainedTurns = improvementType.getProductionTime(unit.getCurrentTile());
 		this.improvementType = improvementType;
+	}
+
+	public Action(Worker worker, Actions actionType, TerrainFeature feature){
+		this(worker, actionType);
+		this.remainedTurns = feature.getRemoveTime();
+		this.feature = feature;
+		this.tile = worker.getCurrentTile();
 	}
 
 	public Unit getUnit() {

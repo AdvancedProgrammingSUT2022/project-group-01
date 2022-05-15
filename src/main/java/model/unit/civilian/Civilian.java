@@ -25,6 +25,7 @@ public class Civilian extends Unit {
 	}
 
 	public void moveTo(Tile tile) {
+		updateMapAfterMove();
 		currentTile.removeUnit(this);
 		tile.setCivilianUnit((Civilian) this);
 		this.currentTile = tile;

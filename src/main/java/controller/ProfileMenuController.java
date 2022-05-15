@@ -36,9 +36,9 @@ public class ProfileMenuController {
         String currentPassword = args.get("current");
         String newPassword = args.get("new");
         if(!ProgramController.getLoggedInUser().getPassword().equals(currentPassword))
-            return "current password is invalid";
+            return "current password is invalid!";
         if(currentPassword.equals(newPassword))
-            return "please enter a new password";
+            return "please enter a new password!";
         ProgramController.getLoggedInUser().setPassword(newPassword);
         ProgramController.getDatabase().save();
         return "password changed successfully!";
@@ -49,16 +49,16 @@ public class ProfileMenuController {
     }
 
     public String menuEnter(HashMap<String, String> args){
-        return "menu navigation is not possible";
+        return "menu navigation is not possible!";
     }
 
     public String currentMenu(HashMap<String, String> args){
-        return "Profile Menu";
+        return "profile menu";
     }
 
     public String menuExit(HashMap<String, String> args){
         ProgramController.setCurrentMenu(Menus.MAIN_MENU);
-        return "Done!";
+        return "done!";
     }
 }
 
