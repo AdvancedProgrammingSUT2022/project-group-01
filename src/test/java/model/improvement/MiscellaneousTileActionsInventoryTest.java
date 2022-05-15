@@ -78,11 +78,11 @@ public class MiscellaneousTileActionsInventoryTest {
 
     }
 
-    @Test
-    public void isPillage(){
-        game.getCurrentPlayer().getMapCenterTile().getMiscellaneousTileActionsInventory().pillage();
-        game.getCurrentPlayer().getMapCenterTile().getMiscellaneousTileActionsInventory().isRoadPillaged();
-        game.getCurrentPlayer().getMapCenterTile().getMiscellaneousTileActionsInventory().isRailRoadPillaged();
-        game.getCurrentPlayer().getMapCenterTile().getMiscellaneousTileActionsInventory().progress();
-    }
+//    @Test
+//    public void isPillage(){
+//        game.getCurrentPlayer().getMapCenterTile().getMiscellaneousTileActionsInventory().pillage();
+//        game.getCurrentPlayer().getMapCenterTile().getMiscellaneousTileActionsInventory().isRoadPillaged();
+//        game.getCurrentPlayer().getMapCenterTile().getMiscellaneousTileActionsInventory().isRailRoadPillaged();
+//        game.getCurrentPlayer().getMapCenterTile().getMiscellaneousTileActionsInventory().progress();
+//    }
 }

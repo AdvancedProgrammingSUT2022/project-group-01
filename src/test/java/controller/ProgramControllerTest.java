@@ -31,8 +31,8 @@ class ProgramControllerTest {
     }
     private static Game game;
     private static MapController mc;
-    @BeforeAll
-    public static void beforechert() {
+    @BeforeEach
+    public void beforechert() {
         User user1 = new User("a", "b", "c");
         User user2 = new User("aa", "bb", "cc");
         TileController.initializeEnums();
@@ -68,7 +68,7 @@ class ProgramControllerTest {
     @Test
     void testLoginRun() {
         InputStream sysInBackup = System.in; // backup System.in to restore it later
-        ByteArrayInputStream in = new ByteArrayInputStream("menu exit\nmenu exit\nmenu exit".getBytes());
+        ByteArrayInputStream in = new ByteArrayInputStream("menu exit\nmenu exit\nmenu exit\nmenu exit\nmenu exit".getBytes());
         System.setIn(in);
         ProgramController.setCurrentMenu(Menus.LOGIN_MENU);
         programControllerUnderTest.run();

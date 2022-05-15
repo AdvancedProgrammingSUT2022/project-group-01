@@ -3,6 +3,8 @@ package controller;
 import controller.civilization.city.CityController;
 import controller.unit.UnitController;
 import controller.unit.WorkerController;
+import lombok.Getter;
+import lombok.Setter;
 import model.Game;
 import model.Player;
 import model.ProgressState;
@@ -32,7 +34,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.util.HashMap;
 import java.util.Set;
-
+@Getter @Setter
 public class GameMenuController {
 
 	private final Game game;

@@ -20,7 +20,7 @@ public class GameController {
         this.game = game;
         this.mapController = mapController;
     }
-    
+
 
     private City findCityByName(String name) {
         Vector<Player> players = game.getPlayers();
