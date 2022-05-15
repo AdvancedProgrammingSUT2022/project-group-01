@@ -11,10 +11,6 @@ import model.unit.civilian.Worker;
 public class WorkerController {
 	private final Game game;
 
-	private Worker getWorker(){
-		assert checkSelectedObject();
-		return (Worker) game.getSelectedObject();
-	}
 	public boolean checkSelectedObject(){
 		return game.getSelectedObject() != null && game.getSelectedObject() instanceof Worker;
 	}

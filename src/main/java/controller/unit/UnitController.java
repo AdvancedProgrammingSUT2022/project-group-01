@@ -131,15 +131,8 @@ public class UnitController {
 			return "why you want to betray your people ??";
 		// combat with city todo
 		double cityAttackModifier = 1 + (armed.getCurrentTile().getTerrain().combatModifier / 100f);
-		if(armed.getTraitsList().contains(UnitTraits.BONUS_VS_CITY))
-			cityAttackModifier *= 1.25f;
 		if(armed.getTraitsList().contains(UnitTraits.PENALTY_VS_CITIES))
 			cityAttackModifier *= 0.5f;
-		if(armed.getTraitsList().contains(UnitTraits.ROUGH_TERRAIN_PENALTY)
-				&& (armed.getCurrentTile().getTerrain().isRough()
-				|| (armed.getCurrentTile().getFeature() != null && armed.getCurrentTile().getFeature().isRough())))
-			cityAttackModifier *= 0.5f;
-
 		armed.consumeMP(armed.getTraitsList().contains(UnitTraits.MOVE_AFTER_ATTACK) ? 1 : armed.getRemainingMP());
 		city.changeHealth(-cityAttackModifier * armed.getType().getCombatStrength());
 		(new CityController(game)).cityAttack(city, armed, armed.getCurrentTile());

@@ -37,5 +37,6 @@ public class Siege extends RangedUnit {
 	}
 
 	public void completeSetup() {
+		canAttack = true;
 	}
 }
