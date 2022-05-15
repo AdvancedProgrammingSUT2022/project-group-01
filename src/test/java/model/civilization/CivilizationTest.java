@@ -87,12 +87,13 @@ public class CivilizationTest {
     void addNewCityTest(){
         City city = mock(City.class);
         civilization.addNewCity(city);
-        Assertions.assertEquals(civilization.getCities().size(),2);
+        Assertions.assertEquals(civilization.getCities().size(),1);
     }
 
     @Test
     void nextTurnTest(){
         when(city.getChangesOfCurrency()).thenReturn(new Currency(5,5,5));
+        civilization.addNewCity(city);
         when(city.getBeaker()).thenReturn(5);
         Vector population = mock(Vector.class);
         when(population.size()).thenReturn(1);
@@ -176,6 +177,7 @@ public class CivilizationTest {
         tiles.add(tile);
         when(city.getTiles()).thenReturn(tiles);
         when(tile.getSight(2)).thenReturn(new Vector<Tile>());
+        civilization.addNewCity(city);
         Vector<Tile> result = civilization.visibleTiles();
         Assertions.assertEquals(result.size(),1);
     }
@@ -195,6 +197,7 @@ public class CivilizationTest {
         tiles.add(tile);
         when(city.getTiles()).thenReturn(tiles);
         when(tile.getSight(2)).thenReturn(new Vector<Tile>());
+        civilization.addNewCity(city);
         Vector<Tile> result = civilization.visibleTiles();
         Assertions.assertEquals(result.size(),1);
     }
@@ -206,6 +209,7 @@ public class CivilizationTest {
 
     @Test
     void getCapitalTest(){
+        civilization.addNewCity(this.city);
         City city = civilization.getCapital();
         Assertions.assertSame(city,this.city);
     }
@@ -264,6 +268,7 @@ public class CivilizationTest {
         Vector population = mock(Vector.class);
         when(population.size()).thenReturn(2);
         when(city.getPopulation()).thenReturn(population);
+        civilization.addNewCity(city);
         Assertions.assertEquals(civilization.getPopulationSize(),2);
     }
 

@@ -45,7 +45,6 @@ public class Civilization implements TurnBasedLogic {
 		this.capital = capital;
 		units = new Vector<>(); //ADDED BY PRCR
 		cities = new Vector<>(); // ADDED BY PRCR
-		cities.add(capital);
 		resourceRepository = new HashMap<>(); //ADDED BY PRCR
 		techTree = new TechTree(); // TODO ADDED TEMPORARILY BY PRCR
 		addToList();
@@ -153,7 +152,7 @@ public class Civilization implements TurnBasedLogic {
 	}
 
 	public City getCapital() {
-		return capital;
+		return cities.isEmpty() ? null : cities.get(0);
 	}
 
 	// HANDLE ADDING RESOURCE

@@ -88,27 +88,6 @@ public class GameMenuControllerTestAmnam {
     }
 
     @Test
-    void unitMoveTestFive() {
-        Player player1 = mock(Player.class);
-        Civilization civ1 = mock(Civilization.class);
-        when(civ1.getPlayer()).thenReturn(player1);
-        String ans = "Can't reach there\n";
-        HashMap<String, String> arg = new HashMap<>();
-        Map map = mock(Map.class);
-        when(game.getMap()).thenReturn(map);
-        Unit obj = mock(Unit.class);
-        when(obj.getOwnerCivilization()).thenReturn(civ1);
-        when(civ1.getPlayer()).thenReturn(null);
-        when(game.getCurrentPlayer()).thenReturn(null);
-        when(game.getSelectedObject()).thenReturn(obj);
-        Tile tile = mock(Tile.class);
-        when(obj.canGoTo(tile)).thenReturn(false);
-        when(map.getTileByNumber(5)).thenReturn(tile);
-        arg.put("position","5");
-        Assertions.assertEquals(ans, gameMenuController.unitMove(arg));
-    }
-
-    @Test
     void unitMoveTestSix() {
         Player player1 = mock(Player.class);
         Civilization civ1 = mock(Civilization.class);

@@ -88,7 +88,7 @@ public class GameMenuControllerTestAmnam2 {
         Player player1 = mock(Player.class);
         Civilization civ1 = mock(Civilization.class);
         when(civ1.getPlayer()).thenReturn(player1);
-        String ans = "Can't reach there\n";
+        String ans = "Can't reach there";
         HashMap<String, String> arg = new HashMap<>();
         Map map = mock(Map.class);
         when(game.getMap()).thenReturn(map);
@@ -175,7 +175,7 @@ public class GameMenuControllerTestAmnam2 {
     }
 
     @Test
-    void unitActionListTestOne(HashMap<String, String> args){
+    void unitActionListTestOne(){
         when(game.getSelectedObject()).thenReturn(null);
         String ans = "worker is not selected !";
         String result = gameMenuController.unitActionList(null);

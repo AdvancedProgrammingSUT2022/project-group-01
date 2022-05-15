@@ -1,3 +1,5 @@
+user create -u ali -p safari -n amoo
+user create -u amnam -p amnam -n amnam
 user login -u ali -p safari
 play game -p1 ali -p2 amnam
 get researchable techs
@@ -163,4 +165,5 @@ select city --name Karakorum
 city attack --target 76
 select unit armed -p 76
 unit info
+cheat next turn
 cheat next turn

@@ -97,7 +97,7 @@ public class GameMenuController {
 			return "you don't own this unit";
 		Unit unit = (Unit) game.getSelectedObject();
 		if (!unit.canGoTo(tile))
-			return "Can't reach there\n";
+			return "Can't reach there";
 		if(unit.outOfMP())
 			return "selected unit is out of movement point";
 		if(game.getCurrentPlayer().getSavedMap().getVisibilityState(tile).equals(Tile.VisibilityState.FOG_OF_WAR))

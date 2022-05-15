@@ -174,7 +174,11 @@ public class MapController extends Controller {
             setResource(resourceColor, showingMap, xCoordinate, yCoordinate);
         }
         // number
-        String number = ConsoleMap.colorCharacter.WHITE_BOLD.setTextColor(String.format("%4d", tile.getMapNumber()));
+        String number;
+        if((tile.getOwnerCity()!=null) && tile.getOwnerCity().getCenterTile().equals(tile))
+            number = tile.getOwnerCity().getCivilization().getCivilization().getColor().setTextColor(String.format("%4d", tile.getMapNumber()));
+        else
+            number = ConsoleMap.colorCharacter.WHITE_BOLD.setTextColor(String.format("%4d", tile.getMapNumber()));
         setNumber(number, showingMap, xCoordinate, yCoordinate);
         //coordinates
         String x = ConsoleMap.colorCharacter.BLACK.setTextColor(String.format("%2d",2 * tile.getPCoordinate() + tile.getQCoordinate()));

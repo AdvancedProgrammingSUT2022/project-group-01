@@ -79,14 +79,7 @@ public class Unit {
 		// TODO implement this
 	}
 
-	public void moveTo(Tile tile) {
-		updateMapAfterMove();
-		if(currentTile.getOwnerCity() != null && currentTile != tile)
-			currentTile.getOwnerCity().setGarrisonedUnit(null);
-		currentTile = tile;
-		if(currentTile.getOwnerCity() != null)
-			currentTile.getOwnerCity().setGarrisonedUnit(this);
-	}
+	public void moveTo(Tile tile) {}
 
 	public TraitsList getTraitsList() {
 		return type.getUnitTraits();
@@ -210,10 +203,6 @@ public class Unit {
 		return false;
 	}
 
-	public boolean isReachable(Tile destTile) {
-		return dijkstra(destTile) != null;
-	}
-
 	/**
 	 * fortify unit until complete healing
 	 */
@@ -309,15 +298,6 @@ public class Unit {
 
 	public boolean hasJob() {
 		return !actionsQueue.isEmpty();
-	}
-
-	public double getDefensiveBonus() {
-		double terrainModifier = 1 + currentTile.getTerrain().getCombatModifier() / 100f;
-		double featureModifier = 1 + currentTile.getFeature().getCombatModifiers() / 100f;
-		double overallModifier = terrainModifier * featureModifier;
-		if (getTraitsList().contains(UnitTraits.NO_DEFENSIVE_BONUS))
-			overallModifier = Math.min(1, overallModifier);
-		return overallModifier;
 	}
 
 	public void consumeMP(double delta) {
