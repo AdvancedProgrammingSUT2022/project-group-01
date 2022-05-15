@@ -27,7 +27,6 @@ public class Civilization implements TurnBasedLogic {
 	private Vector<City> cities;
 	private City capital;
 	private Currency currency;
-	private Currency citiesCurrency;
 	private int happiness = 15;
 	private int happinessBase = 0;
 	private SavedMap map;
@@ -46,24 +45,17 @@ public class Civilization implements TurnBasedLogic {
 		this.capital = capital;
 		units = new Vector<>(); //ADDED BY PRCR
 		cities = new Vector<>(); // ADDED BY PRCR
+		cities.add(capital);
 		resourceRepository = new HashMap<>(); //ADDED BY PRCR
 		techTree = new TechTree(); // TODO ADDED TEMPORARILY BY PRCR
 		addToList();
 		this.currency = new Currency(0,0,0);
 		this.player = player;
+		knownCivilizations = new Vector<>();
 	}
 
 	public TechTree getResearchTree() {
 		return techTree;
-	}
-
-	public void newResearch(TechnologyType technologyType) {
-		//TODO handle on next checkpoint
-		techTree.research(technologyType);
-	}
-
-	public Currency getCurrency() {
-		return this.currency;
 	}
 
 	public void addUnit(Unit unit) {
@@ -149,6 +141,7 @@ public class Civilization implements TurnBasedLogic {
 			));
 		}
 		for (Tile tile : ourCells) {
+			out.add(tile);
 			out.addAll(tile.getSight(2));
 		}
 		out = VectorUtils.unique(out);
@@ -197,7 +190,7 @@ public class Civilization implements TurnBasedLogic {
 	public Currency getResourcesCurrency() {
 		Currency returningCurrency = new Currency(0, 0, 0);
 		for (ResourceType resource : resourceRepository.keySet()) {
-			returningCurrency.increase(resource.gold, resource.production, resource.food);
+			returningCurrency.increase(resourceRepository.get(resource)*resource.gold, resourceRepository.get(resource)*resource.production, resourceRepository.get(resource)*resource.food);
 		}
 		return returningCurrency;
 	}

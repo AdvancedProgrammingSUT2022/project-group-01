@@ -259,6 +259,7 @@ public class City {
 			tile.setCivilization(this.civilization);
 			tile.setOwnerCity(this);
 			this.tiles.add(tile);
+			civilization.addTileResources(tile);
 			nextTiles.remove(tile);
 		}
 	}

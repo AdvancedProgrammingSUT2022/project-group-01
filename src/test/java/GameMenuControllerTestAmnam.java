@@ -372,7 +372,7 @@ public class GameMenuControllerTestAmnam {
     @Test
     void unitSetupTestOne(){
         when(game.getSelectedObject()).thenReturn(null);
-        
+
     }
 
 }
