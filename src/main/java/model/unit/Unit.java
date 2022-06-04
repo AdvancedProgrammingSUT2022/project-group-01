@@ -1,6 +1,6 @@
 package model.unit;
 
-import controller.GameController;
+
 import controller.MapController;
 import controller.ProgramController;
 import lombok.Getter;
@@ -10,7 +10,6 @@ import model.civilization.Civilization;
 import model.civilization.city.City;
 import model.technology.TechnologyList;
 import model.tile.Boarder;
-import model.tile.Tile;
 import model.unit.action.Action;
 import model.unit.action.Actions;
 import model.unit.action.ActionsQueue;
@@ -19,6 +18,7 @@ import model.unit.civilian.Civilian;
 import model.unit.trait.TraitsList;
 import model.unit.trait.UnitTraits;
 import utils.OrderedPair;
+import model.tile.*;
 
 import java.util.Collections;
 import java.util.PriorityQueue;

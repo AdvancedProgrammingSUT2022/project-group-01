@@ -122,6 +122,7 @@ public class City {
 			Currency cur = tile.getCurrency();
 		}
 		currency.increase(-currency.getGold(),0,0);
+
 		if((productionInventory.getCurrentProduction() != null) &&(productionInventory.getCurrentProduction().equals(UnitType.SETTLER))){
 			if(currency.getFood() > 0)
 				currency.increase(0,0,-currency.getFood());
@@ -169,6 +170,7 @@ public class City {
 			productionInventory.payProduction(currency.getProduct());
 			currency.increase(0,-currency.getProduct(),0);
 		}
+
 		handleNextTiles();
 		handlePopulationIncrease();
 		updateBeaker();

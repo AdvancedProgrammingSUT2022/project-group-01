@@ -1,5 +1,6 @@
 package view;
 
+import controller.GUIController;
 import controller.MainMenuController;
 import controller.Menus;
 import controller.ProgramController;
