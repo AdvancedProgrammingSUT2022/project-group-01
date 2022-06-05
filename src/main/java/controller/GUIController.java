@@ -21,7 +21,7 @@ public class GUIController extends Application {
         Scene scene;
         Button button = new Button("salam");
         button.setOnAction(actionEvent -> {
-            new SelectMemberDialog().run();
+            System.out.println(new SelectMemberDialog().run());
         });
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/Chatroom.fxml"));
         try {
