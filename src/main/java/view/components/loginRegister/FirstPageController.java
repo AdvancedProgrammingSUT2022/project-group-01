@@ -141,12 +141,12 @@ public class FirstPageController {
         String output = loginMenuController.login(inputs);
         if (output.startsWith("Username and password"))
             AlertBox.display(loginPageTexts.USER_NOT_EXISTS);
-        else
-            GUIController.changeMenu("MainMenu");
+        //else
+            //GUIController.changeMenu("MainMenu");
     }
 
     public void closeApp() {
-        GUIController.closeApp();
+        //GUIController.closeApp();
     }
 
     public void chooseImage() {
@@ -177,7 +177,7 @@ public class FirstPageController {
     }
 
     public void signAsGuest(javafx.scene.input.MouseEvent mouseEvent) {
-        GUIController.changeMenu("MainMenu"); // go to game without sign in
+        //GUIController.changeMenu("MainMenu"); // go to game without sign in
     }
 
 
