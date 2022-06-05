@@ -7,16 +7,18 @@ public class User {
     private String password;
     private int score;
     private String nickname;
+    private String avatarUrl;
 
     /**
      * @param username user's username
      * @param password user's password
      * @param nickname user's nickname
      */
-    public User(String username, String password, String nickname) {
+    public User(String username, String password, String nickname, String avatarUrl) {
         this.nickname = nickname;
         this.username = username;
         this.password = password;
+        this.avatarUrl = avatarUrl;
         this.score = 0;
     }
 
@@ -62,4 +64,11 @@ public class User {
     }
 
 
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+    }
 }

@@ -39,11 +39,12 @@ public class LoginMenuController {
 		String username = args.get("username");
 		String nickname = args.get("nickname");
 		String password = args.get("password");
+		String avatarUrl = args.get("avatarURL");
 		if(database.findUserByUsername(username) != null)
 			return String.format("user with username %s already exist!", username);
 		if(database.findUserByNickname(nickname) != null)
 			return String.format("user with nickname %s already exist!", nickname);
-		database.addUser(username, nickname, password);
+		database.addUser(username, nickname, password, avatarUrl);
 		return "user created successfully!";
 	}
 
