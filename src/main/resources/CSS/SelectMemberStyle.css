@@ -1,6 +1,24 @@
-HBox{
+VBox{
     -fx-background-color: blue;
-    -fx-min-height: 384;
-    -fx-min-width: 216;
     -fx-alignment: center;
+}
+
+Rectangle{
+    -fx-background-color: red;
+    /*-fx-min-width: 363;
+    -fx-min-height: 50;*/
+    -fx-border-radius: 50;
+    -fx-background-radius: 50;
+}
+
+.rectangle:hover{
+    -fx-background-color: palegreen;
+    -fx-background-insets: 10;
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(three-pass-box, purple, 10, 0, 0, 0);
+}
+
+Button{
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
 }

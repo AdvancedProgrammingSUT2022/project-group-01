@@ -6,33 +6,33 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.*;
 import javafx.geometry.Insets;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 import model.User;
+import view.chatroom.component.UserListItem;
 
 public class SelectMemberDialog extends Application {
-    private BorderPane borderPane;
+    private BorderPane borderPane = new BorderPane();
+    private Scene scene = new Scene(borderPane);
     private Stage stage;
-    private Scene scene;
-    private HBox container;
-    private TableView<User> tableView;
-    public String run(){
+    private VBox container = new VBox();
+    private VBox usersList = new VBox();
+    public void run(){
         try {
             start(new Stage());
         }catch(Exception e){
             e.printStackTrace();
         }
-        return "salam";
     }
 
     @Override
@@ -41,36 +41,40 @@ public class SelectMemberDialog extends Application {
         stage.show();
     }
 
-    @FXML
     public void initialize(Stage stage){
         this.stage = stage;
-        stage.initStyle(StageStyle.TRANSPARENT);
-        stage.setResizable(false);
-        initGridPane();
-        initButton();
-    }
-
-    public void initGridPane(){
-        this.borderPane = new BorderPane();
-        borderPane.getStylesheets().add(getClass().getResource("/CSS/SelectMemberStyle.css").toExternalForm());
-        container = new HBox();
-        StackPane center = new StackPane();
-        center.getChildren().add(container);
-        borderPane.setCenter(center);
-        this.scene = new Scene(borderPane);
+        stage.setWidth(400);
+        stage.setHeight(500);
+        Rectangle2D bounds = Screen.getPrimary().getVisualBounds();
+        double x = (bounds.getWidth()-stage.getWidth())/2;
+        double y = (bounds.getHeight()-stage.getHeight())/2;
+        stage.setX(x);
+        stage.setY(y);
         stage.setScene(scene);
+        stage.setResizable(false);
+        borderPane.setCenter(container);
+        container.setPadding(new Insets(10,10,10,10));
+        borderPane.getStylesheets().add(getClass().getResource("/CSS/SelectMemberStyle.css").toExternalForm());
+        initScrollPane();
+        initButtons();
     }
 
-    public void initButton(){
-        Button okBtn = new Button("OK");
-        okBtn.setOnAction(actionEvent -> {stage.close();});
-        GridPane.setConstraints(okBtn,5,5,5,5);
-        container.getChildren().add(okBtn);
+    public void initScrollPane(){
+        ScrollPane scrollPane = new ScrollPane();
+        usersList.setSpacing(3);
+        scrollPane.setContent(usersList);
+        scrollPane.setMinHeight(400);
+        for(int i=0;i<30;i++)
+        usersList.getChildren().add(new UserListItem(ProgramController.getLoggedInUser()));
+        container.getChildren().add(scrollPane);
     }
 
-    public void initChecklist(){
-        TableView<User> tableView = new TableView<>();
-        this.tableView = tableView;
+    private void initButtons(){
+        Button button = new Button("OK");
+        container.getChildren().add(button);
     }
+
+
+
 
 }
