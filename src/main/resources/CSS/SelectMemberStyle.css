@@ -1,17 +1,28 @@
 VBox{
-    -fx-background-color: blue;
     -fx-alignment: center;
 }
 
-Rectangle{
-    -fx-background-color: red;
-    /*-fx-min-width: 363;
-    -fx-min-height: 50;*/
-    -fx-border-radius: 50;
-    -fx-background-radius: 50;
+.select-member-dialog{
+    -fx-background-image:  url("/asset/chatroom/select_panel_bg.png");
 }
 
-.rectangle:hover{
+Rectangle{
+    -fx-fill: #2265E1;
+    -fx-arc-height: 20;
+    -fx-arc-width: 20;
+    -fx-opacity: 50%;
+}
+
+Circle{
+    -fx-stroke-width: 1;
+    -fx-stroke: white;
+}
+
+.primary-label{
+
+}
+
+.Rectangle:hover{
     -fx-background-color: palegreen;
     -fx-background-insets: 10;
     -fx-background-radius: 10;
@@ -19,6 +30,6 @@ Rectangle{
 }
 
 Button{
-    -fx-background-radius: 20;
     -fx-border-radius: 20;
+    -fx-background-radius: 20;
 }

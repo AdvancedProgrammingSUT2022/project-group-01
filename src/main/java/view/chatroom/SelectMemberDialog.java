@@ -43,6 +43,12 @@ public class SelectMemberDialog extends Application {
 
     public void initialize(Stage stage){
         this.stage = stage;
+        initStage();
+        initScrollPane();
+        initButtons();
+    }
+
+    private void initStage(){
         stage.setWidth(400);
         stage.setHeight(500);
         Rectangle2D bounds = Screen.getPrimary().getVisualBounds();
@@ -55,17 +61,18 @@ public class SelectMemberDialog extends Application {
         borderPane.setCenter(container);
         container.setPadding(new Insets(10,10,10,10));
         borderPane.getStylesheets().add(getClass().getResource("/CSS/SelectMemberStyle.css").toExternalForm());
-        initScrollPane();
-        initButtons();
+        borderPane.getStyleClass().add("select-member-dialog");
     }
 
     public void initScrollPane(){
         ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setStyle("-fx-background-color:transparent;-fx-background:transparent;");
         usersList.setSpacing(3);
+        usersList.setStyle("-fx-background-color:transparent;");
         scrollPane.setContent(usersList);
         scrollPane.setMinHeight(400);
         for(int i=0;i<30;i++)
-        usersList.getChildren().add(new UserListItem(ProgramController.getLoggedInUser()));
+            usersList.getChildren().add(new UserListItem(ProgramController.getLoggedInUser()).getPane());
         container.getChildren().add(scrollPane);
     }
 
