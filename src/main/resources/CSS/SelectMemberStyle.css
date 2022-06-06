@@ -1,3 +1,70 @@
+.scroll-bar:horizontal .track,
+.scroll-bar:vertical .track{
+    -fx-background-color :transparent;
+    -fx-border-color :transparent;
+    -fx-background-radius : 2.0em;
+}
+
+.scroll-bar:horizontal .increment-button ,
+.scroll-bar:horizontal .decrement-button {
+    -fx-background-color :transparent;
+    -fx-background-radius : 0.0em;
+    -fx-padding :0.0 0.0 10.0 0.0;
+
+}
+
+.scroll-bar:vertical .track-background,
+.scroll-bar:horizontal .track-background {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-background-radius: 2em;
+}
+
+.scroll-bar:vertical .increment-button ,
+.scroll-bar:vertical .decrement-button {
+    -fx-background-color :transparent;
+    -fx-background-radius : 0.0em;
+    -fx-padding :0.0 10.0 0.0 0.0;
+
+}
+
+.scroll-bar .increment-arrow,
+.scroll-bar .decrement-arrow{
+    -fx-shape : " ";
+    -fx-padding :0.15em 0.0;
+}
+
+.scroll-bar:vertical .increment-arrow,
+.scroll-bar:vertical .decrement-arrow{
+    -fx-shape : " ";
+    -fx-padding :0.0 0.15em;
+}
+
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
+    -fx-background-color : #000000;
+    -fx-background-insets : 2.0, 0.0, 0.0;
+    -fx-background-radius : 2.0em;
+}
+
+.scroll-bar:horizontal .thumb:hover,
+.scroll-bar:vertical .thumb:hover {
+    -fx-background-color : #9e9e9e;
+    -fx-background-insets : 2.0, 0.0, 0.0;
+    -fx-background-radius : 2.0em;
+}
+
+.scroll-bar{
+    -fx-background-color: transparent;
+    -fx-background-radius: 2em;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+.scroll-bar:vertical:focused {
+    -fx-background-color: transparent;
+}
+
 VBox{
     -fx-alignment: center;
 }
@@ -8,9 +75,15 @@ VBox{
 
 Rectangle{
     -fx-fill: #2265E1;
-    -fx-arc-height: 20;
-    -fx-arc-width: 20;
+    /*-fx-arc-height: 20;
+    -fx-arc-width: 20;*/
     -fx-opacity: 50%;
+}
+Rectangle:hover{
+    -fx-background-color: palegreen;
+    -fx-background-insets: 10;
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(three-pass-box, purple, 10, 0, 0, 0);
 }
 
 Circle{
@@ -22,14 +95,14 @@ Circle{
 
 }
 
-.Rectangle:hover{
-    -fx-background-color: palegreen;
-    -fx-background-insets: 10;
-    -fx-background-radius: 10;
-    -fx-effect: dropshadow(three-pass-box, purple, 10, 0, 0, 0);
-}
+
 
 Button{
     -fx-border-radius: 20;
     -fx-background-radius: 20;
+}
+
+
+.selected-icon{
+    -fx-fill:  url("/asset/chatroom/selected_icon.png");
 }

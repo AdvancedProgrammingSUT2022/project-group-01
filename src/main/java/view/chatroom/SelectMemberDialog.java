@@ -18,15 +18,20 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
+import lombok.Getter;
 import model.User;
 import view.chatroom.component.UserListItem;
 
+import java.util.ArrayList;
+
+@Getter
 public class SelectMemberDialog extends Application {
     private BorderPane borderPane = new BorderPane();
     private Scene scene = new Scene(borderPane);
     private Stage stage;
     private VBox container = new VBox();
     private VBox usersList = new VBox();
+    private ArrayList<User> selectedUsers = new ArrayList<>();
     public void run(){
         try {
             start(new Stage());
@@ -60,19 +65,20 @@ public class SelectMemberDialog extends Application {
         stage.setResizable(false);
         borderPane.setCenter(container);
         container.setPadding(new Insets(10,10,10,10));
+        container.setSpacing(5);
         borderPane.getStylesheets().add(getClass().getResource("/CSS/SelectMemberStyle.css").toExternalForm());
         borderPane.getStyleClass().add("select-member-dialog");
     }
 
     public void initScrollPane(){
         ScrollPane scrollPane = new ScrollPane();
+        scrollPane.getStyleClass().add("scroll-bar");
         scrollPane.setStyle("-fx-background-color:transparent;-fx-background:transparent;");
-        usersList.setSpacing(3);
         usersList.setStyle("-fx-background-color:transparent;");
         scrollPane.setContent(usersList);
         scrollPane.setMinHeight(400);
         for(int i=0;i<30;i++)
-            usersList.getChildren().add(new UserListItem(ProgramController.getLoggedInUser()).getPane());
+            usersList.getChildren().add(new UserListItem(ProgramController.getLoggedInUser(), this).getPane());
         container.getChildren().add(scrollPane);
     }
 

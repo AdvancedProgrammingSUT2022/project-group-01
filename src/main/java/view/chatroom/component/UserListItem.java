@@ -13,14 +13,15 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import lombok.Getter;
 import model.User;
+import view.chatroom.SelectMemberDialog;
 
 @Getter
 public class UserListItem {
-    Pane pane;
+    private Pane pane;
     private Rectangle rectangle;
+    private Circle circle;
     private final User user;
-    private CheckBox checkBox = new CheckBox();
-    public UserListItem(User user){
+    public UserListItem(User user, SelectMemberDialog selectMemberDialog){
         pane = new Pane();
         rectangle = new Rectangle(360,60);
         pane.setMinWidth(363);
@@ -30,12 +31,11 @@ public class UserListItem {
         initAvatar();
         initLabel();
         initCheckBox();
-        initAction();
+        initAction(selectMemberDialog);
     }
 
     private void initRectangle(){
         rectangle.setStyle("-fx-background-radius: 20; -fx-border-radius: 20");
-        //rectangle.getStyleClass().add("rectangle");
         pane.getChildren().add(rectangle);
     }
 
@@ -59,14 +59,15 @@ public class UserListItem {
     }
 
     public void initCheckBox(){
-        checkBox.setLayoutX(100);
-        checkBox.setLayoutY(23);
-        pane.getChildren().add(checkBox);
+        circle = new Circle(55,45,10);
+        circle.getStyleClass().add("selected-icon");
+        pane.getChildren().add(circle);
     }
 
-    public void initAction(){
+    public void initAction(SelectMemberDialog selectMemberDialog){
         pane.setOnMouseClicked(mouseEvent -> {
-            checkBox.setSelected(!checkBox.isSelected());
+            circle.setVisible(!circle.isVisible());
+
         });
     }
 }
