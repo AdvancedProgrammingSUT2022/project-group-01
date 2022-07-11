@@ -83,8 +83,21 @@ public class SelectMemberDialog extends Application {
     }
 
     private void initButtons(){
-        Button button = new Button("OK");
-        container.getChildren().add(button);
+        Button okBtn = new Button("OK");
+        Button cancelBtn = new Button("Cancel");
+        HBox hbox = new HBox();
+        hbox.setStyle("-fx-alignment: center; -fx-spacing: 5");
+        hbox.getChildren().addAll(okBtn,cancelBtn);
+        container.getChildren().add(hbox);
+
+        okBtn.setOnAction(actionEvent -> {
+            //TODO implement here
+            stage.close();
+        });
+        cancelBtn.setOnAction(actionEvent -> {
+            //TODO implement here and return null
+            stage.close();
+        });
     }
 
 

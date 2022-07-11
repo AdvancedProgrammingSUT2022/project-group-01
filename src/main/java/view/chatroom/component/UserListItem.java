@@ -40,13 +40,17 @@ public class UserListItem {
     }
 
     private void initLabel(){
-        Label label = new Label(user.getNickname());
-        label.setTextFill(Color.WHITE);
-        label.setFont(Font.font("Apple Braille Outline 6 dot",22));
-        label.setLayoutX(70);
-        label.setLayoutY(20);
-        pane.getChildren().add(label);
-
+        Label nickname = new Label(user.getNickname());
+        nickname.setTextFill(Color.WHITE);
+        nickname.setFont(Font.font("Apple Braille Outline 6 dot",22));
+        nickname.setLayoutX(70);
+        nickname.setLayoutY(15);
+        Label username = new Label("@"+user.getUsername());
+        username.setTextFill(Color.rgb(0,0,255,0.5));
+        username.setFont(Font.font("Apple Braille Outline 6 dot",14));
+        username.setLayoutX(70);
+        username.setLayoutY(40);
+        pane.getChildren().addAll(nickname, username);
     }
 
     public void initAvatar(){
@@ -61,13 +65,17 @@ public class UserListItem {
     public void initCheckBox(){
         circle = new Circle(55,45,10);
         circle.getStyleClass().add("selected-icon");
+        circle.setVisible(false);
         pane.getChildren().add(circle);
     }
 
     public void initAction(SelectMemberDialog selectMemberDialog){
         pane.setOnMouseClicked(mouseEvent -> {
             circle.setVisible(!circle.isVisible());
-
+            if(circle.isVisible())
+                selectMemberDialog.getSelectedUsers().add(this.user);
+            else
+                selectMemberDialog.getSelectedUsers().remove(this.user);
         });
     }
 }

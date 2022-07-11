@@ -66,6 +66,8 @@
 }
 
 VBox{
+    -fx-background-radius: 10 10 10 10;
+    -fx-border-radius: 10 10 10 10;
     -fx-alignment: center;
 }
 
@@ -98,10 +100,17 @@ Circle{
 
 
 Button{
-    -fx-border-radius: 20;
-    -fx-background-radius: 20;
+    -fx-min-width: 50;
+    -fx-background-color: #ea6293;
+    -fx-background-radius:  5px;
+    -fx-border-width: 1;
+    -fx-border-color: #00000000;
+    -fx-text-fill: #ffffff;
 }
-
+Button:hover{
+    -fx-border-color: white;
+    -fx-border-radius: 5;
+}
 
 .selected-icon{
     -fx-fill:  url("/asset/chatroom/selected_icon.png");

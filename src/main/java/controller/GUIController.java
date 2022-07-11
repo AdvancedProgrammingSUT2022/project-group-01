@@ -38,6 +38,5 @@ public class GUIController extends Application {
 
     public void run(){
         launch();
-
     }
 }
