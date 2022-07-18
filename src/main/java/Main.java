@@ -1,5 +1,12 @@
 import controller.*;
+import model.Game;
 import model.User;
+import model.unit.Unit;
+import model.unit.UnitType;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import utils.StringUtils;
 import view.components.ImagesAddress;
 
 import java.util.ArrayList;
@@ -7,9 +14,16 @@ import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args)   {
-        ProgramController pc = new ProgramController();
+        /*ProgramController pc = new ProgramController();
         ProgramController.setLoggedInUser(new User("Amnam","Amnam","Amnam", ImagesAddress.GAME_BACKGROUND.getAddress()));
         GUIController guiController = new GUIController();
-        guiController.run();
+        guiController.run();*/
+        ProgramController pc = new ProgramController();
+        pc.run();
+        //this is a test
+
+        /*graphicTest gr = new graphicTest();
+        gr.run();*/
     }
+
 }
