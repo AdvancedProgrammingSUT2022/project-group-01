@@ -149,7 +149,7 @@ public class FirstPageController {
     }
 
     public void closeApp() {
-        GUIController.closeApp();
+        //GUIController.closeApp();
     }
 
     public void chooseImage() {
