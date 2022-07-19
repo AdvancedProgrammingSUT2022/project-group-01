@@ -24,8 +24,7 @@ import java.util.Collections;
 import java.util.PriorityQueue;
 import java.util.Vector;
 
-@Getter
-@Setter
+@Getter @Setter
 public class Unit {
 	public final static int maxHealth = 10;
 	protected Civilization ownerCivilization;

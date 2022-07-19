@@ -8,7 +8,7 @@ import model.technology.TechnologyType;
 public class Main {
     public static void main(String[] args)   {
         ProgramController pc = new ProgramController();
-        ProgramController.setLoggedInUser(new User("amnam","amnam","amnam","amnam"));
+        ProgramController.setLoggedInUser(new User("Amnam","Amnam","Amnam","amnam"));
         GUIController guiController = new GUIController();
         guiController.run();
     }

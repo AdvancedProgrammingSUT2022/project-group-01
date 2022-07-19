@@ -1,6 +1,11 @@
 package model.building;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.Vector;
 
+
+@Getter @Setter
 public class BuildingInventory {
 
 	private Vector<BuildingType> accessedBuilding;

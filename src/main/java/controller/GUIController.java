@@ -6,25 +6,19 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.ImageCursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TabPane;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import view.Main;
+import javafx.fxml.FXMLLoader;
 import view.chatroom.SelectMemberDialog;
 import view.components.ImagesAddress;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Objects;
-
 public class GUIController extends Application {
-
     public static Parent root;
     private static Scene scene;
     private static Stage stage;
@@ -66,14 +60,13 @@ public class GUIController extends Application {
 
     private static Parent loadFXML(String name) {
         try {
-            URL address = new URL(Objects.requireNonNull(
-                    Main.class.getResource("/FXML/" + name + ".fxml")).toString());
-            return FXMLLoader.load(address);
-        } catch (IOException e) {
+            BorderPane pane = loader.load();
+            ((TabPane)pane.getCenter()).getTabs().get(0).setContent(button);
+            scene = new Scene(pane);
+            stage.setScene(scene);
+        }catch(Exception e){
             e.printStackTrace();
         }
-        return null;
-    }
 
     public static void closeApp() {
         stage.close();
@@ -94,7 +87,7 @@ public class GUIController extends Application {
         primaryStage.show();
     }
 
-    public void run() {
+    public void run(){
         launch();
     }
 

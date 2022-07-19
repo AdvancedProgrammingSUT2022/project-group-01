@@ -26,11 +26,11 @@ public class Building {
 	}
 
 	public int getCost() {
-		return this.type.cost;
+		return this.type.getCost();
 	}
 
 	public int getMaintenance() {
-		return this.type.maintenance;
+		return this.type.getMaintenance();
 	}
 
 	/**
