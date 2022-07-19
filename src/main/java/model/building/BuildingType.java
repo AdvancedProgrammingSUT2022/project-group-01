@@ -1,17 +1,22 @@
 package model.building;
+import lombok.Getter;
 import model.Player;
 import model.civilization.Civilization;
 import model.civilization.city.City;
 import model.civilization.production.Producible;
+import model.resource.ResourceList;
 import model.resource.ResourceType;
 import model.technology.TechnologyType;
 import model.tile.Terrain;
 import model.tile.Tile;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Vector;
 
 import javax.xml.catalog.CatalogFeatures.Feature;
 
+@Getter
 public enum BuildingType implements Producible{
 	BARRACKS(80,1,TechnologyType.BRONZE_WORKING,new Vector<>()){
 		@Override
@@ -296,16 +301,17 @@ public enum BuildingType implements Producible{
 		}
 	};
 
-	public final int cost;
-	public final int maintenance;
-	public final TechnologyType requiredTechnology;
-	public final Vector<ResourceType> necessaryResources;
-
+	private final int cost;
+	private final int maintenance;
+	private final TechnologyType requiredTechnology;
+	private final Vector<ResourceType> necessaryResources;
+	private final ResourceList resourceList;
 	BuildingType(int cost, int maintenance, TechnologyType requiredTechnology, Vector<ResourceType> necessaryResources) {
 		this.cost = cost;
 		this.maintenance = maintenance;
 		this.requiredTechnology = requiredTechnology;
 		this.necessaryResources = necessaryResources;
+		this.resourceList = new ResourceList(necessaryResources);
 		addToProductions();
 	}
 
@@ -342,7 +348,7 @@ public enum BuildingType implements Producible{
 
 	@Override
 	public boolean isProducible(City city) {
-		return false;
+		return resourceList.isAvailable(city.getCivilization()) && city.getCivilization().getResearchTree().isResearched(requiredTechnology);
 	}
 
 	@Override

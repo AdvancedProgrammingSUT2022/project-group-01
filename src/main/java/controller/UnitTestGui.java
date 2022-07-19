@@ -14,6 +14,7 @@ import model.Game;
 import model.civilization.city.City;
 import model.unit.Unit;
 import view.components.city.CityOverview;
+import view.components.city.productionpanel.ProductionPanel;
 import view.components.popup.PopUp;
 import view.components.popup.PopUpStates;
 import view.components.unit.UnitActionsPanel;
@@ -102,6 +103,18 @@ public class UnitTestGui extends Application {
                 co.setLayoutX(40);
                 co.setLayoutY(40);
                 pane.getChildren().add(co);
+            }
+        });
+    }
+
+    public void addCityProduction(){
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                ProductionPanel pp = new ProductionPanel((City) game.getSelectedObject());
+                pp.setLayoutX(120);
+                pp.setLayoutY(120);
+                pane.getChildren().add(pp);
             }
         });
     }
