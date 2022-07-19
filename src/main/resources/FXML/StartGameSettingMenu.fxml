@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="830.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.components.MainMenuComponents.StartGameSettingMenu">
+   <children>
+      <Label layoutX="41.0" layoutY="31.0" text="Players" />
+      <Pane layoutX="41.0" layoutY="69.0" prefHeight="60.0" prefWidth="776.0" style="-fx-background-color: red;" />
+      <Label layoutX="46.0" layoutY="168.0" text="Map Size" />
+      <Label layoutX="46.0" layoutY="208.0" prefHeight="17.0" prefWidth="169.0" text="Prefered size in more than 22" />
+      <JFXButton layoutX="321.0" layoutY="315.0" prefHeight="60.0" prefWidth="188.0" />
+      <Label alignment="CENTER" layoutX="494.0" layoutY="201.0" prefHeight="29.0" prefWidth="50.0" text="51" textAlignment="CENTER">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="31.0" fitWidth="31.0" layoutX="549.0" layoutY="200.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../asset/mainmenu/plus.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="31.0" fitWidth="31.0" layoutX="459.0" layoutY="200.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../asset/mainmenu/minus.png" />
+         </image>
+      </ImageView>
+   </children>
+</Pane>

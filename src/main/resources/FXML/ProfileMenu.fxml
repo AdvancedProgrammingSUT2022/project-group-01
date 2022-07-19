@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<Pane prefHeight="720.0" prefWidth="1280.0" fx:id="root" style="-fx-background-color: #282828;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.components.preMainInMenus.ProfileMenuController">
+    <children>
+        <TextField fx:id="newUsername" layoutX="309.0" layoutY="312.0" prefHeight="35.0" prefWidth="294.0" promptText="New Username" styleClass="tf_box" stylesheets="@../css/FirstPage.css" />
+        <Label layoutX="87.0" layoutY="319.0" text="Change Username:" textFill="#4eb4a9">
+            <font>
+                <Font name="Euphemia UCAS" size="13.0" />
+            </font>
+        </Label>
+        <Label layoutX="87.0" layoutY="435.0" text="Change Password:" textFill="#4eb4a9">
+            <font>
+                <Font name="Euphemia UCAS" size="13.0" />
+            </font>
+        </Label>
+        <TextField fx:id="newPassword" layoutX="313.0" layoutY="426.0" prefHeight="35.0" prefWidth="294.0" promptText="New Password" styleClass="tf_box" stylesheets="@../css/FirstPage.css" />
+        <JFXButton layoutX="650.0" layoutY="314.0" onMouseClicked="#saveNewUsername" prefHeight="35.0" prefWidth="50.0" styleClass="blue-btn" text="Save" textFill="#4eb4a9">
+            <font>
+                <Font name="AppleGothic Regular" size="13.0" />
+            </font>
+        </JFXButton>
+        <JFXButton layoutX="652.0" layoutY="437.0" onMouseClicked="#saveNewPassword" prefHeight="35.0" prefWidth="50.0" styleClass="blue-btn" text="Save" textFill="#4eb4a9">
+            <font>
+                <Font name="AppleGothic Regular" size="13.0" />
+            </font>
+        </JFXButton>
+      <Pane prefHeight="128.0" prefWidth="1280.0" style="-fx-background-color: #4eb4a9;">
+         <children>
+      
+              <Circle fx:id="avatarCircle" fill="#0a0a0a" layoutX="225.0" layoutY="122.0" onMouseClicked="#chooseAvatarFile" radius="99.0" stroke="BLACK" strokeType="INSIDE" />
+            <ImageView fitHeight="43.0" fitWidth="50.0" layoutX="8.0" layoutY="8.0" onMouseClicked="#backToPreMain" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../asset/preMainMenu/back.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="51.0" fitWidth="61.0" layoutX="369.0" layoutY="97.0" onMouseClicked="#openAvatarPanel" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../asset/preMainMenu/avatarList.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+    </children>
+</Pane>

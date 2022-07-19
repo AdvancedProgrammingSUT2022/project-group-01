@@ -773,4 +773,5 @@ public class GameMenuController {
 		city.destroy();
 		return "boom!";
 	}
+
 }

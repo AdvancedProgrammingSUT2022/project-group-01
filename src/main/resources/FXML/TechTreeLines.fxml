@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Line?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="659.0" prefWidth="2325.0" stylesheets="@../css/TechnologyTree.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+    <Line endX="42.0" endY="13.0" layoutX="3924.0" layoutY="478.0" startX="-16.5" startY="-22.0" styleClass="line" />
+    <Line endX="768.0" endY="-377.0" layoutX="3934.0" layoutY="488.0" startX="865.0" startY="-269.0" styleClass="line" />
+    <Line endX="349.0" endY="4.0" layoutX="3934.0" layoutY="488.0" startX="862.0" startY="114.0" styleClass="line" />
+    <Line endX="71.0" layoutX="3127.0" layoutY="221.0" startX="-16.5" startY="-22.0" styleClass="line" />
+    <Line endX="70.0" endY="89.0" layoutX="3128.0" layoutY="132.0" startX="-17.70703125" startY="-59.70709228515625" />
+    <Line endX="70.0" endY="-4.0" layoutX="3128.0" layoutY="132.0" startX="-17.0" startY="-59.0" />
+    <Line endX="42.0" endY="13.0" layoutX="3923.0" layoutY="346.0" startX="-16.5" startY="-22.0" />
+    <Line endX="79.0" endY="3.0" layoutX="5109.0" layoutY="111.0" startX="3.0" startY="105.0" />
+    <Line endX="48.0" endY="8.0" layoutX="5140.0" layoutY="266.0" startX="-28.70703125" startY="-49.292877197265625" />
+    <Line endX="21.0" endY="57.0" layoutX="5167.0" layoutY="388.0" startX="-60.5" startY="-29.0" />
+    <Line endX="-474.0" endY="-9.0" layoutX="5177.0" layoutY="398.0" startX="-392.0" startY="79.0" />
+    <Line endX="11.0" endY="47.0" layoutX="5177.0" layoutY="398.0" startX="-64.0" startY="202.0" />
+    <Line endX="11.0" endY="47.0" layoutX="5177.0" layoutY="398.0" startX="-70.0" startY="79.0" />
+    <Line endX="105.0" endY="-86.0" layoutX="4687.0" layoutY="297.0" startX="15.29296875" startY="91.29290771484375" />
+    <Line endX="42.5" endY="-22.0" layoutX="4749.0" layoutY="381.0" startX="-46.5" startY="8.0" />
+    <Line endX="293.0" endY="17.0" layoutX="4504.0" layoutY="585.0" startX="-221.0" startY="17.0" />
+    <Line endX="56.0" endY="-33.0" layoutX="4327.0" layoutY="144.0" startX="-43.0" startY="75.0" />
+    <Line endX="-46.0" endY="102.0" layoutX="4429.0" layoutY="285.0" startX="-145.70703125" startY="-65.29290771484375" />
+    <Line endX="32.5" layoutX="4351.0" layoutY="388.0" startX="-67.5" startY="-25.0" />
+    <Line endX="-126.29296875" endY="214.29290771484375" layoutX="3718.0" layoutY="88.0" startX="-201.0" startY="130.0" />
+    <Line endX="-137.0" endY="205.0" layoutX="3728.0" layoutY="98.0" startX="-210.0" startY="294.0" />
+    <Line endX="-523.29296875" endY="482.70709228515625" layoutX="3728.0" layoutY="98.0" startX="-608.0" startY="482.70709228515625" />
+    <Line endX="-524.0" endY="482.0" layoutX="3728.0" layoutY="98.0" startX="-625.70703125" startY="353.70709228515625" />
+    <Line endX="-523.29296875" endY="291.70709228515625" layoutX="3728.0" layoutY="98.0" startX="-625.0" startY="353.0" />
+    <Line endX="-524.0" endY="291.0" layoutX="3728.0" layoutY="98.0" startX="-632.0" startY="205.0" />
+    <Line endX="270.0" endY="492.0" layoutX="3700.0" layoutY="113.0" startX="208.0" startY="477.0" />
+    <Line endX="-120.0" endY="472.0" layoutX="3710.0" layoutY="123.0" startX="-191.70703125" startY="458.70709228515625" />
+    <Line endX="-120.0" endY="335.0" layoutX="3710.0" layoutY="123.0" startX="-191.0" startY="458.0" />
+    <Line endX="260.0" endY="99.0" layoutX="3710.0" layoutY="123.0" startX="-194.0" startY="5.0" />
+    <Line endX="511.0" endY="118.0" layoutX="1686.0" layoutY="173.0" startX="-15.0" startY="124.0" />
+    <Line endX="140.0" endY="93.0" layoutX="2057.0" layoutY="57.0" startX="-4.0" startY="93.0" />
+    <Line endX="177.0" endY="-109.0" layoutX="2020.0" layoutY="259.0" startX="25.0" startY="92.0" />
+    <Line endX="766.0" endY="-54.0" layoutX="2006.0" layoutY="358.0" startX="38.29296875" startY="100.29290771484375" />
+    <Line endX="302.0" endY="24.0" layoutX="2482.0" layoutY="423.0" startX="29.0" startY="92.0" />
+    <Line endX="118.0" endY="92.0" layoutX="2680.0" layoutY="485.0" startX="-169.70703125" startY="30.70709228515625" />
+    <Line endX="295.0" endY="2.0" layoutX="2489.0" layoutY="193.0" startX="33.0" startY="99.0" />
+    <Line endX="296.0" endY="22.0" layoutX="2488.0" layoutY="51.0" startX="33.0" startY="99.0" />
+    <Line endX="283.70703125" endY="-59.70709228515625" layoutX="2501.0" layoutY="132.0" startX="23.0" startY="159.0" />
+    <Line endX="90.0" endY="47.0" layoutX="1628.0" layoutY="317.0" startX="40.0" startY="95.0" />
+    <Line endX="116.0" endY="87.0" layoutX="1605.0" layoutY="371.0" startX="62.2928466796875" startY="41.70709228515625" />
+    <Line endX="113.0" endY="87.0" layoutX="811.0" layoutY="515.0" startX="-24.5" startY="-23.5" />
+    <Line endX="347.0" endY="88.0" layoutX="1371.0" layoutY="523.0" startX="-123.0" startY="80.0" />
+    <Line endX="130.0" endY="17.0" layoutX="2057.0" layoutY="499.0" startX="-12.0" startY="112.0" />
+    <Line endX="119.0" endY="150.0" layoutX="2068.0" layoutY="366.0" startX="-23.0" startY="93.0" />
+    <Line endX="511.0" endY="35.0" layoutX="1215.0" layoutY="115.0" startX="21.0" startY="85.0" />
+    <Line endX="129.0" endY="86.0" layoutX="324.0" layoutY="200.0" startX="33.0" startY="99.0" />
+    <Line endX="189.0" endY="43.0" layoutX="264.0" layoutY="107.0" startX="92.29290771484375" startY="185.5" />
+    <Line endX="123.0" endY="87.0" layoutX="330.0" layoutY="303.0" startX="27.0" startY="-4.0" />
+    <Line endX="121.0" endY="93.0" layoutX="339.0" layoutY="404.0" startX="17.29290771484375" startY="-105.70709228515625" />
+    <Line endX="129.0" endY="86.0" layoutX="794.0" layoutY="405.0" startX="-7.0" startY="86.0" />
+    <Line endX="87.0" endY="15.0" layoutX="1260.0" layoutY="283.0" startX="-21.0" startY="9.0" />
+    <Line endX="166.0" endY="114.0" layoutX="755.0" layoutY="282.0" startX="25.0" startY="108.0" />
+    <Line endX="160.0" endY="122.0" layoutX="755.0" layoutY="171.0" startX="25.0" startY="105.0" />
+    <Line endX="147.0" endY="137.0" layoutX="774.0" layoutY="259.0" startX="5.29290771484375" startY="16.29290771484375" />
+    <Line endX="163.0" endY="156.0" layoutX="746.0" layoutY="51.0" startX="33.0" startY="99.0" />
+    <Line endX="154.0" endY="123.0" layoutX="1190.0" layoutY="412.0" startX="55.0" startY="84.0" />
+    <Line endX="131.7071533203125" endY="261.70709228515625" layoutX="1213.0" layoutY="274.0" startX="25.2928466796875" startY="17.29290771484375" />
+    <Line endX="131.0" endY="108.0" layoutX="1213.0" layoutY="305.0" startX="35.0" startY="91.0" />
+</Pane>

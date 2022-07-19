@@ -18,7 +18,7 @@ public enum TechnologyType {
 
 	// Classical Era
 	CONSTRUCTION(100, new TechnologyList(MASONRY)),
-	HORSEBACK_RIDING(100, new TechnologyList(MASONRY)),
+	HORSEBACK_RIDING(100, new TechnologyList(THE_WHEEL)),
 	IRON_WORKING(100, new TechnologyList(BRONZE_WORKING)),
 	MATHEMATICS(100, new TechnologyList(THE_WHEEL, ARCHERY)),
 	PHILOSOPHY(100, new TechnologyList(WRITING)),

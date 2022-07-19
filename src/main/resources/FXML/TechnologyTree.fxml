@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<Pane prefHeight="720.0" prefWidth="1280.0" fx:id="wholePane" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" style="-fx-background-image: url(asset/technology/background.JPG)" >
+   <children>
+      <ScrollPane layoutY="-1.0" prefHeight="670.0" prefWidth="1280.0" fx:id="scrollPane">
+         <content>
+            <Pane fx:id="backPane" prefHeight="663.0" prefWidth="10280.0" />
+         </content>
+      </ScrollPane>
+      <TextField layoutX="640.0" layoutY="674.0" prefHeight="32.0" prefWidth="522.0" fx:id="techFinderText" styleClass="tf_box" stylesheets="@../css/FirstPage.css"/>
+      <JFXButton buttonType="RAISED" layoutX="1180.0" layoutY="677.0" text="Search" >
+         <font>
+            <Font name="Apple SD Gothic Neo Regular" size="13.0" />
+         </font>
+      </JFXButton>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#19da50" height="20.0" layoutX="14.0" layoutY="680.0" stroke="BLACK" strokeType="INSIDE" width="19.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="20.0" layoutX="219.0" layoutY="680.0" stroke="BLACK" strokeType="INSIDE" width="19.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#d75d92" height="20.0" layoutX="106.0" layoutY="680.0" stroke="BLACK" strokeType="INSIDE" width="19.0" />
+      <Label layoutX="40.0" layoutY="682.0" text="Searched" />
+      <Label layoutX="249.0" layoutY="682.0" text="else">
+         <font>
+            <Font name="AppleGothic Regular" size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="131.0" layoutY="682.0" text="Searchable" />
+   </children>
+</Pane>

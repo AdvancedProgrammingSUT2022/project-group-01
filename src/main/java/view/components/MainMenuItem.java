@@ -37,4 +37,5 @@ public class MainMenuItem extends Pane {
     public void setOnAction(Runnable action){
         setOnMouseClicked(e -> action.run());
     }
+
 }
