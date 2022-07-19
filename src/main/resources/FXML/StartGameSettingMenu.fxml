@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="830.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.components.MainMenuComponents.StartGameSettingMenu">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="830.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/FXML/1" fx:controller="view.components.MainMenuComponents.StartGameSettingMenu">
    <children>
       <Label layoutX="41.0" layoutY="31.0" text="Players" />
       <Pane layoutX="41.0" layoutY="69.0" prefHeight="60.0" prefWidth="776.0" style="-fx-background-color: red;" />

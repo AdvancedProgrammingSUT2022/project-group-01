@@ -87,6 +87,7 @@ public class GameInstantiateData {
         UnitController unitController = new UnitController(game);
         WorkerController workerController = new WorkerController(game);
         GameMenuController gameMenuController = new GameMenuController(game,gameController,cityController, unitController, workerController);
+        ProgramController.setCurrentMenu(Menus.GAME_MENU);
         GameMapController gameMapController = new GameMapController(gameMenuController);
         GUIController.changeMenuManually(gameMapController.getBackPane());
     }

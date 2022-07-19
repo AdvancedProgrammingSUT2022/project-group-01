@@ -21,4 +21,11 @@ public class StringUtils {
 		else
 			return "-"+input;
 	}
+
+	public static String makeFirstCapital(String input){
+		StringBuilder sb = new StringBuilder(input.toLowerCase());
+		sb.setCharAt(0, String.valueOf(sb.charAt(0)).toUpperCase().charAt(0));
+		return sb.toString();
+	}
+
 }

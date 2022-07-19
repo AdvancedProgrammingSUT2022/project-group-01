@@ -201,7 +201,7 @@ public class StartGameSettingMenu {
         playersList.setContent(list);
         playersList.setStyle("-fx-background: transparent");
         playersList.setStyle("-fx-background-color: transparent");
-        playersList.getStylesheets().add(String.valueOf(Main.class.getResource("/css/InvitationMenu.css")));
+        playersList.getStylesheets().add(String.valueOf(Main.class.getResource("/CSS/InvitationMenu.css")));
         playersList.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         playersList.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         root.getChildren().add(playersList);
@@ -232,7 +232,7 @@ public class StartGameSettingMenu {
         mapList.setLayoutY(250);
         mapList.setStyle("-fx-background: transparent");
         mapList.setStyle("-fx-background-color: transparent");
-        mapList.getStylesheets().add(String.valueOf(Main.class.getResource("/css/InvitationMenu.css")));
+        mapList.getStylesheets().add(String.valueOf(Main.class.getResource("/CSS/InvitationMenu.css")));
         mapList.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         mapList.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         mapList.setContent(showMapsList());

@@ -6,25 +6,26 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.ImageCursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.fxml.FXMLLoader;
 import javafx.stage.StageStyle;
 import view.Main;
 import view.chatroom.SelectMemberDialog;
 import view.components.ImagesAddress;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Objects;
 
 public class GUIController extends Application {
-
     public static Parent root;
     private static Scene scene;
     private static Stage stage;
@@ -82,7 +83,7 @@ public class GUIController extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.<AnchorPane>load(Objects.requireNonNull(getClass().getResource("/fxml/FirstPage.fxml")));
+        Parent root = FXMLLoader.<AnchorPane>load(Objects.requireNonNull(getClass().getResource("/FXML/FirstPage.fxml")));
         stage = primaryStage;
         GUIController.root = root;
         Scene scene = new Scene(root);

@@ -12,7 +12,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="signUpVBox" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="480.0" styleClass="blue-pane" stylesheets="@../css/FirstPage.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.components.loginRegister.FirstPageController">
+<VBox fx:id="signUpVBox" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="480.0" styleClass="blue-pane" stylesheets="@../CSS/FirstPage.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/FXML/1" fx:controller="view.components.loginRegister.FirstPageController">
     <Circle fx:id="avatarCircle" fill="#f8fcff" onMouseClicked="#chooseImage" radius="50.0" stroke="BLACK" strokeType="OUTSIDE">
         <VBox.margin>
             <Insets left="190.0" />
@@ -26,9 +26,9 @@
             <Insets left="20.0" />
         </VBox.margin>
     </Label>
-    <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="200.0" stylesheets="@../css/FirstPage.css">
+    <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="200.0" stylesheets="@../CSS/FirstPage.css">
         <children>
-            <TextField fx:id="username" promptText="Username" styleClass="tf_box" stylesheets="@../css/FirstPage.css" HBox.hgrow="ALWAYS">
+            <TextField fx:id="username" promptText="Username" styleClass="tf_box" stylesheets="@../CSS/FirstPage.css" HBox.hgrow="ALWAYS">
                 <HBox.margin>
                     <Insets />
                 </HBox.margin>
@@ -38,9 +38,9 @@
             <Insets left="15.0" right="15.0" top="15.0" />
         </VBox.margin>
     </HBox>
-    <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="200.0" stylesheets="@../css/FirstPage.css">
+    <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="200.0" stylesheets="@../CSS/FirstPage.css">
         <children>
-            <PasswordField fx:id="password" prefHeight="27.0" prefWidth="446.0" promptText="Password" styleClass="tf_box" stylesheets="@../css/FirstPage.css" HBox.hgrow="ALWAYS">
+            <PasswordField fx:id="password" prefHeight="27.0" prefWidth="446.0" promptText="Password" styleClass="tf_box" stylesheets="@../CSS/FirstPage.css" HBox.hgrow="ALWAYS">
                 <HBox.margin>
                     <Insets />
                 </HBox.margin>
@@ -55,7 +55,7 @@
          <Insets top="20.0" />
       </opaqueInsets>
       <children>
-         <TextField fx:id="nickname" prefHeight="23.0" prefWidth="450.0" promptText="Nickname" styleClass="tf_box" stylesheets="@../css/FirstPage.css">
+         <TextField fx:id="nickname" prefHeight="23.0" prefWidth="450.0" promptText="Nickname" styleClass="tf_box" stylesheets="@../CSS/FirstPage.css">
             <padding>
                <Insets bottom="5.0" left="10.0" />
             </padding>

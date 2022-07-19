@@ -1,6 +1,6 @@
 package view.components.mapComponents.UserMapBuilder;
 
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import model.User;

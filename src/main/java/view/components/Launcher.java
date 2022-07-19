@@ -30,7 +30,7 @@
 //    private static Stage stage;
 //    @Override
 //    public void start(Stage primaryStage) throws Exception {
-//        Parent root = FXMLLoader.<AnchorPane>load(Objects.requireNonNull(getClass().getResource("/fxml/FirstPage.fxml")));
+//        Parent root = FXMLLoader.<AnchorPane>load(Objects.requireNonNull(getClass().getResource("/FXML/FirstPage.fxml")));
 //        stage = primaryStage;
 //        Launcher.root = root;
 //        Scene scene = new Scene(root);
@@ -70,7 +70,7 @@
 //    private static Parent loadFXML(String name){
 //        try {
 //            URL address = new URL(Objects.requireNonNull(
-//                    Launcher.class.getResource("/fxml/" + name + ".fxml")).toString());
+//                    Launcher.class.getResource("/FXML/" + name + ".fxml")).toString());
 //            return FXMLLoader.load(address);
 //        } catch (IOException e) {
 //            e.printStackTrace();

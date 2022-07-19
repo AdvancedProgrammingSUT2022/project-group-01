@@ -12,11 +12,13 @@ import javafx.scene.input.TouchEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
 import model.Map;
+import model.civilization.city.City;
 import model.map.SavedMap;
 import model.technology.TechnologyType;
 import model.tile.Terrain;
 import model.tile.Tile;
 import view.Main;
+import view.components.city.CityOverview;
 import view.components.gamePanelComponents.technologyPanel.TechnologyPopUp;
 
 import java.io.IOException;
@@ -35,6 +37,7 @@ public class GameMapController {
     double xComponent;
     double yComponent;
     private Vector<Pane> panels = new Vector<>();
+    private Object selectedObject;
     public GameMapController(GameMenuController gameMenuController) {
         this.gameMenuController = gameMenuController;
         initializeBackPane();
@@ -66,7 +69,7 @@ public class GameMapController {
         Tile centerTile = gameMenuController.getGame().getCurrentPlayer().getMapCenterTile();
         int mapSize = gameMenuController.getGame().getMap().getMapSize();
         centerTile = gameMenuController.getGame().getMap().getTile((mapSize - 1)/2, (mapSize - 1)/2);
-        MapTileComponent mapTileComponent = new MapTileComponent(centerTile);
+        MapTileComponent mapTileComponent = new MapTileComponent(centerTile,this);
         Pane pane = mapTileComponent.initialize();
         backPane.getChildren().add(pane);
         pane.setTranslateX(640);
@@ -81,7 +84,7 @@ public class GameMapController {
                     adjacent = map.getTile(centerTile.getPCoordinate() + p, centerTile.getQCoordinate() + q);
 
                 System.out.println((centerTile.getPCoordinate() + p) + "and" + (centerTile.getQCoordinate() + q));
-                MapTileComponent tileComponent = new MapTileComponent(adjacent);
+                MapTileComponent tileComponent = new MapTileComponent(adjacent,this);
                 Pane adjacentPane = tileComponent.initialize();
                 backPane.getChildren().add(adjacentPane);
                 int differX = -(p + q) * 165;
@@ -92,8 +95,11 @@ public class GameMapController {
         }
     }
 
-    private void updateTiles(){
-
+    public void update(){
+        background.getChildren().clear();
+        backPane = new Pane();
+        cheatPane = new Pane();
+        initializeBackPane();
     }
 
     private void movementKeyOperation(){
@@ -154,9 +160,26 @@ public class GameMapController {
 
 
     private void addPanels(){
-        TechnologyPopUp technologyPopUp = new TechnologyPopUp(background,this);
-        panels.add(technologyPopUp.getPane());
-        background.getChildren().add(technologyPopUp.getPane());
+        //TechnologyPopUp technologyPopUp = new TechnologyPopUp(background,this);
+        //panels.add(technologyPopUp.getPane());
+        //background.getChildren().add(technologyPopUp.getPane());
     }
+
+    public GameMenuController getGameMenuController(){
+        return this.gameMenuController;
+    }
+
+    public void setSelectedObject(Object o){
+        this.selectedObject = o;
+        //TODO update selected object actions
+        if(o instanceof City){
+            CityOverview overview = new CityOverview((City)o);
+            System.out.println("city got fucked?");
+            background.getChildren().add(overview);
+        }
+    }
+
+
+
 
 }

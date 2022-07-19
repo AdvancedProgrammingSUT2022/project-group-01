@@ -26,14 +26,10 @@ import model.unit.civilian.Settler;
 import model.unit.civilian.Worker;
 import utils.Commands;
 import utils.StringUtils;
+import view.components.GameInstantiateData;
+import view.components.mapComponents.GameMapController;
 
-import javax.xml.stream.events.StartDocument;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
 import java.util.HashMap;
-import java.util.Set;
 
 @Getter @Setter
 public class GameMenuController {
@@ -44,7 +40,7 @@ public class GameMenuController {
 	private final UnitController unitController;
 	private final WorkerController workerController;
 	private CityController cityController;
-
+	private UnitTestGui unitTestGui;
 	/**
 	 * @param
 	 */
@@ -55,6 +51,8 @@ public class GameMenuController {
 		this.cityController = cityController;
 		this.unitController = unitController;
 		this.workerController = workerController;
+//		UnitViewThread TRD = new UnitViewThread(game);
+//		TRD.start();
 	}
 
 	//SELECT:
@@ -75,6 +73,7 @@ public class GameMenuController {
 		} else {
 			return "invalid unit type, types are [armed, civilian]";
 		}
+		//UnitTestGui.instance.select();
 		return "unit selected";
 	}
 

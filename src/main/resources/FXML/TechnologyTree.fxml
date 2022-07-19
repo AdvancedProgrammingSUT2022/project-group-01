@@ -8,14 +8,14 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<Pane prefHeight="720.0" prefWidth="1280.0" fx:id="wholePane" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" style="-fx-background-image: url(asset/technology/background.JPG)" >
+<Pane prefHeight="720.0" prefWidth="1280.0" fx:id="wholePane" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/FXML/1" style="-fx-background-image: url(asset/technology/background.JPG)" >
    <children>
       <ScrollPane layoutY="-1.0" prefHeight="670.0" prefWidth="1280.0" fx:id="scrollPane">
          <content>
             <Pane fx:id="backPane" prefHeight="663.0" prefWidth="10280.0" />
          </content>
       </ScrollPane>
-      <TextField layoutX="640.0" layoutY="674.0" prefHeight="32.0" prefWidth="522.0" fx:id="techFinderText" styleClass="tf_box" stylesheets="@../css/FirstPage.css"/>
+      <TextField layoutX="640.0" layoutY="674.0" prefHeight="32.0" prefWidth="522.0" fx:id="techFinderText" styleClass="tf_box" stylesheets="@../CSS/FirstPage.css"/>
       <JFXButton buttonType="RAISED" layoutX="1180.0" layoutY="677.0" text="Search" >
          <font>
             <Font name="Apple SD Gothic Neo Regular" size="13.0" />

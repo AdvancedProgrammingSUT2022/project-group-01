@@ -3,7 +3,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Line?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="659.0" prefWidth="2325.0" stylesheets="@../css/TechnologyTree.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="659.0" prefWidth="2325.0" stylesheets="@../CSS/TechnologyTree.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/FXML/1">
     <Line endX="42.0" endY="13.0" layoutX="3924.0" layoutY="478.0" startX="-16.5" startY="-22.0" styleClass="line" />
     <Line endX="768.0" endY="-377.0" layoutX="3934.0" layoutY="488.0" startX="865.0" startY="-269.0" styleClass="line" />
     <Line endX="349.0" endY="4.0" layoutX="3934.0" layoutY="488.0" startX="862.0" startY="114.0" styleClass="line" />

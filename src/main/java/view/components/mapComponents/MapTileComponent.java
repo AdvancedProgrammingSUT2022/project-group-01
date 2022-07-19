@@ -8,12 +8,20 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 import model.map.SavedMap;
 import model.tile.Terrain;
 import model.tile.TerrainFeature;
 import model.tile.Tile;
 import view.components.ImagesAddress;
+import view.components.city.CityOverview;
+import view.components.popup.PopUp;
+import view.components.popup.PopUpStates;
+import view.components.unit.UnitView;
+
+import java.util.HashMap;
+import java.util.HashSet;
 
 
 public class MapTileComponent {
@@ -28,9 +36,13 @@ public class MapTileComponent {
     ImageView militaryUtil;
     ImageView civilianUtil;
     ImageView road;
+    UnitView armedUnit;
+    UnitView civilianUnit;
     ImageView citizen;
+    GameMapController gameMapController;
 
-    public MapTileComponent(Tile tile) {
+    public MapTileComponent(Tile tile,GameMapController gameMapController) {
+        this.gameMapController = gameMapController;
         savedMap = ProgramController.getGame().getCurrentPlayer().getSavedMap();
         this.tile = tile;
     }
@@ -42,16 +54,25 @@ public class MapTileComponent {
         addResources();
         addImprovement();
         visibilityVisualization();
+        //initCitizen();
+        initCity();
+        initRoad();
+        initRailRoad();
+        initUnits();
         mouseClicks();
         return pane;
     }
 
     private void mouseClicks(){
         pane.setOnMouseClicked(event -> {
-            if(backgroundShape.getStroke().equals(Color.rgb(255,239,40)))
-                backgroundShape.setStroke(Color.rgb(0,0,0,0));
-            else
-                backgroundShape.setStroke(Color.rgb(255,239,40));
+            if(tile.getCivilianUnit() == null) backgroundShape.setStroke(Color.RED);
+            else {
+                backgroundShape.setStroke(Color.rgb(0, 0, 0, 0));
+                //gameMapController.getGameMenuController().cheatNextTurn(new HashMap<>());
+                gameMapController.getGameMenuController().getGame().setSelectedObject(tile.getCivilianUnit());
+                gameMapController.getGameMenuController().unitFoundCity(new HashMap<>());
+                gameMapController.update();
+            }
 //            pane.setStyle("-fx-background-color: BLACK");
 //            pane.setOpacity(0.2);
         });
@@ -81,12 +102,35 @@ public class MapTileComponent {
         road.setTranslateY(10);
         pane.getChildren().add(road);
     }
+    private void initUnits(){
+        if(savedMap.getVisibilityState(tile) != Tile.VisibilityState.VISIBLE) return;
+        if(tile.getArmedUnit() != null){
+            armedUnit = new UnitView(tile.getArmedUnit(),pane);
+            armedUnit.setTranslateX(radius/2 - 20);
+            armedUnit.setTranslateY(radius / 2);
+            pane.getChildren().add(armedUnit);
+        }
+        if(tile.getCivilianUnit() != null){
+            civilianUnit = new UnitView(tile.getCivilianUnit(),pane);
+            civilianUnit.setTranslateX(radius);
+            civilianUnit.setTranslateY(radius / 2);
+            pane.getChildren().add(civilianUnit);
+        }
+    }
+
+    private void initCityClick(){
+
+    }
 
     private void initCity(){
+        if(savedMap.getVisibilityState(tile) != Tile.VisibilityState.VISIBLE) return;
         if(tile.getInnerCity() == null) return;
         ImageView city = new ImageView(ImagesAddress.CITY.getImage());
-        city.setTranslateX(radius);
-        city.setTranslateY(10);
+        city.setTranslateX(radius/2);
+        city.setTranslateY(radius/2);
+        city.setOnMouseClicked(e->{
+            gameMapController.setSelectedObject(tile.getInnerCity());
+        });
         pane.getChildren().add(city);
     }
     private Image getBackgroundImage() {

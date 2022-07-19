@@ -24,6 +24,8 @@ import model.Database;
 import model.Game;
 import model.User;
 import view.Main;
+import view.components.popup.PopUp;
+import view.components.popup.PopUpStates;
 
 
 import java.io.File;
@@ -140,7 +142,8 @@ public class FirstPageController {
         inputs.put("password",password.getText());
         String output = loginMenuController.login(inputs);
         if (output.startsWith("Username and password"))
-            AlertBox.display(loginPageTexts.USER_NOT_EXISTS);
+            //AlertBox.display(loginPageTexts.USER_NOT_EXISTS);
+            new PopUp().run(PopUpStates.OK,"username bird");
         else
             GUIController.changeMenu("PreMainMenu");
     }

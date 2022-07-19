@@ -9,9 +9,9 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<Pane prefHeight="720.0" prefWidth="1280.0" fx:id="root" style="-fx-background-color: #282828;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.components.preMainInMenus.ProfileMenuController">
+<Pane prefHeight="720.0" prefWidth="1280.0" fx:id="root" style="-fx-background-color: #282828;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/FXML/1" fx:controller="view.components.preMainInMenus.ProfileMenuController">
     <children>
-        <TextField fx:id="newUsername" layoutX="309.0" layoutY="312.0" prefHeight="35.0" prefWidth="294.0" promptText="New Username" styleClass="tf_box" stylesheets="@../css/FirstPage.css" />
+        <TextField fx:id="newUsername" layoutX="309.0" layoutY="312.0" prefHeight="35.0" prefWidth="294.0" promptText="New Username" styleClass="tf_box" stylesheets="@../CSS/FirstPage.css" />
         <Label layoutX="87.0" layoutY="319.0" text="Change Username:" textFill="#4eb4a9">
             <font>
                 <Font name="Euphemia UCAS" size="13.0" />
@@ -22,7 +22,7 @@
                 <Font name="Euphemia UCAS" size="13.0" />
             </font>
         </Label>
-        <TextField fx:id="newPassword" layoutX="313.0" layoutY="426.0" prefHeight="35.0" prefWidth="294.0" promptText="New Password" styleClass="tf_box" stylesheets="@../css/FirstPage.css" />
+        <TextField fx:id="newPassword" layoutX="313.0" layoutY="426.0" prefHeight="35.0" prefWidth="294.0" promptText="New Password" styleClass="tf_box" stylesheets="@../CSS/FirstPage.css" />
         <JFXButton layoutX="650.0" layoutY="314.0" onMouseClicked="#saveNewUsername" prefHeight="35.0" prefWidth="50.0" styleClass="blue-btn" text="Save" textFill="#4eb4a9">
             <font>
                 <Font name="AppleGothic Regular" size="13.0" />

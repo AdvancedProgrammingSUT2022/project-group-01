@@ -7,7 +7,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" style="-fx-background : transparent; -fx-background-color: transparent"  minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" style="-fx-background : transparent; -fx-background-color: transparent"  minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/FXML/1">
    <children>
       <Rectangle arcHeight="10.0" arcWidth="10.0" height="300.0" layoutX="-2.0" stroke="#e76363" strokeType="INSIDE" width="407.0" style="-fx-background-image: url(asset/gamePanels/cheat.JPG)"/>
       <TextField layoutX="16.0" layoutY="120.0" prefHeight="40.0" prefWidth="372.0" />

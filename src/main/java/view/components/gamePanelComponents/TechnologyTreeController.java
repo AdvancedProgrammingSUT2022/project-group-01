@@ -75,7 +75,7 @@ public class TechnologyTreeController {
         techFinderText.setLayoutY(674);
         techFinderText.setPrefHeight(32);
         techFinderText.setPrefWidth(522);
-        techFinderText.getStylesheets().add(Main.class.getResource("/css/FirstPage.css").toExternalForm());
+        techFinderText.getStylesheets().add(Main.class.getResource("/CSS/FirstPage.css").toExternalForm());
         techFinderText.getStyleClass().add("tf_box");
         wholePane.getChildren().add(techFinderText);
         searchButton = new JFXButton("Search");
@@ -150,7 +150,7 @@ public class TechnologyTreeController {
         scrollPane.setStyle("-fx-background-color: transparent");
         scrollPane.setStyle("-fx-background : transparent");
         backPane.setStyle("-fx-backgorund : transparent");
-        scrollPane.getStylesheets().add(String.valueOf(Main.class.getResource("/css/InvitationMenu.css")));
+        scrollPane.getStylesheets().add(String.valueOf(Main.class.getResource("/CSS/InvitationMenu.css")));
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
     }

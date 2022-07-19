@@ -55,7 +55,7 @@ public class TechnologyPanel {
     private void panesDesign(){
         scrollPane.setStyle("-fx-background: transparent");
         scrollPane.setStyle("-fx-background-color: transparent");
-        scrollPane.getStylesheets().add(String.valueOf(Main.class.getResource("/css/InvitationMenu.css")));
+        scrollPane.getStylesheets().add(String.valueOf(Main.class.getResource("/CSS/InvitationMenu.css")));
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         hBox.setStyle("-fx-background-color: transparent");
