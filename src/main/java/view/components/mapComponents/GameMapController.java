@@ -154,7 +154,7 @@ public class GameMapController {
 
 
     private void addPanels(){
-        TechnologyPopUp technologyPopUp = new TechnologyPopUp(background);
+        TechnologyPopUp technologyPopUp = new TechnologyPopUp(background,this);
         panels.add(technologyPopUp.getPane());
         background.getChildren().add(technologyPopUp.getPane());
     }

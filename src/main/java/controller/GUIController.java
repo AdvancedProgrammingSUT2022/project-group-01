@@ -100,12 +100,12 @@ public class GUIController extends Application {
 
     public static void changeMenuManually(Pane pane){
         root = pane;
-        Stage newStage = new Stage();
-        newStage.setScene(scene);
-        newStage.setResizable(false); // fixing the size
-        stage.close();
-        stage = newStage;
-        stage.show();
+        //Stage newStage = new Stage();
+        //newStage.setScene(scene);
+        //newStage.setResizable(false); // fixing the size
+        //stage.close();
+        //stage = newStage;
+        //stage.show();
         GUIController.scene.setRoot(root);
     }
 

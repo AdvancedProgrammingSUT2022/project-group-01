@@ -1,9 +1,12 @@
 package view.components.gamePanelComponents;
 
+import com.jfoenix.controls.JFXButton;
 import controller.GUIController;
+import controller.GameMenuController;
 import controller.ProgramController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
@@ -13,9 +16,13 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.StrokeType;
+import javafx.scene.text.Font;
 import model.technology.TechnologyType;
 import view.Main;
 import view.components.ImagesAddress;
+import view.components.mapComponents.GameMapController;
 
 import java.awt.*;
 import java.io.IOException;
@@ -25,20 +32,111 @@ import java.util.Locale;
 import java.util.Objects;
 
 public class TechnologyTreeController {
-    public Pane backPane;
-    public Pane wholePane;
-    public ScrollPane scrollPane;
-    public TextField techFinderText;
+    public Pane backPane = new Pane();
+    public Pane wholePane = new Pane();
+    public ScrollPane scrollPane = new ScrollPane();
+    public TextField techFinderText = new TextField();
+    private JFXButton searchButton = new JFXButton();
     private HashMap<TechnologyType,TechnologyItem> items = new HashMap<>();
     private HashMap<TechnologyType,Double> xCoordinates = new HashMap<>();
     private HashMap<TechnologyType,Double> yCoordinates = new HashMap<>();
+    private GameMapController gameMapController;
+    public TechnologyTreeController(GameMapController gameMapController) {
+        this.gameMapController = gameMapController;
+        initialize();
+    }
+
+    public Pane getRoot(){
+        return wholePane;
+    }
     public void initialize(){
         GUIController.setCursor();
+        initializeBasedOnFXML();
         initPaneFeatures();
         loadLines();
         positionMap();
         addAllTechnologies();
         backButton();
+    }
+
+
+    public void initializeBasedOnFXML(){
+        wholePane.setPrefHeight(720);
+        wholePane.setPrefWidth(1280);
+        wholePane.setStyle("-fx-background-image: url(asset/technology/background.JPG)");
+        scrollPane.setLayoutY(-1);
+        scrollPane.setPrefHeight(670);
+        scrollPane.setPrefWidth(1280);
+        backPane.setPrefHeight(663);
+        backPane.setPrefWidth(10280);
+        scrollPane.setContent(backPane);
+        wholePane.getChildren().add(scrollPane);
+        techFinderText.setLayoutX(640);
+        techFinderText.setLayoutY(674);
+        techFinderText.setPrefHeight(32);
+        techFinderText.setPrefWidth(522);
+        techFinderText.getStylesheets().add(Main.class.getResource("/css/FirstPage.css").toExternalForm());
+        techFinderText.getStyleClass().add("tf_box");
+        wholePane.getChildren().add(techFinderText);
+        searchButton = new JFXButton("Search");
+        searchButton.setButtonType(JFXButton.ButtonType.RAISED);
+        searchButton.setLayoutX(1180);
+        searchButton.setLayoutY(677);
+        searchButton.setOnMouseClicked(this::findTech);
+        searchButton.setFont(Font.font("Apple SD Gothic Neo Regular",13));
+        wholePane.getChildren().add(searchButton);
+        Rectangle rect1 = new Rectangle();
+        rect1.setArcHeight(5);
+        rect1.setArcWidth(5);
+        rect1.setFill(Color.rgb(25,218,80));
+        rect1.setHeight(20);
+        rect1.setLayoutX(14);
+        rect1.setLayoutY(680);
+        rect1.setStroke(Color.BLACK);
+        rect1.setStrokeType(StrokeType.INSIDE);
+        rect1.setWidth(19);
+        wholePane.getChildren().add(rect1);
+        Rectangle rect2 = new Rectangle();
+        rect2.setArcHeight(5);
+        rect2.setArcWidth(5);
+        rect2.setFill(Color.rgb(128,128,128,0.8));
+        rect2.setHeight(20);
+        rect2.setLayoutX(14);
+        rect2.setLayoutY(680);
+        rect2.setStroke(Color.BLACK);
+        rect2.setStrokeType(StrokeType.INSIDE);
+        rect2.setWidth(19);
+        wholePane.getChildren().add(rect2);
+        Rectangle rect3 = new Rectangle();
+        rect3.setArcHeight(5);
+        rect3.setArcWidth(5);
+        rect3.setFill(Color.rgb(231,99,99));
+        rect3.setHeight(20);
+        rect3.setLayoutX(219);
+        rect3.setLayoutY(680);
+        rect3.setStroke(Color.BLACK);
+        rect3.setStrokeType(StrokeType.INSIDE);
+        rect3.setWidth(19);
+        wholePane.getChildren().add(rect3);
+        Label searched = new Label();
+        searched.setLayoutX(40);
+        searched.setLayoutY(682);
+        searched.setText("Searched");
+        searched.setFont(Font.font("AppleGothic Regular",13));
+        wholePane.getChildren().add(searched);
+        Label elseLabel = new Label();
+        elseLabel.setLayoutX(249);
+        elseLabel.setLayoutY(682);
+        elseLabel.setText("else");
+        elseLabel.setFont(Font.font("AppleGothic Regular",13));
+        wholePane.getChildren().add(elseLabel);
+        Label searchable = new Label();
+        searchable.setLayoutX(40);
+        searchable.setLayoutY(682);
+        searchable.setText("Searchable");
+        searchable.setFont(Font.font("AppleGothic Regular",13));
+        wholePane.getChildren().add(searchable);
+
     }
 
     private void addAllTechnologies(){
@@ -196,9 +294,9 @@ public class TechnologyTreeController {
         ImageView backButton = new ImageView(ImagesAddress.BACK_BUTTON.getImage());
         backButton.setTranslateX(5);
         backButton.setTranslateY(5);
-//        backButton.setOnMouseClicked(e -> {
-//            GUIController.changeMenuManually();
-//        });
+        backButton.setOnMouseClicked(e -> {
+            GUIController.changeMenuManually(gameMapController.getBackPane());
+        });
         backPane.getChildren().add(backButton);
     }
 }

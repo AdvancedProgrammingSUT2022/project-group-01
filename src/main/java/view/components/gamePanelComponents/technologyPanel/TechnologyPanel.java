@@ -5,13 +5,17 @@ import controller.GUIController;
 import controller.ProgramController;
 import javafx.event.EventHandler;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import model.Player;
 import model.technology.TechnologyType;
 import view.Main;
+import view.components.ImagesAddress;
 import view.components.gamePanelComponents.TechnologyItem;
+import view.components.gamePanelComponents.TechnologyTreeController;
+import view.components.mapComponents.GameMapController;
 
 import java.util.Vector;
 
@@ -23,7 +27,9 @@ public class TechnologyPanel {
     private JFXButton technologyTreeButton = new JFXButton();
     private Vector<TechnologyItem> futureTechnologyItems = new Vector<>();
     private TechnologyItem currentTechnologyItem;
-    public TechnologyPanel() {
+    private GameMapController gameMapController;
+    public TechnologyPanel(GameMapController gameMapController) {
+        this.gameMapController = gameMapController;
         root.setPrefHeight(720);
         root.setPrefWidth(330);
         root.setStyle("-fx-background-color: rgba(35,33,33,0.93)");
@@ -39,6 +45,7 @@ public class TechnologyPanel {
         addCurrentTechnology();
         addFutureTechnologies();
         addTechnologyTreeButton();
+        closePanel();
     }
 
     public Pane getRoot() {
@@ -124,8 +131,18 @@ public class TechnologyPanel {
             technologyTreeButton.setStyle("-fx-background-color: rgb(77, 146, 215, 0.5)");
         });
         technologyTreeButton.setOnMouseClicked(e -> {
-            GUIController.changeMenu("TechnologyTree");
+            GUIController.changeMenuManually(new TechnologyTreeController(gameMapController).getRoot());
         });
         root.getChildren().add(technologyTreeButton);
+    }
+
+    private void closePanel(){
+        ImageView backButton = new ImageView(ImagesAddress.BACK_BUTTON.getImage());
+        backButton.setTranslateX(5);
+        backButton.setTranslateY(5);
+        backButton.setOnMouseClicked(e -> {
+            gameMapController.getBackPane().getChildren().remove(this.getRoot());
+        });
+        root.getChildren().add(backButton);
     }
 }

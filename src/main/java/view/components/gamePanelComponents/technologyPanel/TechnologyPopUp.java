@@ -12,6 +12,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 import view.components.ImagesAddress;
 import view.components.gamePanelComponents.TechnologyItem;
+import view.components.mapComponents.GameMapController;
 
 import java.util.Locale;
 
@@ -23,7 +24,9 @@ public class TechnologyPopUp {
     private Label name = new Label();
     private Label remainingScienceLabel = new Label();
     private Pane backPane;
-    public TechnologyPopUp(Pane backPane){
+    private GameMapController gameMapController;
+    public TechnologyPopUp(Pane backPane, GameMapController gameMapController){
+        this.gameMapController = gameMapController;
         this.backPane = backPane;
         setRectangles();
         setTechPicture();
@@ -84,7 +87,7 @@ public class TechnologyPopUp {
 
     private void openTechPanel(){
         techPicture.setOnMouseClicked(event -> {
-            TechnologyPanel panel = new TechnologyPanel();
+            TechnologyPanel panel = new TechnologyPanel(gameMapController);
             backPane.getChildren().add(panel.getRoot());
         });
     }

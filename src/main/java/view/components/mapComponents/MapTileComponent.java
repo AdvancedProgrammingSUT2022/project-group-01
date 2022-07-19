@@ -48,7 +48,10 @@ public class MapTileComponent {
 
     private void mouseClicks(){
         pane.setOnMouseClicked(event -> {
-            backgroundShape.setStroke(Color.rgb(100,101,255));
+            if(backgroundShape.getStroke().equals(Color.rgb(255,239,40)))
+                backgroundShape.setStroke(Color.rgb(0,0,0,0));
+            else
+                backgroundShape.setStroke(Color.rgb(255,239,40));
 //            pane.setStyle("-fx-background-color: BLACK");
 //            pane.setOpacity(0.2);
         });
