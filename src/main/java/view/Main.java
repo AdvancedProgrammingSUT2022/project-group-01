@@ -2,6 +2,7 @@ package view;
 
 import controller.*;
 import model.User;
+import model.technology.TechnologyType;
 
 
 public class Main {

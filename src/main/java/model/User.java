@@ -1,5 +1,7 @@
 package model;
 
+import controller.ProgramController;
+
 public class User {
 
     private String username;
@@ -28,6 +30,7 @@ public class User {
 
     public void setUsername(String newUsername) {
         this.username = newUsername;
+        ProgramController.getDatabase().save();
     }
 
     public String getPassword() {
@@ -39,6 +42,7 @@ public class User {
      */
     public void setPassword(String password) {
         this.password = password;
+        ProgramController.getDatabase().save();
     }
 
     public int getScore() {
@@ -50,6 +54,7 @@ public class User {
      */
     public void increaseScore(int score) {
         this.score = score;
+        ProgramController.getDatabase().save();
     }
 
     public String getNickname() {
@@ -61,6 +66,7 @@ public class User {
      */
     public void setNickname(String nickname) {
         this.nickname = nickname;
+        ProgramController.getDatabase().save();
     }
 
 
@@ -70,5 +76,6 @@ public class User {
 
     public void setAvatarUrl(String avatarUrl) {
         this.avatarUrl = avatarUrl;
+        ProgramController.getDatabase().save();
     }
 }

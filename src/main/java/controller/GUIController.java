@@ -3,17 +3,20 @@ package controller;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.ImageCursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import view.Main;
 import view.chatroom.SelectMemberDialog;
+import view.components.ImagesAddress;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -38,16 +41,20 @@ public class GUIController extends Application {
     public static void changeMenu(String name) {
         Parent root = loadFXML(name);
         if (!Objects.equals(name, "FirstPage")) {
-            Stage newStage = new Stage();
-            newStage.setScene(scene);
-            newStage.setResizable(false); // fixing the size
-            stage.close();
-            stage = newStage;
-            stage.show();
+            if(name.equals("PreMainMenu")) {
+                Stage newStage = new Stage();
+                newStage.setScene(scene);
+                newStage.setResizable(false); // fixing the size
+                stage.close();
+                stage = newStage;
+                stage.show();
+            }
         } else {
             Stage newStage = new Stage();
             newStage.setScene(scene);
             newStage.setResizable(false);
+            newStage.setHeight(720);
+            newStage.setWidth(1280);
             newStage.initStyle(StageStyle.TRANSPARENT); // special background of first page
             scene.setFill(Color.TRANSPARENT); // filling color
             stage.close();
@@ -72,26 +79,6 @@ public class GUIController extends Application {
         stage.close();
     }
 
-//    @Override
-//    public void start(Stage stage) {
-//        stage.setResizable(false);
-//        Scene scene;
-//        Button button = new Button("salam");
-//        button.setOnAction(actionEvent -> {
-//            new SelectMemberDialog().run();
-//        });
-//        FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/Chatroom.fxml"));
-//        try {
-//            BorderPane pane = loader.load();
-//            ((TabPane) pane.getCenter()).getTabs().get(0).setContent(button);
-//            scene = new Scene(pane);
-//            stage.setScene(scene);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//        stage.show();
-//    }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -109,5 +96,20 @@ public class GUIController extends Application {
 
     public void run() {
         launch();
+    }
+
+    public static void changeMenuManually(Pane pane){
+        root = pane;
+        Stage newStage = new Stage();
+        newStage.setScene(scene);
+        newStage.setResizable(false); // fixing the size
+        stage.close();
+        stage = newStage;
+        stage.show();
+        GUIController.scene.setRoot(root);
+    }
+
+    public static void setCursor(){
+        GUIController.getScene().setCursor(new ImageCursor(ImagesAddress.LIGHTSABER.getImage()));
     }
 }
