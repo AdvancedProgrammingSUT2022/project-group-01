@@ -291,6 +291,11 @@ public class GameMenu{
 			}, Commands.SHOW_PLAYER);
 			put(new CommandAction() {
 				public String action(HashMap<String, String> args) {
+					return controller.save(args);
+				}
+			}, Commands.SAVE);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
 					return controller.showTileInfo(args);
 				}
 			}, Commands.SHOW_TILE_INFO);

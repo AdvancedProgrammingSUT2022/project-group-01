@@ -1,5 +1,6 @@
 package controller;
 
+import com.thoughtworks.xstream.XStream;
 import controller.civilization.city.CityController;
 import controller.unit.UnitController;
 import controller.unit.WorkerController;
@@ -25,8 +26,12 @@ import model.unit.civilian.Civilian;
 import model.unit.civilian.Settler;
 import model.unit.civilian.Worker;
 import utils.Commands;
+import utils.StringCompressor;
 import utils.StringUtils;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 
 @Getter @Setter
@@ -772,5 +777,19 @@ public class GameMenuController {
 		City city = (City) game.getSelectedObject();
 		city.destroy();
 		return "boom!";
+	}
+
+	public String save(HashMap<String, String> args) {
+		XStream xstream = new XStream();
+		PrintWriter writer;
+		try {
+			writer = new PrintWriter("object.xml", StandardCharsets.UTF_8);
+		} catch (IOException e) {
+			return "IO Exception Occurred During Save";
+		}
+		xstream.setMode(XStream.ID_REFERENCES);
+		writer.print(StringCompressor.compress(xstream.toXML(game)));
+		writer.close();
+		return "Game Saved ! (I Hope ?)";
 	}
 }

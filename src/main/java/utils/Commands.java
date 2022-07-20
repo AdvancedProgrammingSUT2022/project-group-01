@@ -6,6 +6,7 @@ public enum Commands {
 
         //global
         SHOW_PLAYER("show player", null,null,0,null),
+        SAVE("save game", null,null,0,null),
         NEXT_TURN("next turn", null,null,0,null),
         //select
         SELECT_UNIT("select unit", new String[]{"position"}, null,1,null),
