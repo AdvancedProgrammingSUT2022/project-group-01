@@ -79,7 +79,11 @@ public enum ImagesAddress {
     RAILROAD("mapData/railroad",".png" ),
     CITY("mapData/city",".png" ),
     BACK_BUTTON("backButton",".png" ),
-    MAP_ICON("mapData/mapIcon",".png" );
+    MAP_ICON("mapData/mapIcon",".png" ),
+    //Tile Panel Pictures
+    TILE_PANEL_FOOD("gamePanels/food",".png" ),
+    TILE_PANEL_PRODUCTION("gamePanels/production",".png" ),
+    TILE_PANEL_GOLD("gamePanels/gold",".png" ), RIVER("tiles/river",".png" );
 
     private final String partA;
     private final String partB;

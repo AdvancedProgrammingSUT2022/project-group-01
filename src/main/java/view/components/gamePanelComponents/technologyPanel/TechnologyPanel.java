@@ -3,10 +3,8 @@ package view.components.gamePanelComponents.technologyPanel;
 import com.jfoenix.controls.JFXButton;
 import controller.GUIController;
 import controller.ProgramController;
-import javafx.event.EventHandler;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import model.Player;
@@ -141,7 +139,7 @@ public class TechnologyPanel {
         backButton.setTranslateX(5);
         backButton.setTranslateY(5);
         backButton.setOnMouseClicked(e -> {
-            gameMapController.getBackPane().getChildren().remove(this.getRoot());
+            gameMapController.getBackground().getChildren().remove(this.getRoot());
         });
         root.getChildren().add(backButton);
     }

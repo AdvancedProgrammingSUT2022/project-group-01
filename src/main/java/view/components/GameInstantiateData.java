@@ -89,7 +89,7 @@ public class GameInstantiateData {
         GameMenuController gameMenuController = new GameMenuController(game,gameController,cityController, unitController, workerController);
         ProgramController.setCurrentMenu(Menus.GAME_MENU);
         GameMapController gameMapController = new GameMapController(gameMenuController);
-        GUIController.changeMenuManually(gameMapController.getBackPane());
+        GUIController.changeMenuManually(gameMapController.getBackground());
     }
 
     public void startMapBuilder(){
@@ -130,7 +130,7 @@ public class GameInstantiateData {
                 }
             }
         }
-        GUIController.changeMenuManually(gameMapController.getBackPane());
+        GUIController.changeMenuManually(gameMapController.getBackground());
     }
 
     public void setMapSizeToPref(){

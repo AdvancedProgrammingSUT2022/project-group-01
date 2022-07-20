@@ -2,7 +2,6 @@ package view.components.gamePanelComponents;
 
 import com.jfoenix.controls.JFXButton;
 import controller.GUIController;
-import controller.GameMenuController;
 import controller.ProgramController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -10,7 +9,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -24,7 +22,6 @@ import view.Main;
 import view.components.ImagesAddress;
 import view.components.mapComponents.GameMapController;
 
-import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
@@ -295,7 +292,7 @@ public class TechnologyTreeController {
         backButton.setTranslateX(5);
         backButton.setTranslateY(5);
         backButton.setOnMouseClicked(e -> {
-            GUIController.changeMenuManually(gameMapController.getBackPane());
+            GUIController.changeMenuManually(gameMapController.getBackground());
         });
         backPane.getChildren().add(backButton);
     }

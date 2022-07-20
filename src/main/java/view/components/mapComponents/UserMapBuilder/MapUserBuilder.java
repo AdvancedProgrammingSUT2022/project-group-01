@@ -4,13 +4,9 @@ import com.jfoenix.controls.JFXButton;
 import controller.GUIController;
 import controller.GameMenuController;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
 import view.components.mapComponents.GameMapController;
-import view.components.mapComponents.UserMapBuilder.MapUserBuilderController;
-import view.components.mapComponents.UserMapBuilder.TileBuilderData;
 
 import java.util.HashSet;
 
@@ -70,7 +66,7 @@ public class MapUserBuilder {
     private void proceedToGame() {
         setMapToNewOne();
         GameMapController gameMapController = new GameMapController(gameMenuController);
-        GUIController.changeMenuManually(gameMapController.getBackPane());
+        GUIController.changeMenuManually(gameMapController.getBackground());
     }
 
     private void setMapToNewOne() {

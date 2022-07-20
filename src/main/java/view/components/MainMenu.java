@@ -20,6 +20,7 @@ import javafx.scene.text.Font;
 import javafx.util.Duration;
 import javafx.util.Pair;
 import view.components.MainMenuComponents.StartGameSettingMenu;
+import view.components.mapComponents.MapTileComponent;
 
 import java.awt.*;
 import java.util.Arrays;
@@ -73,6 +74,10 @@ public class MainMenu {
         scaleTransition.play();
         initInPane();
         setBackButton();
+
+        MapTileComponent.Hexagon a = new MapTileComponent.Hexagon(200,ImagesAddress.OCEAN.getImage());
+        root.getChildren().add(a.getPolygon());
+        a.getPolygon().setTranslateY(720);
     }
 
     private void addItem(double x,double y){
