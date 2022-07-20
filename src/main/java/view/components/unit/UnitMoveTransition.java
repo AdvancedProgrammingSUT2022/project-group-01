@@ -6,7 +6,7 @@ import javafx.util.Duration;
 public class UnitMoveTransition extends Transition {
     private UnitView unitView;
     private double baseX, baseY, destX, destY;
-    public UnitMoveTransition(UnitView unitView, int destX, int destY){
+    public UnitMoveTransition(UnitView unitView, double destX, double destY){
         this.unitView = unitView;
         setCycleCount(1);
         setCycleDuration(Duration.millis(500));

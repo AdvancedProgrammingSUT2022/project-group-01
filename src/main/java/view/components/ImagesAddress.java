@@ -83,7 +83,10 @@ public enum ImagesAddress {
     //Tile Panel Pictures
     TILE_PANEL_FOOD("gamePanels/food",".png" ),
     TILE_PANEL_PRODUCTION("gamePanels/production",".png" ),
-    TILE_PANEL_GOLD("gamePanels/gold",".png" ), RIVER("tiles/river",".png" );
+    TILE_PANEL_GOLD("gamePanels/gold",".png" ),
+    RIVER("tiles/river",".png" ),
+    CHEAT_BACKGROUND("gamePanels/cheat",".JPG" );
+
 
     private final String partA;
     private final String partB;

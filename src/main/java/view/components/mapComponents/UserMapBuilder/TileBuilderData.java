@@ -7,13 +7,14 @@ import javafx.scene.shape.Polygon;
 import model.resource.ResourceType;
 import model.tile.Terrain;
 import model.tile.TerrainFeature;
+import model.tile.Tile;
 import view.components.ImagesAddress;
 import view.components.mapComponents.MapTileComponent;
 
 
 public class TileBuilderData {
     Pane pane = new Pane();
-    private final double radius = 100;
+    private final double radius = 200;
     ImageView resource;
     Polygon backgroundShape;
     private TileReservedData tileReservedData = new TileReservedData();
@@ -31,6 +32,7 @@ public class TileBuilderData {
         backgroundShape = new MapTileComponent.Hexagon(radius, getBackImage()).getPolygon();
         pane.getChildren().add(backgroundShape);
         addResourceImage();
+        addRivers();
     }
 
     public Image getBackImage(){
@@ -174,6 +176,60 @@ public class TileBuilderData {
         resource.setTranslateY(radius * 1.5);
         resource.maxHeight(32);
         resource.maxWidth(32);
+    }
+
+    private void addRivers(){
+        if(tileReservedData.getRivers()[0]){
+            ImageView river = new ImageView(ImagesAddress.RIVER.getImage());
+            pane.getChildren().add(river);
+            river.setTranslateX(50);
+            river.setTranslateY(0);
+        }
+        if(tileReservedData.getRivers()[3]){
+            ImageView river = new ImageView(ImagesAddress.RIVER.getImage());
+            pane.getChildren().add(river);
+            river.setTranslateX(70);
+            river.setRotate(180);
+            river.setTranslateY(2*radius - 50);
+            river.maxHeight(10);
+            river.maxWidth(32);
+        }
+        if(tileReservedData.getRivers()[1]){
+            ImageView river = new ImageView(ImagesAddress.RIVER.getImage());
+            pane.getChildren().add(river);
+            river.setRotate(60);
+            river.setTranslateX(radius + 25);
+            river.setTranslateY(radius/2 - 10);
+            river.maxHeight(32);
+            river.maxWidth(10);
+        }
+        if(tileReservedData.getRivers()[2]){
+            ImageView river = new ImageView(ImagesAddress.RIVER.getImage());
+            pane.getChildren().add(river);
+            river.setRotate(120);
+            river.setTranslateX(radius + 20);
+            river.setTranslateY(3*radius/2 - 25);
+            river.maxHeight(32);
+            river.maxWidth(10);
+        }
+        if(tileReservedData.getRivers()[4]){
+            ImageView river = new ImageView(ImagesAddress.RIVER.getImage());
+            pane.getChildren().add(river);
+            river.setRotate(240);
+            river.setTranslateX(-70);
+            river.setTranslateY(3 *radius/2 - 25);
+            river.maxHeight(10);
+            river.maxWidth(32);
+        }
+        if(tileReservedData.getRivers()[5]){
+            ImageView river = new ImageView(ImagesAddress.RIVER.getImage());
+            pane.getChildren().add(river);
+            river.setRotate(300);
+            river.setTranslateX(-80);
+            river.setTranslateY(radius/2 - 10);
+            river.maxHeight(32);
+            river.maxWidth(10);
+        }
     }
     private Image getBackgroundImage() {
         return ImagesAddress.FOG_OF_WAR.getImage();

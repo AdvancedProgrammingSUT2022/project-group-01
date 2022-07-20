@@ -37,6 +37,11 @@ public class TilePopUp {
     }
 
     private void addNameLabels(){
+        Label number = new Label();
+        number.setTextFill(Color.rgb(61,58,51));
+        number.setText(tile.getMapNumber() + "->(" + tile.getPCoordinate() + "," + tile.getQCoordinate() + ")");
+        number.setLayoutX(14);
+        number.setLayoutY(10);
         Label terrain = new Label();
         terrain.setTextFill(Color.rgb(61,58,51));
         if(tile.getTerrain() != null) {
@@ -71,7 +76,7 @@ public class TilePopUp {
         resource.setLayoutY(116);
         resource.setPrefHeight(17);
         resource.setPrefWidth(130);
-        root.getChildren().addAll(terrain, feature, resource);
+        root.getChildren().addAll(terrain, feature, resource, number);
     }
 
     private void addTerrainLabels(){

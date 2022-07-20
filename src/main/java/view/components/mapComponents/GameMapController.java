@@ -68,6 +68,7 @@ public class GameMapController {
     }
 
     private void showTiles(){
+        gameMenuController.getMapController().updateCurrentPlayersMap();
         SavedMap savedMap = gameMenuController.getGame().getCurrentPlayer().getSavedMap();
         Map map = gameMenuController.getGame().getMap();
         Tile centerTile = gameMenuController.getGame().getCurrentPlayer().getMapCenterTile();
@@ -87,7 +88,6 @@ public class GameMapController {
                 else
                     adjacent = map.getTile(centerTile.getPCoordinate() + p, centerTile.getQCoordinate() + q);
 
-                System.out.println((centerTile.getPCoordinate() + p) + "and" + (centerTile.getQCoordinate() + q));
                 MapTileComponent tileComponent = new MapTileComponent(adjacent,this);
                 mapTiles[centerTile.getPCoordinate() + p][centerTile.getQCoordinate() + q] = tileComponent;
                 Pane adjacentPane = tileComponent.initialize();
@@ -105,32 +105,15 @@ public class GameMapController {
         backPane.requestFocus();
         showTiles();
         backPane.getChildren().addAll(mapTempPanes);
+        statusBar.update();
     }
 
     private void movementKeyOperation(){
         GUIController.getScene().setOnKeyPressed(event -> {
-            pressedKeys.add(event.getCode());
-            System.out.println(event.getCode().getName());
-            cheatActivate();
+            if(event.getCode().equals(KeyCode.F) && event.isShiftDown())
+                new CheatPage(this);
         });
-        GUIController.getScene().setOnKeyReleased(event -> {
-            pressedKeys.remove(event.getCode());
-        });
-    }
-    private void cheatActivate(){
-        if(pressedKeys.contains(KeyCode.SHIFT) && pressedKeys.contains(KeyCode.F)){
-            System.out.println("FUCK");
-            try {
-                URL address = new URL(Objects.requireNonNull(
-                        Main.class.getResource("/FXML/CheatBox.fxml")).toString());
-                cheatPane = FXMLLoader.load(address);
-                cheatPane.setTranslateX(600);
-                cheatPane.setTranslateY(200);
-                background.getChildren().add(cheatPane);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+
     }
 
     private void setMapMovementActions(){
@@ -198,19 +181,35 @@ public class GameMapController {
         for(Pane p : panels){
             background.getChildren().remove(p);
         }
+        panels.clear();
         for(Pane p : mapTempPanes){
             backPane.getChildren().remove(p);
         }
+        mapTempPanes.clear();
     }
 
     public void addPaneToPanels(Pane pane){
+        if(panels.contains(pane)) return;
         panels.add(pane);
+        if(background.getChildren().contains(pane)) return;
         background.getChildren().add(pane);
+    }
+
+    public void removePaneFromPanels(Pane pane){
+        panels.remove(pane);
+        background.getChildren().remove(pane);
     }
 
     public void addPanelToBackPane(Pane pane){
         mapTempPanes.add(pane);
         backPane.getChildren().add(pane);
+    }
+
+    public void clearBackPanePanels(){
+        for(Pane p : mapTempPanes){
+            backPane.getChildren().remove(p);
+        }
+        mapTempPanes.clear();
     }
 
     public MapTileComponent getTileComponentInMap(int p, int q){

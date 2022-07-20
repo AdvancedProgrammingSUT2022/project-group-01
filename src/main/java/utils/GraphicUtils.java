@@ -7,7 +7,6 @@ import view.Main;
 public class GraphicUtils {
 
     public static ImagePattern getImage(String path){
-        System.out.println(GraphicUtils.class.getResource("../asset/popup").toExternalForm());
         return new ImagePattern(new Image(GraphicUtils.class.getResource("../asset" + path).toExternalForm()));
     }
 

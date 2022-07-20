@@ -111,6 +111,9 @@ public class GUIController extends Application {
     }
 
     public static void setCursor(){
-        GUIController.getScene().setCursor(new ImageCursor(ImagesAddress.LIGHTSABER.getImage()));
+        GUIController.getScene().setOnMouseEntered(event -> {
+            GUIController.getScene().setCursor(new ImageCursor(ImagesAddress.LIGHTSABER.getImage()));
+        });
+        //GUIController.getScene().setCursor(new ImageCursor(ImagesAddress.LIGHTSABER.getImage()));
     }
 }

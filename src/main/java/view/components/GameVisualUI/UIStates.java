@@ -21,5 +21,13 @@ public enum UIStates {
     UNIT_BUILD_RAILROAD,
     REPAIR,
     REMOVE,
-    NONE
+    CAMP,
+    FARM,
+    MINE,
+    TRADING_POST,
+    LUMBER_MILL,
+    PASTURE,
+    PLANTATION,
+    QUARRY,
+    UNIT_SETUP, MANUFACTORY, NONE
 }

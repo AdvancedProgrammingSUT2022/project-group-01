@@ -76,23 +76,23 @@ public class UnitTestGui extends Application {
     }
 
     public void select() {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    UnitTestGui.this.unit = (Unit) game.getSelectedObject();
-                    UnitView unitView = new UnitView(unit,pane);
-                    UnitActionsPanel unitActionsPanel = new UnitActionsPanel(unitView);
-                    unitActionsPanel.setLayoutX(300);
-                    unitActionsPanel.setLayoutY(200);
-                    pane.getChildren().add(unitActionsPanel);
-                } catch (Exception e) {
-                    System.out.println("game: " + game);
-                    System.out.println("selected: " + game.getSelectedObject());
-                    e.printStackTrace();
-                }
-            }
-        });
+//        Platform.runLater(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    UnitTestGui.this.unit = (Unit) game.getSelectedObject();
+//                    UnitView unitView = new UnitView(unit,pane);
+//                    UnitActionsPanel unitActionsPanel = new UnitActionsPanel(unitView);
+//                    unitActionsPanel.setLayoutX(300);
+//                    unitActionsPanel.setLayoutY(200);
+//                    pane.getChildren().add(unitActionsPanel);
+//                } catch (Exception e) {
+//                    System.out.println("game: " + game);
+//                    System.out.println("selected: " + game.getSelectedObject());
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
     }
 
     public void addCityOverview() {

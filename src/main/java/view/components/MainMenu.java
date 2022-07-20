@@ -75,9 +75,6 @@ public class MainMenu {
         initInPane();
         setBackButton();
 
-        MapTileComponent.Hexagon a = new MapTileComponent.Hexagon(200,ImagesAddress.OCEAN.getImage());
-        root.getChildren().add(a.getPolygon());
-        a.getPolygon().setTranslateY(720);
     }
 
     private void addItem(double x,double y){
@@ -92,7 +89,6 @@ public class MainMenu {
                 toolTipShower(data.getKey(),29,210);
             });
             item.setOnMouseExited(e -> {
-                //toolTipPane.setVisible(false);
                 root.getChildren().remove(toolTipPane);
             });
             Rectangle clip = new Rectangle(300,30);

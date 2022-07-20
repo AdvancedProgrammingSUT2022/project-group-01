@@ -50,7 +50,6 @@ public class StartGameSettingMenu {
         setPlayersLabel();
         setMapSizeLabel();
         setMapSizeRecommendation();
-        //setPlayersList();
         setMapSizeNumber();
         setNumberChangeImages();
         setStartGameButton();

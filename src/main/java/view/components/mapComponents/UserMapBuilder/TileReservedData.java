@@ -8,6 +8,7 @@ public class TileReservedData {
     private Terrain terrain;
     private TerrainFeature feature;
     private ResourceType resourceType;
+    private boolean[] rivers = new boolean[6];
 
     public Terrain getTerrain() {
         return terrain;
@@ -31,5 +32,13 @@ public class TileReservedData {
 
     public void setResourceType(ResourceType resourceType) {
         this.resourceType = resourceType;
+    }
+
+    public boolean[] getRivers() {
+        return rivers;
+    }
+
+    public void setRiver(int i){
+        rivers[i] = true;
     }
 }

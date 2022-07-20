@@ -5,10 +5,6 @@ import utils.Commands;
 
 import java.util.*;
 
-interface CommandAction{
-	String action(HashMap<String, String> args);
-}
-
 public abstract class Menu {
 
 	private final static Scanner scanner = new Scanner(System.in);

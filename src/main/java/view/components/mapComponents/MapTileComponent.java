@@ -5,12 +5,14 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
+import lombok.Getter;
 import model.map.SavedMap;
 import model.tile.Terrain;
 import model.tile.TerrainFeature;
@@ -30,16 +32,14 @@ import java.util.HashSet;
 
 
 public class MapTileComponent {
+    @Getter
     private final double radius = 200;
     Pane pane;
     SavedMap savedMap;
     Tile tile;
     Polygon backgroundShape;
-    ImageView building;
     ImageView resource;
     ImageView improvement;
-    ImageView militaryUtil;
-    ImageView civilianUtil;
     ImageView road;
     UnitView armedUnit;
     UnitView civilianUnit;
@@ -71,24 +71,10 @@ public class MapTileComponent {
 
     private void mouseClicks(){
         pane.setOnMouseClicked(event -> {
-            tile.getBoarder(0).setRiver();
-    if(event.isShiftDown()) {
-        System.out.println("hmmmm?");
-        gameMapController.destroyTemporaryPanels();
-        Pane tilePopUp = new TilePopUp(tile).getRoot();
-        gameMapController.addPanelToBackPane(tilePopUp);
-        tilePopUp.setTranslateX(pane.getTranslateX());
-        tilePopUp.setTranslateY(pane.getTranslateY());
-        tilePopUp.setOnMouseClicked(event1 -> {
-            gameMapController.destroyTemporaryPanels();
+            if(event.getButton().equals(MouseButton.PRIMARY))
+                if(event.isShiftDown())
+                    gameMapController.getUiStatesController().addObjectByJob(new Pair<>(this,WorkingObjectType.TILE));
         });
-    }else if(event.isAltDown()){
-        gameMapController.getUiStatesController().addObjectByJob(new Pair<>(this,WorkingObjectType.CIVILIAN_UNIT));
-        gameMapController.getUiStatesController().setCurrentState(UIStates.UNIT_FOUND_CITY);
-    }
-
-        });
-
     }
 
     private void initCitizen(){
@@ -120,13 +106,14 @@ public class MapTileComponent {
     private void initUnits(){
         if(savedMap.getVisibilityState(tile) != Tile.VisibilityState.VISIBLE) return;
         if(tile.getArmedUnit() != null){
-            armedUnit = new UnitView(tile.getArmedUnit(),pane);
-            armedUnit.setTranslateX(radius/2 - 20);
+            armedUnit = new UnitView(tile.getArmedUnit(),pane,this);
+            armedUnit.setTranslateX(radius/2 );
             armedUnit.setTranslateY(radius / 2);
             pane.getChildren().add(armedUnit);
+            System.out.println("armed unit here motha fuckers");
         }
         if(tile.getCivilianUnit() != null){
-            civilianUnit = new UnitView(tile.getCivilianUnit(),pane);
+            civilianUnit = new UnitView(tile.getCivilianUnit(),pane,this);
             civilianUnit.setTranslateX(radius);
             civilianUnit.setTranslateY(radius / 2);
             pane.getChildren().add(civilianUnit);
@@ -418,11 +405,36 @@ public class MapTileComponent {
         else
             backgroundShape.setStroke(Color.rgb(255,252,10,0.7));
     }
+
+    public Pane getPane() {
+        return pane;
+    }
+
+    public UnitView getArmedUnit() {
+        return armedUnit;
+    }
+
+    public void setArmedUnit(UnitView armedUnit) {
+        this.armedUnit = armedUnit;
+    }
+
+    public UnitView getCivilianUnit() {
+        return civilianUnit;
+    }
+
+    public void setCivilianUnit(UnitView civilianUnit) {
+        this.civilianUnit = civilianUnit;
+    }
+
     private void deHighlight(){
         backgroundShape.setStroke(Color.SANDYBROWN);
     }
     public Tile getTile(){
         return tile;
+    }
+
+    public GameMapController getGameMapController() {
+        return gameMapController;
     }
 
     public static class Hexagon {
@@ -439,7 +451,7 @@ public class MapTileComponent {
             polygon.setStroke(Color.WHITESMOKE);
             polygon.setStrokeWidth(20);
             //polygon.setStroke(new ImagePattern(ImagesAddress.OCEAN.getImage()));
-            polygon.setStroke(Color.SANDYBROWN);
+            polygon.setStroke(Color.rgb(185,175,163));
             polygon.setStrokeType(StrokeType.OUTSIDE);
             for (int i = 0; i < 6; i++) {
                 double angle = radian * i;

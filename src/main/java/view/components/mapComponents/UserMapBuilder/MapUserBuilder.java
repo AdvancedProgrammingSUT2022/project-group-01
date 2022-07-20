@@ -6,6 +6,7 @@ import controller.GameMenuController;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
+import model.tile.Tile;
 import view.components.mapComponents.GameMapController;
 
 import java.util.HashSet;
@@ -77,6 +78,21 @@ public class MapUserBuilder {
                 gameMenuController.getGame().getMap().getTile(i,j).setTerrain(preBuiltMap.getTiles()[i][j].getTerrain());
                 gameMenuController.getGame().getMap().getTile(i,j).setFeature(preBuiltMap.getTiles()[i][j].getFeature());
                 gameMenuController.getGame().getMap().getTile(i,j).setAvailableResource(preBuiltMap.getTiles()[i][j].getResourceType());
+                for(int k = 0; k < 6; k++){
+                    Tile otherSide;
+                    if(preBuiltMap.getTiles()[i][j].getRivers()[k])
+                        gameMenuController.getGame().getMap().getTile(i,j).getBoarder(k).setRiver();
+                    else if((otherSide = gameMenuController.getGame().getMap().getTile(i,j).getBoarder(k).getOtherTile(gameMenuController.getGame().getMap().getTile(i,j))) != null){
+                        int correspondingK = k - 3;
+                        if(correspondingK < 0) correspondingK = k + 3;
+                        if(preBuiltMap.getTiles()[otherSide.getPCoordinate()][otherSide.getQCoordinate()].getRivers()[correspondingK])
+                            gameMenuController.getGame().getMap().getTile(i,j).getBoarder(k).setRiver();
+                    }
+                    else
+                        gameMenuController.getGame().getMap().getTile(i,j).getBoarder(k).destroyRiver();
+
+
+                }
             }
         }
     }
@@ -97,8 +113,8 @@ public class MapUserBuilder {
                     controller = new MapUserBuilderController(background,tileBuilderData).getRoot();
                 });
                 backPane.getChildren().add(tilePane);
-                int differX = -(p + q) * 165;
-                int differY = (q - p) * 95;
+                int differX = -(p + q) * 330;
+                int differY = (q - p) * 190;
                 tilePane.setTranslateX(640 + differX);
                 tilePane.setTranslateY(340 + differY);
             }

@@ -81,7 +81,29 @@ public class MapUserBuilderController {
             button.setOnAction(e -> {
                 tileBuilderData.getTileReservedData().setResourceType(t);
                 tileBuilderData.UpdatePane();
-                close();
+                openRiverList();
+            });
+            list.getChildren().add(button);
+        }
+        JFXButton next = new JFXButton("skip");
+        next.setTextFill(Color.WHITESMOKE);
+        list.getChildren().add(next);
+        next.setOnAction(e -> {
+            tileBuilderData.getTileReservedData().setResourceType(null);
+            tileBuilderData.UpdatePane();
+            openRiverList();
+        });
+    }
+
+    private void openRiverList(){
+        list.getChildren().clear();
+        for(int i = 0; i < 6; i++){
+            JFXButton button = new JFXButton(i + "");
+            button.setTextFill(Color.WHITESMOKE);
+            button.setOnAction(e -> {
+                tileBuilderData.getTileReservedData().setRiver(Integer.parseInt(button.getText()));
+                tileBuilderData.UpdatePane();
+                openRiverList();
             });
             list.getChildren().add(button);
         }
@@ -89,7 +111,6 @@ public class MapUserBuilderController {
         next.setTextFill(Color.WHITESMOKE);
         list.getChildren().add(next);
         next.setOnAction(e -> {
-            tileBuilderData.getTileReservedData().setResourceType(null);
             tileBuilderData.UpdatePane();
             close();
         });
