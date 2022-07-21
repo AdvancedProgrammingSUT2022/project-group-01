@@ -1,5 +1,6 @@
 package view.components.city.productionpanel;
 
+import com.jfoenix.controls.JFXTabPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
@@ -15,16 +16,15 @@ import model.unit.UnitType;
 
 import java.util.Vector;
 
-public class ProductionPanel extends TabPane {
+public class ProductionPanel extends JFXTabPane {
     private final Tab productionTab = new Tab();
     private final Tab purchaseTab = new Tab();
     private final ScrollPane productionPane = new ScrollPane();
     private final ScrollPane purchasePane = new ScrollPane();
     private final City city;
-    private final int width = 500;
+    private final int width = 300;
 
     public ProductionPanel(City city) {
-        BuildingType x = BuildingType.ARMORY;//just for compiling BuildingTypeEnum
         this.city = city;
         init();
     }
@@ -50,23 +50,26 @@ public class ProductionPanel extends TabPane {
         for (Producible producible : allItems) {
             if (producible instanceof UnitType)
                 allUnits.add((UnitType) producible);
-            else
+            else if (!city.getBuildingInventory().hasBuilding((BuildingType) producible))
                 allBuildings.add((BuildingType) producible);
         }
         for (Producible producible : items) {
             if (producible instanceof UnitType)
                 units.add((UnitType) producible);
-            else
+            else if(!city.getBuildingInventory().hasBuilding((BuildingType)producible))
                 buildings.add((BuildingType) producible);
         }
-        initProductionTab(units,buildings);
+        initProductionTab(units, buildings);
         initPurchaseTab(allUnits, allBuildings);
     }
 
-    private void initProductionTab(Vector<UnitType> units, Vector<BuildingType> buildings){
+    private void initProductionTab(Vector<UnitType> units, Vector<BuildingType> buildings) {
         productionTab.setContent(productionPane);
         productionTab.setText("Production");
-        productionPane.setContent(newPaneContent(units,buildings,true));
+        productionPane.setContent(newPaneContent(units, buildings, true));
+        productionPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        productionPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        productionPane.fitToHeightProperty();
         this.getTabs().add(productionTab);
     }
 
@@ -74,6 +77,9 @@ public class ProductionPanel extends TabPane {
         purchaseTab.setContent(purchasePane);
         purchaseTab.setText("Purchase");
         purchasePane.setContent(newPaneContent(units, buildings, false));
+        purchasePane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        purchasePane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        productionPane.fitToHeightProperty();
         this.getTabs().add(purchaseTab);
     }
 
@@ -100,12 +106,12 @@ public class ProductionPanel extends TabPane {
         vBox.getChildren().add(newTitleBox("Units"));
         for (UnitType unitType : units) {
             String cost = (isProducing ? (city.getCurrency().getProduct() > 0 ? String.valueOf(Math.ceil(unitType.getCost(city) / city.getCurrency().getProduct())) : ("Infinity")) : String.valueOf(unitType.getCost(city)));
-            vBox.getChildren().add(new ProductionRow(unitType,isProducing,cost));
+            vBox.getChildren().add(new ProductionRow(unitType, isProducing, cost, city));
         }
         vBox.getChildren().add(newTitleBox("Buildings"));
         for (BuildingType building : buildings) {
             String cost = (isProducing ? (city.getCurrency().getProduct() > 0 ? String.valueOf(Math.ceil(building.getCost(city) / city.getCurrency().getProduct())) : ("Infinity")) : String.valueOf(building.getCost(city)));
-            vBox.getChildren().add(new ProductionRow(building,isProducing,cost));
+            vBox.getChildren().add(new ProductionRow(building, isProducing, cost, city));
         }
         return vBox;
     }

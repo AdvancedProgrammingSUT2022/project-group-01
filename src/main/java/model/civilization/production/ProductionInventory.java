@@ -2,6 +2,7 @@ package model.civilization.production;
 
 import model.Notification;
 import model.civilization.Civilization;
+import model.civilization.Currency;
 import model.civilization.city.City;
 
 import java.util.*;
@@ -62,7 +63,15 @@ public class ProductionInventory {
 		currentProduction = null;
 	}
 
-
+	public int getRemainedTurns(){
+		if(currentProduction == null)
+			return 0;	
+		Currency currency = city.getCurrency();
+		if(currency.getProduct() == 0)
+			return 999999;
+		else
+			return (int)Math.ceil(productions.get(currentProduction)/currency.getProduct());
+	}
 
 
 }

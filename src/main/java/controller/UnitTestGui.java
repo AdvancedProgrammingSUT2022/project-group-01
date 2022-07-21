@@ -13,6 +13,7 @@ import lombok.Getter;
 import model.Game;
 import model.civilization.city.City;
 import model.unit.Unit;
+import view.components.StatusBar;
 import view.components.city.CityOverview;
 import view.components.city.productionpanel.ProductionPanel;
 import view.components.popup.PopUp;
@@ -45,12 +46,14 @@ public class UnitTestGui extends Application {
     public void initialize(Stage stage) {
         this.stage = stage;
         stage.setResizable(false);
-        stage.setWidth(700);
+        stage.setWidth(1280);
         stage.setHeight(500);
         Scene scene = new Scene(pane);
         stage.setScene(scene);
         initBtn();
+        addCivBanner();
     }
+
 
     public void initBtn() {
         Button btn = new Button("select unit");
@@ -115,6 +118,18 @@ public class UnitTestGui extends Application {
                 pp.setLayoutX(120);
                 pp.setLayoutY(120);
                 pane.getChildren().add(pp);
+            }
+        });
+    }
+
+    public void addCivBanner() {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                StatusBar sb = new StatusBar(game.getCurrentPlayer().getCivilization());
+                sb.setTranslateX(0);
+                sb.setTranslateY(0);
+                pane.getChildren().add(sb);
             }
         });
     }

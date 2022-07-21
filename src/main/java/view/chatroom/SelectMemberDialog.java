@@ -26,13 +26,16 @@ import java.util.ArrayList;
 
 @Getter
 public class SelectMemberDialog extends Application {
-    private BorderPane borderPane = new BorderPane();
-    private Scene scene = new Scene(borderPane);
+    private BorderPane borderPane;
+    private Scene scene;
     private Stage stage;
     private VBox container = new VBox();
     private VBox usersList = new VBox();
     private ArrayList<User> selectedUsers = new ArrayList<>();
     public void run(){
+        this.borderPane = new BorderPane();
+        System.out.println(borderPane);
+        scene = new Scene(borderPane);
         try {
             start(new Stage());
         }catch(Exception e){

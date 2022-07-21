@@ -1,5 +1,6 @@
 package controller;
 
+import model.building.BuildingType;
 import model.improvement.ImprovementType;
 import model.resource.ResourceType;
 import model.technology.TechnologyType;
@@ -21,6 +22,9 @@ public class TileController extends Controller {
         }
         for (ImprovementType improvementType : ImprovementType.values()) {
             improvementType.initializeVectors();
+        }
+        for (BuildingType buildingType : BuildingType.values()){
+            buildingType.initializeEnum();
         }
     }
 

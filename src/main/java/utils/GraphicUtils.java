@@ -12,4 +12,5 @@ public class GraphicUtils {
     public static String getResourcePath(String path){
         return GraphicUtils.class.getResource(path).toExternalForm();
     }
+
 }

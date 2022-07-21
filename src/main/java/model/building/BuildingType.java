@@ -315,35 +315,14 @@ public enum BuildingType implements Producible{
 		addToProductions();
 	}
 
-	/**
-	 * 
-	 * @param player
-	 * @param city
-	 */
 	public void effect(Player player, City city) {
-		// TODO - implement BuildingType.effect
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * 
-	 * @param player
-	 * @param city
-	 */
-	public boolean isEligibleToBuild(Player player, City city) {
-		// TODO - implement BuildingType.isEligibleToBuild
-		throw new UnsupportedOperationException();
-	}
-
-	public int getProductionTime(Civilization civilization, City city){
-		//TODO override in each enum literal
-		return 0;
+		// implementing by overriding
 	}
 
 
 	@Override
 	public void produce(City city) {
-
+		city.getBuildingInventory().ownBuilding(this);
 	}
 
 	@Override
@@ -353,11 +332,15 @@ public enum BuildingType implements Producible{
 
 	@Override
 	public int getCost(City city) {
-		return 0;
+		return this.cost;
 	}
 
 	@Override
 	public String toString() {
 		return this.name();
+	}
+
+	public void initializeEnum() {
+
 	}
 }
