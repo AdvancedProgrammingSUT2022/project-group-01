@@ -1,13 +1,16 @@
 package view.components;
 
+import com.jfoenix.controls.JFXTooltip;
 import controller.GUIController;
 import controller.ProgramController;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
+import javafx.event.EventDispatchChain;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -19,6 +22,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
 import javafx.util.Pair;
+import utils.StringUtils;
 import view.components.MainMenuComponents.StartGameSettingMenu;
 import view.components.mapComponents.MapTileComponent;
 
@@ -85,16 +89,13 @@ public class MainMenu {
             item.setTranslateX(-300);
             item.setOnAction(data.getValue()
             );
-            item.setOnMouseEntered(e -> {
-                toolTipShower(data.getKey(),29,210);
-            });
-            item.setOnMouseExited(e -> {
-                root.getChildren().remove(toolTipPane);
-            });
+//
             Rectangle clip = new Rectangle(300,30);
             clip.translateXProperty().bind(item.translateXProperty().negate());
             item.setClip(clip);
             menuBox.getChildren().add(item);
+            Tooltip t = new Tooltip(toolTipText(item));
+            Tooltip.install(item,t);
         });
         root.getChildren().add(menuBox);
     }
@@ -122,27 +123,14 @@ public class MainMenu {
         inData.getChildren().addAll(p.getChildren());
     }
 
-    private void toolTipShower(String item, double x, double y){
-        toolTipPane = new Pane();
-        toolTipPane.setPrefWidth(250);
-        toolTipPane.setPrefHeight(30);
-        toolTipPane.setStyle("-fx-border-width: 10; -fx-border-color: black; -fx-border-radius: 10");
-        toolTipPane.setStyle("-fx-background-color: rgba(38,35,37,0.8)");
-        Label description = new Label();
-        if(item.equals("Invite Others"))
-            description.setText("Invite others to play with you");
-        else if(item.equals("Start Game"))
-            description.setText("Start a game with your friends");
-        else
-            description.setText("Fuck Off");
-        description.setFont(Font.font("Verdana",10));
-        description.setTextFill(Color.rgb(224,58,127));
-        toolTipPane.getChildren().add(description);
-        toolTipPane.setTranslateX(x + 100);
-        toolTipPane.setTranslateY(y);
-        root.getChildren().add(toolTipPane);
+    private String toolTipText(MainMenuItem item){
+        if(item.getText().equals("Start Game")){
+            return "set the game saving,players,map size and play";
+        }else if(item.getText().equals("Invite Others")){
+            return "invite other players to play with you";
+        }
+        return "";
     }
-
     private void setBackButton(){
         ImageView backButton = new ImageView(ImagesAddress.BACK_BUTTON.getImage());
         backButton.setTranslateX(5);

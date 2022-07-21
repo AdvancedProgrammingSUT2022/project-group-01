@@ -33,7 +33,7 @@ public class City {
 	private double productCurrencyFactor = 0;
 	private ProductionInventory productionInventory;
 	private CityState state;
-	private BuildingInventory buildingInventory;//TODO: merge with parham
+	private BuildingInventory buildingInventory;
 	private Tile center;
 	private final Vector<Tile> tiles;
 	private double defencePower;
@@ -57,7 +57,6 @@ public class City {
 		this.name = name;
 		this.center = center;
 		tiles = new Vector<>();
-		this.productionInventory = new ProductionInventory(this);
 		tiles.add(center);
 		tiles.addAll(center.getAdjacentTiles());
 		nextTiles = new Vector<>();
@@ -71,8 +70,8 @@ public class City {
 		}
 		this.productionInventory = new ProductionInventory(this);
 		this.state = CityState.NORMAL;
-
 		this.health = cityMaxHealth;
+		this.buildingInventory = new BuildingInventory(this);
 
 	}
 
@@ -109,11 +108,6 @@ public class City {
 
 	public Civilization getCivilization(){
 		return this.civilization;
-	}
-
-
-	public ProductionInventory getProductionInventory() {
-		return this.productionInventory;
 	}
 
 	public void setNewProduction(Producible producible) {

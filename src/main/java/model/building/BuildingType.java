@@ -168,7 +168,7 @@ public enum BuildingType implements Producible{
 		public boolean isProducible(City city){
 			return city.getBuildingInventory().getOwnedBuildings().contains(LIBRARY);
 		}
-		@Override 
+		@Override
 		public void effect(Player player, City city){
 			city.setBeakerFactor(city.getBeakerFactor() + 0.5);
 		}
@@ -184,7 +184,7 @@ public enum BuildingType implements Producible{
 		public boolean isProducible(City city){
 			return city.getBuildingInventory().getOwnedBuildings().contains(MARKET);
 		}
-		@Override 
+		@Override
 		public void effect(Player player, City city){
 			city.setProductCurrencyFactor(city.getProductCurrencyFactor() + 0.25);
 		}
@@ -205,7 +205,7 @@ public enum BuildingType implements Producible{
 		@Override
 		public boolean isProducible(City city){
 			return city.getBuildingInventory().getOwnedBuildings().contains(TEMPLE) &&
-			city.getBuildingInventory().getOwnedBuildings().contains(BURIAL_TOMB);
+					city.getBuildingInventory().getOwnedBuildings().contains(BURIAL_TOMB);
 		}
 	},
 	PUBLIC_SCHOOL(350,3,TechnologyType.SCIENTIFIC_THEORY, new Vector<>()){
@@ -213,7 +213,7 @@ public enum BuildingType implements Producible{
 		public boolean isProducible(City city){
 			return city.getBuildingInventory().getOwnedBuildings().contains(UNIVERSITY);
 		}
-		@Override 
+		@Override
 		public void effect(Player player, City city){
 			city.setBeakerFactor(city.getBeakerFactor() + 0.5);
 		}
@@ -223,7 +223,7 @@ public enum BuildingType implements Producible{
 		public boolean isProducible(City city){
 			return city.getBuildingInventory().getOwnedBuildings().contains(MARKET);
 		}
-		@Override 
+		@Override
 		public void effect(Player player, City city){
 			city.setGoldCurrencyFactor(city.getGoldCurrencyFactor() + 0.25);
 			city.getCivilization().setHappinessBase(city.getCivilization().getHappinessBase() + 2);
@@ -234,7 +234,7 @@ public enum BuildingType implements Producible{
 		public boolean isProducible(City city){
 			return city.getBuildingInventory().getOwnedBuildings().contains(COLOSSEUM);
 		}
-		@Override 
+		@Override
 		public void effect(Player player, City city){
 			city.getCivilization().setHappinessBase(city.getCivilization().getHappinessBase() + 4);
 		}
@@ -244,7 +244,7 @@ public enum BuildingType implements Producible{
 		public boolean isProducible(City city){
 			return city.getCenterTile().getTerrain() != Terrain.HILLS;
 		}
-		@Override 
+		@Override
 		public void effect(Player player, City city){
 			city.setProductCurrencyFactor(city.getProductCurrencyFactor() + 0.15);
 		}
@@ -254,7 +254,7 @@ public enum BuildingType implements Producible{
 		public boolean isProducible(City city){
 			return city.getBuildingInventory().getOwnedBuildings().contains(MILITARY_ACADEMY);
 		}
-		@Override 
+		@Override
 		public void effect(Player player, City city){
 			city.setProductCurrencyFactor(city.getProductCurrencyFactor() + 0.2);
 		}
@@ -268,13 +268,13 @@ public enum BuildingType implements Producible{
 	FACTORY(300,3,TechnologyType.STEAM_POWER, new Vector<>() {{
 		add(ResourceType.COAL);
 	}}){
-		@Override 
+		@Override
 		public void effect(Player player, City city){
 			city.setProductCurrencyFactor(city.getProductCurrencyFactor() + 0.5);
 		}
 	},
 	HOSPITAL(400,2,TechnologyType.BIOLOGY,new Vector<>()){
-		@Override 
+		@Override
 		public void effect(Player player, City city){
 			city.setFoodCurrencyFactor(city.getFoodCurrencyFactor() - 0.5);
 		}
@@ -284,7 +284,7 @@ public enum BuildingType implements Producible{
 		public boolean isProducible(City city){
 			return city.getBuildingInventory().getOwnedBuildings().contains(CASTLE);
 		}
-		@Override 
+		@Override
 		public void effect(Player player, City city){
 			city.increaseDefencePower(12);
 		}
@@ -293,9 +293,9 @@ public enum BuildingType implements Producible{
 		@Override
 		public boolean isProducible(City city){
 			return city.getBuildingInventory().getOwnedBuildings().contains(BANK) ||
-			city.getBuildingInventory().getOwnedBuildings().contains(SATRAPS_COURT);
+					city.getBuildingInventory().getOwnedBuildings().contains(SATRAPS_COURT);
 		}
-		@Override 
+		@Override
 		public void effect(Player player, City city){
 			city.setGoldCurrencyFactor(city.getGoldCurrencyFactor() + 0.33);
 		}
@@ -315,35 +315,14 @@ public enum BuildingType implements Producible{
 		addToProductions();
 	}
 
-	/**
-	 * 
-	 * @param player
-	 * @param city
-	 */
 	public void effect(Player player, City city) {
-		// TODO - implement BuildingType.effect
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * 
-	 * @param player
-	 * @param city
-	 */
-	public boolean isEligibleToBuild(Player player, City city) {
-		// TODO - implement BuildingType.isEligibleToBuild
-		throw new UnsupportedOperationException();
-	}
-
-	public int getProductionTime(Civilization civilization, City city){
-		//TODO override in each enum literal
-		return 0;
+		// implementing by overriding
 	}
 
 
 	@Override
 	public void produce(City city) {
-
+		city.getBuildingInventory().ownBuilding(this);
 	}
 
 	@Override
@@ -353,11 +332,15 @@ public enum BuildingType implements Producible{
 
 	@Override
 	public int getCost(City city) {
-		return 0;
+		return this.cost;
 	}
 
 	@Override
 	public String toString() {
 		return this.name();
+	}
+
+	public void initializeEnum() {
+
 	}
 }

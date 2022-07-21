@@ -85,7 +85,24 @@ public enum ImagesAddress {
     TILE_PANEL_PRODUCTION("gamePanels/production",".png" ),
     TILE_PANEL_GOLD("gamePanels/gold",".png" ),
     RIVER("tiles/river",".png" ),
-    CHEAT_BACKGROUND("gamePanels/cheat",".JPG" );
+    CHEAT_BACKGROUND("gamePanels/cheat",".JPG" ),
+    HEX("tiles/hex",".png" ),
+    NEXT_TURN("mapData/nextTurn",".png"),
+    ROUND_NEXT_TURN("mapData/roundNextTurn",".png"),
+    ROUND_NEXT_TURN_SHINE("mapData/roundNextTurnShine",".png"),
+    //info
+    INFO_BACK("info/infoBack",".png"),
+    BLUE_BUTTON("info/blueButton",".png"),
+    CITY_IN_CITY_PANEL("info/cityInCityPanel",".png"),
+    SHIELD_CITY_INFO("info/shield",".png"),
+    CITY_LIST_INFO_ICON("info/cityListInfoIcon",".png"),
+    SIDE_LOG("info/sideLog",".png" ),
+    CITY_PANEL("info/cityPanel",".png" ),
+    INFO_CLOSE("info/close",".png" ),
+    GRAY_BUTTON("info/grayButton",".png" ),
+    BLUE_HEX("info/blueHex",".png" ),
+    DEMOGRAPHIC_INFO_ICON("info/demographicInfoIcon",".png" ),
+    BUY_TILE("mapData/buyTile",".png" );
 
 
     private final String partA;

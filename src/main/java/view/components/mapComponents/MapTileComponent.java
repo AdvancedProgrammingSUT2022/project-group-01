@@ -44,6 +44,7 @@ public class MapTileComponent {
     UnitView armedUnit;
     UnitView civilianUnit;
     ImageView citizen;
+    ImageView buyTile;
     GameMapController gameMapController;
 
     public MapTileComponent(Tile tile,GameMapController gameMapController) {
@@ -77,37 +78,66 @@ public class MapTileComponent {
         });
     }
 
-    private void initCitizen(){
+    public void initCitizen(){
         if(tile.getCivilization() == null) return;
         if(!tile.getCivilization().equals(ProgramController.getGame().getCurrentPlayer().getCivilization())) return;
         citizen = new ImageView(ImagesAddress.CITIZEN.getImage());
-        citizen.setTranslateX(radius);
-        citizen.setTranslateY(20);
+        citizen.setTranslateX(radius - 40);
+        citizen.setTranslateY(30);
         citizen.setEffect(new DropShadow(5, Color.BLACK));
-        //TODO : click on citizen
+        if(tile.getPeopleInside().isEmpty())
+            citizen.setOpacity(0.4);
+        citizen.setOnMouseClicked(event -> {
+            if(event.getButton().equals(MouseButton.PRIMARY)){
+                citizen.setOpacity(1);
+            }
+
+        });
         pane.getChildren().add(citizen);
+    }
+
+    public void initTileBuy(){
+        if(tile.getCivilization() != null) return;
+        buyTile = new ImageView(ImagesAddress.BUY_TILE.getImage());
+        buyTile = new ImageView(ImagesAddress.CITIZEN.getImage());
+        System.out.println("gODL NOT PRINTEd");
+        buyTile.setTranslateX(radius - 40);
+        buyTile.setTranslateY(40);
+        buyTile.setEffect(new DropShadow(5, Color.BLACK));
+        buyTile.setOnMouseClicked(event -> {
+            if(event.getButton().equals(MouseButton.PRIMARY)){
+                HashMap<String,String> data = new HashMap<>();
+                data.put("index",String.valueOf(tile.getMapNumber()));
+                new PopUp().run(PopUpStates.OK,gameMapController.getGameMenuController().purchaseTile(data));
+                gameMapController.update();
+            }
+        });
+        pane.getChildren().add(buyTile);
+
     }
 
     private void initRoad(){
         if(!tile.doesHaveRoad()) return;
+        if(!savedMap.getVisibilityState(tile).equals(Tile.VisibilityState.VISIBLE)) return;
         road = new ImageView(ImagesAddress.ROAD.getImage());
-        road.setTranslateX(radius);
-        road.setTranslateY(10);
+        road.setTranslateX(radius - 20);
+        road.setTranslateY(40);
         pane.getChildren().add(road);
     }
 
     private void initRailRoad(){
         if(!tile.doesHaveRailRoad()) return;
+        if(!savedMap.getVisibilityState(tile).equals(Tile.VisibilityState.VISIBLE)) return;
         road = new ImageView(ImagesAddress.RAILROAD.getImage());
-        road.setTranslateX(radius);
-        road.setTranslateY(10);
+        road.setTranslateX(radius + 20);
+        road.setTranslateY(40);
         pane.getChildren().add(road);
     }
     private void initUnits(){
         if(savedMap.getVisibilityState(tile) != Tile.VisibilityState.VISIBLE) return;
         if(tile.getArmedUnit() != null){
             armedUnit = new UnitView(tile.getArmedUnit(),pane,this);
-            armedUnit.setTranslateX(radius/2 );
+            armedUnit.setTranslateX(radius/2 - 20);
             armedUnit.setTranslateY(radius / 2);
             pane.getChildren().add(armedUnit);
             System.out.println("armed unit here motha fuckers");
@@ -232,6 +262,8 @@ public class MapTileComponent {
                 polygon.getPoints().add(Math.cos(angle) * radius / 1.1);
                 polygon.getPoints().add(Math.sin(angle) * radius / 1.1);
             }
+            polygon.setTranslateX(radius);
+            polygon.setTranslateY(radius);
             pane.getChildren().add(polygon);
         } else if (savedMap.getVisibilityState(tile).equals(Tile.VisibilityState.FOG_OF_WAR)) {
             pane.getChildren().add(new Hexagon(radius, ImagesAddress.FOG_OF_WAR.getImage()).getPolygon());
@@ -336,10 +368,12 @@ public class MapTileComponent {
             case PLANTATION:
                 improvement = new ImageView(ImagesAddress.IMPROVEMENT_PLANTATION.getImage());
                 break;
+            default:
+                return;
         }
         pane.getChildren().add(improvement);
-        improvement.setTranslateX(-24);
-        improvement.setTranslateY(0);
+        improvement.setTranslateX(radius);
+        improvement.setTranslateY(10);
         improvement.maxWidth(48);
         improvement.maxHeight(48);
     }
@@ -399,7 +433,7 @@ public class MapTileComponent {
         }
     }
 
-    private void highlight(int i ){
+    public void highlight(int i){
         if(i == 1)
             backgroundShape.setStroke(Color.rgb(51,255,159,0.7));
         else

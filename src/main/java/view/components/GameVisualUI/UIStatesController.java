@@ -3,7 +3,7 @@ package view.components.GameVisualUI;
 import controller.GameMenuController;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
-import model.civilization.city.City;
+import model.tile.Tile;
 import utils.Pair;
 import view.components.city.CityOverview;
 import view.components.gamePanelComponents.TilePopUp;
@@ -92,6 +92,7 @@ public class UIStatesController {
         if(currentState.equals(UIStates.NONE)){
             if(newClick.getSecond().equals(WorkingObjectType.CITY)){
                 reset();
+                selectCity(newClick);
                 currentState = UIStates.CITY_INFO;
                 showCityPanel(newClick);
             }
@@ -148,6 +149,13 @@ public class UIStatesController {
         else
             savedClicks.get(0).getFirst().getCivilianUnit().move(destination.getFirst());
         reset();
+    }
+
+    private void selectCity(Pair<MapTileComponent,WorkingObjectType> city) {
+        savedClicks.add(city);
+        HashMap<String,String> data = new HashMap<>();
+        data.put("position",String.valueOf(city.getFirst().getTile().getMapNumber()));
+        gameMapController.getGameMenuController().selectCity(data);
     }
 
     private void selectUnit(Pair<MapTileComponent,WorkingObjectType> origin){
@@ -262,12 +270,12 @@ public class UIStatesController {
     }
 
     private void buildRoad(){
-        gameMenuController.buildRoad(new HashMap<>());
+        new PopUp().run(PopUpStates.OK,gameMenuController.buildRoad(new HashMap<>()));
         reset();
     }
 
     private void buildRailRoad(){
-        gameMenuController.buildRail(new HashMap<>());
+        new PopUp().run(PopUpStates.OK,gameMenuController.buildRail(new HashMap<>()));
         reset();
     }
 
@@ -280,6 +288,14 @@ public class UIStatesController {
         overview.setOnMouseClicked(event -> {
             gameMapController.removePaneFromPanels(overview);
         });
+        for(Pair<Tile, Integer> p : newClick.getFirst().getTile().getOwnerCity().getPurchasableTiles()){
+            gameMapController.getTileComponentInMap(p.getFirst().getPCoordinate(), p.getFirst().getQCoordinate()).highlight(2);
+            gameMapController.getTileComponentInMap(p.getFirst().getPCoordinate(),p.getFirst().getQCoordinate()).initTileBuy();
+        }
+        for(Tile t : newClick.getFirst().getTile().getOwnerCity().getTiles()){
+            gameMapController.getTileComponentInMap(t.getPCoordinate(),t.getQCoordinate()).initCitizen();
+            gameMapController.getTileComponentInMap(t.getPCoordinate(),t.getQCoordinate()).highlight(1);
+        }
     }
 
     private void showTileInfoPopUp(Pair<MapTileComponent, WorkingObjectType> newClick){
@@ -297,64 +313,64 @@ public class UIStatesController {
     private void buildFarm() {
         HashMap<String, String> data = new HashMap<>();
         data.put("name","farm");
-        gameMenuController.buildImprovement(data);
+        new PopUp().run(PopUpStates.OK,gameMenuController.buildImprovement(data));
         reset();
     }
 
     private void buildCamp() {
         HashMap<String, String> data = new HashMap<>();
         data.put("name","camp");
-        gameMenuController.buildImprovement(data);
+        new PopUp().run(PopUpStates.OK,gameMenuController.buildImprovement(data));
         reset();
     }
     private void buildMine() {
         HashMap<String, String> data = new HashMap<>();
         data.put("name","mine");
-        gameMenuController.buildImprovement(data);
+        new PopUp().run(PopUpStates.OK,gameMenuController.buildImprovement(data));
         reset();
     }
     private void buildTradingPost() {
         HashMap<String, String> data = new HashMap<>();
         data.put("name","trading_post");
-        gameMenuController.buildImprovement(data);
+        new PopUp().run(PopUpStates.OK,gameMenuController.buildImprovement(data));
         reset();
     }
     private void buildLumberMill() {
         HashMap<String, String> data = new HashMap<>();
         data.put("name","lumber_mill");
-        gameMenuController.buildImprovement(data);
+        new PopUp().run(PopUpStates.OK,gameMenuController.buildImprovement(data));
         reset();
     }
     private void buildPasture() {
         HashMap<String, String> data = new HashMap<>();
         data.put("name","pasture");
-        gameMenuController.buildImprovement(data);
+        new PopUp().run(PopUpStates.OK,gameMenuController.buildImprovement(data));
         reset();
     }
     private void buildPlantation() {
         HashMap<String, String> data = new HashMap<>();
         data.put("name","plantation");
-        gameMenuController.buildImprovement(data);
+        new PopUp().run(PopUpStates.OK,gameMenuController.buildImprovement(data));
         reset();
     }
     private void buildQuarry() {
         HashMap<String, String> data = new HashMap<>();
         data.put("name","quarry");
-        gameMenuController.buildImprovement(data);
+        new PopUp().run(PopUpStates.OK,gameMenuController.buildImprovement(data));
         reset();
     }
 
     private void buildManufactory() {
         HashMap<String, String> data = new HashMap<>();
         data.put("name","manufactory");
-        gameMenuController.buildImprovement(data);
+        new PopUp().run(PopUpStates.OK,gameMenuController.buildImprovement(data));
         reset();
     }
 
     private void unitSetup() {
         HashMap<String, String> data = new HashMap<>();
         data.put("name","farm");
-        gameMenuController.buildImprovement(data);
+        new PopUp().run(PopUpStates.OK,gameMenuController.buildImprovement(data));
         reset();
     }
 

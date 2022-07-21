@@ -3,21 +3,31 @@ package view.components.mapComponents;
 import controller.GUIController;
 import controller.GameMenuController;
 import controller.ProgramController;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
+import javafx.util.Duration;
 import model.Map;
 import model.map.SavedMap;
 import model.technology.TechnologyType;
 import model.tile.Tile;
 import view.Main;
 import view.components.GameVisualUI.UIStatesController;
+import view.components.ImagesAddress;
 import view.components.StatusBar;
 import view.components.gamePanelComponents.TilePopUp;
+import view.components.infoPanels.CityListPanel;
+import view.components.infoPanels.SideLog;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Vector;
@@ -35,6 +45,7 @@ public class GameMapController {
     double paneLastY;
     double paneLastScaleX;
     private StatusBar statusBar;
+    private boolean nextTurnSituation;
     double paneLastScaleY;
     private Vector<Pane> panels = new Vector<>();
     private Vector<Pane> mapTempPanes = new Vector<>();
@@ -61,6 +72,8 @@ public class GameMapController {
         ProgramController.getGame().getCurrentPlayer().getCivilization().getResearchTree().research(TechnologyType.AGRICULTURE);
         addPanels();
         backPane.requestFocus();
+        addNextTurnButton();
+        addSideMenu();
     }
 
     public Pane getBackground() {
@@ -214,5 +227,48 @@ public class GameMapController {
 
     public MapTileComponent getTileComponentInMap(int p, int q){
         return mapTiles[p][q];
+    }
+
+    private void addNextTurnButton(){
+        ImageView around = new ImageView();
+        around.setFitHeight(148);
+        around.setFitWidth(148);
+        around.setLayoutX(1107);
+        around.setLayoutY(560);
+        around.setPickOnBounds(true);
+        around.setPreserveRatio(true);
+        around.setImage(ImagesAddress.ROUND_NEXT_TURN.getImage());
+        ImageView nextTurn = new ImageView();
+        nextTurn.setImage(ImagesAddress.NEXT_TURN.getImage());
+        nextTurn.setFitHeight(64);
+        nextTurn.setFitWidth(57);
+        nextTurn.setLayoutX(1155);
+        nextTurn.setLayoutY(600);
+        nextTurn.setPickOnBounds(true);
+        nextTurn.setPreserveRatio(true);
+        nextTurn.setOnMouseClicked(event -> {
+            if(event.getButton() == MouseButton.PRIMARY) {
+                gameMenuController.nextTurn(new HashMap<>());
+                update();
+            }
+        });
+        background.getChildren().add(around);
+        background.getChildren().add(nextTurn);
+        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(200), event -> {
+            if(nextTurnSituation) {
+                around.setImage(ImagesAddress.ROUND_NEXT_TURN_SHINE.getImage());
+                nextTurnSituation = false;
+            }
+            else {
+                around.setImage(ImagesAddress.ROUND_NEXT_TURN.getImage());
+                nextTurnSituation = true;
+            }
+        }));
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
+    }
+
+    private void addSideMenu(){
+        new SideLog(background,this);
     }
 }

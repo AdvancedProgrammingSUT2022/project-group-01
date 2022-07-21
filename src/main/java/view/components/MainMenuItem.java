@@ -38,4 +38,7 @@ public class MainMenuItem extends Pane {
         setOnMouseClicked(e -> action.run());
     }
 
+    public String getText() {
+        return text.getText();
+    }
 }
