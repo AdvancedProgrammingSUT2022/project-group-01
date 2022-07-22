@@ -65,7 +65,7 @@ public class GUIController extends Application {
         GUIController.scene.setRoot(root);
     }
 
-    private static Parent loadFXML(String name) {
+    public static Parent loadFXML(String name) {
         try {
             URL address = new URL(Objects.requireNonNull(
                     Main.class.getResource("/FXML/" + name + ".fxml")).toString());

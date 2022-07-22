@@ -19,6 +19,7 @@ import javafx.util.Pair;
 import view.components.GameInstantiateData;
 import view.components.ImagesAddress;
 import view.components.MainMenuItem;
+import view.components.preMainInMenus.FriendShipController;
 
 import java.util.Arrays;
 import java.util.List;
@@ -32,9 +33,14 @@ public class PreMainMenu {
             new Pair<String,Runnable>("Game Menu",()->{runGameMenu();}),
             new Pair<String,Runnable>("Score Board",()->{runScoreBoard();}),
             new Pair<String,Runnable>("Profile Menu",()->{runProfileMenu();}),
+            new Pair<String,Runnable>("Friends Menu",()->{runFriendsMenu();}),
             new Pair<String,Runnable>("Logout",()->{logout();})
 
     );
+
+    private void runFriendsMenu() {
+        GUIController.changeMenuManually(new FriendShipController(ProgramController.getLoggedInUser()).getRoot());
+    }
 
     private void runGameMenu() {
         GUIController.changeMenu("MainMenu");

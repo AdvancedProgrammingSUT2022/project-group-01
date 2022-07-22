@@ -102,7 +102,11 @@ public enum ImagesAddress {
     GRAY_BUTTON("info/grayButton",".png" ),
     BLUE_HEX("info/blueHex",".png" ),
     DEMOGRAPHIC_INFO_ICON("info/demographicInfoIcon",".png" ),
-    BUY_TILE("mapData/buyTile",".png" );
+    BUY_TILE("mapData/buyTile",".png" ),
+    FRIENDS_SEARCH_BUTTON("other/magnifier",".png" ),
+    FRIEND_REQUEST("other/friendRequest",".png" ),
+    CIRCLE_RING("other/ring",".png" ),
+    FRIEND_ITEM("other/quest",".png");
 
 
     private final String partA;

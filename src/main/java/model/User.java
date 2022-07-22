@@ -2,6 +2,7 @@ package model;
 
 import controller.ProgramController;
 
+import java.util.Map;
 import java.util.Vector;
 
 public class User {
@@ -12,7 +13,8 @@ public class User {
     private int score;
     private String nickname;
     private String avatarUrl;
-
+    private Vector<String> friends = new Vector<>();
+    private Vector<String> friendshipRequests = new Vector<>();
     /**
      * @param username user's username
      * @param password user's password
@@ -79,5 +81,38 @@ public class User {
     public void setAvatarUrl(String avatarUrl) {
         this.avatarUrl = avatarUrl;
         ProgramController.getDatabase().save();
+    }
+
+    public void addFriend(User user){
+        this.friendshipRequests.remove(user.username);
+        if(!friends.contains(user.username))
+            this.friends.add(user.username);
+        ProgramController.getDatabase().save();
+    }
+
+    public void addRequest(User user){
+        for(String request : this.friendshipRequests){
+            if(request.equals(user.username))
+                return;
+        }
+        friendshipRequests.add(user.username);
+        ProgramController.getDatabase().save();
+    }
+
+    public void removeRequest(User user){
+        friendshipRequests.remove(user.username);
+        ProgramController.getDatabase().save();
+    }
+
+    public Vector<String> getFriendshipRequests() {
+        return friendshipRequests;
+    }
+
+    public boolean hasUserAsFriend(User user){
+        return friends.contains(user.username);
+    }
+
+    public Vector<String> getFriends() {
+        return friends;
     }
 }
