@@ -9,10 +9,12 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 import lombok.Getter;
+import model.civilization.Person;
 import model.map.SavedMap;
 import model.tile.Terrain;
 import model.tile.TerrainFeature;
@@ -85,29 +87,54 @@ public class MapTileComponent {
         citizen.setTranslateX(radius - 40);
         citizen.setTranslateY(30);
         citizen.setEffect(new DropShadow(5, Color.BLACK));
+        System.out.println("in here citizen");
         if(tile.getPeopleInside().isEmpty())
             citizen.setOpacity(0.4);
         citizen.setOnMouseClicked(event -> {
             if(event.getButton().equals(MouseButton.PRIMARY)){
-                citizen.setOpacity(1);
+                if(tile.getPeopleInside().isEmpty()){
+                    for(int j = 0; j < tile.getOwnerCity().getPopulation().size(); j++){
+                        if(tile.getOwnerCity().getPopulation().get(j).getTile() == null){
+                            HashMap<String,String> data = new HashMap<>();
+                            data.put("position",String.valueOf(tile.getMapNumber()));
+                            data.put("index",String.valueOf(j + 1));
+                            new PopUp().run(PopUpStates.OK,gameMapController.getGameMenuController().setTileForPopulation(data));
+                            citizen.setOpacity(1);
+                            break;
+                        }
+                    }
+                }else{
+                    HashMap<String,String> data = new HashMap<>();
+                    for(int j = 0; j < tile.getOwnerCity().getPopulation().size(); j++){
+                        if(tile.getOwnerCity().getPopulation().get(j).getTile().equals(tile)){
+                            data.put("index",String.valueOf(j + 1));
+                            new PopUp().run(PopUpStates.OK,gameMapController.getGameMenuController().deletePopulation(data));
+                            citizen.setOpacity(0.4);
+                            break;
+                        }
+                    }
+                }
             }
 
         });
         pane.getChildren().add(citizen);
     }
 
-    public void initTileBuy(){
+    public void initTileBuy(Tile p){
         if(tile.getCivilization() != null) return;
         buyTile = new ImageView(ImagesAddress.BUY_TILE.getImage());
-        buyTile = new ImageView(ImagesAddress.CITIZEN.getImage());
-        System.out.println("gODL NOT PRINTEd");
         buyTile.setTranslateX(radius - 40);
         buyTile.setTranslateY(40);
         buyTile.setEffect(new DropShadow(5, Color.BLACK));
         buyTile.setOnMouseClicked(event -> {
             if(event.getButton().equals(MouseButton.PRIMARY)){
                 HashMap<String,String> data = new HashMap<>();
-                data.put("index",String.valueOf(tile.getMapNumber()));
+                for(int i = 0; i < p.getOwnerCity().getPurchasableTiles().size(); i++){
+                    if(p.getOwnerCity().getPurchasableTiles().get(i).getFirst().equals(tile)){
+                        data.put("index",String.valueOf(i));
+                        break;
+                    }
+                }
                 new PopUp().run(PopUpStates.OK,gameMapController.getGameMenuController().purchaseTile(data));
                 gameMapController.update();
             }
@@ -137,26 +164,17 @@ public class MapTileComponent {
         if(savedMap.getVisibilityState(tile) != Tile.VisibilityState.VISIBLE) return;
         if(tile.getArmedUnit() != null){
             armedUnit = new UnitView(tile.getArmedUnit(),pane,this);
-            armedUnit.setTranslateX(radius/2 - 20);
-            armedUnit.setTranslateY(radius / 2);
+            armedUnit.setTranslateX(radius + 20);
+            armedUnit.setTranslateY(radius / 2 - 30);
             pane.getChildren().add(armedUnit);
-            System.out.println("armed unit here motha fuckers");
+            armedUnit.addJobCircle();
         }
         if(tile.getCivilianUnit() != null){
             civilianUnit = new UnitView(tile.getCivilianUnit(),pane,this);
-            civilianUnit.setTranslateX(radius);
-            civilianUnit.setTranslateY(radius / 2);
+            civilianUnit.setTranslateX(radius + 20);
+            civilianUnit.setTranslateY(radius / 2 + 60);
             pane.getChildren().add(civilianUnit);
-        }
-    }
-
-    private void initCityClick(){
-        for(Pair<Tile,Integer> p : tile.getOwnerCity().getPurchasableTiles()){
-            gameMapController.getTileComponentInMap(p.getFirst().getPCoordinate(), p.getFirst().getQCoordinate()).highlight(2);
-        }
-        for(Tile t : tile.getOwnerCity().getTiles()){
-            gameMapController.getTileComponentInMap(t.getPCoordinate(),t.getQCoordinate()).initCitizen();
-            gameMapController.getTileComponentInMap(t.getPCoordinate(),t.getQCoordinate()).highlight(1);
+            civilianUnit.addJobCircle();
         }
     }
 
@@ -167,9 +185,9 @@ public class MapTileComponent {
         city.setTranslateX(radius/2 + 40);
         city.setTranslateY(radius/2 + 20);
         city.setOnMouseClicked(e->{
-            gameMapController.getUiStatesController().setCurrentState(UIStates.CITY_INFO);
+            //gameMapController.getUiStatesController().setCurrentState(UIStates.CITY_INFO);
             gameMapController.getUiStatesController().addObjectByJob(new Pair<>(this, WorkingObjectType.CITY));
-            initCityClick();
+            //initCityClick();
         });
         pane.getChildren().add(city);
     }
@@ -448,17 +466,12 @@ public class MapTileComponent {
         return armedUnit;
     }
 
-    public void setArmedUnit(UnitView armedUnit) {
-        this.armedUnit = armedUnit;
-    }
+
 
     public UnitView getCivilianUnit() {
         return civilianUnit;
     }
 
-    public void setCivilianUnit(UnitView civilianUnit) {
-        this.civilianUnit = civilianUnit;
-    }
 
     private void deHighlight(){
         backgroundShape.setStroke(Color.SANDYBROWN);
@@ -491,6 +504,7 @@ public class MapTileComponent {
                 double angle = radian * i;
                 polygon.getPoints().add(Math.cos(angle) * radius / 1);
                 polygon.getPoints().add(Math.sin(angle) * radius / 1);
+                Line line = new Line();
             }
             polygon.setTranslateX(radius);
             polygon.setTranslateY(radius);

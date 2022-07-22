@@ -94,7 +94,9 @@ public class UIStatesController {
                 reset();
                 selectCity(newClick);
                 currentState = UIStates.CITY_INFO;
+                System.out.println("here city info");
                 showCityPanel(newClick);
+                return;
             }
             else if(newClick.getSecond().equals(WorkingObjectType.ARMED_UNIT) || newClick.getSecond().equals(WorkingObjectType.CIVILIAN_UNIT)){
                 reset();
@@ -112,10 +114,13 @@ public class UIStatesController {
             if(newClick.getSecond().equals(WorkingObjectType.CITY)){
                 reset();
                 showCityPanel(newClick);
+                return;
             }else if(newClick.getSecond().equals(WorkingObjectType.ARMED_UNIT) || newClick.getSecond().equals(WorkingObjectType.CIVILIAN_UNIT)){
                 reset();
                 selectUnit(newClick);
                 savedClicks.add(newClick);
+            }else if(newClick.getSecond().equals(WorkingObjectType.TILE)){
+                reset();
             }
         }
         else if(currentState.equals(UIStates.TILE_INFO)){
@@ -281,7 +286,6 @@ public class UIStatesController {
 
     private void showCityPanel(Pair<MapTileComponent, WorkingObjectType> newClick){
         CityOverview overview = new CityOverview(newClick.getFirst().getTile().getInnerCity());
-        gameMapController.getBackground().getChildren().add(overview);
         overview.setTranslateY(20);
         overview.toFront();
         gameMapController.addPaneToPanels(overview);
@@ -290,7 +294,7 @@ public class UIStatesController {
         });
         for(Pair<Tile, Integer> p : newClick.getFirst().getTile().getOwnerCity().getPurchasableTiles()){
             gameMapController.getTileComponentInMap(p.getFirst().getPCoordinate(), p.getFirst().getQCoordinate()).highlight(2);
-            gameMapController.getTileComponentInMap(p.getFirst().getPCoordinate(),p.getFirst().getQCoordinate()).initTileBuy();
+            gameMapController.getTileComponentInMap(p.getFirst().getPCoordinate(),p.getFirst().getQCoordinate()).initTileBuy(newClick.getFirst().getTile());
         }
         for(Tile t : newClick.getFirst().getTile().getOwnerCity().getTiles()){
             gameMapController.getTileComponentInMap(t.getPCoordinate(),t.getQCoordinate()).initCitizen();

@@ -2,6 +2,8 @@ package model;
 
 import controller.ProgramController;
 
+import java.util.Vector;
+
 public class User {
 
     private String username;
