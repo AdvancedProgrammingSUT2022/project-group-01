@@ -1,14 +1,12 @@
 package controller;
 
+import com.sun.nio.file.SensitivityWatchEventModifier;
 import controller.civilization.city.CityController;
 import controller.unit.UnitController;
 import controller.unit.WorkerController;
 import lombok.Getter;
 import lombok.Setter;
-import model.Game;
-import model.Player;
-import model.ProgressState;
-import model.TurnBasedLogic;
+import model.*;
 import model.civilization.Civilization;
 import model.civilization.city.City;
 import model.improvement.ImprovementType;
@@ -776,4 +774,15 @@ public class GameMenuController {
 		return "boom!";
 	}
 
+	public String declareWar(HashMap<String, String> args) {
+		Civilization enemy = null;
+		for (Player player : game.getPlayers()) {
+			if (player.getUser().getUsername().equals(args.get("player")))
+				enemy = player.getCivilization();
+		}
+		if (enemy == null)
+			return "are you declaring war against your imaginary friend ?";
+		game.getCurrentPlayer().getCivilization().declareWar(enemy);
+		return "oh yeah, first kill for 1$";
+	}
 }

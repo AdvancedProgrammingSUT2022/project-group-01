@@ -43,8 +43,8 @@ public class GameController {
             if (tile.getOwnerCity() == null)
                 return "There is no city here";
             game.setSelectedObject(tile.getOwnerCity());
-            UnitTestGui.instance.addCityOverview();
-            UnitTestGui.instance.addCityProduction();
+//            UnitTestGui.instance.addCityOverview();
+//            UnitTestGui.instance.addCityProduction();
             return "city selected";
         } else if (selectingType.equals("name")) {
             City city = findCityByName(value);

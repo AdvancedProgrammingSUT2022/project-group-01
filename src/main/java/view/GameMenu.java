@@ -333,6 +333,17 @@ public class GameMenu{
 					return controller.teleport(args);
 				}
 			}, Commands.TELEPORT);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.showCurrentMap();
+				}
+			}, Commands.MAP_SHOW2);
+			put(new CommandAction() {
+				public String action(HashMap<String, String> args) {
+					return controller.declareWar(args);
+				}
+			}, Commands.DECLARE_WAR);
+
 
 		}};
 
@@ -349,7 +360,7 @@ public class GameMenu{
 	public void run() {
 		while (ProgramController.getCurrentMenu() == Menus.GAME_MENU) {
 			Menu.handleCommand(commands, Menu.getInput());
-			System.out.print(controller.showCurrentMap());
+//			System.out.print(controller.showCurrentMap());
 		}
 	}
 }

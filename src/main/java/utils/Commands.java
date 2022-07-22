@@ -7,7 +7,9 @@ public enum Commands {
         //global
         SHOW_PLAYER("show player", null,null,0,null),
         NEXT_TURN("next turn", null,null,0,null),
-        //select
+        DECLARE_WAR("declare war", new String[]{"player"},null,0,null),
+
+    //select
         SELECT_UNIT("select unit", new String[]{"position"}, null,1,null),
         SELECT_CITY("select city", null, new String[]{"name", "position"},0,null),
         //unit
@@ -38,7 +40,9 @@ public enum Commands {
 
     //MAP
         MAP_SHOW("map show", null,new String[]{"position","cityname","current"},0,null),
-        MAP_MOVE("map move", new String[]{"count"}, null, 1,null),
+    MAP_SHOW2("maap show", null,new String[]{"position","cityname","current"},0,null),
+
+    MAP_MOVE("map move", new String[]{"count"}, null, 1,null),
         SHOW_NEXT_TILES("show next tiles",null,null,0,null),
         TILE_INFO("tile info", new String[]{"position"}, null, 0, null),
     //LOGIN

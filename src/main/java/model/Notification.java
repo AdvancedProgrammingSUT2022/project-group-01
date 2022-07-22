@@ -17,7 +17,8 @@ public class Notification {
 		this.text = text;
 		isRead = false;
 		this.announcementTurn = announcementTurn;
-		new PopUp().run(PopUpStates.WARNING, text);
+		// TODO commented to test
+//		new PopUp().run(PopUpStates.WARNING, text);
 	}
 
 	public Notification(Tile tile,NotificationTexts notificationTexts){

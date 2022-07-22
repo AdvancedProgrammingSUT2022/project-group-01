@@ -70,15 +70,19 @@ public class Unit {
 		remainingMP = movementPoint;
 	}
 
-	public void defendAgainstMelee(Unit enemy) {
+	public double defendAgainstMelee(Unit enemy) {
 		// TODO implement this
+		return 1;
 	}
 
-	public void defendAgainstRanged(Unit enemy) {
+	public double defendAgainstRanged(Unit enemy) {
 		// TODO implement this
+		return 1;
 	}
 
-	public void moveTo(Tile tile) {}
+	public void moveTo(Tile tile) {
+
+	}
 
 	public TraitsList getTraitsList() {
 		return type.getUnitTraits();

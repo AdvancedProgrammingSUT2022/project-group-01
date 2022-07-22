@@ -142,7 +142,8 @@ public class City {
 		health = Math.min(cityMaxHealth, health);
 		if (health <= 0) {
 			// Annex the city todo
-			health = 0.1f;
+			this.state = CityState.ANNEXED;
+			health = 0.5f;
 		}
 	}
 
@@ -181,7 +182,8 @@ public class City {
 		handlePopulationIncrease();
 		updateBeaker();
 		attackedThisTurn = false;
-		changeHealth(+1);
+		if(state == CityState.NORMAL)
+			changeHealth(+1);
 		//todo create notification here
 	}
 

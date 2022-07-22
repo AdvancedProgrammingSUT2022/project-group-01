@@ -39,6 +39,7 @@ public class Civilization implements TurnBasedLogic {
 
     private TechTree techTree;//TODO merge with safar
     private Vector<Civilization> knownCivilizations;
+    private HashMap<Civilization, Integer> warRemainingTurns;
 
     public Civilization(Civilizations civilization, City capital, Player player) {
         this.civilization = civilization;
@@ -51,6 +52,7 @@ public class Civilization implements TurnBasedLogic {
         this.currency = new Currency(0, 0, 0);
         this.player = player;
         knownCivilizations = new Vector<>();
+        warRemainingTurns = new HashMap<>();
     }
 
     public TechTree getResearchTree() {
@@ -82,6 +84,10 @@ public class Civilization implements TurnBasedLogic {
         for (Unit unit : units)
             unit.nextTurn();
         techTree.addScience(beaker);
+
+        for (Civilization enemy : warRemainingTurns.keySet())
+            if(warRemainingTurns.getOrDefault(enemy, -1) != -1)
+                warRemainingTurns.put(enemy, getRemainingWarTurnsWith(enemy) - 1);
     }
 
     private void updateBeaker() {
@@ -204,5 +210,13 @@ public class Civilization implements TurnBasedLogic {
         return population;
     }
 
-
+    public int getRemainingWarTurnsWith(Civilization other){
+        return warRemainingTurns.getOrDefault(other, -1);
+    }
+    public void declareWar(Civilization other){
+        warRemainingTurns.put(other, 50);
+    }
+    public void makePeaceWith(Civilization other){
+        warRemainingTurns.put(other, -1);
+    }
 }

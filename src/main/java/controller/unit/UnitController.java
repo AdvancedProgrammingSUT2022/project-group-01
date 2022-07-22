@@ -6,8 +6,11 @@ import model.Game;
 import model.civilization.Currency;
 
 import model.civilization.city.City;
+import model.civilization.city.CityState;
 import model.tile.Tile;
+import model.unit.CombatType;
 import model.unit.Unit;
+import model.unit.UnitType;
 import model.unit.armed.Armed;
 import model.unit.armed.RangedUnit;
 import model.unit.armed.Siege;
@@ -126,20 +129,54 @@ public class UnitController {
 			return "this unit can't melee attack";
 		if(!armed.getCurrentTile().getSight(1).contains(tile))
 			return "this unit is not nearby";
+		if(tile.getInnerCity() == null && tile.getArmedUnit() != null){
+			Unit target = tile.getArmedUnit();
+			if(target.getOwnerCivilization() == game.getCurrentPlayer().getCivilization())
+				return "you can't attack your troops";
+			if(game.getCurrentPlayer().getCivilization().getRemainingWarTurnsWith(target.getOwnerCivilization()) == -1)
+				return "you aren't not in war with this civilizations, declare war against them before attack";
+			double unitAttackModifier = 1 + (armed.getCurrentTile().getTerrain().combatModifier / 100f);
+			if(armed.getTraitsList().contains(UnitTraits.BONUS_VS_TANK) && target.getType() == UnitType.TANK)
+				unitAttackModifier *= 1.5f;
+			if(armed.getTraitsList().contains(UnitTraits.BONUS_VS_MOUNTED) && target.getType().getCombatType() == CombatType.MOUNTED)
+				unitAttackModifier *= 1.5f;
+
+			armed.consumeMP(armed.getTraitsList().contains(UnitTraits.MOVE_AFTER_ATTACK) ? 1 : armed.getRemainingMP());
+			target.changeHealth(-unitAttackModifier * armed.getType().getCombatStrength());
+
+			double unitDefenceModifier = 1 + (armed.getCurrentTile().getTerrain().combatModifier / 100f);
+			unitDefenceModifier *= target.defendAgainstMelee(armed);
+			target.changeHealth(-unitAttackModifier * armed.getType().getCombatStrength());
+
+			return "knives out against unit";
+		}
 		// combat unit, phase 2 TODO
 		if(tile.getInnerCity() == null)
 			return "no city in destination tile";
 		City city = tile.getInnerCity();
 		if(tile.getInnerCity().getCivilization() == armed.getOwnerCivilization())
 			return "why you want to betray your people ??";
+		if(tile.getInnerCity().getState() != CityState.NORMAL)
+			return "this is a shattered city, you can't attack them";
+
+		if(game.getCurrentPlayer().getCivilization().getRemainingWarTurnsWith(city.getCivilization()) == -1)
+			return "you aren't not in war with this civilizations, declare war against them before attack";
+
 		// combat with city todo
 		double cityAttackModifier = 1 + (armed.getCurrentTile().getTerrain().combatModifier / 100f);
 		if(armed.getTraitsList().contains(UnitTraits.PENALTY_VS_CITIES))
 			cityAttackModifier *= 0.5f;
 		armed.consumeMP(armed.getTraitsList().contains(UnitTraits.MOVE_AFTER_ATTACK) ? 1 : armed.getRemainingMP());
+		System.err.println("1 : " + city.getHealth());
 		city.changeHealth(-cityAttackModifier * armed.getType().getCombatStrength());
+		System.err.println("2 : " + city.getHealth());
+		System.err.println("3 : " + cityAttackModifier + " , " + armed.getType().getCombatType());
 		(new CityController(game)).cityAttack(city, armed, armed.getCurrentTile());
-		return "knives out";
+		if(city.getState() == CityState.ANNEXED){
+			armed.moveTo(city.getCenterTile());
+			return "Annexed !!!";
+		}
+		return "knives out against city";
 	}
 
 	public String rangedAttack(RangedUnit ranged, Tile tile) {
