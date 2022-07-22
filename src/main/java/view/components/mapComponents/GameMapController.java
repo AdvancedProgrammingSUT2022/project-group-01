@@ -23,6 +23,7 @@ import view.components.ImagesAddress;
 import view.components.StatusBar;
 import view.components.gamePanelComponents.TilePopUp;
 import view.components.infoPanels.CityListPanel;
+import view.components.infoPanels.GameEndPage;
 import view.components.infoPanels.SideLog;
 
 import java.io.IOException;
@@ -250,6 +251,9 @@ public class GameMapController {
             if(event.getButton() == MouseButton.PRIMARY) {
                 gameMenuController.nextTurn(new HashMap<>());
                 update();
+                if(getGameMenuController().getGame().isGameEnded()){
+                    endTheGame();
+                }
             }
         });
         background.getChildren().add(around);
@@ -266,6 +270,10 @@ public class GameMapController {
         }));
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
+    }
+
+    private void endTheGame() {
+        GUIController.changeMenuManually(new GameEndPage(gameMenuController.getGameController()).getRoot());
     }
 
     private void addSideMenu(){

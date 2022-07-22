@@ -106,7 +106,11 @@ public enum ImagesAddress {
     FRIENDS_SEARCH_BUTTON("other/magnifier",".png" ),
     FRIEND_REQUEST("other/friendRequest",".png" ),
     CIRCLE_RING("other/ring",".png" ),
-    FRIEND_ITEM("other/quest",".png");
+    FRIEND_ITEM("other/quest",".png"),
+    END_GAME_ITEM("other/endGame/resultItem",".png" ),
+    GOLD_SIDE_HEX("other/endGame/goldSideHex",".png" ),
+    BLUE_SIDE_HEX("other/endGame/blueSideHex",".png" ),
+    END_GAME_BACKGROUND("other/endGame/endGameBackground",".jpg" );
 
 
     private final String partA;

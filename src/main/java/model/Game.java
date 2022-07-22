@@ -22,6 +22,7 @@ public class Game {
     int turn = 0;
     private Object selectedObject;
     private Map map;
+    private boolean isGameEnded = false;
 
     public Game(Vector<Player> players, int mapSize) {
         //TODO : ADDED MAP FIRST INITIALIZE AND map size
@@ -93,5 +94,13 @@ public class Game {
 
     public void setSelectedObject(Object selectedObject) {
         this.selectedObject = selectedObject;
+    }
+
+    public void end(){
+        isGameEnded = true;
+    }
+
+    public boolean isGameEnded(){
+        return isGameEnded;
     }
 }

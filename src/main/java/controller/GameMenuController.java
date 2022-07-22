@@ -529,6 +529,7 @@ public class GameMenuController {
 //			System.out.println("unit type " + unit.toString());
 		}
 		game.nextTurn();
+		gameController.yearCheck();
 		return "time fast forwarded !";
 	}
 
@@ -666,6 +667,7 @@ public class GameMenuController {
 	public String nextTurn(HashMap<String, String> args) {
 		game.nextTurn();
 		//TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
+		gameController.yearCheck(); // TODO aDDED BY PR
 		return "time flies...\n"+game.getCurrentPlayer().getUser().getNickname()+"'s turn:";
 	}
 

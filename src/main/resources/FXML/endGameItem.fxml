@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="99.0" prefWidth="533.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fitHeight="83.0" fitWidth="390.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../asset/other/endGame/resultItem.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="72.0" layoutY="31.0" prefHeight="37.0" prefWidth="214.0" text="Label" textFill="#f2f2f2">
+         <font>
+            <Font name="AppleGothic Regular" size="23.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="106.0" fitWidth="117.0" layoutX="413.0" layoutY="-4.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../asset/other/endGame/goldSideHex.png" />
+         </image>
+      </ImageView>
+      <Label alignment="CENTER" layoutX="446.0" layoutY="38.0" text="2532">
+         <font>
+            <Font name="AppleGothic Regular" size="15.0" />
+         </font>
+      </Label>
+   </children>
+</Pane>
