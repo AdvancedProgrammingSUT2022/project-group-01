@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<Pane fx:id="wholePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.components.preMainInMenus.ScoreBoardMenu">
+   <children>
+      <ScrollPane fx:id="scrollPane" layoutX="335.0" layoutY="147.0" prefHeight="539.0" prefWidth="610.0">
+         <content>
+            <VBox fx:id="list"  prefWidth="608.0" />
+         </content>
+      </ScrollPane>
+      <ImageView fx:id="scoreBoardImage" fitHeight="180.0" fitWidth="678.0" layoutX="312.0" layoutY="-11.0" pickOnBounds="true" preserveRatio="true">
+      </ImageView>
+   </children>
+</Pane>

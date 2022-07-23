@@ -110,7 +110,12 @@ public enum ImagesAddress {
     END_GAME_ITEM("other/endGame/resultItem",".png" ),
     GOLD_SIDE_HEX("other/endGame/goldSideHex",".png" ),
     BLUE_SIDE_HEX("other/endGame/blueSideHex",".png" ),
-    END_GAME_BACKGROUND("other/endGame/endGameBackground",".jpg" );
+    END_GAME_BACKGROUND("other/endGame/endGameBackground",".jpg" ),
+    SCORE_BOARD_TEXT_IMAGE("other/scoreBoard/scoreBoardText",".png"),
+    SCORE_BOARD_ITEM_USER("other/scoreBoard/scoreBoardItem",".png"),
+    SCORE_BOARD_LAST_VISIT_BOX("other/scoreBoard/lastVisitBox",".png"),
+    TECHNOLOGY_INFO_ICON("info/technologyInfoIcon",".png" );
+
 
 
     private final String partA;

@@ -11,6 +11,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import view.components.ImagesAddress;
+import view.components.gamePanelComponents.technologyPanel.TechnologyPopUp;
 import view.components.mapComponents.GameMapController;
 
 public class SideLog {
@@ -87,6 +88,16 @@ public class SideLog {
             if (event.getButton() == MouseButton.PRIMARY) {
                 close();
                 new DemographicPanel(background,gameMapController);
+            }
+        });
+        ImageView technologyPanelIcon = new ImageView(ImagesAddress.TECHNOLOGY_INFO_ICON.getImage());
+        technologyPanelIcon.setFitHeight(29);
+        technologyPanelIcon.setFitWidth(29);
+        list.getChildren().add(technologyPanelIcon);
+        technologyPanelIcon.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.PRIMARY) {
+                close();
+                new TechnologyPopUp(background,gameMapController);
             }
         });
     }

@@ -2,6 +2,7 @@ package model;
 
 import controller.ProgramController;
 
+import java.util.Date;
 import java.util.Map;
 import java.util.Vector;
 
@@ -11,6 +12,7 @@ public class User {
     //private undefinedType[] savedGames;//TODO handle here
     private String password;
     private int score;
+    private Date lastWinDate;
     private String nickname;
     private String avatarUrl;
     private Vector<String> friends = new Vector<>();
@@ -114,5 +116,14 @@ public class User {
 
     public Vector<String> getFriends() {
         return friends;
+    }
+
+    public void setLastWinDate(Date date){
+        this.lastWinDate = date;
+        ProgramController.getDatabase().save();
+    }
+
+    public Date getLastWinDate(){
+        return this.lastWinDate;
     }
 }

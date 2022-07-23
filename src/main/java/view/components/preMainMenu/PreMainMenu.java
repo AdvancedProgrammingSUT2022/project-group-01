@@ -47,7 +47,7 @@ public class PreMainMenu {
     }
 
     private void runScoreBoard(){
-
+        GUIController.changeMenu("ScoreBoardMenu");
     }
 
     private void runProfileMenu(){

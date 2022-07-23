@@ -4,6 +4,7 @@ import controller.ProgramController;
 import javafx.geometry.Pos;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -32,6 +33,9 @@ public class TechnologyPopUp {
         setTechPicture();
         setName();
         setRemainingScienceLabel();
+        closeButton();
+        backPane.getChildren().add(root);
+
     }
 
     public Pane getPane(){
@@ -59,7 +63,8 @@ public class TechnologyPopUp {
         techPicture.setLayoutX(62);
         techPicture.setLayoutY(60);
         techPicture.setStroke(Color.rgb(235,194,46,1));
-        techPicture.setFill(new ImagePattern(ImagesAddress.getTechnologyImage(ProgramController.getGame().getCurrentPlayer().getCivilization().getResearchTree().getCurrentResearch())));
+        if(ProgramController.getGame().getCurrentPlayer().getCivilization().getResearchTree().getCurrentResearch() != null)
+            techPicture.setFill(new ImagePattern(ImagesAddress.getTechnologyImage(ProgramController.getGame().getCurrentPlayer().getCivilization().getResearchTree().getCurrentResearch())));
         root.getChildren().add(techPicture);
         openTechPanel();
     }
@@ -71,7 +76,8 @@ public class TechnologyPopUp {
         name.setLayoutY(14);
         name.setPrefHeight(40);
         name.setPrefWidth(101);
-        name.setText(ProgramController.getGame().getCurrentPlayer().getCivilization().getResearchTree().getCurrentResearch().name().toLowerCase(Locale.ROOT));
+        if(ProgramController.getGame().getCurrentPlayer().getCivilization().getResearchTree().getCurrentResearch() != null)
+            name.setText(ProgramController.getGame().getCurrentPlayer().getCivilization().getResearchTree().getCurrentResearch().name().toLowerCase(Locale.ROOT));
         name.setTextFill(Color.WHITE);
         name.setFont(new javafx.scene.text.Font(18));
         root.getChildren().add(name);
@@ -80,7 +86,8 @@ public class TechnologyPopUp {
     private void setRemainingScienceLabel(){
         remainingScienceLabel.setLayoutX(131);
         remainingScienceLabel.setLayoutY(73);
-        remainingScienceLabel.setText("science left : " + ProgramController.getGame().getCurrentPlayer().getCivilization().getResearchTree().getRemainingScience());
+        if(ProgramController.getGame().getCurrentPlayer().getCivilization().getResearchTree().getCurrentResearch() != null)
+            remainingScienceLabel.setText("science left : " + ProgramController.getGame().getCurrentPlayer().getCivilization().getResearchTree().getRemainingScience());
         remainingScienceLabel.setTextFill(Color.WHITE);
         root.getChildren().add(remainingScienceLabel);
     }
@@ -89,6 +96,20 @@ public class TechnologyPopUp {
         techPicture.setOnMouseClicked(event -> {
             TechnologyPanel panel = new TechnologyPanel(gameMapController);
             backPane.getChildren().add(panel.getRoot());
+        });
+    }
+
+    private void closeButton(){
+        ImageView close = new ImageView(ImagesAddress.INFO_CLOSE.getImage());
+        close.setLayoutX(10);
+        close.setLayoutY(10);
+        close.setFitHeight(34);
+        close.setFitWidth(34);
+        close.setPickOnBounds(true);
+        close.setPreserveRatio(true);
+        root.getChildren().add(close);
+        close.setOnMouseClicked(e -> {
+            backPane.getChildren().remove(root);
         });
     }
 }

@@ -5,8 +5,8 @@ import controller.GUIController;
 import controller.ProgramController;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import model.Player;
 import model.technology.TechnologyType;
 import view.Main;
@@ -21,7 +21,7 @@ import java.util.Vector;
 public class TechnologyPanel {
     private Pane root = new Pane();
     private ScrollPane scrollPane = new ScrollPane();
-    private HBox hBox = new HBox();
+    private VBox vBox = new VBox();
     private JFXButton technologyTreeButton = new JFXButton();
     private Vector<TechnologyItem> futureTechnologyItems = new Vector<>();
     private TechnologyItem currentTechnologyItem;
@@ -33,11 +33,10 @@ public class TechnologyPanel {
         root.setStyle("-fx-background-color: rgba(35,33,33,0.93)");
         scrollPane.setTranslateY(190);
         scrollPane.setPrefWidth(330);
-        hBox.setStyle("-fx-opacity: 0");
-        hBox.setPrefHeight(581);
-        hBox.setPrefWidth(328);
-        hBox.setSpacing(10);
-        scrollPane.setContent(hBox);
+        vBox.setStyle("-fx-opacity: 0");
+        vBox.setPrefWidth(328);
+        vBox.setSpacing(10);
+        scrollPane.setContent(vBox);
         root.getChildren().add(scrollPane);
         panesDesign();
         addCurrentTechnology();
@@ -56,9 +55,9 @@ public class TechnologyPanel {
         scrollPane.getStylesheets().add(String.valueOf(Main.class.getResource("/CSS/InvitationMenu.css")));
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        hBox.setStyle("-fx-background-color: transparent");
-        hBox.setStyle("-fx-background : transparent");
-        hBox.setStyle("-fx-background-opacity: 0");
+        vBox.setStyle("-fx-background-color: transparent");
+        vBox.setStyle("-fx-background : transparent");
+        vBox.setStyle("-fx-background-opacity: 0");
     }
 
     private void addCurrentTechnology(){
@@ -74,10 +73,13 @@ public class TechnologyPanel {
     private void addFutureTechnologies(){
         Player p = ProgramController.getGame().getCurrentPlayer();
         for(TechnologyType t : p.getCivilization().getResearchTree().getResearchableTechs()){
+            if(ProgramController.getGame().getCurrentPlayer().getCivilization().getResearchTree().getCurrentResearch() != null &&
+            ProgramController.getGame().getCurrentPlayer().getCivilization().getResearchTree().getCurrentResearch().equals(t))
+                continue;
             TechnologyItem technologyItem = new TechnologyItem(t,p,true);
             Pane futureTechnology = technologyItem.getPane();
             futureTechnology.setOpacity(0.5);
-            hBox.getChildren().add(futureTechnology);
+            vBox.getChildren().add(futureTechnology);
             futureTechnologyItems.add(technologyItem);
         }
         mouseHoverFutureTechnologies();

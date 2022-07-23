@@ -10,6 +10,8 @@ import model.tile.Tile;
 import model.unit.armed.Armed;
 import model.unit.civilian.Civilian;
 
+import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Vector;
 
@@ -142,11 +144,13 @@ public class GameController {
         calculateScores();
         findLooser();
         if (game.getTurn() >= 4) {
+            submitScoreAndTime();
             game.end();
         }else{
             for(Player p : game.getPlayers()){
                 if(losers.contains(p)) continue;
                 if(checkWinByOnlyHavingFirstCapital(p)){
+                    submitScoreAndTime();
                     game.end();
                     break;
                 }
@@ -237,6 +241,22 @@ public class GameController {
                 losers.add(p);
             }
         }
+    }
+
+    private void submitScoreAndTime(){
+        for(Player p : game.getPlayers()){
+            if(losers.contains(p)) continue;
+            p.getUser().increaseScore(scores.get(p));
+        }
+        Vector<Player> sorted = new Vector<>(scores.keySet());
+        sorted.sort((o1, o2) -> scores.get(o2) - scores.get(o1));
+        try{
+            sorted.get(0).getUser().setLastWinDate(new Date());
+        }catch (NullPointerException e){
+            System.out.println("no winner");
+            e.printStackTrace();
+        }
+
     }
 }
 
