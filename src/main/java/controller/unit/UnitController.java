@@ -17,9 +17,12 @@ import model.unit.civilian.Settler;
 import model.unit.trait.UnitTraits;
 
 
-@AllArgsConstructor
 public class UnitController {
 	private Game game;
+
+	public UnitController(Game game){
+		this.game = game;
+	}
 
 	public String foundCity(Settler settler) {
 		if (!settler.canSettle())

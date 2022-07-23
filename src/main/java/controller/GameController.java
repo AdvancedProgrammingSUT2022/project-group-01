@@ -4,21 +4,30 @@ import model.Game;
 import model.Player;
 import model.civilization.Civilization;
 import model.civilization.city.City;
+import model.technology.TechnologyType;
 import model.tile.TerrainFeature;
 import model.tile.Tile;
 import model.unit.armed.Armed;
 import model.unit.civilian.Civilian;
 
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Vector;
 
 public class GameController {
 
     private final Game game;
     private final MapController mapController;
+    private HashMap<Player,Integer> scores;
+    private Vector<Player> losers;
 
     public GameController(Game game, MapController mapController) {
         this.game = game;
         this.mapController = mapController;
+        scores = new HashMap<>();
+        losers = new Vector<>();
+        initPlayers();
     }
 
 
@@ -128,4 +137,126 @@ public class GameController {
         return "see more... like it's gonna help you not be a newbie.";
     }
 
+
+
+
+    public void yearCheck(){
+        calculateScores();
+        findLooser();
+        if (game.getTurn() >= 4) {
+            submitScoreAndTime();
+            game.end();
+        }else{
+            for(Player p : game.getPlayers()){
+                if(losers.contains(p)) continue;
+                if(checkWinByOnlyHavingFirstCapital(p)){
+                    submitScoreAndTime();
+                    game.end();
+                    break;
+                }
+            }
+        }
+    }
+
+
+    private int scoreCounter(Player player){
+        int score = 0;
+        // number of tiles
+        int numberOfTiles = 0;
+        for(City c : player.getCivilization().getCities())
+            numberOfTiles += c.getTiles().size();
+        score += numberOfTiles;
+        // number of cities
+        score += player.getCivilization().getCities().size() * 2;
+        // population
+        int population = 0;
+        for(City c : player.getCivilization().getCities())
+            population += c.getPopulation().size();
+        score += population;
+        // technologies
+        for(TechnologyType t : TechnologyType.values()){
+            if(player.getCivilization().getTechTree().isResearched(t))
+                score += 2;
+        }
+        // map size
+        score += game.getMap().getMapSize() * 2;
+        return score;
+    }
+
+    private boolean hasFirstCapital(Player player){
+        for(City c : player.getCivilization().getCities()){
+            if(c.getName().equals(player.getCivilization().getCivilization().getCityNames()[0]))
+                return true;
+        }
+        return false;
+    }
+
+    private boolean checkWinByOnlyHavingFirstCapital(Player player){
+        if(!hasFirstCapital(player))
+            return false;
+        for(Player p : game.getPlayers()) {
+            if(p.equals(player))
+                continue;
+            if(losers.contains(p)) continue;
+            if(!firstCapitalBuiltYet(p))
+                return false;
+            if(hasFirstCapital(p))
+                return false;
+        }
+        return true;
+    }
+
+    private boolean firstCapitalBuiltYet(Player g) {
+        for (Player p : game.getPlayers()) {
+            for (City c : p.getCivilization().getCities()) {
+                if (c.getName().equals(g.getCivilization().getCivilization().getCityNames()[0]))
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    private void initPlayers(){
+        for(Player p : game.getPlayers()){
+            scores.put(p, 0);
+        }
+    }
+
+    private void calculateScores(){
+        for(Player player : game.getPlayers()){
+            if(losers.contains(player)) scores.replace(player,0);
+            scores.replace(player,scoreCounter(player));
+        }
+    }
+
+
+    public HashMap<Player, Integer> getScores() {
+        return scores;
+    }
+
+    private void findLooser(){
+        for(Player p : game.getPlayers()){
+            if(losers.contains(p)) continue;
+            else if(p.getCivilization().getCities().size() == 0 && p.getCivilization().getUnits().size() == 0){
+                losers.add(p);
+            }
+        }
+    }
+
+    private void submitScoreAndTime(){
+        for(Player p : game.getPlayers()){
+            if(losers.contains(p)) continue;
+            p.getUser().increaseScore(scores.get(p));
+        }
+        Vector<Player> sorted = new Vector<>(scores.keySet());
+        sorted.sort((o1, o2) -> scores.get(o2) - scores.get(o1));
+        try{
+            sorted.get(0).getUser().setLastWinDate(new Date());
+        }catch (NullPointerException e){
+            System.out.println("no winner");
+            e.printStackTrace();
+        }
+
+    }
 }
+

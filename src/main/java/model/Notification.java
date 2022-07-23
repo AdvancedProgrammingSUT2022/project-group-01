@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import model.civilization.city.City;
 import model.tile.Tile;
+import view.components.popup.PopUp;
+import view.components.popup.PopUpStates;
 
 @Getter @Setter
 public class Notification {
@@ -15,6 +17,7 @@ public class Notification {
 		this.text = text;
 		isRead = false;
 		this.announcementTurn = announcementTurn;
+		new PopUp().run(PopUpStates.WARNING, text);
 	}
 
 	public Notification(Tile tile,NotificationTexts notificationTexts){

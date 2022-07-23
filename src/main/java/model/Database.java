@@ -41,8 +41,8 @@ public class Database {
             e.printStackTrace();
         }
     }
-    public void addUser(String username, String nickname, String password){
-        users.add(new User(username,password, nickname));
+    public void addUser(String username, String nickname, String password,String avatarUrl){
+        users.add(new User(username,password, nickname,avatarUrl));
         save();
     }
 

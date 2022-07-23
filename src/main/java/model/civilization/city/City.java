@@ -18,7 +18,7 @@ import model.unit.Unit;
 import model.unit.UnitType;
 import utils.Pair;
 
-@Getter
+@Getter @Setter
 public class City {
 	private final int cityMaxHealth = 10;
 
@@ -27,20 +27,26 @@ public class City {
 	private String name;
 	private Currency currency;
 	private Currency changesOfCurrency;
+	private Currency fixedCurrencyRate = new Currency(0,0,0);
+	private double goldCurrencyFactor = 0;
+	private double foodCurrencyFactor = 0;
+	private double productCurrencyFactor = 0;
 	private ProductionInventory productionInventory;
 	private CityState state;
-	private BuildingInventory buildingInventory;//TODO: merge with parham
+	private BuildingInventory buildingInventory;
 	private Tile center;
 	private final Vector<Tile> tiles;
-	private int defencePower;
+	private double defencePower;
 	private int attackPower;
 	private double health;
 	private Vector<Tile> nextTiles;
 	private final int maxNextTiles = 3;
-	private final int turnToExpansion = 5;
+	private int turnToExpansion = 5;
 	private int remainedTurnToExpansion = turnToExpansion;
 	private Unit garrisonedUnit;
-	private int beaker = 5;//todo check correct value
+	private double beaker = 5;//todo check correct value
+	private double fixedBeakerRate = 0;
+	private double beakerFactor = 0;
 	private int remainedTurnToGrowth = 8;
 	@Setter @Getter
 	private boolean attackedThisTurn = false;
@@ -51,7 +57,6 @@ public class City {
 		this.name = name;
 		this.center = center;
 		tiles = new Vector<>();
-		this.productionInventory = new ProductionInventory(this);
 		tiles.add(center);
 		tiles.addAll(center.getAdjacentTiles());
 		nextTiles = new Vector<>();
@@ -65,8 +70,8 @@ public class City {
 		}
 		this.productionInventory = new ProductionInventory(this);
 		this.state = CityState.NORMAL;
-
 		this.health = cityMaxHealth;
+		this.buildingInventory = new BuildingInventory(this);
 
 	}
 
@@ -105,22 +110,18 @@ public class City {
 		return this.civilization;
 	}
 
-
-	public ProductionInventory getProductionInventory() {
-		return this.productionInventory;
-	}
-
 	public void setNewProduction(Producible producible) {
 		productionInventory.setCurrentProduction(producible);
 	}
 
 	private void updateCurrency() {
 		changesOfCurrency.setValue(0,0,0);
+		changesOfCurrency.add(fixedCurrencyRate);
 		for(Tile tile : tiles){
 			currency.add(tile.getCurrency());
 			changesOfCurrency.add(tile.getCurrency());
-			Currency cur = tile.getCurrency();
 		}
+		currency.increase(changesOfCurrency.getGold()*goldCurrencyFactor,changesOfCurrency.getProduct()*productCurrencyFactor,changesOfCurrency.getFood()*foodCurrencyFactor);
 		currency.increase(-currency.getGold(),0,0);
 		if((productionInventory.getCurrentProduction() != null) &&(productionInventory.getCurrentProduction().equals(UnitType.SETTLER))){
 			if(currency.getFood() > 0)
@@ -169,6 +170,7 @@ public class City {
 			productionInventory.payProduction(currency.getProduct());
 			currency.increase(0,-currency.getProduct(),0);
 		}
+
 		handleNextTiles();
 		handlePopulationIncrease();
 		updateBeaker();
@@ -185,7 +187,7 @@ public class City {
 		this.garrisonedUnit = garrisonedUnit;
 	}
 
-	public int getDefencePower() {
+	public double getDefencePower() {
 		return defencePower;
 	}
 
@@ -270,16 +272,14 @@ public class City {
 	public void updateBeaker(){
 		//todo implement here(update currency if is necessary and update with buildings break)
 		this.beaker = 0;
+		this.beaker += fixedBeakerRate;
 		if(this.civilization.getCapital() == this)
 			this.beaker = 3;
 		this.beaker += population.size();
+		this.beaker += this.beaker*beakerFactor;
 	}
 
-	public int getBeaker(){
-		return this.beaker;
-	}
-
-	public void increaseDefencePower(int amount){
+	public void increaseDefencePower(double amount){
 		this.defencePower += amount;
 	}
 

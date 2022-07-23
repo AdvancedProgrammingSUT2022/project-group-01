@@ -1,0 +1,13 @@
+.box{
+    -fx-background-radius: 10;
+    -fx-background-color: black;
+    -fx-border-radius: 10;
+    -fx-padding: 5,5,5,5;
+}
+
+.item{
+    -fx-border-style: solid;
+    -fx-border-radius: 10;
+    -fx-border-width: 5;
+    -fx-background-color: blue;
+}
