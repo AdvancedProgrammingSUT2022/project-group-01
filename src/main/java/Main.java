@@ -19,10 +19,10 @@ public class Main {
         ProgramController.setLoggedInUser(new User("Amnam","Amnam","Amnam", ImagesAddress.GAME_BACKGROUND.getAddress()));
         GUIController guiController = new GUIController();
         guiController.run();*/
-        SelectMemberDialog smd = new SelectMemberDialog();
-        smd.run();
-        //ProgramController pc = new ProgramController();
-        //pc.run();
+//        SelectMemberDialog smd = new SelectMemberDialog();
+//        smd.run();
+        ProgramController pc = new ProgramController();
+        pc.run();
         //this is a test
 
         /*graphicTest gr = new graphicTest();

@@ -16,12 +16,15 @@ import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import lombok.Getter;
+import utils.Pair;
 
 import java.time.Duration;
 import java.util.LinkedList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+@Getter
 public class PopUp extends Application {
 
     private Stage stage = new Stage();
@@ -29,7 +32,8 @@ public class PopUp extends Application {
     private PopUpStates state;
     private String text;
     private static final LinkedList<Stage> stages = new LinkedList<>();
-
+    @Getter
+    private static final LinkedList<Pair<String, PopUpStates>> history = new LinkedList<Pair<String, PopUpStates>>();
     @Override
     public void start(Stage stage) throws Exception {
         stage.show();
@@ -42,6 +46,7 @@ public class PopUp extends Application {
         initGraphic();
         initTimer();
         try {
+            history.add(new Pair<>(message, state));
             start(stage);
         } catch (Exception e) {
             e.printStackTrace();

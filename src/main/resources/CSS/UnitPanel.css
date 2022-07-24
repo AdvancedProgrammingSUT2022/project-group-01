@@ -1,0 +1,19 @@
+.h-box{
+    -fx-background-color: black;
+    -fx-padding: 5;
+}
+
+.h-box:hover{
+    -fx-background-color: #00224a;
+}
+
+.label{
+    -fx-text-fill: #FFEEA0;
+}
+
+.v-box{
+    -fx-min-width: 300;
+    -fx-max-width: 300;
+    -fx-background-color: black;
+    -fx-background-radius: 10;
+}
