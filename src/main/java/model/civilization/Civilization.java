@@ -26,7 +26,8 @@ public class Civilization implements TurnBasedLogic {
     private Civilizations civilization;//enum
     private Vector<City> cities;
     private City capital;
-    private Currency currency;
+    private Currency currency = new Currency(0,0,0);
+    private Currency changeOfCurrency = new Currency(0,0,0);
     private int happiness = 15;
     private int happinessBase = 0;
     private SavedMap map;
@@ -50,7 +51,6 @@ public class Civilization implements TurnBasedLogic {
         resourceRepository = new HashMap<>(); //ADDED BY PRCR
         techTree = new TechTree(); // TODO ADDED TEMPORARILY BY PRCR
         addToList();
-        this.currency = new Currency(0, 0, 0);
         this.player = player;
         knownCivilizations = new Vector<>();
         trades = new Vector<>();
@@ -70,8 +70,10 @@ public class Civilization implements TurnBasedLogic {
     }
 
     private void updateCurrency() {
+        changeOfCurrency.setValue(0,0,0);
         for (City city : cities) {
             currency.add(city.getChangesOfCurrency());
+            changeOfCurrency.add(city.getChangesOfCurrency());
         }
     }
 

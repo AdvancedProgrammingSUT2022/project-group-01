@@ -50,6 +50,8 @@ public class TechTree {
 	}
 
 	public boolean isResearched(TechnologyType tech) {
+		if(tech == null)
+			return true;
 		return researchedTechs.get(tech) >= tech.getCost();
 	}
 

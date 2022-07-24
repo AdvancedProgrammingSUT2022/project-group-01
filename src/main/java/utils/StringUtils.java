@@ -22,6 +22,15 @@ public class StringUtils {
 			return "-"+input;
 	}
 
+	public static String makeNumberSigned(int input){
+		if(input > 0)
+			return "+"+input;
+		else if(input == 0)
+			return String.valueOf(input);
+		else
+			return "-"+input;
+	}
+
 	public static String makeFirstCapital(String input){
 		StringBuilder sb = new StringBuilder(input.toLowerCase());
 		sb.setCharAt(0, String.valueOf(sb.charAt(0)).toUpperCase().charAt(0));

@@ -65,7 +65,7 @@ public class ProductionInventory {
 
 	public int getRemainedTurns(){
 		if(currentProduction == null)
-			return 0;
+			return 0;	
 		Currency currency = city.getCurrency();
 		if(currency.getProduct() == 0)
 			return 999999;

@@ -60,7 +60,7 @@ public class StatusBar extends BorderPane {
 
     private void initBeaker(){
         Rectangle rectangle = new Rectangle(10,10);
-        //rectangle.setFill(GraphicUtils.getImage("/city/currency/science.png"));
+        rectangle.setFill(GraphicUtils.getImage("/city/currency/science.png"));
         Tooltip tooltip = new Tooltip("Beaker (Science)");
         Tooltip.install(rectangle, tooltip);
         beakerLabel = new Label(StringUtils.makeNumberSigned(civilization.getBeaker()));
@@ -70,10 +70,10 @@ public class StatusBar extends BorderPane {
 
     private void initGold(){
         Rectangle rectangle = new Rectangle(10,10);
-        //rectangle.setFill(GraphicUtils.getImage("/city/currency/gold.png"));
+        rectangle.setFill(GraphicUtils.getImage("/city/currency/gold.png"));
         Tooltip tooltip = new Tooltip("Gold");
         Tooltip.install(rectangle, tooltip);
-        goldLabel = new Label((civilization.getCurrency().getGold())+" ("+StringUtils.makeNumberSigned(civilization.getCurrency().getGold())+")");
+        goldLabel = new Label((civilization.getCurrency().getGold())+" ("+StringUtils.makeNumberSigned(civilization.getChangeOfCurrency().getGold())+")");
         goldLabel.setStyle("-fx-text-fill: #ddb800");
         left.getChildren().add(rectangle);
         left.getChildren().add(goldLabel);
@@ -81,7 +81,7 @@ public class StatusBar extends BorderPane {
 
     private void initHappiness(){
         Rectangle rectangle = new Rectangle(10,10);
-        //rectangle.setFill(GraphicUtils.getImage("/civilization/happiness.png"));
+        rectangle.setFill(GraphicUtils.getImage("/civilization/happiness.png"));
         Tooltip tooltip = new Tooltip("Happiness");
         Tooltip.install(rectangle, tooltip);
         happinessLabel = new Label(String.valueOf(civilization.getHappiness()));
@@ -98,7 +98,7 @@ public class StatusBar extends BorderPane {
 
     public void update(){
         beakerLabel.setText(StringUtils.makeNumberSigned(civilization.getBeaker()));
-        goldLabel.setText(civilization.getCurrency().getGold()+" ("+StringUtils.makeNumberSigned(civilization.getCurrency().getGold())+")");
+        goldLabel.setText(civilization.getCurrency().getGold()+" ("+StringUtils.makeNumberSigned(civilization.getChangeOfCurrency().getGold())+")");
         happinessLabel.setText(civilization.getBeaker()+"");
         turnLabel.setText("Turn: "+ProgramController.getGame().getTurn());
     }

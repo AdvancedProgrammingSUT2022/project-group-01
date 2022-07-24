@@ -59,6 +59,7 @@ public class GameMenuController {
 
 	//SELECT:
 	public String selectUnit(HashMap<String, String> args) {
+		UnitTestGui.instance.unitPanel();
 		if(!isInteger(args.get("position")))
 			return "invalid position";
 		String selectingType = args.get("section");//armed or civilian or garbage

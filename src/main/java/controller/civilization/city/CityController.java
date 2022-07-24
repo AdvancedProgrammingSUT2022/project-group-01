@@ -172,10 +172,11 @@ public class CityController {
     public String increaseResource(City city, String resourceName, int amount){
         switch (resourceName){
             case "gold":{
+                city.getCurrency().increase(amount, 0, 0);
                 city.getCivilization().increaseCurrency(new Currency(amount,0,0));
             }break;
-            case "food":{city.increaseCurrency(0,0, amount);}break;
-            case "product":{city.increaseCurrency(0,amount,0);}break;
+            case "food":{city.getCurrency().increase(0, 0, amount);city.increaseCurrency(0,0, amount);}break;
+            case "product":{city.getCurrency().increase(0, amount, 0);city.increaseCurrency(0,amount,0);}break;
             default:{return "invalid resource!";}
         }
 

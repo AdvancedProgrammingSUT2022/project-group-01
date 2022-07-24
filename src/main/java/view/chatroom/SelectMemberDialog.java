@@ -2,6 +2,7 @@ package view.chatroom;
 
 import controller.ProgramController;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.*;
@@ -27,17 +28,20 @@ import java.util.ArrayList;
 @Getter
 public class SelectMemberDialog extends Application {
     private BorderPane borderPane = new BorderPane();
-    private Scene scene = new Scene(borderPane);
+    private Scene scene;
     private Stage stage;
     private VBox container = new VBox();
     private VBox usersList = new VBox();
     private ArrayList<User> selectedUsers = new ArrayList<>();
     public void run(){
-        try {
-            start(new Stage());
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+        Platform.startup(() -> {
+            scene = new Scene(borderPane);
+            try {
+                start(new Stage());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     @Override
