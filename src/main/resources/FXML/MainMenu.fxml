@@ -3,5 +3,5 @@
 <?import javafx.scene.layout.Pane?>
 
 
-<Pane fx:id="root" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../css/FirstPage.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.components.MainMenu">
+<Pane fx:id="root" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../CSS/FirstPage.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/FXML/1" fx:controller="view.components.MainMenu">
 </Pane>

@@ -309,7 +309,7 @@ public class MapGenerationController extends Controller {
             for (Tile tile : adjacentTiles) {
                 continentVector.add(tile);
                 for (Tile adjacentTile : tile.getAdjacentTiles()) {
-                    if (!adjacentTile.getTerrain().equals(Terrain.OCEAN)) {
+                    if (!adjacentTile.getTerrain().equals(Terrain.OCEAN) && !adjacentTile.getTerrain().equals(Terrain.MOUNTAIN)) {
                         if ((!continentVector.contains(adjacentTile)) && (!adjacentTiles.contains(adjacentTile)) && (!tempTile.contains(adjacentTile))) {
                             tempTile.add(adjacentTile);
                             resume = true;

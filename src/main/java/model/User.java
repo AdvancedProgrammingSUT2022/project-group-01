@@ -1,14 +1,22 @@
 package model;
 
+import controller.ProgramController;
+
+import java.util.Date;
+import java.util.Map;
+import java.util.Vector;
+
 public class User {
 
     private String username;
     //private undefinedType[] savedGames;//TODO handle here
     private String password;
     private int score;
+    private Date lastWinDate;
     private String nickname;
     private String avatarUrl;
-
+    private Vector<String> friends = new Vector<>();
+    private Vector<String> friendshipRequests = new Vector<>();
     /**
      * @param username user's username
      * @param password user's password
@@ -28,6 +36,7 @@ public class User {
 
     public void setUsername(String newUsername) {
         this.username = newUsername;
+        ProgramController.getDatabase().save();
     }
 
     public String getPassword() {
@@ -39,6 +48,7 @@ public class User {
      */
     public void setPassword(String password) {
         this.password = password;
+        ProgramController.getDatabase().save();
     }
 
     public int getScore() {
@@ -50,6 +60,7 @@ public class User {
      */
     public void increaseScore(int score) {
         this.score = score;
+        ProgramController.getDatabase().save();
     }
 
     public String getNickname() {
@@ -61,6 +72,7 @@ public class User {
      */
     public void setNickname(String nickname) {
         this.nickname = nickname;
+        ProgramController.getDatabase().save();
     }
 
 
@@ -70,5 +82,48 @@ public class User {
 
     public void setAvatarUrl(String avatarUrl) {
         this.avatarUrl = avatarUrl;
+        ProgramController.getDatabase().save();
+    }
+
+    public void addFriend(User user){
+        this.friendshipRequests.remove(user.username);
+        if(!friends.contains(user.username))
+            this.friends.add(user.username);
+        ProgramController.getDatabase().save();
+    }
+
+    public void addRequest(User user){
+        for(String request : this.friendshipRequests){
+            if(request.equals(user.username))
+                return;
+        }
+        friendshipRequests.add(user.username);
+        ProgramController.getDatabase().save();
+    }
+
+    public void removeRequest(User user){
+        friendshipRequests.remove(user.username);
+        ProgramController.getDatabase().save();
+    }
+
+    public Vector<String> getFriendshipRequests() {
+        return friendshipRequests;
+    }
+
+    public boolean hasUserAsFriend(User user){
+        return friends.contains(user.username);
+    }
+
+    public Vector<String> getFriends() {
+        return friends;
+    }
+
+    public void setLastWinDate(Date date){
+        this.lastWinDate = date;
+        ProgramController.getDatabase().save();
+    }
+
+    public Date getLastWinDate(){
+        return this.lastWinDate;
     }
 }

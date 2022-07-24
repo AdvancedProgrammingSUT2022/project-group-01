@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="330.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/FXML/1">
+   <children>
+      <ScrollPane layoutY="153.0" prefHeight="571.0" prefWidth="330.0">
+         <content>
+            <HBox prefHeight="581.0" prefWidth="328.0" />
+         </content>
+      </ScrollPane>
+      <JFXButton layoutX="17.0" layoutY="118.0" prefHeight="26.0" prefWidth="298.0" />
+   </children>
+</Pane>

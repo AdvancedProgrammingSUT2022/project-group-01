@@ -11,7 +11,6 @@ public class GameMenu{
 
 	private GameMenuController controller;
 	protected HashMap<CommandAction, Commands> commands;
-
 	{
 		commands = new HashMap<CommandAction, Commands>() {{
 			put(new CommandAction() {

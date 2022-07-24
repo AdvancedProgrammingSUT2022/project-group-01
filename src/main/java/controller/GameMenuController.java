@@ -26,6 +26,8 @@ import model.unit.civilian.Settler;
 import model.unit.civilian.Worker;
 import utils.Commands;
 import utils.StringUtils;
+import view.components.GameInstantiateData;
+import view.components.mapComponents.GameMapController;
 
 import java.util.HashMap;
 
@@ -39,6 +41,7 @@ public class GameMenuController {
 	private final WorkerController workerController;
 	private CityController cityController;
 	private UnitTestGui unitTestGui;
+	private TradeController tradeController;
 	/**
 	 * @param
 	 */
@@ -49,8 +52,9 @@ public class GameMenuController {
 		this.cityController = cityController;
 		this.unitController = unitController;
 		this.workerController = workerController;
-		UnitViewThread TRD = new UnitViewThread(game);
-		TRD.start();
+		this.tradeController = new TradeController(game);
+//		UnitViewThread TRD = new UnitViewThread(game);
+//		TRD.start();
 	}
 
 	//SELECT:
@@ -72,7 +76,7 @@ public class GameMenuController {
 		} else {
 			return "invalid unit type, types are [armed, civilian]";
 		}
-		UnitTestGui.instance.select();
+		//UnitTestGui.instance.select();
 		return "unit selected";
 	}
 
@@ -528,6 +532,8 @@ public class GameMenuController {
 //			System.out.println("unit type " + unit.toString());
 		}
 		game.nextTurn();
+		gameController.yearCheck();
+		tradeController.actNextTurn();
 		return "time fast forwarded !";
 	}
 
@@ -663,7 +669,10 @@ public class GameMenuController {
 	}
 
 	public String nextTurn(HashMap<String, String> args) {
-		TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
+		game.nextTurn();
+		//TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
+		gameController.yearCheck(); // TODO aDDED BY PR
+		tradeController.actNextTurn(); // TODO aDDED BY PR
 		return "time flies...\n"+game.getCurrentPlayer().getUser().getNickname()+"'s turn:";
 	}
 
@@ -774,4 +783,5 @@ public class GameMenuController {
 		city.destroy();
 		return "boom!";
 	}
+
 }

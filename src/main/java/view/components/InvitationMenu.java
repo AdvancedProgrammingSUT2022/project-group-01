@@ -44,8 +44,7 @@ public class InvitationMenu {
         textField.setLayoutY(14);
         textField.setPrefHeight(34);
         textField.setPrefWidth(709);
-       // textField.getStyleClass().add(".tf_box");
-        textField.getStylesheets().add(String.valueOf(Main.class.getResource("/css/FirstPage.css")));
+        textField.getStylesheets().add(String.valueOf(Main.class.getResource("/CSS/FirstPage.css")));
         textField.getStyleClass().add("tf_box");
         textField.setPromptText("Enter the username you are searching for...");
         root.getChildren().add(textField);
@@ -78,7 +77,7 @@ public class InvitationMenu {
         scrollPane.setLayoutY(62);
         scrollPane.setPrefHeight(388);
         scrollPane.setPrefWidth(830);
-        scrollPane.getStylesheets().add(String.valueOf(Main.class.getResource("/css/InvitationMenu.css")));
+        scrollPane.getStylesheets().add(String.valueOf(Main.class.getResource("/CSS/InvitationMenu.css")));
         scrollPane.setStyle("-fx-background: transparent");
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="231.0" prefWidth="482.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fitHeight="231.0" fitWidth="484.0" layoutX="-1.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../asset/info/cityPanel.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="37.0" fitWidth="34.0" layoutX="428.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../asset/info/close.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="71.0" fitWidth="165.0" layoutX="72.0" layoutY="83.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../asset/info/grayButton.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="71.0" fitWidth="165.0" layoutX="303.0" layoutY="81.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../asset/info/grayButton.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="71.0" fitWidth="165.0" layoutX="76.0" layoutY="143.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../asset/info/grayButton.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="71.0" fitWidth="165.0" layoutX="303.0" layoutY="143.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../asset/info/grayButton.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="173.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../asset/info/blueButton.png" />
+         </image>
+      </ImageView>
+<!--      <Label alignment="CENTER" layoutX="203.0" layoutY="34.0" prefHeight="26.0" prefWidth="140.0" text="Production" textFill="#ebf5ff">-->
+<!--         <font>-->
+<!--            <Font name="AppleGothic Regular" size="18.0" />-->
+<!--         </font>-->
+<!--      </Label>-->
+<!--      <Label layoutX="98.0" layoutY="108.0" prefHeight="17.0" prefWidth="97.0" text="Label" />-->
+<!--      <Label alignment="CENTER" layoutX="325.0" layoutY="103.0" prefHeight="17.0" prefWidth="97.0" text="Best : 1" textFill="WHITE">-->
+<!--         <font>-->
+<!--            <Font name="AppleGothic Regular" size="14.0" />-->
+<!--         </font>-->
+<!--      </Label>-->
+      <Label layoutX="106.0" layoutY="168.0" prefHeight="17.0" prefWidth="97.0" text="Label" />
+      <Label layoutX="337.0" layoutY="168.0" prefHeight="17.0" prefWidth="97.0" text="Label" />
+      <ImageView fitHeight="93.0" fitWidth="84.0" layoutX="231.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../asset/info/blurHex.png" />
+         </image>
+      </ImageView>
+<!--      <Label alignment="CENTER" layoutX="258.0" layoutY="130.0" prefHeight="26.0" prefWidth="30.0" text="24">-->
+<!--         <font>-->
+<!--            <Font name="AppleGothic Regular" size="15.0" />-->
+<!--         </font>-->
+<!--      </Label>-->
+   </children>
+</Pane>

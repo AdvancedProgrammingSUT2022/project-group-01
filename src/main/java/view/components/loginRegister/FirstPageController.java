@@ -24,6 +24,8 @@ import model.Database;
 import model.Game;
 import model.User;
 import view.Main;
+import view.components.popup.PopUp;
+import view.components.popup.PopUpStates;
 
 
 import java.io.File;
@@ -140,13 +142,14 @@ public class FirstPageController {
         inputs.put("password",password.getText());
         String output = loginMenuController.login(inputs);
         if (output.startsWith("Username and password"))
-            AlertBox.display(loginPageTexts.USER_NOT_EXISTS);
-        //else
-            //GUIController.changeMenu("MainMenu");
+            //AlertBox.display(loginPageTexts.USER_NOT_EXISTS);
+            new PopUp().run(PopUpStates.OK,"username bird");
+        else
+            GUIController.changeMenu("PreMainMenu");
     }
 
     public void closeApp() {
-        //GUIController.closeApp();
+        GUIController.closeApp();
     }
 
     public void chooseImage() {
@@ -174,10 +177,6 @@ public class FirstPageController {
         chosenAvatarPath = address.toString();
         ImagePattern pattern = new ImagePattern(new Image(chosenAvatarPath));
         avatarCircle.setFill(pattern);
-    }
-
-    public void signAsGuest(javafx.scene.input.MouseEvent mouseEvent) {
-        //GUIController.changeMenu("MainMenu"); // go to game without sign in
     }
 
 

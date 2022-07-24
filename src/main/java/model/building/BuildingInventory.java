@@ -17,7 +17,7 @@ public class BuildingInventory {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param building
 	 */
 	public void ownBuilding(BuildingType building) {
@@ -25,7 +25,7 @@ public class BuildingInventory {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param building
 	 */
 	public boolean hasBuilding(BuildingType building) {
