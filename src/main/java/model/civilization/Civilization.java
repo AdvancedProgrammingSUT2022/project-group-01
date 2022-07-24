@@ -39,6 +39,8 @@ public class Civilization implements TurnBasedLogic {
 
     private TechTree techTree;//TODO merge with safar
     private Vector<Civilization> knownCivilizations;
+    private Vector<Trade> trades;
+    private Vector<Trade> receivedTradeRequests;
 
     public Civilization(Civilizations civilization, City capital, Player player) {
         this.civilization = civilization;
@@ -51,6 +53,8 @@ public class Civilization implements TurnBasedLogic {
         this.currency = new Currency(0, 0, 0);
         this.player = player;
         knownCivilizations = new Vector<>();
+        trades = new Vector<>();
+        receivedTradeRequests = new Vector<>();
     }
 
     public TechTree getResearchTree() {
@@ -202,6 +206,22 @@ public class Civilization implements TurnBasedLogic {
         int population = 0;
         for (City city : this.getCities()) population += city.getPopulation().size();
         return population;
+    }
+
+    public void addToReceivedTradeRequests(Trade trade){
+        receivedTradeRequests.add(trade);
+    }
+
+    public void removeRequestTrade(Trade t){
+        receivedTradeRequests.remove(t);
+    }
+
+    public void addToTrades(Trade trade){
+        trades.add(trade);
+    }
+
+    public void cancelTrade(Trade t){
+        trades.remove(t);
     }
 
 

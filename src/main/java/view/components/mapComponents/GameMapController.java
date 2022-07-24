@@ -22,6 +22,7 @@ import view.components.GameVisualUI.UIStatesController;
 import view.components.ImagesAddress;
 import view.components.StatusBar;
 import view.components.gamePanelComponents.TilePopUp;
+import view.components.gamePanelComponents.deplomacy.TradeMenu;
 import view.components.infoPanels.CityListPanel;
 import view.components.infoPanels.GameEndPage;
 import view.components.infoPanels.SideLog;
@@ -126,6 +127,12 @@ public class GameMapController {
         GUIController.getScene().setOnKeyPressed(event -> {
             if(event.getCode().equals(KeyCode.F) && event.isShiftDown())
                 new CheatPage(this);
+            if(event.getCode().equals(KeyCode.R)){
+                GUIController.changeMenuManually(new TradeMenu(gameMenuController.getGame().getPlayers().get(1).getCivilization(),gameMenuController,this).getBackPane());
+            }
+            if(event.getCode().equals(KeyCode.S)){
+                GUIController.changeMenuManually(new TradeMenu(gameMenuController.getGame().getPlayers().get(0).getCivilization(),gameMenuController,this).getBackPane());
+            }
         });
 
     }

@@ -221,6 +221,13 @@ public class UIStatesController {
         HashMap<String,String> sendingData = new HashMap<>();
         sendingData.put("position",String.valueOf(newClick.getFirst().getTile().getMapNumber()));
         new PopUp().run(PopUpStates.OK,gameMenuController.unitRangedAttack(sendingData));
+        try{
+            savedClicks.get(0).getFirst().getArmedUnit().attack(newClick.getFirst().getPane(),newClick.getFirst().getArmedUnit());
+        }
+        catch (NullPointerException e){
+            System.err.println("first unit has not been chosen");
+            e.printStackTrace();
+        }
         reset();
     }
 

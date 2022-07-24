@@ -63,8 +63,8 @@ public class UnitView extends Rectangle {
         move(tileComponent.getPane().getTranslateX(), tileComponent.getPane().getTranslateY());
     }
 
-    public void attack(UnitView enemyView){
-        new UnitAttackTransition(this, enemyView, pane);
+    public void attack(Pane enemyPane, UnitView enemyView){
+        new UnitAttackTransition(this,enemyView,pane,mapTileComponent.getPane(),enemyPane);
     }
 
 

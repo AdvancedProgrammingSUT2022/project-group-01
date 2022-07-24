@@ -31,6 +31,7 @@ public class UnitActionsPanel extends VBox {
         actionCorrespondingUnitTypes.put(UnitAction.RANGE_ATTACK, new Vector<>());
         actionCorrespondingUnitTypes.put(UnitAction.ATTACK, new Vector<>());
         actionCorrespondingUnitTypes.put(UnitAction.CITY_ATTACK, new Vector<>());
+        actionCorrespondingUnitTypes.put(UnitAction.SETUP,new Vector<>());
         for(UnitType a : UnitType.values()){
             if(!a.getCombatType().equals(CombatType.CIVILIAN)) {
                 actionCorrespondingUnitTypes.get(UnitAction.ALERT).add(a);
@@ -40,6 +41,7 @@ public class UnitActionsPanel extends VBox {
                 actionCorrespondingUnitTypes.get(UnitAction.RANGE_ATTACK).add(a);
                 actionCorrespondingUnitTypes.get(UnitAction.ATTACK).add(a);
                 actionCorrespondingUnitTypes.get(UnitAction.CITY_ATTACK).add(a);
+                actionCorrespondingUnitTypes.get(UnitAction.SETUP).add(a);
             }
         }
         actionCorrespondingUnitTypes.put(UnitAction.BUILD_ROUTE, new Vector<>());

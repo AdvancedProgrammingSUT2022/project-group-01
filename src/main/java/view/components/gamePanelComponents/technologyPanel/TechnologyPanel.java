@@ -26,6 +26,7 @@ public class TechnologyPanel {
     private Vector<TechnologyItem> futureTechnologyItems = new Vector<>();
     private TechnologyItem currentTechnologyItem;
     private GameMapController gameMapController;
+    private ImageView backButton;
     public TechnologyPanel(GameMapController gameMapController) {
         this.gameMapController = gameMapController;
         root.setPrefHeight(720);
@@ -111,10 +112,12 @@ public class TechnologyPanel {
     private void updatePanel(){
         root.getChildren().remove(currentTechnologyItem.getPane());
         for(TechnologyItem t : futureTechnologyItems){
-            root.getChildren().remove(t.getPane());
+            vBox.getChildren().remove(t.getPane());
         }
+        root.getChildren().remove(backButton);
         addCurrentTechnology();
         addFutureTechnologies();
+        closePanel();
     }
 
     private void addTechnologyTreeButton(){
@@ -137,7 +140,7 @@ public class TechnologyPanel {
     }
 
     private void closePanel(){
-        ImageView backButton = new ImageView(ImagesAddress.BACK_BUTTON.getImage());
+        backButton = new ImageView(ImagesAddress.BACK_BUTTON.getImage());
         backButton.setTranslateX(5);
         backButton.setTranslateY(5);
         backButton.setOnMouseClicked(e -> {

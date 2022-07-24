@@ -41,6 +41,7 @@ public class GameMenuController {
 	private final WorkerController workerController;
 	private CityController cityController;
 	private UnitTestGui unitTestGui;
+	private TradeController tradeController;
 	/**
 	 * @param
 	 */
@@ -51,6 +52,7 @@ public class GameMenuController {
 		this.cityController = cityController;
 		this.unitController = unitController;
 		this.workerController = workerController;
+		this.tradeController = new TradeController(game);
 //		UnitViewThread TRD = new UnitViewThread(game);
 //		TRD.start();
 	}
@@ -530,6 +532,7 @@ public class GameMenuController {
 		}
 		game.nextTurn();
 		gameController.yearCheck();
+		tradeController.actNextTurn();
 		return "time fast forwarded !";
 	}
 
@@ -668,6 +671,7 @@ public class GameMenuController {
 		game.nextTurn();
 		//TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
 		gameController.yearCheck(); // TODO aDDED BY PR
+		tradeController.actNextTurn(); // TODO aDDED BY PR
 		return "time flies...\n"+game.getCurrentPlayer().getUser().getNickname()+"'s turn:";
 	}
 
