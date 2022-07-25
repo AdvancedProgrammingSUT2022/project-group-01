@@ -194,7 +194,7 @@ public class TradeMenu {
                 if(o instanceof ResourceType){
                     ResourceType r = (ResourceType) o;
                     int amount =  correspondingSpinners.get(o).getValue();
-                    if(amount > 0) trade.addToSecondOffer(o,amount);
+                    if(amount > 0) trade.addToSecondOffer(r,amount);
                 }else if(o instanceof TradeList){
                     TradeList t = (TradeList) o;
                     int amount = correspondingSpinners.get(o).getValue();
@@ -206,6 +206,7 @@ public class TradeMenu {
             }
             trade.setBuildingState(1);
             opponent.addToReceivedTradeRequests(trade);
+            System.err.println("trade added to opponent's received trade requests");
         }else{
             Trade trade = selectedTrade;
             if(trade.getBuildingState() == 1 && trade.getSecond().equals(user)) {
@@ -233,22 +234,22 @@ public class TradeMenu {
     private boolean checkIfCanPay(Civilization a){
         for(Object o : correspondingSpinners.keySet()){
             System.out.println(o);
-           if(o instanceof TradeList){
+            if(o instanceof TradeList){
                 TradeList t = (TradeList) o;
                 if(t.equals(TradeList.GOLD)){
-                     if(correspondingSpinners.get(o).getValue() > a.getCurrency().getGold()) return false;
+                    if(correspondingSpinners.get(o).getValue() > a.getCurrency().getGold()) return false;
                 }else if(t.equals(TradeList.FOOD)){
                     if(correspondingSpinners.get(o).getValue() > a.getCurrency().getFood()) return false;
                 }else if(t.equals(TradeList.PRODUCTION)){
                     if(correspondingSpinners.get(o).getValue() > a.getCurrency().getProduct()) return false;
                 }
-           }else if(o instanceof ResourceType){
-               ResourceType r = (ResourceType) o;
-               if(r.resourceKind.equals(KindsOfResource.BONUS)) continue;
-               if(correspondingSpinners.get(o).getValue() == 0) continue;
-               if(a.getResourceRepository().get(r) == null) return false;
-               if(correspondingSpinners.get(o).getValue() > a.getResourceRepository().get(r)) return false;
-           }
+            }else if(o instanceof ResourceType){
+                ResourceType r = (ResourceType) o;
+                if(r.resourceKind.equals(KindsOfResource.BONUS)) continue;
+                if(correspondingSpinners.get(o).getValue() == 0) continue;
+                if(a.getResourceRepository().get(r) == null) return false;
+                if(correspondingSpinners.get(o).getValue() > a.getResourceRepository().get(r)) return false;
+            }
         }
         return true;
     }
@@ -270,9 +271,12 @@ public class TradeMenu {
         demandVBox.setStyle("-fx-background: transparent");
         demandVBox.setPrefWidth(703);
         demandScrollPane.setContent(demandVBox);
+        backPane.getChildren().add(demandScrollPane);
     }
 
     private void fillDemandVBox(){
+        System.err.println("we are filling this shit");
+
         for(Trade t : user.getTrades()){
             addTradesFromVector(t, t.getSecond(), t.getFirst());
         }
@@ -281,6 +285,7 @@ public class TradeMenu {
         }
         for(Trade t : opponent.getReceivedTradeRequests()){
             if(t.getSecond().equals(user) || t.getFirst().equals(user)){
+                System.err.println("trade added to user's received trade requests");
                 TradeOffer a = new TradeOffer(t,demandVBox,this);
                 trades.add(a);
                 demandVBox.getChildren().add(a.getPane());

@@ -40,7 +40,7 @@ public class GameMenuController {
 	private final UnitController unitController;
 	private final WorkerController workerController;
 	private CityController cityController;
-	private UnitTestGui unitTestGui;
+	//private UnitTestGui unitTestGui;
 	private TradeController tradeController;
 	/**
 	 * @param
@@ -59,7 +59,7 @@ public class GameMenuController {
 
 	//SELECT:
 	public String selectUnit(HashMap<String, String> args) {
-		UnitTestGui.instance.unitPanel();
+		//UnitTestGui.instance.unitPanel();
 		if(!isInteger(args.get("position")))
 			return "invalid position";
 		String selectingType = args.get("section");//armed or civilian or garbage
