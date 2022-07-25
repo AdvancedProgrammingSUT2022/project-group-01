@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="830.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TextField layoutX="31.0" layoutY="14.0" prefHeight="34.0" prefWidth="709.0" />
+      <ImageView fitHeight="34.0" fitWidth="38.0" layoutX="761.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+      <ScrollPane layoutX="-1.0" layoutY="62.0" prefHeight="388.0" prefWidth="830.0" />
+   </children>
+</Pane>

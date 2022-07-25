@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Polygon?>
+<?import javafx.scene.text.Font?>
+
+<Pane prefHeight="80.0" prefWidth="790.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Polygon fill="#000000a3" layoutX="78.0" layoutY="72.0" points="-68.5, -29.0, -27.0, 1.0, 660.0, 1.0, 703.0, -29.0, 660.0, -65.0, -27.0, -65.0" stroke="#1c81c9" strokeType="INSIDE" strokeWidth="3.0" />
+      <Circle fill="#f2f2f2" layoutX="81.0" layoutY="40.0" radius="25.0" stroke="BLACK" strokeType="INSIDE" />
+      <Label layoutX="127.0" layoutY="23.0" prefHeight="34.0" prefWidth="296.0" text="Username" textFill="WHITE">
+         <font>
+            <Font name="Apple Braille Outline 6 Dot" size="22.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="34.0" fitWidth="50.0" layoutX="614.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
+      </ImageView>
+   </children>
+</Pane>

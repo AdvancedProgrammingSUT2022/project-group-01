@@ -1,0 +1,18 @@
+.currency-row{
+    -fx-background-color: #292929;
+    -fx-background-radius: 7;
+    -fx-font-family: "Times New Roman";
+    -fx-font-size: 12;
+    -fx-alignment: center;
+    -fx-padding: 5,5,5,5;
+}
+
+.box{
+    -fx-background-color: black;
+    -fx-min-width: 140;
+    -fx-max-width: 140;
+    -fx-padding: 5,5,5,5;
+    -fx-background-radius: 7;
+    -fx-spacing: 5;
+}
+
