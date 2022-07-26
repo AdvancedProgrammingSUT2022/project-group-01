@@ -2,27 +2,23 @@ package controller;
 
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import lombok.Getter;
 import model.Game;
 import model.civilization.city.City;
 import model.unit.Unit;
 import view.components.StatusBar;
+import view.components.city.CitizenPanel;
 import view.components.city.CityOverview;
 import view.components.city.productionpanel.ProductionPanel;
 import view.components.popup.PopUp;
 import view.components.popup.PopUpStates;
 import view.components.unit.MilitaryOverview;
-import view.components.unit.UnitActionsPanel;
 import view.components.unit.UnitPanel;
-import view.components.unit.UnitView;
 
 
 @Getter
@@ -57,16 +53,36 @@ public class UnitTestGui extends Application {
         addCivBanner();
     }
 
-
     public void initBtn() {
         Button btn = new Button("select unit");
+        btn.setTranslateX(15);
+        btn.setTranslateY(40);
+        TextField tf = new TextField();
+        tf.setTranslateX(15);
+        tf.setTranslateY(100);
+        pane.getChildren().add(tf);
         pane.getChildren().add(btn);
+        Button bttn = new Button("salam");
+        bttn.setTranslateX(40);
+        bttn.setTranslateY(40);
+        bttn.setOnAction(actionEvent -> {
+            CitizenPanel nf = new CitizenPanel((City) game.getSelectedObject());
+            nf.setTranslateX(100);
+            nf.setTranslateY(50);
+            pane.getChildren().add(nf);
+        });
+        pane.getChildren().add(bttn);
         btn.setOnAction(actionEvent -> {
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
                     try {
-                        new PopUp().run(PopUpStates.WARNING, "hame chi khoobe inam jahate matne kheiiliii toollani base dige khodayi");
+                        if(tf.getText().length() % 3 == 0)
+                        new PopUp().run(PopUpStates.WARNING, tf.getText());
+                        else if(tf.getText().length() % 3 == 1)
+                            new PopUp().run(PopUpStates.OK, tf.getText());
+                        else if(tf.getText().length() % 3 == 2)
+                            new PopUp().run(PopUpStates.ERROR, tf.getText());
                     }catch(Exception e){
                         e.printStackTrace();
                     }
@@ -79,12 +95,6 @@ public class UnitTestGui extends Application {
     public void run(Game game) {
         UnitTestGui.game = game;
         launch();
-    }
-
-    public void addBtn(){
-        Button btn = new Button("hello");
-        TextField tf = new TextField();
-        //btn.
     }
 
     public void select() {

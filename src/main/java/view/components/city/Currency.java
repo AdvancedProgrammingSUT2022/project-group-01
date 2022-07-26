@@ -17,9 +17,6 @@ public enum Currency {
 
     Currency(String path, String color){
         this.icon = GraphicUtils.getImage(path);
-
-
         this.style = "-fx-text-fill: "+color;
-
     }
 }

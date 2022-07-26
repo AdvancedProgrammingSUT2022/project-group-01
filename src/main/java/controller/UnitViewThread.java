@@ -7,14 +7,15 @@ public class UnitViewThread extends Thread {
     Game game;
     public UnitTestGui unitTestGui;
     public GUIController guiController;
-    public UnitViewThread() {
-        //this.unitTestGui = new UnitTestGui();
-        guiController = new GUIController();
+    public UnitViewThread(Game game) {
+        this.unitTestGui = new UnitTestGui();
+        this.game = game;
+        //guiController = new GUIController();
     }
 
     @Override
     public void run() {
-        //unitTestGui.run(game);
-        guiController.run();
+        unitTestGui.run(game);
+        //guiController.run();
     }
 }

@@ -146,7 +146,7 @@ public class City {
 
 
 	private void handlePopulationIncrease(){
-		if(remainedTurnToExpansion == 0 && currency.getFood() > 15){
+		if(remainedTurnToExpansion <= 0 && currency.getFood() > 15){
 			population.add(new Person());
 			remainedTurnToGrowth = 8;
 		}

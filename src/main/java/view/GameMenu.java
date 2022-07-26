@@ -349,7 +349,7 @@ public class GameMenu{
 	public void run() {
 		while (ProgramController.getCurrentMenu() == Menus.GAME_MENU) {
 			Menu.handleCommand(commands, Menu.getInput());
-			System.out.print(controller.showCurrentMap());
+			//System.out.print(controller.showCurrentMap());
 		}
 	}
 }

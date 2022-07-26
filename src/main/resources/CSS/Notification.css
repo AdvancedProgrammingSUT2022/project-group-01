@@ -1,9 +1,17 @@
 .box{
-    -fx-background-color: black;
+    -fx-background-color: #242424;
     -fx-background-radius: 10;
     -fx-max-width: 250;
     -fx-min-width: 250;
 }
+
+.box:hover{
+    -fx-background-color: #5b5b5b;
+    -fx-background-radius: 10;
+    -fx-max-width: 250;
+    -fx-min-width: 250;
+}
+
 
 .label{
     -fx-text-fill: #FFEEA0;
@@ -12,6 +20,26 @@
 .bottom{
     -fx-min-width: 300;
     -fx-max-width: 300;
+    -fx-background-color: black;
+}
+
+.bottom:focused{
+    -fx-background-color: transparent;
+    -fx-min-width: 300;
+    -fx-max-width: 300;
     -fx-min-height: 300;
     -fx-max-height: 300;
+}
+
+.bottom > .viewport {
+    -fx-background-color: black;
+}
+
+.pane{
+    -fx-background-color: black;
+    -fx-background-radius: 10;
+    -fx-min-width: 320;
+    -fx-max-width: 320;
+    -fx-min-height: 550;
+    -fx-max-height: 550;
 }

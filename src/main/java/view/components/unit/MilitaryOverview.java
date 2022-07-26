@@ -147,6 +147,7 @@ public class MilitaryOverview extends Pane {
 
         right.getChildren().add(newLabel(String.valueOf((int)unit.getMovementPoint()),13));
         right.getChildren().add(newLabel(String.valueOf((int)unit.getHealth()),13));
+        right.getChildren().add(newLabel(String.valueOf(unit.getType().getCombatStrength()),13));
         right.getChildren().add(newLabel(String.valueOf(unit.getType().getRange()),13));
         return out;
     }

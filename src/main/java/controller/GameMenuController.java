@@ -53,8 +53,8 @@ public class GameMenuController {
 		this.unitController = unitController;
 		this.workerController = workerController;
 		this.tradeController = new TradeController(game);
-//		UnitViewThread TRD = new UnitViewThread(game);
-//		TRD.start();
+		UnitViewThread TRD = new UnitViewThread(game);
+		TRD.start();
 	}
 
 	//SELECT:
@@ -76,7 +76,7 @@ public class GameMenuController {
 		} else {
 			return "invalid unit type, types are [armed, civilian]";
 		}
-		//UnitTestGui.instance.select();
+		UnitTestGui.instance.select();
 		return "unit selected";
 	}
 

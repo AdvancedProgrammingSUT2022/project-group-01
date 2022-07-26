@@ -11,8 +11,8 @@ public class Main {
         //ProgramController.setLoggedInUser(new User("Amnam","Amnam","Amnam","amnam"));
         //GUIController guiController = new GUIController();
         //guiController.run();
-        UnitViewThread unitViewThread = new UnitViewThread();
-        unitViewThread.start();
-        pc.run();
+        //UnitViewThread unitViewThread = new UnitViewThread();
+        //unitViewThread.start();
+        //pc.run();
     }
 }
