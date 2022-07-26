@@ -8,7 +8,6 @@ import lombok.Setter;
 import model.Game;
 import model.Player;
 import model.ProgressState;
-import model.TurnBasedLogic;
 import model.civilization.Civilization;
 import model.civilization.city.City;
 import model.improvement.ImprovementType;
@@ -26,8 +25,6 @@ import model.unit.civilian.Settler;
 import model.unit.civilian.Worker;
 import utils.Commands;
 import utils.StringUtils;
-import view.components.GameInstantiateData;
-import view.components.mapComponents.GameMapController;
 
 import java.util.HashMap;
 

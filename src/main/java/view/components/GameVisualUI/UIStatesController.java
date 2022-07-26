@@ -6,6 +6,7 @@ import javafx.scene.layout.Pane;
 import model.tile.Tile;
 import utils.Pair;
 import view.components.city.CityOverview;
+import view.components.city.productionpanel.ProductionPanel;
 import view.components.gamePanelComponents.TilePopUp;
 import view.components.mapComponents.GameMapController;
 import view.components.mapComponents.MapTileComponent;
@@ -307,6 +308,11 @@ public class UIStatesController {
             gameMapController.getTileComponentInMap(t.getPCoordinate(),t.getQCoordinate()).initCitizen();
             gameMapController.getTileComponentInMap(t.getPCoordinate(),t.getQCoordinate()).highlight(1);
         }
+
+        ProductionPanel p = new ProductionPanel(newClick.getFirst().getTile().getInnerCity());
+        gameMapController.addPaneToPanels(p);
+        p.setTranslateX(1280 - p.getWidth());
+        p.setTranslateY(20);
     }
 
     private void showTileInfoPopUp(Pair<MapTileComponent, WorkingObjectType> newClick){

@@ -2,6 +2,10 @@ package controller;
 
 import lombok.Getter;
 import model.*;
+import network.Request;
+import network.Response;
+import utils.Commands;
+
 import java.util.*;
 import java.util.Map;
 @Getter
@@ -9,9 +13,7 @@ public class MainMenuController {
 
 	Database database;
 
-	public MainMenuController(Database database){
-		this.database = database;
-	}
+	public MainMenuController(){}
 	/**
 	 * 
 	 * @param args
@@ -68,12 +70,14 @@ public class MainMenuController {
 		return "Game Started!";
 	}
 
+	@GameCommand(command = Commands.LOGOUT)
 	public String logOut(HashMap<String, String> args){
+		Request request = new Request("Method Invoke");
+		request.setToken(ProgramController.getLoggedInUser().getToken());
+		request.addData("args", new Object[]{}).addData("method", "/logout");
+		Response response = NetworkController.send(request);
 		ProgramController.setLoggedInUser(null);
 		ProgramController.setCurrentMenu(Menus.LOGIN_MENU);
-		return "Done!";
+		return response.getMessage();
 	}
-
-
-
 }

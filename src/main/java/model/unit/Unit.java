@@ -5,11 +5,15 @@ import controller.MapController;
 import controller.ProgramController;
 import lombok.Getter;
 import lombok.Setter;
+import model.Game;
+import model.Identifiable;
 import model.Map;
+import model.ObjectID;
 import model.civilization.Civilization;
 import model.civilization.city.City;
 import model.technology.TechnologyList;
 import model.tile.Boarder;
+import model.tile.Tile;
 import model.unit.action.Action;
 import model.unit.action.Actions;
 import model.unit.action.ActionsQueue;
@@ -18,14 +22,14 @@ import model.unit.civilian.Civilian;
 import model.unit.trait.TraitsList;
 import model.unit.trait.UnitTraits;
 import utils.OrderedPair;
-import model.tile.*;
 
 import java.util.Collections;
 import java.util.PriorityQueue;
 import java.util.Vector;
 
-@Getter @Setter
-public class Unit {
+@Getter
+@Setter
+public class Unit implements Identifiable {
 	public final static int maxHealth = 10;
 	protected Civilization ownerCivilization;
 	protected Tile currentTile;
@@ -35,8 +39,10 @@ public class Unit {
 	private int cost;
 	private UnitType type;
 	private double movementPoint;
-
 	private double remainingMP;
+
+	private ObjectID id;
+	private Game game;
 
 	public Unit(UnitType type, Tile tile, Civilization civilization) {
 		this.health = maxHealth;
@@ -48,6 +54,9 @@ public class Unit {
 		this.type = type;
 		remainingMP = movementPoint;
 		civilization.addUnit(this);
+
+		this.game = ProgramController.getGame();
+		this.game.addObject(this);
 	}
 
 	public static void produceUnit(UnitType type, City city) {
@@ -78,7 +87,8 @@ public class Unit {
 		// TODO implement this
 	}
 
-	public void moveTo(Tile tile) {}
+	public void moveTo(Tile tile) {
+	}
 
 	public TraitsList getTraitsList() {
 		return type.getUnitTraits();
@@ -111,11 +121,12 @@ public class Unit {
 	}
 
 	private double lastDijkstraRemMP;
+
 	private Vector<Tile> dijkstra(Tile destination) {
 		lastDijkstraRemMP = -1;
 		Map gameMap = ProgramController.getGame().getMap();//TODO get user map in next checkpoint
 
-		if(!destination.isPassable() || destination.getSameTypeUnit(this) != null)
+		if (!destination.isPassable() || destination.getSameTypeUnit(this) != null)
 			return null;
 
 		PriorityQueue<OrderedPair<Distance, Integer>> heap = new PriorityQueue<>();
@@ -265,15 +276,10 @@ public class Unit {
 		return dijkstra(destination) != null;
 	}
 
-	/**
-	 * move this unit to destination
-	 *
-	 * @param destTile is destination of this unit
-	 */
 	public void goTo(Tile destTile) {
 		Vector<Tile> stopPoints = dijkstra(destTile);
 		assert stopPoints != null;
-		if(stopPoints.size() > 1)
+		if (stopPoints.size() > 1)
 			remainingMP = 0;
 		else
 			remainingMP = lastDijkstraRemMP;
@@ -304,7 +310,7 @@ public class Unit {
 		remainingMP = Math.max(0, remainingMP);
 	}
 
-	public boolean outOfMP(){
+	public boolean outOfMP() {
 		return remainingMP <= 0.5f;
 	}
 
@@ -330,7 +336,7 @@ public class Unit {
 			int resultTurn = turn;
 			double resultRemainedMP = remainedMP;
 			Tile nextTile = boarder.getOtherTile(currentTile);
-			if(ProgramController.getGame().getCurrentPlayer().getSavedMap().getVisibilityState(nextTile).equals(Tile.VisibilityState.FOG_OF_WAR))
+			if (ProgramController.getGame().getCurrentPlayer().getSavedMap().getVisibilityState(nextTile).equals(Tile.VisibilityState.FOG_OF_WAR))
 				return new Distance(infinity, -1);
 
 			if (!nextTile.isPassable()) {
@@ -365,7 +371,7 @@ public class Unit {
 
 	}
 
-	protected static void updateMapAfterMove(){
+	protected static void updateMapAfterMove() {
 		MapController mapController = new MapController(ProgramController.getGame());
 		mapController.updateCurrentPlayersMap();
 	}

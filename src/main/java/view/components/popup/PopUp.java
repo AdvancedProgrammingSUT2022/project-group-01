@@ -20,6 +20,7 @@ import lombok.Getter;
 import utils.Pair;
 
 import java.time.Duration;
+import java.time.LocalTime;
 import java.util.LinkedList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -27,30 +28,36 @@ import java.util.TimerTask;
 @Getter
 public class PopUp extends Application {
 
-    private Stage stage = new Stage();
+    private Stage stage;
     private BorderPane pane = new BorderPane();
     private PopUpStates state;
     private String text;
+    private String time;
     private static final LinkedList<Stage> stages = new LinkedList<>();
     @Getter
     private static final LinkedList<Pair<String, PopUpStates>> history = new LinkedList<Pair<String, PopUpStates>>();
+
     @Override
     public void start(Stage stage) throws Exception {
-        stage.show();
+        Platform.runLater(stage::show);
     }
 
     public void run(PopUpStates state, String message) {
-        stages.add(stage);
-        this.state = state;
-        this.text = message;
-        initGraphic();
-        initTimer();
-        try {
-            history.add(new Pair<>(message, state));
-            start(stage);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Platform.runLater(() -> {
+            stage = new Stage();
+            stages.add(stage);
+            this.state = state;
+            this.text = message;
+            this.time = getTime();
+            initGraphic();
+            initTimer();
+            try {
+                history.add(new Pair<>(message + "/" + time, state));
+                start(stage);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     public void initTimer() {
@@ -116,9 +123,23 @@ public class PopUp extends Application {
     private void applyGravity() {
         stages.pop();
         Rectangle2D screenBounds = Screen.getPrimary().getBounds();
-        for (int i = 0; i < stages.size(); i++){
-            stages.get(i).setY(screenBounds.getHeight() - 30 - (i+1) * ((stage.getHeight() + 5)));
+        for (int i = 0; i < stages.size(); i++) {
+            stages.get(i).setY(screenBounds.getHeight() - 30 - (i + 1) * ((stage.getHeight() + 5)));
         }
+    }
+
+    private static String getTime() {
+        int hour = LocalTime.now().getHour();
+        int minutes = LocalTime.now().getMinute();
+        StringBuilder sb = new StringBuilder();
+        sb.append(hour);
+        if(sb.length() < 2)
+            sb.insert(0,"0");
+        sb.append(":");
+        sb.append(minutes);
+        if(sb.length() < 5)
+            sb.insert(3,"0");
+        return sb.toString();
     }
 
 }

@@ -19,8 +19,6 @@ import javafx.util.Duration;
 import model.User;
 import view.components.ImagesAddress;
 
-import javax.tools.Tool;
-
 
 public class FriendRequest {
     private User sender;
@@ -34,8 +32,8 @@ public class FriendRequest {
 
     private void initialize(){
         initRoot();
-        if(receiver.getFriendshipRequests().size() > 0){
-            sender = ProgramController.getDatabase().findUserByUsername(receiver.getFriendshipRequests().get(0));
+        if(receiver.getPendingFriends().size() > 0){
+            sender = ProgramController.getDatabase().findUserByUsername(receiver.getPendingFriends().get(0));
             update();
         }
     }
@@ -156,8 +154,8 @@ public class FriendRequest {
         TranslateTransition transition = new TranslateTransition(Duration.millis(500),root);
         transition.setToY(900);
         transition.setOnFinished(e -> {
-            if(receiver.getFriendshipRequests().size() > 0){
-                sender = ProgramController.getDatabase().findUserByUsername(receiver.getFriendshipRequests().get(0));
+            if(receiver.getPendingFriends().size() > 0){
+                sender = ProgramController.getDatabase().findUserByUsername(receiver.getPendingFriends().get(0));
                 root.getChildren().clear();
                 update();
                 TranslateTransition translateTransition = new TranslateTransition(Duration.millis(500),root);

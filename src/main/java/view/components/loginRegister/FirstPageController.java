@@ -52,36 +52,7 @@ public class FirstPageController {
     private String chosenAvatarPath;
     private LoginMenuController loginMenuController = new LoginMenuController(ProgramController.getDatabase());
 
-    public static void choosePictureOfList(JFXComboBox avatarList, Circle avatarCircle) {
-        String newAvatarPath;
-        if (avatarList == null || avatarList.getValue() == null) return;
-        if (avatarList.getValue().equals("Miles Prower"))
-            newAvatarPath = getProfilePictureAddress(1);
-        else if (avatarList.getValue().equals("CupHead"))
-            newAvatarPath = getProfilePictureAddress(2);
-        else if (avatarList.getValue().equals("Mugman"))
-            newAvatarPath = getProfilePictureAddress(3);
-        else return;
-        if (!newAvatarPath.equals("")) {
-            ImagePattern pattern = new ImagePattern(new Image(newAvatarPath),
-                    280, 180, 100, 100, false);
-            avatarCircle.setFill(pattern);
-            if (ProgramController.getLoggedInUser() != null) ProgramController.getLoggedInUser().setAvatarUrl(newAvatarPath);
-        }
-    }
 
-    private static String getProfilePictureAddress(int i){
-        String newAvatarPath = "";
-        try {
-            newAvatarPath = String.valueOf(
-                    new URL(Objects.requireNonNull(
-                            Main.class.getResource(
-                                    "/pictures/defaultProfilePictures/" + i + ".jpeg")).toString()));
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        return  newAvatarPath;
-    }
 
     public void initialize() {
         gameInitializations();
@@ -130,10 +101,10 @@ public class FirstPageController {
         inputs.put("avatarURL",chosenAvatarPath);
         String output = loginMenuController.register(inputs);
         if(output.startsWith("user with username"))
-            AlertBox.display(loginPageTexts.USERNAME_EXISTS);
+            new PopUp().run(PopUpStates.ERROR,loginPageTexts.USERNAME_EXISTS.getText());
         if(output.startsWith("user with nickname"))
-            AlertBox.display(loginPageTexts.NICKNAME_EXISTS);
-        else AlertBox.display(loginPageTexts.WELCOME); // show the welcome pop up
+            new PopUp().run(PopUpStates.ERROR,loginPageTexts.NICKNAME_EXISTS.getText());
+        else new PopUp().run(PopUpStates.OK,loginPageTexts.WELCOME.getText());// show the welcome pop up
     }
 
     public void signInAttempt() {
@@ -142,8 +113,7 @@ public class FirstPageController {
         inputs.put("password",password.getText());
         String output = loginMenuController.login(inputs);
         if (output.startsWith("Username and password"))
-            //AlertBox.display(loginPageTexts.USER_NOT_EXISTS);
-            new PopUp().run(PopUpStates.OK,"username bird");
+            new PopUp().run(PopUpStates.ERROR,loginPageTexts.USER_NOT_EXISTS.getText());
         else
             GUIController.changeMenu("PreMainMenu");
     }

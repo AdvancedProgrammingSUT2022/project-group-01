@@ -2,6 +2,7 @@ package model;
 // TODO added MAP map and getter setter
 // TODO added get current Player
 
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import lombok.Getter;
 import model.civilization.Civilization;
 import model.civilization.Currency;
@@ -22,7 +23,20 @@ public class Game {
     int turn = 0;
     private Object selectedObject;
     private Map map;
-    private boolean isGameEnded = false;
+    @XStreamOmitField
+    private transient boolean isGameEnded = false;
+
+    private Vector<Object> allObjects = new Vector<>();
+
+    public void addObject(Identifiable identifiable) {
+        identifiable.setId(new ObjectID(allObjects.size()));
+        allObjects.add(identifiable);
+    }
+
+    public Object getObject(ObjectID id) {
+        return allObjects.get(id.getId());
+    }
+
 
     public Game(Vector<Player> players, int mapSize) {
         //TODO : ADDED MAP FIRST INITIALIZE AND map size

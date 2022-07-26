@@ -19,7 +19,6 @@ public class TradeOffer {
     private VBox firstOffer;
     private VBox secondOffer;
     private VBox backBox;
-    private int state = 0;
     private TradeMenu tradeMenu;
 
     public TradeOffer(Trade trade, VBox backBox,TradeMenu m) {
@@ -98,7 +97,8 @@ public class TradeOffer {
     private void showOffer(){
         firstOffer.getChildren().clear();
         secondOffer.getChildren().clear();
-        if(state >= 1) {
+        System.err.println("we are showing the offers but you may be blind");
+        if(trade.getBuildingState() >= 1) {
             for (Object o : trade.getSecondOffer().keySet()) {
                 Label l = new Label();
                 l.setFont(Font.font("AppleGothic Regular", 14));
@@ -107,7 +107,7 @@ public class TradeOffer {
                 firstOffer.getChildren().add(l);
             }
         }
-        if(state >= 2){
+        if(trade.getBuildingState() >= 2){
             for (Object o : trade.getFirstOffer().keySet()) {
                 Label l = new Label();
                 l.setFont(Font.font("AppleGothic Regular", 14));
@@ -122,7 +122,10 @@ public class TradeOffer {
         if(trade.getBuildingState() == 1 && trade.getSecond().equals(tradeMenu.getUser())){
             addDiscardButton();
         }
-        else if(trade.getBuildingState() == 2 && trade.getFirst().equals(tradeMenu.getUser())){
+        else if(trade.getBuildingState() == 2 && trade.getFirst().equals(tradeMenu.getUser()) && !trade.isDemand()){
+            addDiscardButton();
+            addAcceptButton();
+        }else if(trade.getBuildingState() == 2 && trade.isDemand() && trade.getSecond().equals(tradeMenu.getUser())){
             addDiscardButton();
             addAcceptButton();
         }
@@ -130,8 +133,8 @@ public class TradeOffer {
 
     private void addDiscardButton(){
         ImageView discardButton = new ImageView();
-        discardButton.setFitHeight(51);
-        discardButton.setFitWidth(51);
+        discardButton.setFitHeight(80);
+        discardButton.setFitWidth(80);
         discardButton.setLayoutX(304);
         discardButton.setLayoutY(203);
         discardButton.setPreserveRatio(true);
@@ -146,8 +149,8 @@ public class TradeOffer {
 
     private void addAcceptButton(){
         ImageView acceptButton = new ImageView();
-        acceptButton.setFitHeight(51);
-        acceptButton.setFitWidth(51);
+        acceptButton.setFitHeight(80);
+        acceptButton.setFitWidth(80);
         acceptButton.setLayoutX(41);
         acceptButton.setLayoutY(203);
         acceptButton.setPreserveRatio(true);

@@ -118,7 +118,21 @@ public enum ImagesAddress {
     // trade
     ACCEPT_TRADE("other/trade/accept",".png" ),
     DECLINE_TRADE("other/trade/decline",".png" ),
-    TRADE_OFFER_BOX("other/trade/offerBox",".png" );
+    TRADE_OFFER_BOX("other/trade/offerBox",".png" ),
+    LOBBY_NEW_GAME_BUTTON("lobby/newGameButton",".png" ),
+    LOBBY_REFRESH_BUTTON("lobby/refresh",".png" ),
+    // game stop
+    GAME_STOP_ITEM("gameStop/item",".png" ),
+    STOP_GAME_ICON("gameStop/icon",".png" ),
+    NOTIFICATION_INFO_ICON("info/notification",".png" ),
+    MILITARY_OVERVIEW_ICON("info/militaryOverview",".png" ),
+    UNIT_PANEL_ICON("info/unitPanel",".png" ),
+    DEMOCRACY_PANEL_ICON("info/democracyIcon",".png" ),
+    LOBBY_ITEM_BACKGROUND("lobby/itemBackground",".jpg" ),
+    PROFILE_PIC_1("profilePics/1",".jpg"),
+    PROFILE_PIC_2("profilePics/2",".jpg"),
+    PROFILE_PIC_3("profilePics/3",".jpg"),
+    PROFILE_PIC_4("profilePics/4",".jpg");
 
 
 

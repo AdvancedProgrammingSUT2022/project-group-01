@@ -72,7 +72,7 @@ public class ProgramController {
                     gameMenu.run();
                 }break;
                 case MAIN_MENU:{
-                    MainMenuController mainMenuController = new MainMenuController(database);
+                    MainMenuController mainMenuController = new MainMenuController();
                     MainMenu mainMenu = new MainMenu(mainMenuController);
                     mainMenu.run();
                 }break;

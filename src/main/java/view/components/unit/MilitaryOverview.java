@@ -5,6 +5,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -18,6 +19,7 @@ import model.civilization.city.City;
 import model.unit.Unit;
 import org.w3c.dom.css.Rect;
 import utils.GraphicUtils;
+import view.components.ImagesAddress;
 import view.components.popup.PopUp;
 import view.components.popup.PopUpStates;
 
@@ -25,8 +27,14 @@ import java.util.Locale;
 
 public class MilitaryOverview extends Pane {
     private Civilization civilization;
-
+    private Pane back;
     public MilitaryOverview(Civilization civilization){
+        this.civilization = civilization;
+        init();
+    }
+
+    public MilitaryOverview(Pane back, Civilization civilization){
+        this.back = back;
         this.civilization = civilization;
         init();
     }
@@ -44,6 +52,7 @@ public class MilitaryOverview extends Pane {
         scrollPane.setTranslateX(245);
         scrollPane.setTranslateY(40);
         this.getChildren().addAll(vbox, scrollPane, label);
+        closeButton();
     }
 
     private VBox initLeft(){
@@ -161,5 +170,18 @@ public class MilitaryOverview extends Pane {
     }
 
 
+    private void closeButton(){
+        ImageView close = new ImageView(ImagesAddress.INFO_CLOSE.getImage());
+        close.setLayoutX(5);
+        close.setLayoutY(5);
+        close.setFitHeight(34);
+        close.setFitWidth(34);
+        close.setPickOnBounds(true);
+        close.setPreserveRatio(true);
+        this.getChildren().add(close);
+        close.setOnMouseClicked(e -> {
+            back.getChildren().remove(this);
+        });
+    }
 
 }

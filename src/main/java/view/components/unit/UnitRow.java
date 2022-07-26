@@ -6,10 +6,11 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+import lombok.Getter;
 import model.unit.Unit;
 import utils.GraphicUtils;
 import utils.StringUtils;
-
+@Getter
 public class UnitRow extends HBox {
 
     private Unit unit;

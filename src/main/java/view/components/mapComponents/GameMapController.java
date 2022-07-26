@@ -7,6 +7,8 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.control.TabPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
@@ -50,6 +52,7 @@ public class GameMapController {
     private boolean nextTurnSituation;
     double paneLastScaleY;
     private Vector<Pane> panels = new Vector<>();
+    private Vector<TabPane> weirdPanels = new Vector<>();
     private Vector<Pane> mapTempPanes = new Vector<>();
     private UIStatesController uiStatesController;
 
@@ -127,12 +130,6 @@ public class GameMapController {
         GUIController.getScene().setOnKeyPressed(event -> {
             if(event.getCode().equals(KeyCode.F) && event.isShiftDown())
                 new CheatPage(this);
-            if(event.getCode().equals(KeyCode.R)){
-                GUIController.changeMenuManually(new TradeMenu(gameMenuController.getGame().getPlayers().get(1).getCivilization(),gameMenuController,this).getBackPane());
-            }
-            if(event.getCode().equals(KeyCode.S)){
-                GUIController.changeMenuManually(new TradeMenu(gameMenuController.getGame().getPlayers().get(0).getCivilization(),gameMenuController,this).getBackPane());
-            }
         });
 
     }
@@ -216,9 +213,21 @@ public class GameMapController {
         background.getChildren().add(pane);
     }
 
+    public void addPaneToPanels(TabPane t){
+        if(weirdPanels.contains(t)) return;
+        weirdPanels.add(t);
+        if(background.getChildren().contains(t)) return;
+        background.getChildren().add(t);
+    }
+
     public void removePaneFromPanels(Pane pane){
         panels.remove(pane);
         background.getChildren().remove(pane);
+    }
+
+    public void removePaneFromPanels(TabPane t){
+        weirdPanels.remove(t);
+        background.getChildren().remove(t);
     }
 
     public void addPanelToBackPane(Pane pane){
@@ -285,5 +294,9 @@ public class GameMapController {
 
     private void addSideMenu(){
         new SideLog(background,this);
+    }
+
+    public Pane getBackPane() {
+        return backPane;
     }
 }

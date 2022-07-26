@@ -1,22 +1,37 @@
 package model;
 
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import controller.ProgramController;
+import lombok.Getter;
+import lombok.Setter;
+import network.AccessLevel;
 
 import java.util.Date;
-import java.util.Map;
 import java.util.Vector;
 
+@Getter
+@Setter
 public class User {
 
     private String username;
     //private undefinedType[] savedGames;//TODO handle here
     private String password;
     private int score;
-    private Date lastWinDate;
+    @XStreamOmitField
+    private transient Date lastWinDate;
     private String nickname;
     private String avatarUrl;
     private Vector<String> friends = new Vector<>();
-    private Vector<String> friendshipRequests = new Vector<>();
+    private Vector<String> pendingFriends = new Vector<>();
+
+    private AccessLevel accessLevel;
+    private String token = "";
+    private Date lastSeen = null;
+
+
+//    private Vector<String> pendingFriends = new Vector<>();
+
+
     /**
      * @param username user's username
      * @param password user's password
@@ -86,28 +101,28 @@ public class User {
     }
 
     public void addFriend(User user){
-        this.friendshipRequests.remove(user.username);
+        this.pendingFriends.remove(user.username);
         if(!friends.contains(user.username))
             this.friends.add(user.username);
         ProgramController.getDatabase().save();
     }
 
     public void addRequest(User user){
-        for(String request : this.friendshipRequests){
+        for(String request : this.pendingFriends){
             if(request.equals(user.username))
                 return;
         }
-        friendshipRequests.add(user.username);
+        pendingFriends.add(user.username);
         ProgramController.getDatabase().save();
     }
 
     public void removeRequest(User user){
-        friendshipRequests.remove(user.username);
+        pendingFriends.remove(user.username);
         ProgramController.getDatabase().save();
     }
 
-    public Vector<String> getFriendshipRequests() {
-        return friendshipRequests;
+    public Vector<String> getPendingFriends() {
+        return pendingFriends;
     }
 
     public boolean hasUserAsFriend(User user){

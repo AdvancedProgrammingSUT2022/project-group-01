@@ -1,8 +1,6 @@
 package view.components.MainMenuComponents;
 
 import com.jfoenix.controls.JFXButton;
-import controller.GUIController;
-import controller.ProgramController;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Pos;
@@ -21,7 +19,7 @@ import javafx.util.Duration;
 import lombok.Getter;
 import model.User;
 import view.Main;
-import view.components.GameInstantiateData;
+import model.GameInstantiateData;
 import view.components.ImagesAddress;
 import view.components.mapComponents.UserMapBuilder.PreBuiltMap;
 

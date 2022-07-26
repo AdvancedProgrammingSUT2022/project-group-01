@@ -1,11 +1,11 @@
 package view.components.preMainMenu;
 
 import controller.GUIController;
+import controller.MainMenuController;
 import controller.ProgramController;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
-import javafx.scene.ImageCursor;
 import javafx.scene.Node;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
@@ -16,12 +16,14 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import javafx.util.Pair;
-import view.components.GameInstantiateData;
 import view.components.ImagesAddress;
 import view.components.MainMenuItem;
+//import view.components.lobby.LobbyMainMenu;
+import view.components.lobby.LobbyMainMenu;
 import view.components.preMainInMenus.FriendShipController;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class PreMainMenu {
@@ -30,7 +32,7 @@ public class PreMainMenu {
     private VBox menuBox = new VBox(-5);
     private Line line;
     private List<Pair<String,Runnable>> items = Arrays.asList(
-            new Pair<String,Runnable>("Game Menu",()->{runGameMenu();}),
+            new Pair<String,Runnable>("Lobby",()->{runLobby();}),
             new Pair<String,Runnable>("Score Board",()->{runScoreBoard();}),
             new Pair<String,Runnable>("Profile Menu",()->{runProfileMenu();}),
             new Pair<String,Runnable>("Friends Menu",()->{runFriendsMenu();}),
@@ -42,8 +44,8 @@ public class PreMainMenu {
         GUIController.changeMenuManually(new FriendShipController(ProgramController.getLoggedInUser()).getRoot());
     }
 
-    private void runGameMenu() {
-        GUIController.changeMenu("MainMenu");
+    private void runLobby() {
+        GUIController.changeMenuManually((new LobbyMainMenu()).getBackPane());
     }
 
     private void runScoreBoard(){
@@ -55,9 +57,10 @@ public class PreMainMenu {
     }
 
     private void logout(){
-        ProgramController.setLoggedInUser(null);
+//        ProgramController.setLoggedInUser(null);
+		(new MainMenuController()).logOut(new HashMap<>());
         GUIController.changeMenu("FirstPage");
-    }
+	}
 
     public void initialize(){
         GUIController.setCursor();

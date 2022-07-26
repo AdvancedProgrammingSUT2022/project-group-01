@@ -3,10 +3,7 @@ package view.components.gamePanelComponents.deplomacy;
 import com.jfoenix.controls.JFXButton;
 import controller.GUIController;
 import controller.GameMenuController;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -130,7 +127,22 @@ public class TradeMenu {
         sendButton.setText("Send");
         sidePane.getChildren().add(sendButton);
         sendButton.setOnMouseClicked(e ->{
-            doAction();
+            doAction(false);
+            update();
+        });
+        JFXButton demandButton = new JFXButton();
+        demandButton.setLayoutX(5);
+        demandButton.setLayoutY(640);
+        demandButton.setPrefWidth(50);
+        demandButton.setPrefHeight(26);
+        demandButton.setTextFill(Color.GHOSTWHITE);
+        demandButton.setFont(Font.font("Verdana", 10));
+        demandButton.setTextAlignment(TextAlignment.CENTER);
+        demandButton.setText("demnad");
+        sidePane.getChildren().add(demandButton);
+        demandButton.setOnMouseClicked(e ->{
+            doAction(true);
+            update();
         });
     }
 
@@ -176,7 +188,7 @@ public class TradeMenu {
     }
 
 
-    private void doAction(){
+    private void doAction(boolean isDemand){
         for(Object o : correspondingSpinners.keySet()){
             if(Integer.parseInt(correspondingSpinners.get(o).getValue().toString()) < 0){
                 new PopUp().run(PopUpStates.WARNING,"You must offer at least 0 of each resource");
@@ -188,7 +200,7 @@ public class TradeMenu {
             return;
         }
 
-        if(makingOffer){
+        if(makingOffer || isDemand){
             Trade trade = new Trade(user,opponent);
             for(Object o : correspondingSpinners.keySet()){
                 if(o instanceof ResourceType){
@@ -205,6 +217,10 @@ public class TradeMenu {
                 }
             }
             trade.setBuildingState(1);
+            if(isDemand) {
+                trade.setBuildingState(2);
+                trade.setDemand(true);
+            }
             opponent.addToReceivedTradeRequests(trade);
             System.err.println("trade added to opponent's received trade requests");
         }else{
@@ -276,15 +292,21 @@ public class TradeMenu {
 
     private void fillDemandVBox(){
         System.err.println("we are filling this shit");
-
+        Vector<Trade> tAll = new Vector<>();
         for(Trade t : user.getTrades()){
+            if(tAll.contains(t)) continue;
+            else tAll.add(t);
             addTradesFromVector(t, t.getSecond(), t.getFirst());
         }
         for(Trade t : user.getReceivedTradeRequests()){
+            if(tAll.contains(t)) continue;
+            else tAll.add(t);
             addTradesFromVector(t, t.getFirst(), t.getSecond());
         }
         for(Trade t : opponent.getReceivedTradeRequests()){
             if(t.getSecond().equals(user) || t.getFirst().equals(user)){
+                if(tAll.contains(t)) continue;
+                else tAll.add(t);
                 System.err.println("trade added to user's received trade requests");
                 TradeOffer a = new TradeOffer(t,demandVBox,this);
                 trades.add(a);
@@ -308,8 +330,15 @@ public class TradeMenu {
     }
 
     private void mouseClickAction(TradeOffer s){
+        System.out.println(s.getTrade().getBuildingState());
         if(s.getTrade().getBuildingState() == 1){
             if(s.getTrade().getFirst().equals(opponent)){
+                makingOffer = false;
+                selectedTrade = s.getTrade();
+            }
+        }
+        if(s.getTrade().getBuildingState() == 2){
+            if(s.getTrade().getFirst().equals(user)){
                 makingOffer = false;
                 selectedTrade = s.getTrade();
             }

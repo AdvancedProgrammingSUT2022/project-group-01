@@ -6,6 +6,7 @@ import lombok.Setter;
 import java.util.*;
 @Getter @Setter
 public class Trade {
+    boolean isDemand = false;
     Civilization first;
     Civilization second;
     HashMap<Object,Integer> firstOffer;
@@ -66,6 +67,8 @@ public class Trade {
     }
 
     public void addToUsers(){
+        first.removeRequestTrade(this);
+        second.removeRequestTrade(this);
         first.addToTrades(this);
         second.addToTrades(this);
     }
@@ -73,5 +76,9 @@ public class Trade {
     public void decline() {
         first.removeRequestTrade(this);
         second.removeRequestTrade(this);
+    }
+
+    public void makeDemand(){
+        this.isDemand = true;
     }
 }

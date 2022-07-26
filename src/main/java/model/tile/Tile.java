@@ -1,9 +1,9 @@
 package model.tile;
-import java.util.Vector;
 
 import lombok.Getter;
 import lombok.Setter;
-import model.Player;
+import model.Game;
+import model.ObjectID;
 import model.ProgressState;
 import model.civilization.Civilization;
 import model.civilization.Currency;
@@ -11,7 +11,6 @@ import model.civilization.Person;
 import model.civilization.city.City;
 import model.improvement.ImprovementInventory;
 import model.improvement.ImprovementType;
-
 import model.improvement.MiscellaneousTileActionsInventory;
 import model.resource.ResourceType;
 import model.unit.Unit;
@@ -20,7 +19,7 @@ import model.unit.armed.Armed;
 import model.unit.civilian.Civilian;
 import utils.VectorUtils;
 
-import javax.swing.plaf.ColorUIResource;
+import java.util.Vector;
 
 // TODO added get available resource
 @Getter @Setter
@@ -41,6 +40,10 @@ public class Tile {
 	private boolean isDestroyed;
 	private Vector<Person> peopleInside = new Vector<>();
 	private Currency currency;
+
+	private ObjectID id;
+	private Game game;
+
 	public Civilization getCivilization() {
 		return civilization;
 	}
