@@ -6,6 +6,7 @@ import controller.ProgramController;
 import lombok.SneakyThrows;
 import model.Game;
 import model.ObjectID;
+import view.components.GameInstantiateData;
 
 import java.io.DataInputStream;
 import java.lang.reflect.Method;
@@ -41,8 +42,10 @@ public class Listener extends Thread {
 				Update update = Update.fromXML(request);
 				if(update.getAction().equals("Game Start")){
 					Game game = getGame();
-					ProgramController.setGame(game);
-					ProgramController.setCurrentMenu(Menus.GAME_MENU);
+//					ProgramController.setGame(game);
+//					ProgramController.setCurrentMenu(Menus.GAME_MENU);
+					System.out.println("Starting Game !!!");
+					GameInstantiateData.startGameStatic(game);
 				} else handleUpdate(update);
 			} catch (Exception e) {
 				System.out.println("Something went wrong");

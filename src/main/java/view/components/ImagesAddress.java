@@ -132,8 +132,11 @@ public enum ImagesAddress {
     PROFILE_PIC_1("profilePics/1",".jpg"),
     PROFILE_PIC_2("profilePics/2",".jpg"),
     PROFILE_PIC_3("profilePics/3",".jpg"),
-    PROFILE_PIC_4("profilePics/4",".jpg");
-
+    PROFILE_PIC_4("profilePics/4",".jpg"),
+    START_GAME_LOBBY_ICON("lobby/newGameButton",".png" ),
+    INVITATION_ICON("lobby/invitation",".png" ),
+    PRIVACY_ICON("lobby/privacy",".png" ),
+    LOBBY_BACK("lobby/lobyVisualBackground", ".png");
 
 
     private final String partA;

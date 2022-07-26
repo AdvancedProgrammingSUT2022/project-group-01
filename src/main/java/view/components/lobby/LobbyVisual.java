@@ -16,6 +16,7 @@ import javafx.util.Duration;
 import model.Lobby;
 import model.User;
 import view.Main;
+import view.components.ImagesAddress;
 //import view.components.InvitationMenu;
 
 public class LobbyVisual {
@@ -56,7 +57,7 @@ public class LobbyVisual {
         clear();
         setPrivacyLabel();
         addUsers();
-        if(user.equals(lobby.getOwner())){
+        if(user.getUsername().equals(lobby.getOwner().getUsername())){
             privacySetter();
             invitationSetter();
             startGameButton();
@@ -75,8 +76,8 @@ public class LobbyVisual {
         root = new Pane();
         root.setPrefHeight(720);
         root.setPrefWidth(1280);
-        root.setStyle("-fx-background-image: url(asset/)");
-        ImageView backImage = new ImageView();
+//        root.setStyle("-fx-background-image: url(asset/lobby/lobyVisualBackground.png)");
+        ImageView backImage = new ImageView(ImagesAddress.LOBBY_BACK.getImage());
         backImage.setFitHeight(720);
         backImage.setFitWidth(1280);
         backImage.setPickOnBounds(true);
@@ -139,7 +140,7 @@ public class LobbyVisual {
         exitLobbyButton.setOnMouseClicked(e -> {
             //TODO ...
             lobby.removeUser(user);
-            //GUIController.changeMenu("LobbyMenu");
+            GUIController.changeMenuManually(new LobbyMainMenu().getBackPane());
         });
     }
 
@@ -155,7 +156,7 @@ public class LobbyVisual {
 
     //admin options
     private void privacySetter(){
-        privacySet = new ImageView();
+        privacySet = new ImageView(ImagesAddress.PRIVACY_ICON.getImage());
         privacySet.setFitHeight(74);
         privacySet.setFitWidth(74);
         privacySet.setLayoutX(34);
@@ -173,7 +174,7 @@ public class LobbyVisual {
     }
 
     private void invitationSetter(){
-        invitationSetter = new ImageView();
+        invitationSetter = new ImageView(ImagesAddress.INVITATION_ICON.getImage());
         invitationSetter.setFitHeight(74);
         invitationSetter.setFitWidth(74);
         invitationSetter.setLayoutX(34);
@@ -198,14 +199,15 @@ public class LobbyVisual {
 //    }
 
     private void startGameButton(){
-        startGame = new ImageView();
+        startGame = new ImageView(ImagesAddress.START_GAME_LOBBY_ICON.getImage());
         startGame.setFitWidth(74);
-        startGame.setFitWidth(74);
+        startGame.setFitHeight(74);
         startGame.setLayoutX(34);
         startGame.setLayoutY(390);
         root.getChildren().add(startGame);
         startGame.setOnMouseClicked(e -> {
             //TODO start the fucking game dummy
+
         });
     }
 
@@ -213,7 +215,6 @@ public class LobbyVisual {
         Timeline t = new Timeline(new KeyFrame(Duration.millis(6000),e -> {update();}));
         t.setCycleCount(Animation.INDEFINITE);
         t.play();
-
     }
 
 }

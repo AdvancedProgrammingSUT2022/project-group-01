@@ -40,8 +40,8 @@ public class Civilization implements TurnBasedLogic {
 
     private TechTree techTree;//TODO merge with safar
     private Vector<Civilization> knownCivilizations;
-    private Vector<Trade> trades;
     private Vector<Trade> receivedTradeRequests;
+    private Vector<Trade> trades;
 
     public Civilization(Civilizations civilization, City capital, Player player) {
         this.civilization = civilization;

@@ -1,5 +1,7 @@
 package controller;
 
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import controller.civilization.city.CityController;
 import controller.unit.UnitController;
 import controller.unit.WorkerController;
@@ -25,6 +27,7 @@ import model.unit.civilian.Settler;
 import model.unit.civilian.Worker;
 import utils.Commands;
 import utils.StringUtils;
+import view.components.GameInstantiateData;
 
 import java.util.HashMap;
 
@@ -781,4 +784,20 @@ public class GameMenuController {
 		return "boom!";
 	}
 
+	public String saveGame(HashMap<String, String> args){
+		XStream xStream = new XStream();
+		xStream.setMode(XStream.ID_REFERENCES);
+		String xml = xStream.toXML(this.game).replace("  ", "");
+
+		return xml;
+	}
+
+	public static Game loadGame(String xml){
+		XStream xStream = new XStream();
+		xStream.setMode(XStream.ID_REFERENCES);
+		Game game = (Game) xStream.fromXML(xml);
+		// TODO decide
+//		GameInstantiateData.startGameStatic(game);
+		return game;
+	}
 }

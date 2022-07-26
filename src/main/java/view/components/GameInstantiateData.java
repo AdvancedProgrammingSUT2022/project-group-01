@@ -92,6 +92,19 @@ public class GameInstantiateData {
         GUIController.changeMenuManually(gameMapController.getBackground());
     }
 
+    public static void startGameStatic(Game game){
+        ProgramController.setGame(game);
+        MapController mapController = new MapController(game);
+        GameController gameController = new GameController(game, mapController);
+        CityController cityController = new CityController(game);
+        UnitController unitController = new UnitController(game);
+        WorkerController workerController = new WorkerController(game);
+        GameMenuController gameMenuController = new GameMenuController(game,gameController,cityController, unitController, workerController);
+        ProgramController.setCurrentMenu(Menus.GAME_MENU);
+        GameMapController gameMapController = new GameMapController(gameMenuController);
+        GUIController.changeMenuManually(gameMapController.getBackground());
+    }
+
     public void startMapBuilder(){
         GameInitializer gameInitializer = new GameInitializer();
         Game game = gameInitializer.startGame(players, mapSize);
