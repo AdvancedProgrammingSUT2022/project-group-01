@@ -315,17 +315,18 @@ public class UIStatesController {
 
         ProductionPanel p = new ProductionPanel(newClick.getFirst().getTile().getInnerCity());
         gameMapController.addPaneToPanels(p);
-        p.setTranslateX(800);
-        p.setTranslateY(20);
+        p.setTranslateX(1000);
+        p.setTranslateY(30);
 
         CitizenPanel cp = new CitizenPanel(newClick.getFirst().getTile().getInnerCity());
         gameMapController.addPaneToPanels(cp);
-        p.setTranslateX(0);
+        cp.setTranslateX(0);
         cp.setTranslateY(400);
     }
 
     private void showTileInfoPopUp(Pair<MapTileComponent, WorkingObjectType> newClick){
         gameMapController.destroyTemporaryPanels();
+        gameMapController.clearBackgroundFromPanels();
         Pane tilePopUp = new TilePopUp(newClick.getFirst().getTile()).getRoot();
         gameMapController.addPanelToBackPane(tilePopUp);
         tilePopUp.setTranslateX(newClick.getFirst().getPane().getTranslateX());

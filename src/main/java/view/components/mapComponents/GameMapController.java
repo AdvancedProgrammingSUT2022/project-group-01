@@ -238,9 +238,13 @@ public class GameMapController {
 
     public void clearBackgroundFromPanels(){
         for(Pane p : panels){
-            panels.remove(p);
             background.getChildren().remove(p);
         }
+        panels.clear();
+        for(TabPane p : weirdPanels){
+            background.getChildren().remove(p);
+        }
+        weirdPanels.clear();
     }
 
     public MapTileComponent getTileComponentInMap(int p, int q){

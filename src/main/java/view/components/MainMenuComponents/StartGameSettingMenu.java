@@ -285,11 +285,12 @@ public class StartGameSettingMenu {
         autoSaveLabel.setTextFill(Color.WHITESMOKE);
         root.getChildren().add(autoSaveLabel);
         autoSaveText = new TextField();
-        autoSaveText.setLayoutX(635);
-        autoSaveText.setLayoutY(27);
+        autoSaveText.setLayoutX(70);
+        autoSaveText.setLayoutY(391);
         autoSaveText.setPrefHeight(26);
         autoSaveText.setPrefWidth(40);
         autoSaveText.getStylesheets().add(String.valueOf(Main.class.getResource("/CSS/FirstPage.css")));
+        autoSaveText.getStyleClass().add("tf_box");
         root.getChildren().add(autoSaveText);
     }
 
@@ -305,6 +306,7 @@ public class StartGameSettingMenu {
         epField.setPrefHeight(26);
         epField.setPrefWidth(40);
         epField.getStylesheets().add(String.valueOf(Main.class.getResource("/CSS/FirstPage.css")));
+        epField.getStyleClass().add("tf_box");
         root.getChildren().add(epField);
     }
 
