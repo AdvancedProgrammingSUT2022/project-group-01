@@ -1,0 +1,28 @@
+.left-box{
+    -fx-min-width: 200;
+    -fx-max-width: 200;
+}
+
+.general{
+    -fx-background-color: black;
+    -fx-background-radius: 10;
+    -fx-min-height: 350;
+    -fx-max-height: 350;
+    -fx-min-width: 720;
+    -fx-max-width: 720;
+}
+
+.right-box{
+    -fx-min-width: 450;
+    -fx-max-width: 450;
+    -fx-max-height: 300;
+}
+
+.row{
+    -fx-background-color: black;
+}
+
+.row:hover{
+    -fx-background-color: #00224a;
+}
+
