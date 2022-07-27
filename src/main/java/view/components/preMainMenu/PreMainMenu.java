@@ -1,11 +1,11 @@
 package view.components.preMainMenu;
 
 import controller.GUIController;
+import controller.GameMenuController;
 import controller.ProgramController;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
-import javafx.scene.ImageCursor;
 import javafx.scene.Node;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
@@ -16,9 +16,9 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import javafx.util.Pair;
-import view.components.GameInstantiateData;
 import view.components.ImagesAddress;
 import view.components.MainMenuItem;
+import view.components.MusicHandler;
 import view.components.preMainInMenus.FriendShipController;
 
 import java.util.Arrays;
@@ -44,6 +44,7 @@ public class PreMainMenu {
 
     private void runGameMenu() {
         GUIController.changeMenu("MainMenu");
+        //GameMenuController.readFromFile("Wed Jul 27 01/01/32 IRDT 2022");
     }
 
     private void runScoreBoard(){
@@ -60,7 +61,8 @@ public class PreMainMenu {
     }
 
     public void initialize(){
-        GUIController.setCursor();
+        MusicHandler.GAME.stopMusic();
+        GUIController.setCursor(0);
         root.setPrefWidth(1280);
         root.setPrefHeight(720);
         ImageView background = new ImageView(ImagesAddress.GAME_BACKGROUND.getImage());

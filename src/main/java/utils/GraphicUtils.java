@@ -14,11 +14,4 @@ public class GraphicUtils {
         return GraphicUtils.class.getResource(path).toExternalForm();
     }
 
-    public static void main(String[] args){
-        try {
-            ImagePattern img = GraphicUtils.getImage("/popup/ok.png");
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-    }
 }

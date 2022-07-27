@@ -2,7 +2,9 @@ package model;
 // TODO added MAP map and getter setter
 // TODO added get current Player
 
+import controller.GameMenuController;
 import lombok.Getter;
+import lombok.Setter;
 import model.civilization.Civilization;
 import model.civilization.Currency;
 import model.civilization.Trade;
@@ -23,7 +25,8 @@ public class Game {
     private Object selectedObject;
     private Map map;
     private boolean isGameEnded = false;
-
+    @Getter @Setter
+    private int autoSaveNumber;
     public Game(Vector<Player> players, int mapSize) {
         //TODO : ADDED MAP FIRST INITIALIZE AND map size
         this.players = players;
@@ -33,13 +36,18 @@ public class Game {
     }
 
     public void nextTurn() {
-        if (currentPlayer == players.get(players.size() - 1))
+        if (currentPlayer == players.get(players.size() - 1)) {
+            decreaseWarTurns();
             turn++;
+            if(autoSaveNumber > 0 && (turn % autoSaveNumber == 0))
+                GameMenuController.saveToFile(this);
+        }
         TurnBasedLogic.callNextTurns(currentPlayer.getCivilization());
         currentPlayer = players.get((players.indexOf(currentPlayer) + 1) % players.size());
         // ADDED BY PRCR
         NotificationBuilder.buildNotifications(getCurrentPlayer().getCivilization());
     }
+
 
     public Trade getTradeForCivilization(Civilization civilization) {
         return null; //TODO Implement here
@@ -102,5 +110,11 @@ public class Game {
 
     public boolean isGameEnded(){
         return isGameEnded;
+    }
+
+    private void decreaseWarTurns() {
+        for(Player p : getPlayers()){
+            p.getCivilization().warsNextTurn();
+        }
     }
 }

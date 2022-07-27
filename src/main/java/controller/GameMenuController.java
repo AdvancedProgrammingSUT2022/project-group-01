@@ -1,14 +1,16 @@
 package controller;
 
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
+import com.thoughtworks.xstream.XStream;
 import controller.civilization.city.CityController;
 import controller.unit.UnitController;
 import controller.unit.WorkerController;
 import lombok.Getter;
 import lombok.Setter;
 import model.Game;
+import model.GameInstantiateData;
 import model.Player;
 import model.ProgressState;
-import model.TurnBasedLogic;
 import model.civilization.Civilization;
 import model.civilization.city.City;
 import model.improvement.ImprovementType;
@@ -26,10 +28,14 @@ import model.unit.civilian.Settler;
 import model.unit.civilian.Worker;
 import utils.Commands;
 import utils.StringUtils;
-import view.components.GameInstantiateData;
-import view.components.mapComponents.GameMapController;
 
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
 @Getter @Setter
 public class GameMenuController {
@@ -40,7 +46,8 @@ public class GameMenuController {
 	private final UnitController unitController;
 	private final WorkerController workerController;
 	private CityController cityController;
-	private UnitTestGui unitTestGui;
+	//private UnitTestGui unitTestGui;
+	private TradeController tradeController;
 	/**
 	 * @param
 	 */
@@ -51,12 +58,14 @@ public class GameMenuController {
 		this.cityController = cityController;
 		this.unitController = unitController;
 		this.workerController = workerController;
+		this.tradeController = new TradeController(game);
 //		UnitViewThread TRD = new UnitViewThread(game);
 //		TRD.start();
 	}
 
 	//SELECT:
 	public String selectUnit(HashMap<String, String> args) {
+		//UnitTestGui.instance.unitPanel();
 		if(!isInteger(args.get("position")))
 			return "invalid position";
 		String selectingType = args.get("section");//armed or civilian or garbage
@@ -530,6 +539,7 @@ public class GameMenuController {
 		}
 		game.nextTurn();
 		gameController.yearCheck();
+		tradeController.actNextTurn();
 		return "time fast forwarded !";
 	}
 
@@ -668,6 +678,7 @@ public class GameMenuController {
 		game.nextTurn();
 		//TurnBasedLogic.callNextTurns(game.getCurrentPlayer().getCivilization());
 		gameController.yearCheck(); // TODO aDDED BY PR
+		tradeController.actNextTurn(); // TODO aDDED BY PR
 		return "time flies...\n"+game.getCurrentPlayer().getUser().getNickname()+"'s turn:";
 	}
 
@@ -778,5 +789,74 @@ public class GameMenuController {
 		city.destroy();
 		return "boom!";
 	}
+
+
+	public static String saveGame(Game g){
+		XStream xStream = new XStream();
+		xStream.setMode(XStream.ID_REFERENCES);
+		String xml = xStream.toXML(g).replace("  ", "");
+
+		return xml;
+	}
+
+	public static Game loadGame(String xml){
+		XStream xStream = new XStream();
+		xStream.setMode(XStream.ID_REFERENCES);
+		Game game = (Game) xStream.fromXML(xml);
+		// TODO decide
+//		GameInstantiateData.startGameStatic(game);
+		return game;
+	}
+
+	public void saveToFile(){
+		String dateName = new Date().toString();
+		try {
+			//FileOutputStream outputStream = new FileOutputStream("src/main/resources/savedGames/" + dateName);
+			BufferedWriter bw = new BufferedWriter(new FileWriter("src/main/resources/savedGames/" + dateName));
+			bw.write(saveGame(this.game));
+			bw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public static void saveToFile(Game g){
+		String dateName = new Date().toString();
+		try {
+			BufferedWriter bw = new BufferedWriter(new FileWriter("src/main/resources/savedGames/" + dateName));
+			bw.write(saveGame(g));
+			bw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void readFromFile(String fileName){
+		try {
+			//FileInputStream inputStream = new FileInputStream("src/main/resources/savedGames/" + fileName);
+			BufferedReader br = new BufferedReader(new FileReader("src/main/resources/savedGames/" + fileName));
+			String xml = br.lines().collect(Collectors.joining());
+			System.out.println(xml.substring(0,10));
+			GameInstantiateData.loadGame(loadGame(xml));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public String declareWar(HashMap<String, String> args) {
+		Civilization enemy = null;
+		for (Player player : game.getPlayers()) {
+			if (player.getUser().getUsername().equals(args.get("player")))
+				enemy = player.getCivilization();
+		}
+		if (enemy == null)
+			return "are you declaring war against your imaginary friend ?";
+		game.getCurrentPlayer().getCivilization().declareWar(enemy);
+		return "oh yeah, first kill for 1$";
+	}
+
+
 
 }

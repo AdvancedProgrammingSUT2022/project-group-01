@@ -110,10 +110,16 @@ public class GUIController extends Application {
         GUIController.scene.setRoot(root);
     }
 
-    public static void setCursor(){
-        GUIController.getScene().setOnMouseEntered(event -> {
-            GUIController.getScene().setCursor(new ImageCursor(ImagesAddress.LIGHTSABER.getImage()));
-        });
-        //GUIController.getScene().setCursor(new ImageCursor(ImagesAddress.LIGHTSABER.getImage()));
+    public static void setCursor(int i){
+        if(i == 0) {
+            GUIController.getScene().setOnMouseEntered(event -> {
+                GUIController.getScene().setCursor(new ImageCursor(ImagesAddress.LIGHTSABER.getImage()));
+            });
+        }else if(i == 1){
+            GUIController.getScene().setOnMouseEntered(e -> {
+                GUIController.getScene().setCursor(new ImageCursor(ImagesAddress.SWORD_CURSOR.getImage()));
+            });
+        }
     }
+
 }

@@ -6,7 +6,7 @@ import controller.ProgramController;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.fxml.FXMLLoader;
+import javafx.scene.control.TabPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
@@ -14,23 +14,18 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
 import javafx.util.Duration;
 import model.Map;
+import model.civilization.Civilization;
 import model.map.SavedMap;
 import model.technology.TechnologyType;
 import model.tile.Tile;
-import view.Main;
 import view.components.GameVisualUI.UIStatesController;
 import view.components.ImagesAddress;
 import view.components.StatusBar;
-import view.components.gamePanelComponents.TilePopUp;
-import view.components.infoPanels.CityListPanel;
 import view.components.infoPanels.GameEndPage;
 import view.components.infoPanels.SideLog;
 
-import java.io.IOException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Vector;
 
 public class GameMapController {
@@ -49,6 +44,7 @@ public class GameMapController {
     private boolean nextTurnSituation;
     double paneLastScaleY;
     private Vector<Pane> panels = new Vector<>();
+    private Vector<TabPane> weirdPanels = new Vector<>();
     private Vector<Pane> mapTempPanes = new Vector<>();
     private UIStatesController uiStatesController;
 
@@ -60,7 +56,7 @@ public class GameMapController {
     }
 
     private void initializeBackPane(){
-        GUIController.setCursor();
+        GUIController.setCursor(0);
         movementKeyOperation();
         gameMenuController.getMapController().updateCurrentPlayersMap();
         background.setStyle("-fx-background-image: url(asset/background.jpeg)");
@@ -120,7 +116,9 @@ public class GameMapController {
         showTiles();
         backPane.getChildren().addAll(mapTempPanes);
         statusBar.update();
+        cursorUpdate();
     }
+
 
     private void movementKeyOperation(){
         GUIController.getScene().setOnKeyPressed(event -> {
@@ -209,9 +207,21 @@ public class GameMapController {
         background.getChildren().add(pane);
     }
 
+    public void addPaneToPanels(TabPane t){
+        if(weirdPanels.contains(t)) return;
+        weirdPanels.add(t);
+        if(background.getChildren().contains(t)) return;
+        background.getChildren().add(t);
+    }
+
     public void removePaneFromPanels(Pane pane){
         panels.remove(pane);
         background.getChildren().remove(pane);
+    }
+
+    public void removePaneFromPanels(TabPane t){
+        weirdPanels.remove(t);
+        background.getChildren().remove(t);
     }
 
     public void addPanelToBackPane(Pane pane){
@@ -224,6 +234,13 @@ public class GameMapController {
             backPane.getChildren().remove(p);
         }
         mapTempPanes.clear();
+    }
+
+    public void clearBackgroundFromPanels(){
+        for(Pane p : panels){
+            panels.remove(p);
+            background.getChildren().remove(p);
+        }
     }
 
     public MapTileComponent getTileComponentInMap(int p, int q){
@@ -278,5 +295,16 @@ public class GameMapController {
 
     private void addSideMenu(){
         new SideLog(background,this);
+    }
+
+    public Pane getBackPane() {
+        return backPane;
+    }
+
+    private void cursorUpdate() {
+        if(gameMenuController.getGame().getCurrentPlayer().getCivilization().isInAnyWar())
+            GUIController.setCursor(1);
+        else
+            GUIController.setCursor(0);
     }
 }

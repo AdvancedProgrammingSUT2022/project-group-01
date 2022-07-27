@@ -5,7 +5,9 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 import model.tile.Tile;
 import utils.Pair;
+import view.components.city.CitizenPanel;
 import view.components.city.CityOverview;
+import view.components.city.productionpanel.ProductionPanel;
 import view.components.gamePanelComponents.TilePopUp;
 import view.components.mapComponents.GameMapController;
 import view.components.mapComponents.MapTileComponent;
@@ -112,14 +114,18 @@ public class UIStatesController {
         }
         else if(currentState.equals(UIStates.CITY_INFO)){
             if(newClick.getSecond().equals(WorkingObjectType.CITY)){
-                reset();
-                showCityPanel(newClick);
+                //reset();
+                //showCityPanel(newClick);
                 return;
-            }else if(newClick.getSecond().equals(WorkingObjectType.ARMED_UNIT) || newClick.getSecond().equals(WorkingObjectType.CIVILIAN_UNIT)){
+            }
+            else if(newClick.getSecond().equals(WorkingObjectType.ARMED_UNIT)){
+                cityAttack(newClick);
+            }else if(newClick.getSecond().equals(WorkingObjectType.CIVILIAN_UNIT)){
                 reset();
                 selectUnit(newClick);
                 savedClicks.add(newClick);
             }else if(newClick.getSecond().equals(WorkingObjectType.TILE)){
+                gameMapController.clearBackgroundFromPanels();
                 reset();
             }
         }
@@ -204,7 +210,7 @@ public class UIStatesController {
     }
 
     private void fortifyUnit(){
-        gameMenuController.unitFortify(new HashMap<>());
+        new PopUp().run(PopUpStates.OK,gameMenuController.unitFortify(new HashMap<>()));
         reset();
     }
 
@@ -221,6 +227,13 @@ public class UIStatesController {
         HashMap<String,String> sendingData = new HashMap<>();
         sendingData.put("position",String.valueOf(newClick.getFirst().getTile().getMapNumber()));
         new PopUp().run(PopUpStates.OK,gameMenuController.unitRangedAttack(sendingData));
+        try{
+            savedClicks.get(0).getFirst().getArmedUnit().attack(newClick.getFirst().getPane(),newClick.getFirst().getArmedUnit());
+        }
+        catch (NullPointerException e){
+            System.err.println("first unit has not been chosen");
+            e.printStackTrace();
+        }
         reset();
     }
 
@@ -232,11 +245,10 @@ public class UIStatesController {
     }
 
     private void cityAttack(Pair<MapTileComponent, WorkingObjectType> newClick) {
-        //TODO: implement
-//        HashMap<String,String> sendingData = new HashMap<>();
-//        sendingData.put("position",String.valueOf(newClick.getFirst().getTile().getMapNumber()));
-//        gameMenuController.cityAttack()
-//        reset();
+        HashMap<String,String> sendingData = new HashMap<>();
+        sendingData.put("target",String.valueOf(newClick.getFirst().getTile().getMapNumber()));
+        new PopUp().run(PopUpStates.OK,gameMenuController.cityAttack(sendingData));
+        reset();
     }
 
     private void pillageUnit(){
@@ -300,6 +312,16 @@ public class UIStatesController {
             gameMapController.getTileComponentInMap(t.getPCoordinate(),t.getQCoordinate()).initCitizen();
             gameMapController.getTileComponentInMap(t.getPCoordinate(),t.getQCoordinate()).highlight(1);
         }
+
+        ProductionPanel p = new ProductionPanel(newClick.getFirst().getTile().getInnerCity());
+        gameMapController.addPaneToPanels(p);
+        p.setTranslateX(800);
+        p.setTranslateY(20);
+
+        CitizenPanel cp = new CitizenPanel(newClick.getFirst().getTile().getInnerCity());
+        gameMapController.addPaneToPanels(cp);
+        p.setTranslateX(0);
+        cp.setTranslateY(400);
     }
 
     private void showTileInfoPopUp(Pair<MapTileComponent, WorkingObjectType> newClick){

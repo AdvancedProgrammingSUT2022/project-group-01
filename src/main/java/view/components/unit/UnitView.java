@@ -1,13 +1,19 @@
 package view.components.unit;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 import lombok.Getter;
 import model.unit.CombatType;
 import model.unit.Unit;
@@ -52,6 +58,12 @@ public class UnitView extends Rectangle {
                 }
             }
         });
+        this.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                addHitPoint();
+            }
+        });
     }
 
 
@@ -63,8 +75,8 @@ public class UnitView extends Rectangle {
         move(tileComponent.getPane().getTranslateX(), tileComponent.getPane().getTranslateY());
     }
 
-    public void attack(UnitView enemyView){
-        new UnitAttackTransition(this, enemyView, pane);
+    public void attack(Pane enemyPane, UnitView enemyView){
+        new UnitAttackTransition(this,enemyView,pane,mapTileComponent.getPane(),enemyPane);
     }
 
 
@@ -114,5 +126,36 @@ public class UnitView extends Rectangle {
         jobCircle.setTranslateX(this.getTranslateX() + this.getWidth()/2);
         jobCircle.setTranslateY(this.getTranslateY());
         pane.getChildren().add(jobCircle);
+    }
+
+    private void addHitPoint(){
+        Rectangle base = new Rectangle();
+        base.setArcHeight(5);
+        base.setArcWidth(5);
+        base.setFill(Color.rgb(40,40,40));
+        base.setHeight(13);
+        base.setWidth(60);
+
+        Rectangle hitPoint = new Rectangle();
+        hitPoint.setArcHeight(5);
+        hitPoint.setArcWidth(5);
+        hitPoint.setFill(Color.rgb(210,79,79));
+        hitPoint.setHeight(13);
+        hitPoint.setWidth((unit.getHealth() /Unit.maxHealth) * 60);
+
+        base.setTranslateX(this.getTranslateX() + 30);
+        base.setTranslateY(this.getTranslateY() - 20);
+        hitPoint.setTranslateX(this.getTranslateX() + 30);
+        hitPoint.setTranslateY(this.getTranslateY() - 20);
+        pane.getChildren().add(base);
+        pane.getChildren().add(hitPoint);
+        Timeline t = new Timeline(new KeyFrame(Duration.millis(500),e -> {
+
+        }));
+        t.setOnFinished(e -> {
+            pane.getChildren().remove(base);
+            pane.getChildren().remove(hitPoint);
+        });
+        t.play();
     }
 }

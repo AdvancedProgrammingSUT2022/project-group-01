@@ -47,7 +47,7 @@ public class TechnologyTreeController {
         return wholePane;
     }
     public void initialize(){
-        GUIController.setCursor();
+        GUIController.setCursor(0);
         initializeBasedOnFXML();
         initPaneFeatures();
         loadLines();

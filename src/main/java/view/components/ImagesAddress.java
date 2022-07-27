@@ -114,7 +114,22 @@ public enum ImagesAddress {
     SCORE_BOARD_TEXT_IMAGE("other/scoreBoard/scoreBoardText",".png"),
     SCORE_BOARD_ITEM_USER("other/scoreBoard/scoreBoardItem",".png"),
     SCORE_BOARD_LAST_VISIT_BOX("other/scoreBoard/lastVisitBox",".png"),
-    TECHNOLOGY_INFO_ICON("info/technologyInfoIcon",".png" );
+    TECHNOLOGY_INFO_ICON("info/technologyInfoIcon",".png" ),
+    // trade
+    ACCEPT_TRADE("other/trade/accept",".png" ),
+    DECLINE_TRADE("other/trade/decline",".png" ),
+    TRADE_OFFER_BOX("other/trade/offerBox",".png" ),
+    LOBBY_NEW_GAME_BUTTON("lobby/newGameButton",".png" ),
+    LOBBY_REFRESH_BUTTON("lobby/refresh",".png" ),
+    // game stop
+    GAME_STOP_ITEM("gameStop/item",".png" ),
+    STOP_GAME_ICON("gameStop/icon",".png" ),
+    NOTIFICATION_INFO_ICON("info/notification",".png" ),
+    MILITARY_OVERVIEW_ICON("info/militaryOverview",".png" ),
+    UNIT_PANEL_ICON("info/unitPanel",".png" ),
+    DEMOCRACY_PANEL_ICON("info/democracyIcon",".png" ),
+    LOBBY_ITEM_BACKGROUND("lobby/itemBackground",".jpg" ),
+    SWORD_CURSOR("mainmenu/sword",".png" );
 
 
 

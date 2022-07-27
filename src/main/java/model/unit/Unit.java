@@ -70,12 +70,21 @@ public class Unit {
 		remainingMP = movementPoint;
 	}
 
-	public void defendAgainstMelee(Unit enemy) {
-		// TODO implement this
+	public double defendAgainstMelee(Unit enemy) {
+		double res = currentTile.getTerrain().combatModifier;
+		if(currentTile.getFeature() != null)
+			res += currentTile.getFeature().combatModifiers;
+
+		return res;
 	}
 
-	public void defendAgainstRanged(Unit enemy) {
+	public double defendAgainstRanged(Unit enemy) {
 		// TODO implement this
+		double res = currentTile.getTerrain().combatModifier;
+		if(currentTile.getFeature() != null)
+			res += currentTile.getFeature().combatModifiers;
+
+		return res;
 	}
 
 	public void moveTo(Tile tile) {}

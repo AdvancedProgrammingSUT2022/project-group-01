@@ -31,7 +31,7 @@ public class MapUserBuilder {
     }
 
     private void initializeBackPane() {
-        GUIController.setCursor();
+        GUIController.setCursor(0);
         movementKeyOperation();
         background.setStyle("-fx-background-image: url(asset/background.jpeg)");
         background.prefHeight(1280);

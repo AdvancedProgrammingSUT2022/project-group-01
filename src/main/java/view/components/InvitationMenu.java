@@ -1,19 +1,15 @@
 package view.components;
 
 import controller.ProgramController;
-import javafx.scene.control.DateCell;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
-import model.Database;
+import model.GameInstantiateData;
 import model.User;
 import view.Main;
-
-import java.util.Locale;
 
 public class InvitationMenu {
     @Getter

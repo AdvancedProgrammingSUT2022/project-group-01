@@ -1,13 +1,12 @@
 package view.components.MainMenuComponents;
 
 import com.jfoenix.controls.JFXButton;
-import controller.GUIController;
-import controller.ProgramController;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -19,11 +18,14 @@ import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 import lombok.Getter;
+import model.Player;
 import model.User;
 import view.Main;
-import view.components.GameInstantiateData;
+import model.GameInstantiateData;
 import view.components.ImagesAddress;
 import view.components.mapComponents.UserMapBuilder.PreBuiltMap;
+
+import java.util.Vector;
 
 
 public class StartGameSettingMenu {
@@ -40,6 +42,8 @@ public class StartGameSettingMenu {
     private JFXButton startGameButton = new JFXButton();
     private Timeline playersListener = new Timeline();
     private ScrollPane mapList = new ScrollPane();
+    private TextField autoSaveText;
+    private TextField epField;
 
     public StartGameSettingMenu(GameInstantiateData gameInstantiateData){
         this.gameInstantiateData = gameInstantiateData;
@@ -58,6 +62,8 @@ public class StartGameSettingMenu {
         playersListSetup();
         initMapsList();
         buildMapIcon();
+        autoSaveSetter();
+        expectedPlayersSetter();
     }
 
 
@@ -217,7 +223,7 @@ public class StartGameSettingMenu {
                 JFXButton button = new JFXButton("Map " + i);
                 button.setStyle("-fx-background-color: rgb(37,98,185)");
                 button.setOnMouseClicked(e -> {
-                    gameInstantiateData.loadMap(PreBuiltMap.getMaps().get(Integer.parseInt(button.getText().substring(4))));
+                    gameInstantiateData.loadBuiltMap(PreBuiltMap.getMaps().get(Integer.parseInt(button.getText().substring(4))));
                 });
                 list.getChildren().add(button);
             }
@@ -244,8 +250,62 @@ public class StartGameSettingMenu {
         mapIcon.setTranslateY(315);
         root.getChildren().add(mapIcon);
         mapIcon.setOnMouseClicked(e -> {
+            setExtraDataGameInstantiateData();
             gameInstantiateData.startMapBuilder();
         });
+    }
+
+    private void setExtraDataGameInstantiateData() {
+        int as;
+        try{
+            as = Integer.parseInt(autoSaveText.getText());
+        }catch (NumberFormatException e){
+            as = -1;
+        }
+        gameInstantiateData.setAutoSaveNumber(as);
+        int playersExpect;
+        try{
+            playersExpect = Integer.parseInt(epField.getText());
+            if(gameInstantiateData.getPlayers().size() > playersExpect){
+                Vector<User> p = new Vector<>();
+                for(int i = 0 ; i < playersExpect; i ++){
+                    p.add(gameInstantiateData.getPlayers().get(i));
+                }
+                gameInstantiateData.setPlayers(p);
+            }
+        }catch (NumberFormatException e){
+        }
+
+    }
+
+    private void autoSaveSetter(){
+        Label autoSaveLabel = new Label("auto save");
+        autoSaveLabel.setLayoutX(41);
+        autoSaveLabel.setLayoutY(391);
+        autoSaveLabel.setTextFill(Color.WHITESMOKE);
+        root.getChildren().add(autoSaveLabel);
+        autoSaveText = new TextField();
+        autoSaveText.setLayoutX(635);
+        autoSaveText.setLayoutY(27);
+        autoSaveText.setPrefHeight(26);
+        autoSaveText.setPrefWidth(40);
+        autoSaveText.getStylesheets().add(String.valueOf(Main.class.getResource("/CSS/FirstPage.css")));
+        root.getChildren().add(autoSaveText);
+    }
+
+    private void expectedPlayersSetter(){
+        Label eP = new Label("expected number of players");
+        eP.setLayoutX(460);
+        eP.setLayoutY(31);
+        eP.setTextFill(Color.WHITESMOKE);
+        root.getChildren().add(eP);
+        epField = new TextField();
+        epField.setLayoutX(635);
+        epField.setLayoutY(27);
+        epField.setPrefHeight(26);
+        epField.setPrefWidth(40);
+        epField.getStylesheets().add(String.valueOf(Main.class.getResource("/CSS/FirstPage.css")));
+        root.getChildren().add(epField);
     }
 
 }

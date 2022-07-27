@@ -130,10 +130,10 @@ public class FirstPageController {
         inputs.put("avatarURL",chosenAvatarPath);
         String output = loginMenuController.register(inputs);
         if(output.startsWith("user with username"))
-            AlertBox.display(loginPageTexts.USERNAME_EXISTS);
+            new PopUp().run(PopUpStates.ERROR,loginPageTexts.USERNAME_EXISTS.getText());
         if(output.startsWith("user with nickname"))
-            AlertBox.display(loginPageTexts.NICKNAME_EXISTS);
-        else AlertBox.display(loginPageTexts.WELCOME); // show the welcome pop up
+            new PopUp().run(PopUpStates.ERROR,loginPageTexts.NICKNAME_EXISTS.getText());
+        else new PopUp().run(PopUpStates.OK,loginPageTexts.WELCOME.getText());// show the welcome pop up
     }
 
     public void signInAttempt() {
@@ -142,8 +142,7 @@ public class FirstPageController {
         inputs.put("password",password.getText());
         String output = loginMenuController.login(inputs);
         if (output.startsWith("Username and password"))
-            //AlertBox.display(loginPageTexts.USER_NOT_EXISTS);
-            new PopUp().run(PopUpStates.OK,"username bird");
+            new PopUp().run(PopUpStates.ERROR,loginPageTexts.USER_NOT_EXISTS.getText());
         else
             GUIController.changeMenu("PreMainMenu");
     }

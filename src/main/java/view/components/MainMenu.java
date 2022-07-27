@@ -1,35 +1,27 @@
 package view.components;
 
-import com.jfoenix.controls.JFXTooltip;
 import controller.GUIController;
 import controller.ProgramController;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
-import javafx.event.EventDispatchChain;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
 import javafx.util.Duration;
 import javafx.util.Pair;
-import utils.StringUtils;
+import model.GameInstantiateData;
+import view.components.MainMenuComponents.LoadMapMenu;
 import view.components.MainMenuComponents.StartGameSettingMenu;
-import view.components.mapComponents.MapTileComponent;
 
-import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
 
 public class MainMenu {
     @FXML
@@ -41,11 +33,16 @@ public class MainMenu {
     private GameInstantiateData gameInstantiateData = new GameInstantiateData(ProgramController.getLoggedInUser());
     private List<Pair<String,Runnable>> items = Arrays.asList(
             new Pair<String,Runnable>("Start Game",()->{startGameMenu();}),
-            new Pair<String,Runnable>("Invite Others",()->{openInviteMenu();})
+            new Pair<String,Runnable>("Invite Others",()->{openInviteMenu();}),
+            new Pair<String,Runnable>("Load Maps",()->{
+                openLoadMenu();})
 
     );
 
+
+
     public void initialize(){
+        MusicHandler.GAME.stopMusic();
         root.setPrefWidth(1280);
         root.setPrefHeight(720);
         ImageView background = new ImageView(ImagesAddress.GAME_BACKGROUND.getImage());
@@ -120,6 +117,12 @@ public class MainMenu {
     private void startGameMenu(){
         inData.getChildren().clear();
         Pane p = new StartGameSettingMenu(gameInstantiateData).getRoot();
+        inData.getChildren().addAll(p.getChildren());
+    }
+
+    private void openLoadMenu() {
+        inData.getChildren().clear();
+        Pane p = new LoadMapMenu().getRoot();
         inData.getChildren().addAll(p.getChildren());
     }
 

@@ -26,7 +26,8 @@ public class Civilization implements TurnBasedLogic {
     private Civilizations civilization;//enum
     private Vector<City> cities;
     private City capital;
-    private Currency currency;
+    private Currency currency = new Currency(0,0,0);
+    private Currency changeOfCurrency = new Currency(0,0,0);
     private int happiness = 15;
     private int happinessBase = 0;
     private SavedMap map;
@@ -39,6 +40,9 @@ public class Civilization implements TurnBasedLogic {
 
     private TechTree techTree;//TODO merge with safar
     private Vector<Civilization> knownCivilizations;
+    private Vector<Trade> trades;
+    private Vector<Trade> receivedTradeRequests;
+    private HashMap<Civilization, Integer> warRemainingTurns;
 
     public Civilization(Civilizations civilization, City capital, Player player) {
         this.civilization = civilization;
@@ -48,9 +52,11 @@ public class Civilization implements TurnBasedLogic {
         resourceRepository = new HashMap<>(); //ADDED BY PRCR
         techTree = new TechTree(); // TODO ADDED TEMPORARILY BY PRCR
         addToList();
-        this.currency = new Currency(0, 0, 0);
         this.player = player;
         knownCivilizations = new Vector<>();
+        trades = new Vector<>();
+        receivedTradeRequests = new Vector<>();
+        warRemainingTurns = new HashMap<>();
     }
 
     public TechTree getResearchTree() {
@@ -66,8 +72,10 @@ public class Civilization implements TurnBasedLogic {
     }
 
     private void updateCurrency() {
+        changeOfCurrency.setValue(0,0,0);
         for (City city : cities) {
             currency.add(city.getChangesOfCurrency());
+            changeOfCurrency.add(city.getChangesOfCurrency());
         }
     }
 
@@ -204,5 +212,60 @@ public class Civilization implements TurnBasedLogic {
         return population;
     }
 
+    public void addToReceivedTradeRequests(Trade trade){
+        receivedTradeRequests.add(trade);
+    }
 
+    public void removeRequestTrade(Trade t){
+        receivedTradeRequests.remove(t);
+    }
+
+    public void addToTrades(Trade trade){
+        trades.add(trade);
+    }
+
+    public void cancelTrade(Trade t){
+        trades.remove(t);
+    }
+
+    public int getRemainingWarTurnsWith(Civilization other){
+        return warRemainingTurns.getOrDefault(other, -1);
+    }
+    public void declareWar(Civilization other){
+        setWar(other);
+        other.setWar(this);
+    }
+    public void makePeaceWith(Civilization other){
+        setPeace(other);
+        other.setPeace(this);
+    }
+
+    public boolean isInWarWith(Civilization civilization){
+        if(!warRemainingTurns.containsKey(civilization)) return false;
+        if(warRemainingTurns.get(civilization) > 0) return true;
+        return false;
+    }
+
+    public void setPeace(Civilization civilization){
+        warRemainingTurns.put(civilization,-1);
+    }
+
+    public void setWar(Civilization other){
+        warRemainingTurns.put(other, 50);
+    }
+
+    public void warsNextTurn() {
+        for(Civilization c : warRemainingTurns.keySet()){
+            if(warRemainingTurns.get(c) >= 0)
+                warRemainingTurns.replace(c,warRemainingTurns.get(c) - 1);
+        }
+    }
+
+    public boolean isInAnyWar(){
+        for(Civilization c : warRemainingTurns.keySet()){
+            if(warRemainingTurns.get(c) >= 0)
+                return true;
+        }
+        return false;
+    }
 }

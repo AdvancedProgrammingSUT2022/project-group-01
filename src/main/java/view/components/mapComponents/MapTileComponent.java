@@ -1,6 +1,8 @@
 package view.components.mapComponents;
 
 import controller.ProgramController;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
@@ -13,12 +15,14 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
+import javafx.util.Duration;
 import lombok.Getter;
 import model.civilization.Person;
 import model.map.SavedMap;
 import model.tile.Terrain;
 import model.tile.TerrainFeature;
 import model.tile.Tile;
+import model.unit.Unit;
 import utils.Pair;
 import view.components.GameVisualUI.UIStates;
 import view.components.GameVisualUI.WorkingObjectType;
@@ -189,7 +193,39 @@ public class MapTileComponent {
             gameMapController.getUiStatesController().addObjectByJob(new Pair<>(this, WorkingObjectType.CITY));
             //initCityClick();
         });
+        city.setOnMouseEntered(e -> {
+            showCityHealth();
+        });
         pane.getChildren().add(city);
+    }
+
+    private void showCityHealth(){
+        Rectangle base = new Rectangle();
+        base.setArcHeight(5);
+        base.setArcWidth(5);
+        base.setWidth(60);
+        base.setFill(Color.rgb(40,40,40));
+        base.setHeight(13);
+        Rectangle hitPoint = new Rectangle();
+        hitPoint.setArcHeight(5);
+        hitPoint.setFill(Color.rgb(210,79,79));
+        hitPoint.setHeight(13);
+        hitPoint.setArcWidth(5);
+        hitPoint.setWidth((tile.getInnerCity().getHealth() / tile.getInnerCity().getCityMaxHealth()) * 60);
+
+        base.setTranslateX(radius/2 + 40);
+        base.setTranslateY(radius/2 - 10);
+        hitPoint.setTranslateX(radius/2 + 40);
+        hitPoint.setTranslateY(radius/2 - 10);
+        pane.getChildren().add(base);
+        pane.getChildren().add(hitPoint);
+        Timeline t = new Timeline(new KeyFrame(Duration.millis(500), e -> {
+        }));
+        t.setOnFinished(e -> {
+            pane.getChildren().remove(base);
+            pane.getChildren().remove(hitPoint);
+        });
+        t.play();
     }
     private Image getBackgroundImage() {
         Terrain terrain = savedMap.getTerrain(tile);

@@ -143,7 +143,7 @@ public class GameController {
     public void yearCheck(){
         calculateScores();
         findLooser();
-        if (game.getTurn() >= 4) {
+        if (game.getTurn() >= 2050) {
             submitScoreAndTime();
             game.end();
         }else{
