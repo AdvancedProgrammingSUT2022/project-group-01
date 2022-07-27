@@ -9,6 +9,13 @@ import java.lang.reflect.Type;
 import java.util.Vector;
 
 public class Database {
+    public static Database instance = new Database();
+    static {
+        instance.addUser("akbar", "akbar","u1", null);
+        instance.addUser("ravani", "ravani","u2", null);
+        instance.addUser("u3", "u3","u3", null);
+        instance.addUser("u4", "u4","u4", null);
+    }
     @Getter
     private Vector<User> users;
 

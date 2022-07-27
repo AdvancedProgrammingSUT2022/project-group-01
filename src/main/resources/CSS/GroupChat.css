@@ -1,0 +1,18 @@
+.member-row{
+    -fx-background-color: #003b6e;
+    -fx-border-color: #60b9ff;
+    -fx-border-width: 0;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-padding: 7;
+    -fx-spacing: 5;
+    -fx-min-width: 280;
+    -fx-max-width: 280;
+}
+
+.member-row-label{
+    -fx-text-fill: white;
+    -fx-font-family: "Times New Roman";
+    -fx-font-size: 15;
+}
+

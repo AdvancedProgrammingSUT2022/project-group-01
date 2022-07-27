@@ -1,0 +1,17 @@
+.text-hBox-sender{
+    -fx-background-color: #5E8FC2;
+    -fx-background-radius: 5;
+    -fx-padding: 5;
+}
+
+.text-hBox-receiver{
+    -fx-background-color: #D1D1D1;
+    -fx-background-radius: 5;
+    -fx-padding: 5;
+
+}
+
+.vbox-general{
+
+}
+

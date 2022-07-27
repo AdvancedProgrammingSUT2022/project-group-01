@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class Main {
     public static Scanner scanner;
-    public static int PORT = 7282;
+    public static int PORT = 9090;
 
     public static void main(String[] args) {
         scanner = new Scanner(System.in);
